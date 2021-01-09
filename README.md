@@ -1,4 +1,4 @@
-# Community-Prediction-test
+# Community-Prediction
 
 Our work can be divided into the following main steps (layers):
   - Data loading (Data Access Layer)
