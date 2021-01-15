@@ -8,7 +8,10 @@ from DataPreparation import data_preparation as dp
 
 
 def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
-    processed_docs = dp(userModeling=True, preProcessing=False, TagME=True)
+    processed_docs = dp(userModeling=True, timeModeling=True, preProcessing=False, TagME=False)
+    pp = np.asarray(processed_docs)
+    print('pp shape')
+    print(pp.shape)
     dictionary = gensim.corpora.Dictionary(processed_docs)
     if filterExtremes:
         dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
@@ -33,7 +36,7 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
         for i in range(len(GENSIM_Topics)):
             G.append(GENSIM_Topics[i])
             G.append(GENSIM_Percentages[i])
-        np.savetxt("Gensim_" + str(num_topics) + "topics.csv", G, delimiter=",", fmt='%s')
+        np.savetxt("gensim_" + str(num_topics) + "topics.csv", G, delimiter=",", fmt='%s')
         totalTopics = GENSIM_Topics
     elif library == 'mallet':
         os.environ['MALLET_HOME'] = 'C:/Users/sorou/mallet-2.0.8'
@@ -77,7 +80,7 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
     except:
         pass
 
-    return dictionary, bow_corpus, totalTopics, lda_model, num_topics
+    return dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs
 
 
 def coherence(dictionary, bow_corpus, topics, lda_model):

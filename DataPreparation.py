@@ -13,7 +13,7 @@ tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
 def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False, TagME=True):
     global DataLen
     print('data_preparation')
-    dataset = DataReader()
+    dataset = DataReader(Tagme=False)
     creation_dates = []
     creation_times = []
     for i in dataset[:, 2]:
@@ -66,6 +66,12 @@ def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False,
         processed_docs = []
         for tweet in documents['Text']:
             processed_docs.append(tweet.split())
+        # for tweet in documents['Text']:
+        #     a = tweet.split()
+        #     for i in range(len(a)):
+        #         if not a[i][-1].isalnum():
+        #             a[i] = a[i][:-1]
+        #     processed_docs.append(list(set(a)))
     return processed_docs
 
 
