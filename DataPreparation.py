@@ -28,7 +28,7 @@ def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False,
              {'Id': dataset[:, 0], 'Text': dataset[:, 1], 'CreationDate': creation_dates, 'CreationTimes': creation_times, 'userId': dataset[:, 3],
               'ModificationTimeStamp': dataset[:, 4]})
     # data = data.sample(frac=1)
-    data = data[:8000]
+    # data = data[:8000]
     if userModeling and timeModeling:
         dataGroupbyUsers = data.groupby(['userId', 'CreationDate'])
         documents = dataGroupbyUsers['Text'].apply(lambda x: '\n'.join(x)).reset_index()
