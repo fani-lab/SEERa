@@ -8,13 +8,13 @@ from DataPreparation import data_preparation as dp
 
 
 def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
-    processed_docs = dp(userModeling=True, timeModeling=True, preProcessing=False, TagME=False)
+    processed_docs, documents = dp(userModeling=True, timeModeling=True, preProcessing=False, TagME=False)
     pp = np.asarray(processed_docs)
     print('pp shape')
     print(pp.shape)
     dictionary = gensim.corpora.Dictionary(processed_docs)
     if filterExtremes:
-        dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
+        dictionary.filter_extremes(no_below=15, no_above=0.2, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
     if library == 'gensim':
         lda_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
@@ -67,12 +67,6 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
         totalTopics = MALLET_Topics
     else:
         raise ValueError("Wrong library name. select 'gensim' or 'mallet'")
-
-    try:
-        print('Document to topics transformation:')
-        D2T = Doc2Topic(lda_model, bow_corpus)
-        np.save('Docs2Topics.npy', D2T)
-    except:
         pass
 
     try:
@@ -89,7 +83,7 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
     except:
         pass
 
-    return dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs
+    return dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs, documents
 
 
 def coherence(dictionary, bow_corpus, topics, lda_model):
@@ -113,13 +107,4 @@ def visualization(dictionary, bow_corpus, lda_model, num_topics):
     return 'Visualization is finished'
 
 
-def Doc2Topic(ldaModel, docs):
-    doc_topic = []
-    for doc in docs:
-        doc_topic_vector = np.zeros((ldaModel.num_topics))
-        d2tVector = ldaModel.get_document_topics(doc)
-        for i in d2tVector:
-            doc_topic_vector[i[0]] = i[1]
-        doc_topic.append(doc_topic_vector)
-    doc_topic = np.asarray(doc_topic)
-    return doc_topic
+

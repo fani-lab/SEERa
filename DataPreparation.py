@@ -72,7 +72,7 @@ def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False,
         #         if not a[i][-1].isalnum():
         #             a[i] = a[i][:-1]
         #     processed_docs.append(list(set(a)))
-    return processed_docs
+    return processed_docs, documents
 
 
 def lemmatize_stemming(text, stemmer):
