@@ -17,7 +17,8 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
         dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
     if library == 'gensim':
-        lda_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=2)
+        lda_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
+        lda_model.save("Gensim_" + str(num_topics) + "topics.model")
         GENSIM_Topics = []
         GENSIM_Percentages = []
         GENSIM = []
@@ -43,6 +44,7 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
         mallet_path = 'C:/Users/sorou/mallet-2.0.8/bin/mallet'  # update this path
         lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics,
                                                      id2word=dictionary)
+        lda_model.save("Mallet_" + str(num_topics) + "topics.model")
         MALLET = []
         MALLET_Topics = []
         MALLET_Percentages = []
@@ -65,6 +67,13 @@ def topic_modeling(num_topics=20, filterExtremes=False, library='gensim'):
         totalTopics = MALLET_Topics
     else:
         raise ValueError("Wrong library name. select 'gensim' or 'mallet'")
+
+    try:
+        print('Document to topics transformation:')
+        D2T = Doc2Topic(lda_model, bow_corpus)
+        np.save('Docs2Topics.npy', D2T)
+    except:
+        pass
 
     try:
         print('Coherences:\n')
@@ -102,3 +111,15 @@ def visualization(dictionary, bow_corpus, lda_model, num_topics):
         modelStr = 'mallet'
     pyLDAvis.save_html(visualisation, modelStr + '_LDA_Visualization_' + str(num_topics) + 'topic.html')
     return 'Visualization is finished'
+
+
+def Doc2Topic(ldaModel, docs):
+    doc_topic = []
+    for doc in docs:
+        doc_topic_vector = np.zeros((ldaModel.num_topics))
+        d2tVector = ldaModel.get_document_topics(doc)
+        for i in d2tVector:
+            doc_topic_vector[i[0]] = i[1]
+        doc_topic.append(doc_topic_vector)
+    doc_topic = np.asarray(doc_topic)
+    return doc_topic

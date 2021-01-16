@@ -13,7 +13,7 @@ tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
 def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False, TagME=True):
     global DataLen
     print('data_preparation')
-    dataset = DataReader(Tagme=False)
+    dataset = DataReader(Tagme=True)
     creation_dates = []
     creation_times = []
     for i in dataset[:, 2]:

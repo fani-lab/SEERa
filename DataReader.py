@@ -13,7 +13,7 @@ def DataReader(Tagme = True):
         (SELECT TweetId,GROUP_CONCAT(' ', Word) as Tokens,CreationTimestamp,UserId,ModificationTimestamp
         FROM
         (SELECT TweetId,CreationTimestamp,UserId,ModificationTimestamp,Word FROM
-         tweets inner join tagmeannotations on tweets.Id = tagmeannotations.TweetId) AS T
+         tweets inner join tagmeannotations on tweets.Id = tagmeannotations.TweetId Where tweets.UserId != -1) AS T
         GROUP BY TweetId);
         '''
         cursor.execute(sqlScript)
