@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 import numpy as np
 import TopicModeling as TM
+import UsersGraph as UG
 
 # def Doc2Topic(ldaModel, docs):
 #     doc_topic = []
@@ -21,8 +22,9 @@ import TopicModeling as TM
 #         doc_topic.append(doc_topic_vector)
 #     doc_topic = np.asarray(doc_topic)
 #     return doc_topic
-def Doc2Topic(ldaModel, doc):
 
+
+def Doc2Topic(ldaModel, doc):
     doc_topic_vector = np.zeros((ldaModel.num_topics))
     try:
         d2tVector = ldaModel.get_document_topics(doc)
@@ -32,7 +34,7 @@ def Doc2Topic(ldaModel, doc):
     for i in d2tVector:
         doc_topic_vector[i[0]] = i[1]
     # doc_topic_vector = np.asarray(doc_topic_vector)
-    return np.asarray(doc_topic_vector)
+    return doc_topic_vector
 
 
 TopicModel = TM.topic_modeling(num_topics=35, filterExtremes=True, library='gensim')
@@ -40,23 +42,34 @@ dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs, docu
 
 start_date = documents['CreationDate'].min()
 end_date = documents['CreationDate'].max()
-day = start_date
+# day = start_date
+day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=60)
 users_topic_interests = []
+users_Ids = []
 while day <= end_date:
     c = documents[(documents['CreationDate'] == day)]
     print(str(len(c)) + ' users has twitted in '+str(day))
     users_topic_interests.append([])
-    for userText in c['Text']:
-        doc = userText
+    texts = c['Text']
+    users = c['userId']
+    for userTextidx in range(len(c['Text'])):
+        doc = texts.iloc[userTextidx]
         user_bow_corpus = dictionary.doc2bow(doc.split())
         D2T = Doc2Topic(lda_model, user_bow_corpus)
         users_topic_interests[-1].append(D2T)
+        users_Ids.append(users.iloc[userTextidx])
     # print(c.shape)
     day = day + pd._libs.tslibs.timestamps.Timedelta(days=1)
 users_topic_interests = np.asarray(users_topic_interests)
-print(users_topic_interests.shape)
+graphs = []
+for day in range(len(users_topic_interests)):
+    if day % 10 == 0:
+        print(day, '/', len(users_topic_interests))
+    graph = UG.CreateUsersGraph(day, users_Ids, users_topic_interests[day])
+    graphs.append(graph)
+print('Graph Created!')
 
-print('Document to topics transformation:')
+# print('Document to topics transformation:')
 # There are two options here. One is aggregating dataset again with whole tweets of a user and give it to the Doc2Topic. Two is apply some functions
 # like max or mean on the percentage of interests.
 
