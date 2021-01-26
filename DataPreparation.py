@@ -31,13 +31,13 @@ def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False,
     # data = data[:1000]
     if userModeling and timeModeling:
         dataGroupbyUsers = data.groupby(['userId', 'CreationDate'])
-        documents = dataGroupbyUsers['Text'].apply(lambda x: '\n'.join(x)).reset_index()
+        documents = dataGroupbyUsers['Text'].apply(lambda x: ','.join(x)).reset_index()
     elif userModeling:
         dataGroupbyUsers = data.groupby(['userId'])
-        documents = dataGroupbyUsers['Text'].apply(lambda x: '\n'.join(x)).reset_index()
+        documents = dataGroupbyUsers['Text'].apply(lambda x: ','.join(x)).reset_index()
     elif timeModeling:
         dataGroupbyUsers = data.groupby(['CreationDate'])
-        documents = dataGroupbyUsers['Text'].apply(lambda x: '\n'.join(x)).reset_index()
+        documents = dataGroupbyUsers['Text'].apply(lambda x: ','.join(x)).reset_index()
     else:
         data_text = data[['Text']]
         data_text['index'] = data_text.index

@@ -49,13 +49,14 @@ users_topic_interests = []
 users_Ids = []
 while day <= end_date:
     c = documents[(documents['CreationDate'] == day)]
+    print(c)
     print(str(len(c)) + ' users has twitted in '+str(day))
     users_topic_interests.append([])
     texts = c['Text']
     users = c['userId']
     for userTextidx in range(len(c['Text'])):
         doc = texts.iloc[userTextidx]
-        user_bow_corpus = dictionary.doc2bow(doc.split())
+        user_bow_corpus = dictionary.doc2bow(doc.split(','))
         D2T = Doc2Topic(lda_model, user_bow_corpus)
         users_topic_interests[-1].append(D2T)
         users_Ids.append(users.iloc[userTextidx])
