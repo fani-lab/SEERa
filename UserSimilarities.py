@@ -24,7 +24,7 @@ import UsersGraph as UG
 #     return doc_topic
 
 
-def Doc2Topic(ldaModel, doc):
+def Doc2Topic(ldaModel, doc, threshold=0.2):
     doc_topic_vector = np.zeros((ldaModel.num_topics))
     try:
         d2tVector = ldaModel.get_document_topics(doc)
@@ -32,18 +32,19 @@ def Doc2Topic(ldaModel, doc):
         gen_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(ldaModel)
         d2tVector = gen_model.get_document_topics(doc)
     for i in d2tVector:
-        doc_topic_vector[i[0]] = i[1]
+        if i[1] >= threshold:
+            doc_topic_vector[i[0]] = i[1]
     # doc_topic_vector = np.asarray(doc_topic_vector)
     return doc_topic_vector
 
-
+print('Topic modeling started')
 TopicModel = TM.topic_modeling(num_topics=35, filterExtremes=True, library='gensim')
+print('Topic modeling finished')
 dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs, documents = TopicModel
-
 start_date = documents['CreationDate'].min()
 end_date = documents['CreationDate'].max()
 # day = start_date
-day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=60)
+day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=20)
 users_topic_interests = []
 users_Ids = []
 while day <= end_date:
@@ -63,7 +64,7 @@ while day <= end_date:
 users_topic_interests = np.asarray(users_topic_interests)
 graphs = []
 for day in range(len(users_topic_interests)):
-    if day % 10 == 0:
+    if day % 10 == 0 or True:
         print(day, '/', len(users_topic_interests))
     graph = UG.CreateUsersGraph(day, users_Ids, users_topic_interests[day])
     graphs.append(graph)

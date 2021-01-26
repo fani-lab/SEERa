@@ -10,7 +10,7 @@ def DataReader(Tagme = True):
     cursor = cnx.cursor()
     if Tagme:
         sqlScript = '''
-        (SELECT TweetId,GROUP_CONCAT(' ', Word) as Tokens,CreationTimestamp,UserId,ModificationTimestamp
+        (SELECT TweetId,GROUP_CONCAT('', Word) as Tokens,CreationTimestamp,UserId,ModificationTimestamp
         FROM
         (SELECT TweetId,CreationTimestamp,UserId,ModificationTimestamp,Word FROM
          tweets inner join tagmeannotations on tweets.Id = tagmeannotations.TweetId Where tweets.UserId != -1) AS T

@@ -65,7 +65,7 @@ def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False,
     else:
         processed_docs = []
         for tweet in documents['Text']:
-            processed_docs.append(tweet.split())
+            processed_docs.append(tweet.split(','))
         # for tweet in documents['Text']:
         #     a = tweet.split()
         #     for i in range(len(a)):
