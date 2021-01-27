@@ -38,23 +38,22 @@ def Doc2Topic(ldaModel, doc, threshold=0.2):
     return doc_topic_vector
 
 print('Topic modeling started')
-TopicModel = TM.topic_modeling(num_topics=35, filterExtremes=True, library='gensim')
+TopicModel = TM.topic_modeling(num_topics=28, filterExtremes=True, library='mallet')
 print('Topic modeling finished')
 dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs, documents = TopicModel
 start_date = documents['CreationDate'].min()
 end_date = documents['CreationDate'].max()
 # day = start_date
-day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=20)
+day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=60)
 users_topic_interests = []
 users_Ids = []
 while day <= end_date:
     c = documents[(documents['CreationDate'] == day)]
-    print(c)
     print(str(len(c)) + ' users has twitted in '+str(day))
     users_topic_interests.append([])
     texts = c['Text']
     users = c['userId']
-    for userTextidx in range(len(c['Text'])):
+    for userTextidx in range(min(300, len(c['Text']))):
         doc = texts.iloc[userTextidx]
         user_bow_corpus = dictionary.doc2bow(doc.split(','))
         D2T = Doc2Topic(lda_model, user_bow_corpus)
@@ -65,7 +64,7 @@ while day <= end_date:
 users_topic_interests = np.asarray(users_topic_interests)
 graphs = []
 for day in range(len(users_topic_interests)):
-    if day % 10 == 0 or True:
+    if day % 2 == 0 or True:
         print(day, '/', len(users_topic_interests))
     graph = UG.CreateUsersGraph(day, users_Ids, users_topic_interests[day])
     graphs.append(graph)

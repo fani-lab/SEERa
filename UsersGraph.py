@@ -6,19 +6,23 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 def CreateUsersGraph(day, users, users_topic_interests):
     num_users = len(users_topic_interests)
-    print('There are', num_users, ' users on',day)
+    print('There are', num_users, ' users on', day)
     print('salam')
     if num_users < 1:
         return -1
     num_topics = users_topic_interests[0].shape[0]
-    usersSimilarity = np.zeros((num_users, num_users))
     tic = time.process_time()
-    for u1idx in range(num_users):
-        for u2idx in range(u1idx, num_users):
-            sim = Similarity(users_topic_interests[u1idx], users_topic_interests[u2idx])
-            usersSimilarity[u1idx, u2idx] = sim
-            usersSimilarity[u2idx, u1idx] = sim
+    usersSimilarity = np.round(cosine_similarity(users_topic_interests), 3)
+    print('Similarity Matrix shape is', usersSimilarity.shape)
     toc = time.process_time()
+    # usersSimilarity = np.zeros((num_users, num_users))
+    # tic = time.process_time()
+    # for u1idx in range(num_users):
+    #     for u2idx in range(u1idx, num_users):
+    #         sim = Similarity(users_topic_interests[u1idx], users_topic_interests[u2idx])
+    #         usersSimilarity[u1idx, u2idx] = sim
+    #         usersSimilarity[u2idx, u1idx] = sim
+    # toc = time.process_time()
     print('Similarity calculation takes', toc - tic, 'second for', num_users, 'users.')
     print('Similarity Matrix is generated for', day)
     tic = time.process_time()
