@@ -1,10 +1,22 @@
 import gensim
 import networkx as nx
+import time
 import pandas as pd
 import datetime
+import os
 import numpy as np
 import TopicModeling as TM
 import UsersGraph as UG
+
+# Changing saves location
+now = datetime.datetime.now()
+dt_string = now.strftime("%Y_%m_%d %H_%M")
+os.chdir('run_outputs')
+os.mkdir(dt_string)
+os.chdir(dt_string)
+
+
+
 
 # def Doc2Topic(ldaModel, docs):
 #     doc_topic = []
@@ -38,7 +50,7 @@ def Doc2Topic(ldaModel, doc, threshold=0.2):
     return doc_topic_vector
 
 print('Topic modeling started')
-TopicModel = TM.topic_modeling(num_topics=28, filterExtremes=True, library='mallet')
+TopicModel = TM.topic_modeling(num_topics=28, filterExtremes=True, library='gensim')
 print('Topic modeling finished')
 dictionary, bow_corpus, totalTopics, lda_model, num_topics, processed_docs, documents = TopicModel
 start_date = documents['CreationDate'].min()
@@ -56,7 +68,10 @@ while day <= end_date:
     for userTextidx in range(min(300, len(c['Text']))):
         doc = texts.iloc[userTextidx]
         user_bow_corpus = dictionary.doc2bow(doc.split(','))
-        D2T = Doc2Topic(lda_model, user_bow_corpus)
+        # tic = time.clock()
+        D2T = Doc2Topic(lda_model, user_bow_corpus, threshold=0.4)
+        # toc = time.clock()
+        # print('D2T function takes', toc-tic, 'seconds for ')
         users_topic_interests[-1].append(D2T)
         users_Ids.append(users.iloc[userTextidx])
     # print(c.shape)

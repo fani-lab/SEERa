@@ -4,10 +4,11 @@ import time
 from scipy import sparse
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+
+
 def CreateUsersGraph(day, users, users_topic_interests):
     num_users = len(users_topic_interests)
     print('There are', num_users, ' users on', day)
-    print('salam')
     if num_users < 1:
         return -1
     num_topics = users_topic_interests[0].shape[0]
