@@ -30,8 +30,9 @@ def GraphShow(G,day):
     plt.close()
 
 
-scenario = 'scenario' + str(10)
-os.chdir(scenario)
+# scenario = 'scenario' + str(11)
+# os.chdir(scenario)
+os.chdir('run_outputs/2021_03_11 04_34/graphs')
 
 graphs_path = glob.glob('*.net')
 graphs = []
@@ -51,7 +52,7 @@ en = 1
 node_number = np.load('node_numbers.npy')
 for e in embeddeds:
     c = cosine_similarity(e)
-    super_threshold_indices = c < 0.8
+    super_threshold_indices = c < 0.9
     c[super_threshold_indices] = 0
     G = nx.from_numpy_matrix(c)
 

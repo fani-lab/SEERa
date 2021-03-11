@@ -59,7 +59,7 @@ def main():
     graphs = []
     for gp in graphs_path:
         graphs.append(nx.read_gpickle(gp))
-    print(len(graphs))
+    print('len graph: ', len(graphs))
     # graphs = [nx.read_gpickle('graph_day1.net'), nx.read_gpickle('graph_day2.net'),
     #           nx.read_gpickle('graph_day3.net'), nx.read_gpickle('graph_day4.net'),
     #           nx.read_gpickle('graph_day5.net'), nx.read_gpickle('graph_day6.net'),
@@ -82,7 +82,8 @@ def main():
     # parameters for the dynamic embedding
     # dimension of the embedding
     dim_emb = 100
-    lookback = 1
+    lookback = 2
+    print('lookback: ', lookback)
 
     # dynAERNN
     embedding = DynAERNN(d=dim_emb,
@@ -95,7 +96,7 @@ def main():
                          rho=0.3,
                          n_iter=35,
                          xeta=1e-3,
-                         n_batch=10,
+                         n_batch=1,
                          modelfile=['./intermediate/enc_model_dynAERNN.json',
                                     './intermediate/dec_model_dynAERNN.json'],
                          weightfile=['./intermediate/enc_weights_dynAERNN.hdf5',
@@ -119,14 +120,26 @@ def main():
     plt.show()
 
 
-if __name__ == '__main__':
-    os.chdir('scenario10')
-    main()
-    emb = np.load('embeddeds.npy')
-    length = np.load('length.npy')
+# if __name__ == '__main__':
+#     os.chdir('run_outputs/2021_03_09__02_11/graphs')
+#     main()
+#     emb = np.load('embeddeds.npy')
+#     length = np.load('length.npy')
+#     # dss = np.load('dynamic_sbm_series.npy', allow_pickle=True)
+#     grp = np.load('graphs.npy')
+#     e = emb[-1]
+#     # g = nx.read_gpickle('graph_day14.net')
+#     usersSimilarity = cosine_similarity(e)
+#     print('min of similarities: ', usersSimilarity.min())
+
+
+os.chdir('run_outputs/2021_03_11 04_34/graphs')
+main()
+emb = np.load('embeddeds.npy')
+length = np.load('length.npy')
     # dss = np.load('dynamic_sbm_series.npy', allow_pickle=True)
-    grp = np.load('graphs.npy')
-    e = emb[-1]
+grp = np.load('graphs.npy', allow_pickle=True)
+e = emb[-1]
     # g = nx.read_gpickle('graph_day14.net')
-    usersSimilarity = cosine_similarity(e)
-    print('min of similarities: ', usersSimilarity.min())
+usersSimilarity = cosine_similarity(e)
+print('min of similarities: ', usersSimilarity.min())

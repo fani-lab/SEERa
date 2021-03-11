@@ -6,12 +6,12 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def CreateUsersGraph(day, users, users_topic_interests):
+def CreateUsersGraph(day, users, users_topic_interests, max_users, all_users):
     num_users = len(users_topic_interests)
     print('There are', num_users, ' users on', day)
     if num_users < 1:
         return -1
-    num_topics = users_topic_interests[0].shape[0]
+    num_topics = users_topic_interests.shape[1]
     tic = time.process_time()
     usersSimilarity = np.round(cosine_similarity(users_topic_interests), 3)
     print('Similarity Matrix shape is', usersSimilarity.shape)

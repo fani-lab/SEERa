@@ -3,10 +3,23 @@ import numpy as np
 import networkx as nx
 import random
 import matplotlib.pyplot as plt
-
+import matplotlib.cm as cm
+import matplotlib
 
 Num_users = 100
 Num_edges = 300
+colors = [
+    'blue',
+    'orange',
+    'green',
+    'red',
+    'purple',
+    'brown',
+    'pink',
+    'gray',
+    'olive',
+    'cyan'
+]
 
 
 def randomGraph(n=Num_users, e=Num_edges):
@@ -69,18 +82,7 @@ def GraphsConnection(G_array, rate):
 def GraphShow(G, day):
     color_map = []
     for node in range(len(G.nodes)):
-        if G.nodes[node]['color'] == 1:
-            color_map.append('red')
-        elif G.nodes[node]['color'] == 2:
-            color_map.append('green')
-        elif G.nodes[node]['color'] == 3:
-            color_map.append('blue')
-        elif G.nodes[node]['color'] == 4:
-            color_map.append('black')
-        elif G.nodes[node]['color'] == 5:
-            color_map.append('yellow')
-        elif G.nodes[node]['color'] == 6:
-            color_map.append('purple')
+        color_map.append(colors[G.nodes[node]['color']])
     nx.draw(G, node_color=color_map, with_labels=True)
     plt.interactive(False)
     # plt.show(block=True)
@@ -104,66 +106,59 @@ def graphCreator(n, flag):
 
 
 def Test():
-    scenario = 'scenario' + str(10)
+    scenario = 'scenario' + str(11)
     if not os.path.exists(scenario):
         os.mkdir(scenario)
     os.chdir(scenario)
-    # status = [
-    #     [1, 1, 1, 1, 1, 1, 1],
-    #     [1, 1, 0, 0, 0, 1, 1],
-    #     [0, 0, 1, 1, 1, 0, 0],
-    #     [1, 1, 1, 1, 0, 0, 0],
-    #     [0, 0, 0, 0, 1, 1, 1],
-    #     [0, 0, 0, 0, 0, 0, 0]
-    # ]
+    status = [
+        [1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 0, 0, 1, 1],
+        [0, 0, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0]
+    ]
     # status = [
     #     [0.9, 0.9, 0.9, 0.3, 0.3, 0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
     #     [0.1, 0.1, 0.1, 0.9, 0.9, 0.9, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
     #     [0.3, 0.3, 0.3, 0.1, 0.1, 0.1, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
     # ]
-    status = [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 0.9, 0.9, 0.8, 0.7, 0, 0, 0, 0.4, 0.3, 0.2, 0.1, 0.1, 0.3, 0.2, 0.1, 0.1, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1]
-              ]
-    node_numbers = [10, 10]
+    # status = [
+    #             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    #             [0, 0.9, 0.9, 0.8, 0.7, 0, 0, 0, 0.4, 0.3, 0.2, 0.1, 0.1, 0.3, 0.2, 0.1, 0.1, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1]
+    #           ]
+    node_numbers = []
+    for i in range(len(status)):
+        node_numbers.append(10)
     np.save('node_numbers.npy', node_numbers)
+    # for day in range(len(status[0])):
+    #     g1 = graphCreator(node_numbers[0], status[0][day])
+    #     nx.set_node_attributes(g1, 1, 'color')
+    #     g2 = graphCreator(node_numbers[1], status[1][day])
+    #     nx.set_node_attributes(g2, 2, 'color')
+    #     # g3 = graphCreator(node_numbers[2], status[2][0])
+    #     # nx.set_node_attributes(g3, 3, 'color')
+    #     g = GraphsConnection([g1, g2], 0)
+    #
+    #     strday = str(day + 1)
+    #     if len(strday) == 1:
+    #         strday = '0' + strday
+    #     nx.write_gpickle(g, 'graph_day' + strday + '.net')
+    #     GraphShow(g, day + 1)
+
     for day in range(len(status[0])):
-        g1 = graphCreator(node_numbers[0], status[0][day])
-        nx.set_node_attributes(g1, 1, 'color')
-        g2 = graphCreator(node_numbers[1], status[1][day])
-        nx.set_node_attributes(g2, 2, 'color')
-        # g3 = graphCreator(node_numbers[2], status[2][0])
-        # nx.set_node_attributes(g3, 3, 'color')
-        g = GraphsConnection([g1, g2], 0)
-
-        strday = str(day + 1)
-        if len(strday) == 1:
-            strday = '0' + strday
-        nx.write_gpickle(g, 'graph_day' + strday + '.net')
-        GraphShow(g, day + 1)
-
-
-    '''
-    for day in range(len(status[0])):
-        g1 = graphCreator(node_numbers[0], status[0][day])
-        nx.set_node_attributes(g1, 1, 'color')
-        g2 = graphCreator(node_numbers[1], status[1][day])
-        nx.set_node_attributes(g2, 2, 'color')
-        g3 = graphCreator(node_numbers[2], status[2][day])
-        nx.set_node_attributes(g3, 3, 'color')
-        # g4 = graphCreator(node_numbers[3], status[3][day])
-        # nx.set_node_attributes(g4, 4, 'color')
-        # g5 = graphCreator(node_numbers[4], status[4][day])
-        # nx.set_node_attributes(g5, 5, 'color')
-        # g6 = graphCreator(node_numbers[5], status[5][day])
-        # nx.set_node_attributes(g6, 6, 'color')
-        g = GraphsConnection([g1, g2, g3], 0)  #, g4, g5, g6], 0)
+        graphCollection = []
+        for graph in range(len(status)):
+            g_temp = graphCreator(node_numbers[graph], status[graph][day])
+            nx.set_node_attributes(g_temp, graph+1, 'color')
+            graphCollection.append(g_temp)
+        g = GraphsConnection(graphCollection, 0)
         strday = str(day+1)
         if len(strday) == 1:
             strday = '0'+strday
         nx.write_gpickle(g, 'graph_day'+strday+'.net')
         GraphShow(g, day+1)
-'''
+
     return g
 
 g = Test()
