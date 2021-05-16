@@ -1,16 +1,23 @@
-import os
-import numpy as np
-import DataReader
-import DataPreparation
-import TopicModeling
-import ToyGraphGeneration
-import UserSimilarities
-import UsersGraph
-import graphEmbedding
-import GraphReconstruction
-import GraphClustering
+import src.UserSimilarities    as US
+import src.GraphClustering     as GC
+import src.NewsTopicExtraction as NTE
+import src.NewsRecommendation  as NR
+import src.ModelEvaluation     as ME
+import src.PytrecEvaluation    as PE
 
+def RunPipeline():
+    print('UserSimilarities')
+    US.US_main()
+    print('GraphClustering')
+    GC.GC_main()
+    print('NewsTopicExtraction')
+    NTE.NTE_main()
+    print('NewsRecommendation')
+    NR.NR_main()
+    print('ModelEvaluation')
+    ME.ME_main()
+    print('ModelEvaluation')
+    PE.PytrecEval_main()
+    print('Finished')
 
-if __name__ == '__main__':
-    scenario = 'scenario' + str(11)
-    os.chdir(scenario)
+RunPipeline()

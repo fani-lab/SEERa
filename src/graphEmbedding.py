@@ -94,9 +94,9 @@ def main():
                          n_aeunits=[500, 300],
                          n_lstmunits=[500, dim_emb],
                          rho=0.3,
-                         n_iter=35,
+                         n_iter=20,
                          xeta=1e-3,
-                         n_batch=1,
+                         n_batch=5,
                          modelfile=['./intermediate/enc_model_dynAERNN.json',
                                     './intermediate/dec_model_dynAERNN.json'],
                          weightfile=['./intermediate/enc_weights_dynAERNN.hdf5',
@@ -133,7 +133,7 @@ def main():
 #     print('min of similarities: ', usersSimilarity.min())
 
 
-os.chdir('run_outputs/2021_03_11 04_34/graphs')
+os.chdir('run_outputs/2021_03_31__03_24/graphs')
 main()
 emb = np.load('embeddeds.npy')
 length = np.load('length.npy')
