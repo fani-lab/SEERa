@@ -1,7 +1,10 @@
 import logging
 import sys
 
-def LogFile(file="logfile.log"):
+sys.path.extend(["../"])
+import params
+
+def LogFile(file='logfile.log'):
 
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)

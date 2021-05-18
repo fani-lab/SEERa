@@ -2,8 +2,9 @@ from shutil import copyfile
 import sys
 
 sys.path.extend(["../"])
-from cmn import Common as cmn
 import params
+from cmn import Common as cmn
+cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.uml["runid"]}.log')
 from uml import UserSimilarities  as uml
 # import GraphClustering     as GC
 # import NewsTopicExtraction as NTE
@@ -20,7 +21,7 @@ def RunPipeline():
              userModeling=params.uml['userModeling'],
              timeModeling=params.uml['timeModeling'],
              preProcessing=params.uml['preProcessing'],
-             TagME=params.uml['TagME'], 
+             TagME=params.uml['TagME'],
              lastRowsNumber=0, #all rows
              num_topics=params.uml['num_topics'],
              filterExtremes=params.uml['filterExtremes'],
