@@ -3,9 +3,8 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import pandas as pd
 import gensim
 import numpy as np
-from src.DataReader import DataReader
 import tagme
-import os
+import os, sys
 from gensim.parsing.preprocessing import STOPWORDS
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 global TagmeCounter
@@ -13,21 +12,18 @@ global DataLen
 tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
 
 
-def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, logger=None):
+sys.path.extend(["../"])
+from cmn import Common as cmn
+
+def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0):
     global DataLen
-    print('data_preparation')
-    logger.critical("userModeling="+str(userModeling)+" timeModeling="+str(timeModeling)+" preProcessing="+str(preProcessing)+" TagME="+str(TagME)+'\n')
-    dataset = DataReader(Tagme=True)
-    data = pd.DataFrame(
-             {'Id': dataset[:, 0], 'Text': dataset[:, 1], 'CreationDate': dataset[:, 2], 'userId': dataset[:, 3],
-              'ModificationTimeStamp': dataset[:, 4]})
-    data.sort_values(by=['CreationDate'])
-    print(len(data))
-    logger.critical("len(data):"+str(len(data))+'\n')
-    print(data['CreationDate'])
+    cmn.logger.info(f'DataPreperation: userModeling={userModeling}, timeModeling={timeModeling}, preProcessing={preProcessing}, TagME={TagME}')
+    data = pd.DataFrame({'Id': dataset[:, 0], 'Text': dataset[:, 1], 'CreationDate': dataset[:, 2], 'userId': dataset[:, 3], 'ModificationTimeStamp': dataset[:, 4]})
+    #data.sort_values(by=['CreationDate']) #moved to sql query
+
+    #print(data['CreationDate'])
     # data.sample(frac=1)
-    lastRowsNumber = -10000
-    logger.critical("How many rows are chosen from the end of dataset (sorted by creationTime):" + str(np.abs(lastRowsNumber))+'\n')
+    cmn.logger.info(f'DataPreperation: {np.abs(lastRowsNumber)} sampled from the end of dataset (sorted by creationTime)')
     data = data[lastRowsNumber:]
     if userModeling and timeModeling:
         dataGroupbyUsersTime = data.groupby(['userId', 'CreationDate'])
@@ -43,7 +39,7 @@ def data_preparation(userModeling=True, timeModeling=True,  preProcessing=False,
         data_text['index'] = data_text.index
         documents = data_text
     DataLen = len(documents)
-    logger.critical("Length of the dataset after applying groupby:" + str(DataLen)+'\n')
+    cmn.logger.info(f'DataPreperation: Length of the dataset after applying groupby: {DataLen} \n')
     if preProcessing:
         processed_docs = documents['Text'].map(preprocess)
     elif TagME:
@@ -63,7 +59,7 @@ def preprocess(text):
     result = []
     stemmer = SnowballStemmer('english')
     for token in gensim.utils.simple_preprocess(text):
-        if token not in STOPWORDS and len(token) > 2 and token != 'http' and token != 'RT':
+        if token not in STOPWORDS and len(token) > 2:
             result.append(lemmatize_stemming(token, stemmer))
     return result
 
@@ -76,3 +72,7 @@ def TAGME(text, threshold=0.05):
         for keyword in annotations.get_annotations(threshold):
             result.append(keyword.entity_title)
     return result
+
+## test
+# dataset = dr.load_tweets(Tagme=True, start='2011-01-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'])
+# data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=-1000)
