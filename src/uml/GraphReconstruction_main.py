@@ -13,23 +13,21 @@ def EmbeddedGraphShow(G,day):
     plt.savefig('Embedding'+str(day+1)+'.jpg')
     plt.close()
 
-def GraphShow(G,day):
+def GraphShow(G,day,RunId):
     G = G.subgraph(list(G.nodes)[:200])
     nx.draw(G)#, with_labels=True)
     plt.interactive(False)
     # plt.show(block=True)
-    plt.savefig('Graph'+str(day)+'.jpg')
+    plt.savefig(f'../output/{RunId}/uml/graphs/Graph{str(day)}.jpg')
     plt.close()
 
-run_list = glob.glob('run_outputs/2021*')
-print(run_list[-1])
-os.chdir(run_list[-1]+'/graphs')
-
-graphs_path = glob.glob('*.net')
-graphs = []
-en = 1
-for gp in graphs_path:
-    g = nx.read_gpickle(gp)
-    print('Graph:', gp, 'has', len(g.nodes), 'nodes.')
-    GraphShow(g, en)
-    en += 1
+def main(RunId):
+    print(os.getcwd())
+    graphs_path = glob.glob(f'../output/{RunId}/uml/graphs/*.net')
+    print(graphs_path)
+    en = 1
+    for gp in graphs_path:
+        g = nx.read_gpickle(gp)
+        print('Graph:', gp, 'has', len(g.nodes), 'nodes.')
+        GraphShow(g, en, RunId)
+        en += 1

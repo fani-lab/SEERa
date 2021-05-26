@@ -14,6 +14,8 @@ from dal import DataReader as dr
 from dal import DataPreparation as dp
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
+from uml import GraphClustering as GC
+from uml import GraphReconstruction_main as GR
 
 ###
 ### usually the timestamp to filenames/folders are not suggested as the os keeps them as attributes.
@@ -33,7 +35,7 @@ from uml import UsersGraph as UG
 def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'],
              userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0,
              num_topics=20, filterExtremes=True, library='gensim', path_2_save_tml='../../output/tml',
-             path2_save_uml='../../output/uml', JO=True, Bin=True, Threshold = 0.4):
+             path2_save_uml='../../output/uml', JO=True, Bin=True, Threshold = 0.4, RunId=0):
     if not os.path.isdir(path2_save_uml): os.makedirs(path2_save_uml)
     #ChangeLoc()
     dataset = dr.load_tweets(Tagme=True, start=start, end=end, stopwords=['www', 'RT', 'com', 'http'])
@@ -71,7 +73,10 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     lenUsers = []
 
     end_date = documents['CreationDate'].max()
+    end_date = datetime.datetime.strptime(end, '%Y-%m-%d')
     day = documents['CreationDate'].min()
+    day = datetime.datetime.strptime(start, '%Y-%m-%d')
+
     while day <= end_date:
         c = documents[(documents['CreationDate'] == day)]
         cmn.logger.info(f'{len(c)} users has twitted in {day}')
@@ -79,7 +84,7 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
         users = c['userId']
         lenUsers.append(len(users))
         users_Ids = []
-        for userTextidx in range(min(5000, len(c['Text']))):
+        for userTextidx in range(len(c['Text'])):#min(5000, len(c['Text']))):
             doc = texts.iloc[userTextidx]
             user_bow_corpus = dictionary.doc2bow(doc.split(','))
             D2T = tm.doc2topics(lda_model, user_bow_corpus, threshold=Threshold, justOne=JO, binary=Bin)
@@ -93,6 +98,7 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     graphs = []
 
     if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
+    if not os.path.isdir(f'{path2_save_uml}/graphs/pajek'): os.makedirs(f'{path2_save_uml}/graphs/pajek')
     for day in range(len(total_users_topic_interests)):
         if day % 2 == 0 or True:
             cmn.logger.info(f'UserSimilarity: {day} / {len(total_users_topic_interests)}')
@@ -101,10 +107,10 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
         if day < 9:
             daystr = '0' + daystr
         np.save(f'{path2_save_uml}/Day{daystr}UsersTopicInterests.npy', total_users_topic_interests[day])
-        np.save(f'{path2_save_uml}/Day{daystr}UserIDs.npy', users_Ids[day])
+        np.save(f'{path2_save_uml}/Day{daystr}UserIDs.npy', total_user_ids[day])
         cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npy is saved for day:{day} with shape: {total_users_topic_interests[day].shape}')
 
-        graph = UG.create_users_graph(day, total_users_topic_interests[day], f'{path2_save_uml}/graphs')
+        graph = UG.create_users_graph(day, total_users_topic_interests[day], f'{path2_save_uml}/graphs/pajek')
         cmn.logger.info(f'UserSimilarity: A graph is being created for {day} with {len(total_users_topic_interests[day])} users')
         graphs.append(graph)
 
@@ -117,6 +123,9 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
         else:
             nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/{i+1}.net')
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
+    GC.main(RunId=RunId)
+    GR.main(RunId=RunId)
+
 
 ## test
 # main(start='2010-11-10', end='2010-11-17', stopwords=['www', 'RT', 'com', 'http'],

@@ -14,10 +14,10 @@ create table GoldenStandard2 as
     (tweets.UserId = goldenstandard.UserId and tweets.CreationTimestamp = goldenstandard.CreationTimestamp)) as T
 	inner join tweetentities on
     T.URL = tweetentities.ExpandedURL and T.tweetId = tweetentities.TweetId)
-    '''
+'''
 
 def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['www', 'RT', 'com', 'http']):
-    cnx = mysql.connector.connect(user='root', password='7881', host='localhost', database='twitter')
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     if Tagme:
@@ -45,7 +45,7 @@ def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['ww
     return table
 
 def GoldenStandard2Reader():
-    cnx = mysql.connector.connect(user='root', password='7881', host='localhost', database='twitter')
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     sqlScript = '''

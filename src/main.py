@@ -4,17 +4,14 @@ import sys
 sys.path.extend(["../"])
 import params
 from cmn import Common as cmn
-cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.uml["runid"]}.log')
+cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.uml["RunId"]}.log')
 from uml import UserSimilarities  as uml
-# import GraphClustering     as GC
-# import NewsTopicExtraction as NTE
-# import NewsRecommendation  as NR
-# import ModelEvaluation     as ME
-# import PytrecEvaluation    as PE
+from evl import ModelEvaluation as evl#, PytrecEvaluation as PE
+
 
 def RunPipeline():
     cmn.logger.info(f'Main: UserSimilarities ...')
-    copyfile('params.py', f'../output/used_params_runid_{params.uml["runid"]}.py')
+    copyfile('params.py', f'../output/used_params_runid_{params.uml["RunId"]}.py')
     uml.main(start=params.uml['start'],
              end=params.uml['end'],
              stopwords=['www', 'RT', 'com', 'http'],
@@ -22,16 +19,19 @@ def RunPipeline():
              timeModeling=params.uml['timeModeling'],
              preProcessing=params.uml['preProcessing'],
              TagME=params.uml['TagME'],
-             lastRowsNumber=0, #all rows
+             lastRowsNumber=params.uml['lastRowsNumber'], #10000, #all rows = 0
              num_topics=params.uml['num_topics'],
              filterExtremes=params.uml['filterExtremes'],
              library=params.uml['library'],
-             path_2_save_tml=f'../output/{params.uml["runid"]}/tml',
-             path2_save_uml=f'../output/{params.uml["runid"]}/uml',
+             path_2_save_tml=f'../output/{params.uml["RunId"]}/tml',
+             path2_save_uml=f'../output/{params.uml["RunId"]}/uml',
              JO=params.uml['JO'],
              Bin=params.uml['Bin'],
-             Threshold=params.uml['Threshold'])
-
+             Threshold=params.uml['Threshold'],
+             RunId=params.uml['RunId'])
+    Pytrec_result = evl.main(RunId=params.evl['RunId'],
+             path2_save_evl=f'../output/{params.evl["RunId"]}/evl',)
+    return  Pytrec_result
     # print('GraphClustering')
     # GC.GC_main()
     # print('NewsTopicExtraction')
@@ -44,4 +44,5 @@ def RunPipeline():
     # PE.PytrecEval_main()
     # print('Finished')
 
-RunPipeline()
+PytrecResult = RunPipeline()
+

@@ -4,23 +4,9 @@ import os
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
-import logging
+from cmn import Common as cmn
 from collections import Counter
 
-
-def ChangeLoc():
-    print(os.getcwd())
-    run_list = glob.glob('../output/2021*')
-    print(run_list[-1])
-    os.chdir(run_list[-1]+'/graphs')
-
-def LogFile():
-    file_handler = logging.FileHandler("../logfile.log")
-    logger = logging.getLogger()
-    logger.addHandler(file_handler)
-    logger.setLevel(logging.ERROR)
-    logger.critical("\nGraphClustering.py:\n")
-    return logger
 
 def GraphShow(G,day):
     G = G.subgraph(list(G.nodes)[:500])
@@ -30,7 +16,7 @@ def GraphShow(G,day):
     plt.savefig('Graph'+str(day)+'.jpg')
     plt.close()
 
-def ClusterTopicInterest(clusters, usertopicinterests, logger):
+def ClusterTopicInterest(clusters, usertopicinterests):
     clusterInterests = []
     for i in range(clusters.max()+1):
         clusterInterests.append([])
@@ -41,15 +27,16 @@ def ClusterTopicInterest(clusters, usertopicinterests, logger):
         c = Counter(clusterInterests[ci])
         topic, count = c.most_common()[0]
         countpercentage = (count/len(clusterInterests[ci]))*100
-        logger.critical("Cluster "+str(ci)+" has "+str(len(clusterInterests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(countpercentage)+ '% of users.')
+        cmn.logger.info("Cluster "+str(ci)+" has "+str(len(clusterInterests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(countpercentage)+ '% of users.')
 
 
-def GC_main():
-    # ChangeLoc()
-    logger = LogFile()
+def main(RunId):
     louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True,
                                      return_aggregate=True, verbose=1)
-    graphName = glob.glob('*.net')[-1]
+    print(os.getcwd())
+    graphName = glob.glob(f'../output/{RunId}/uml/graphs/*.net')[-1]
+    print(f'../output/{RunId}/uml/graphs/*.net')
+    print(graphName)
     graph = nx.read_gpickle(graphName)
     adj = nx.adj_matrix(graph)
     print('Louvain 1')
@@ -67,19 +54,20 @@ def GC_main():
     print(lbls_louvain.shape)
     print(lbls_louvain.max())
 
-    logger.critical("Louvain clustering for " + graphName)
-    logger.critical(
+    cmn.logger.info("Graph Clustering: Louvain clustering for " + graphName)
+    cmn.logger.info(
         "nodes: " + str(graph.number_of_nodes()) + " / edges: " + str(graph.number_of_edges()) + " / isolates: " + str(
             nx.number_of_isolates(graph)))
-    logger.critical("Louvain clustering output: " + str(lbls_louvain.max()) + " clusters. " + str(
+    cmn.logger.info("Graph Clustering: Louvain clustering output: " + str(lbls_louvain.max()) + " clusters. " + str(
         len(clusterMembers)) + " of them are multi-user clusters and rest of them (" + str(
         lbls_louvain.max() - len(clusterMembers)) + ") are singleton clusters.\n")
-    logger.critical('Length of multi-user clusters: ' + str(clusterMembers) + '\n')
-    np.save('../UserClusters.npy', lbls_louvain)
-    logger.critical("UserClusters.npy saved.\n")
+    cmn.logger.info('Graph Clustering: Length of multi-user clusters: ' + str(clusterMembers) + '\n')
+    np.save(f'../output/{RunId}/uml/UserClusters.npy', lbls_louvain)
+    cmn.logger.info("Graph Clustering: UserClusters.npy saved.\n")
 
     # GraphShow(G_t,100)
     # GraphShow(G_t2,101)
-    UTIName = glob.glob('../Day*UsersTopicInterests.npy')[-1]
+    UTIName = glob.glob(f'../output/{RunId}/uml/Day*UsersTopicInterests.npy')[-1]
     UTI = np.load(UTIName)
-    ClusterTopicInterest(lbls_louvain, UTI, logger)
+    ClusterTopicInterest(lbls_louvain, UTI)
+

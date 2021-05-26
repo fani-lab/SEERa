@@ -24,7 +24,7 @@ def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessi
     #print(data['CreationDate'])
     # data.sample(frac=1)
     cmn.logger.info(f'DataPreperation: {np.abs(lastRowsNumber)} sampled from the end of dataset (sorted by creationTime)')
-    data = data[lastRowsNumber:]
+    data = data[-lastRowsNumber:]
     if userModeling and timeModeling:
         dataGroupbyUsersTime = data.groupby(['userId', 'CreationDate'])
         documents = dataGroupbyUsersTime['Text'].apply(lambda x: ','.join(x)).reset_index()

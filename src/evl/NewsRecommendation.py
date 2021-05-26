@@ -4,6 +4,8 @@ import gensim
 import numpy as np
 import matplotlib.pyplot as plt
 import logging
+import params
+from cmn import Common as cmn
 
 def RecommendationTableAnalyzer(RT, test, savename):
     if test == 'CRN': # 'CRN' = 'community recommendations number'
@@ -16,49 +18,49 @@ def RecommendationTableAnalyzer(RT, test, savename):
     if test == 'NRN':
         comm_news.sort()
     plt.plot(range(len(comm_news)), comm_news)
-    plt.savefig('../' + savename + '.jpg')
+    plt.savefig(f'../output/{params.evl["RunId"]}/{savename}.jpg')
     plt.close()
     return comm_news
 
-def ChangeLoc():
-    run_list = glob.glob('../output/2021*')
-    print(run_list[-1])
-    os.chdir(run_list[-1])
+# def ChangeLoc():
+#     run_list = glob.glob('../output/2021*')
+#     print(run_list[-1])
+#     os.chdir(run_list[-1])
+#
+# def LogFile():
+#     file_handler = logging.FileHandler("../logfile.log")
+#     logger = logging.getLogger()
+#     logger.addHandler(file_handler)
+#     logger.setLevel(logging.ERROR)
+#     return logger
 
-def LogFile():
-    file_handler = logging.FileHandler("../logfile.log")
-    logger = logging.getLogger()
-    logger.addHandler(file_handler)
-    logger.setLevel(logging.ERROR)
-    return logger
-
-def NR_main():
-    logger = LogFile()
-    logger.critical("\nNewsRecommendation2.py:\n")
+def main(topK = 10):
+    # logger = LogFile()
+    cmn.logger.info("\nNewsRecommendation2.py:\n")
 
     # LDA Model and News Topics Loading
-    model_name = glob.glob('../*.model')[0].split("\\")[-1]
+    model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0].split("\\")[-1]
     print(os.getcwd())
     print(model_name)
     num_topics = int(model_name.split('.')[0].split('_')[1].split('t')[0])
     print(num_topics)
     GenMal = model_name.split('\\')[-1].split('_')[0]
-    if GenMal == 'Gensim':
-        ldaModel = gensim.models.ldamodel.LdaModel.load('../'+model_name)
+    if GenMal == 'gensim':
+        ldaModel = gensim.models.ldamodel.LdaModel.load(f'../output/{params.evl["RunId"]}/tml/{model_name}')
         print('Lda Model Loaded (Gensim)')
-    elif GenMal == 'Mallet':
-        ldaModel = gensim.models.wrappers.LdaMallet.load('../'+model_name)
-        ldaModel = gensim.models.wrappers.ldamallet.malletmodel2ldamodel('../'+ldaModel)
+    elif GenMal == 'mallet':
+        ldaModel = gensim.models.wrappers.LdaMallet.load(f'../output/{params.evl["RunId"]}/tml/{model_name}')
+        ldaModel = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(ldaModel)
         print('Lda Model Loaded (Mallet)')
     else:
         print('Wrong Library!')
-    NewsTopics = ldaModel.load('../NewsTopics.mm')
+    NewsTopics = ldaModel.load(f'../output/{params.evl["RunId"]}/evl/NewsTopics.mm')
 
     # User Clusters loading
-    UserClusters = np.load('../UserClusters.npy')
+    UserClusters = np.load(f'../output/{params.evl["RunId"]}/uml/UserClusters.npy')
 
     # Users Topic Interest loading
-    UsersTopicInterestsList = glob.glob('../*UsersTopicInterests.npy')
+    UsersTopicInterestsList = glob.glob(f'../output/{params.evl["RunId"]}/uml/Day*UsersTopicInterests.npy')
     print(UsersTopicInterestsList[-1])
     LastUTI = np.load(UsersTopicInterestsList[-1])
     CommunitiesTopicInterests = []
@@ -74,8 +76,8 @@ def NR_main():
         ClusterNumbers.append(UC)
     print('len:',len(CommunitiesTopicInterests))
     CommunitiesTopicInterests = np.asarray(CommunitiesTopicInterests)
-    np.save('../CommunitiesTopicInterests.npy', CommunitiesTopicInterests)
-    np.save('../ClusterNumbers.npy', ClusterNumbers)
+    np.save(f'../output/{params.evl["RunId"]}/evl/CommunitiesTopicInterests.npy', CommunitiesTopicInterests)
+    np.save(f'../output/{params.evl["RunId"]}/evl/ClusterNumbers.npy', ClusterNumbers)
     News = np.zeros((len(NewsTopics), num_topics))
     for NT in range(len(NewsTopics)):
         NewsVector = np.asarray(NewsTopics[NT])
@@ -84,25 +86,24 @@ def NR_main():
             NewsVector_temp[int(topic[0])] = topic[1]
         News[NT] = NewsVector_temp
     # np.save('../NewsTopicInterests.npy', News)
-
     RecommendationTable = np.matmul(CommunitiesTopicInterests, News.T)
-    TopFiveRecommendations = np.zeros((len(CommunitiesTopicInterests), 5))
+    TopRecommendations = np.zeros((len(CommunitiesTopicInterests), topK))
     for r in range(len(RecommendationTable)):
         NewsScores = RecommendationTable[r]
-        fifthScore = np.partition(NewsScores.flatten(), -5)[-5]
+        fifthScore = np.partition(NewsScores.flatten(), -topK)[-topK]
         RecommendationCandidates = np.where(NewsScores >= fifthScore)[0]
         RecommendationScores = NewsScores[RecommendationCandidates]
         inds = np.flip(RecommendationScores.argsort())
         Recommendations_sorted = RecommendationCandidates[inds]
-        TopFiveRecommendations[r] = Recommendations_sorted[:5]
+        TopRecommendations[r] = Recommendations_sorted[:topK]
 
 
     # RecommendationTable = RecommendationTable.T
     # RecommendationTable_expanded = RecommendationTable_expanded.T
     RecommendationTableAnalyzer(RecommendationTable, 'NRN', 'CommunityPerNewsNumbers')
     RecommendationTableAnalyzer(RecommendationTable, 'CRN', 'NewsPerCommunityNumbers')
-    np.save('../TopFiveRecommendations.npy', TopFiveRecommendations)
-    logger.critical("Shape of TopFiveRecommendations: "+str(TopFiveRecommendations.shape))
+    np.save(f'../output/{params.evl["RunId"]}/evl/TopRecommendations.npy', TopRecommendations)
+    cmn.logger.info("Shape of TopRecommendations: "+str(TopRecommendations.shape))
     # np.save('../RecommendationTable.npy', RecommendationTable)
     # np.save('../RecommendationTableExpanded.npy', RecommendationTable_expanded)
 
