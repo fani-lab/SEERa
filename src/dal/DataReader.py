@@ -2,6 +2,11 @@ import mysql.connector
 import numpy as np
 import sys
 
+# MySQL passwords:
+# Surface: Ghsss.34436673
+# Y510: soroush56673sor7
+
+
 sys.path.extend(["../"])
 from cmn import Common as cmn
 
@@ -17,7 +22,7 @@ create table GoldenStandard2 as
 '''
 
 def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['www', 'RT', 'com', 'http']):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7', host='localhost', database='CommunityPrediction')
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     if Tagme:
@@ -45,7 +50,7 @@ def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['ww
     return table
 
 def GoldenStandard2Reader():
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7', host='localhost', database='CommunityPrediction')
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     sqlScript = '''

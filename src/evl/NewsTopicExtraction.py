@@ -8,16 +8,16 @@ import os
 import params
 from cmn import Common as cmn
 def DistinctUsersandMinMaxDate():
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
                                       host='localhost',
-                                      database='twitter3')
+                                      database='CommunityPrediction')
     print('Connection Created')
     cursor = cnx.cursor()
     sqlScript = '''SELECT min(CreationTimestamp), max(CreationTimestamp) FROM GoldenStandard2'''
     cursor.execute(sqlScript)
     result = cursor.fetchall()
     minCreationtime, maxCreationtime = result[0][0], result[0][1]
-    sqlScript = '''SELECT Distinct UserId from GoldenStandard2'''
+    sqlScript = '''SELECT Distinct UserId from GoldenStandard'''
     cursor.execute(sqlScript)
     DistinctUsers = cursor.fetchall()
     cnx.close()
@@ -26,13 +26,13 @@ def DistinctUsersandMinMaxDate():
 
 
 def TextExtractor():
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
                                   host='localhost',
-                                  database='twitter3')
+                                  database='CommunityPrediction')
     cursor = cnx.cursor()
     sqlScript = '''
     SELECT NewsId,GROUP_CONCAT('', Word)
-                FROM newstagmeannotations
+                FROM `NewsTagMeAnnotations`
                 group by NewsId 
                 '''
     cursor.execute(sqlScript)
@@ -42,16 +42,16 @@ def TextExtractor():
 
 
 def UserMentions(User, *args, minDate):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
                                   host='localhost',
-                                  database='twitter3')
+                                  database='CommunityPrediction')
     cursor = cnx.cursor()
     if len(args) == 0:
-        sqlScript = '''SELECT * FROM GoldenStandard2 where UserId = ''' + str(User)
+        sqlScript = '''SELECT * FROM GoldenStandard where UserId = ''' + str(User)
     elif len(args) == 1:
         date = minDate + pd._libs.tslibs.timestamps.Timedelta(days=args[0])
         print(date.date())
-        sqlScript = '''Select * FROM GoldenStandard2 where UserId = ''' + str(User) + ''' and date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
+        sqlScript = '''Select * FROM GoldenStandard where UserId = ''' + str(User) + ''' and date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
     cursor.execute(sqlScript)
     result = cursor.fetchall()
     table = np.asarray(result)
@@ -59,12 +59,12 @@ def UserMentions(User, *args, minDate):
     return table
 
 def DateMentions(Date, minDate):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
                                   host='localhost',
-                                  database='twitter3')
+                                  database='CommunityPrediction')
     cursor = cnx.cursor()
     date = minDate + pd._libs.tslibs.timestamps.Timedelta(days=Date)
-    sqlScript = '''SELECT * From GoldenStandard2 WHERE date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
+    sqlScript = '''SELECT * From GoldenStandard WHERE date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
     cursor.execute(sqlScript)
     result = cursor.fetchall()
     cnx.close()
@@ -123,7 +123,7 @@ def main():
     model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0]
     print('model name:', model_name)
     cmn.logger.critical("model "+model_name + " is loaded.")
-    GenMal = model_name.split('\\')[-1].split('_')[0]
+    GenMal = model_name.split('/')[-1].split('_')[0]
     if GenMal == 'gensim':
         ldaModel = gensim.models.ldamodel.LdaModel.load(model_name)
         print('Lda Model Loaded (Gensim)')

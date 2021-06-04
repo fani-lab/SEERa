@@ -3,23 +3,24 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 18
+RunID = 4
 
 uml = {
     'RunId': RunID,
 
     'start': '2010-12-20',
     'end': '2010-12-30',
-    'lastRowsNumber': 80000,
+    'lastRowsNumber': 50000,
 
     'num_topics': 50,
     'library': 'mallet',
-    'mallet_home': 'C:/Users/sorou/mallet-2.0.8',
+    'mallet_home': '/home/soroush/Desktop/mlt/Mallet-master',
 
     'userModeling': True,
     'timeModeling': True,
     'preProcessing': False,
     'TagME': False,
+     
 
     'filterExtremes': True,
     'JO': True,
@@ -29,5 +30,5 @@ uml = {
 
 evl = {
     'RunId': RunID,
-    'TopK': 10
+    'TopK': 15
 }

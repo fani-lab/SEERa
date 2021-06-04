@@ -5,7 +5,7 @@ import pandas as pd
 import mysql.connector
 import matplotlib.pyplot as plt
 from cmn import Common as cmn
-from evl import NewsTopicExtraction as NTE, NewsRecommendation as NR#, PytrecEvaluation as PyEval
+from evl import NewsTopicExtraction as NTE, NewsRecommendation as NR, PytrecEvaluation as PyEval
 import params
 import pickle
 
@@ -31,18 +31,18 @@ def DictonaryGeneration(topRecommendations, Mentions):
     return  Recommendation, Mention
 
 def userMentions(day_before,end_date):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
+    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
                                   host='localhost',
-                                  database='twitter3')
+                                  database='CommunityPrediction')
     print('Connection Created')
     cursor = cnx.cursor()
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
 
     sqlScript = '''SELECT TweetId, NewsId, ExpandedUrl, UserId, CreationTimeStamp FROM 
-    (SELECT TweetId, news.Id AS NewsId, ExpandedUrl FROM twitter3.tweetentities INNER JOIN twitter3.news on
-    ExpandedUrl = news.Url) AS T
+    (SELECT TweetId, News.Id AS NewsId, ExpandedUrl FROM TweetEntities INNER JOIN News on
+    ExpandedUrl = News.Url) AS T
     INNER JOIN
-    (SELECT Id AS Tid, UserId, CreationTimeStamp  FROM twitter3.tweets WHERE UserId != -1) AS T2 on T.TweetId = T2.Tid'''# WHERE length(ExpandedUrl)>40'''
+    (SELECT Id AS Tid, UserId, CreationTimeStamp  FROM Tweets WHERE UserId != -1) AS T2 on T.TweetId = T2.Tid'''# WHERE length(ExpandedUrl)>40'''
     print(day)
     cursor.execute(sqlScript)
     result = cursor.fetchall()
@@ -51,17 +51,6 @@ def userMentions(day_before,end_date):
     print('Connection Closed')
     return table
 
-# def ChangeLoc():
-#     run_list = glob.glob('../output/2021*')
-#     print(run_list[-1])
-#     os.chdir(run_list[-1]+'/graphs')
-#
-# def LogFile():
-#     file_handler = logging.FileHandler("../logfile.log")
-#     logger = logging.getLogger()
-#     logger.addHandler(file_handler)
-#     logger.setLevel(logging.ERROR)
-#     return logger
 
 def main(RunId, path2_save_evl, ):
     if not os.path.isdir(path2_save_evl): os.makedirs(path2_save_evl)

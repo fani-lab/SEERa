@@ -18,7 +18,7 @@ def RecommendationTableAnalyzer(RT, test, savename):
     if test == 'NRN':
         comm_news.sort()
     plt.plot(range(len(comm_news)), comm_news)
-    plt.savefig(f'../output/{params.evl["RunId"]}/{savename}.jpg')
+    plt.savefig(f'../output/{params.evl["RunId"]}/evl/{savename}.jpg')
     plt.close()
     return comm_news
 
@@ -39,7 +39,7 @@ def main(topK = 10):
     cmn.logger.info("\nNewsRecommendation2.py:\n")
 
     # LDA Model and News Topics Loading
-    model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0].split("\\")[-1]
+    model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0].split("/")[-1]
     print(os.getcwd())
     print(model_name)
     num_topics = int(model_name.split('.')[0].split('_')[1].split('t')[0])
