@@ -32,17 +32,6 @@ def RunPipeline():
     Pytrec_result = evl.main(RunId=params.evl['RunId'],
              path2_save_evl=f'../output/{params.evl["RunId"]}/evl',)
     return  Pytrec_result
-    # print('GraphClustering')
-    # GC.GC_main()
-    # print('NewsTopicExtraction')
-    # NTE.NTE_main()
-    # print('NewsRecommendation')
-    # NR.NR_main()
-    # print('ModelEvaluation')
-    # ME.ME_main()
-    # print('ModelEvaluation')
-    # PE.PytrecEval_main()
-    # print('Finished')
 
 PytrecResult = RunPipeline()
 

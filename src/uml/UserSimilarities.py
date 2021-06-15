@@ -17,27 +17,13 @@ from uml import UsersGraph as UG
 from uml import GraphClustering as GC
 from uml import GraphReconstruction_main as GR
 
-###
-### usually the timestamp to filenames/folders are not suggested as the os keeps them as attributes.
-### however, we need to put the running settings on filenames or folders as the os does not know about them!
-# Changing saves location
-# def ChangeLoc():
-#     now = datetime.datetime.now()
-#     dt_string = now.strftime("%Y_%m_%d__%H_%M")
-#     if not os.path.exists('output'):
-#         os.mkdir('output')
-#     os.chdir('output')
-#     if os.path.exists(dt_string):
-#         dt_string = dt_string + '_v2'
-#     os.mkdir(dt_string)
-#     os.chdir(dt_string)
+
 
 def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'],
              userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0,
              num_topics=20, filterExtremes=True, library='gensim', path_2_save_tml='../../output/tml',
              path2_save_uml='../../output/uml', JO=True, Bin=True, Threshold = 0.4, RunId=0):
     if not os.path.isdir(path2_save_uml): os.makedirs(path2_save_uml)
-    #ChangeLoc()
     dataset = dr.load_tweets(Tagme=True, start=start, end=end, stopwords=['www', 'RT', 'com', 'http'])
     processed_docs, documents = dp.data_preparation(dataset, userModeling=userModeling, timeModeling=timeModeling,  preProcessing=preProcessing, TagME=TagME, lastRowsNumber=lastRowsNumber)
     pp = np.asarray(processed_docs)
@@ -77,6 +63,11 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     day = documents['CreationDate'].min()
     day = datetime.datetime.strptime(start, '%Y-%m-%d')
 
+
+    ## FOR TEST:
+    # day = end_date
+
+
     while day <= end_date:
         c = documents[(documents['CreationDate'] == day)]
         cmn.logger.info(f'{len(c)} users has twitted in {day}')
@@ -84,7 +75,8 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
         users = c['userId']
         lenUsers.append(len(users))
         users_Ids = []
-        for userTextidx in range(len(c['Text'])):#min(5000, len(c['Text']))):
+        for userTextidx in range(len(c['Text'])):
+        # for userTextidx in range(min(5000, len(c['Text']))):
             doc = texts.iloc[userTextidx]
             user_bow_corpus = dictionary.doc2bow(doc.split(','))
             D2T = tm.doc2topics(lda_model, user_bow_corpus, threshold=Threshold, justOne=JO, binary=Bin)
@@ -112,16 +104,16 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
 
         graph = UG.create_users_graph(day, total_users_topic_interests[day], f'{path2_save_uml}/graphs/pajek')
         cmn.logger.info(f'UserSimilarity: A graph is being created for {day} with {len(total_users_topic_interests[day])} users')
-        graphs.append(graph)
-
+        # graphs.append(graph)
+        nx.write_gpickle(graph, f'{path2_save_uml}/graphs/{daystr}.net')
     cmn.logger.info(f'UserSimilarity: Number of users per day: {lenUsers}')
     cmn.logger.info(f'UserSimilarity: Graphs created!')
 
-    for i in range(len(graphs)):
-        if i < 9:
-            nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/0{i+1}.net')
-        else:
-            nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/{i+1}.net')
+    # for i in range(len(graphs)):
+    #     if i < 9:
+    #         nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/0{i+1}.net')
+    #     else:
+    #         nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/{i+1}.net')
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
     GC.main(RunId=RunId)
     GR.main(RunId=RunId)

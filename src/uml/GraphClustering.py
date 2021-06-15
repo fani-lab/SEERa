@@ -63,6 +63,7 @@ def main(RunId):
         lbls_louvain.max() - len(clusterMembers)) + ") are singleton clusters.\n")
     cmn.logger.info('Graph Clustering: Length of multi-user clusters: ' + str(clusterMembers) + '\n')
     np.save(f'../output/{RunId}/uml/UserClusters.npy', lbls_louvain)
+    cmn.save2excel(lbls_louvain, 'uml/UserClusters')
     cmn.logger.info("Graph Clustering: UserClusters.npy saved.\n")
 
     # GraphShow(G_t,100)

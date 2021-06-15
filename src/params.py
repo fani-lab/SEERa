@@ -3,18 +3,24 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 4
+RunID = 55
 
+
+# SQL setting
+# mallet home path
+#
 uml = {
+    'Comment': 'Corrected - Real test',
     'RunId': RunID,
 
-    'start': '2010-12-20',
-    'end': '2010-12-30',
-    'lastRowsNumber': 50000,
+    'start': '2010-12-17',
+    'end': '2010-12-17',
+    'lastRowsNumber': 100000,
 
     'num_topics': 50,
-    'library': 'mallet',
-    'mallet_home': '/home/soroush/Desktop/mlt/Mallet-master',
+    'library': 'gensim',
+
+    'mallet_home': 'C:/Users/sorou/mallet-2.0.8',
 
     'userModeling': True,
     'timeModeling': True,
@@ -23,12 +29,14 @@ uml = {
      
 
     'filterExtremes': True,
-    'JO': True,
+    'JO': False,
     'Bin': True,
-    'Threshold': 0.4
+    'Threshold': 0.2,
+    'UserSimilarityThreshold': 0.2
 }
 
 evl = {
     'RunId': RunID,
-    'TopK': 15
+    'Threshold': 0,
+    'TopK': 20
 }

@@ -22,7 +22,7 @@ create table GoldenStandard2 as
 '''
 
 def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['www', 'RT', 'com', 'http']):
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7', host='localhost', database='CommunityPrediction')
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     if Tagme:
@@ -32,7 +32,7 @@ def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['ww
                 (SELECT TweetId, CreationTimestamp, UserId, ModificationTimestamp, Word
                 FROM
                  Tweets INNER JOIN TagMeAnnotations ON Tweets.Id = TagMeAnnotations.TweetId 
-                 where Tweets.CreationTimeStamp BETWEEN '{start}' AND '{end}' AND 
+                 where Tweets.CreationTimeStamp BETWEEN '{start} 00:00:00' AND '{end} 23:59:59' AND 
                        Tweets.Id != -1 and Tweets.UserId != -1 AND 
                        TagMeAnnotations.Score > 0.07 AND 
                        TagMeAnnotations.Word NOT IN ("{'","'.join(stopwords)}")) AS T
@@ -50,7 +50,7 @@ def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['ww
     return table
 
 def GoldenStandard2Reader():
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7', host='localhost', database='CommunityPrediction')
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     sqlScript = '''

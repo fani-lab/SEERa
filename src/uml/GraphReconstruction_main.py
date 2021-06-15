@@ -31,3 +31,12 @@ def main(RunId):
         print('Graph:', gp, 'has', len(g.nodes), 'nodes.')
         GraphShow(g, en, RunId)
         en += 1
+
+    # graphs_path = glob.glob(f'../output/{RunId}/uml/graphs/pajek/*.net')
+    # print(graphs_path)
+    # en = 1
+    # for gp in graphs_path:
+    #     g = nx.read_pajek(gp)
+    #     print('Graph:', gp, 'has', len(g.nodes), 'nodes.')
+    #     GraphShow(g, en, RunId)
+    #     en += 1

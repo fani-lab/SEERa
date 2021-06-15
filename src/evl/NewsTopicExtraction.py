@@ -6,11 +6,14 @@ import gensim
 import glob
 import os
 import params
+from tml import TopicModeling as tm
 from cmn import Common as cmn
+
+
 def DistinctUsersandMinMaxDate():
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
                                       host='localhost',
-                                      database='CommunityPrediction')
+                                      database='twitter3')
     print('Connection Created')
     cursor = cnx.cursor()
     sqlScript = '''SELECT min(CreationTimestamp), max(CreationTimestamp) FROM GoldenStandard2'''
@@ -25,26 +28,37 @@ def DistinctUsersandMinMaxDate():
     return minCreationtime, maxCreationtime, DistinctUsers
 
 
-def TextExtractor():
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
+def TextExtractor(stopwords=['www', 'RT', 'com', 'http']):
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
                                   host='localhost',
-                                  database='CommunityPrediction')
+                                  database='twitter3')
     cursor = cnx.cursor()
-    sqlScript = '''
-    SELECT NewsId,GROUP_CONCAT('', Word)
-                FROM `NewsTagMeAnnotations`
-                group by NewsId 
-                '''
+    # sqlScript = '''
+    # SELECT NewsId,GROUP_CONCAT('', Word)
+    #             FROM NewsTagMeAnnotations
+    #             inner join news on  news.Id=NewsTagMeAnnotations.NewsId
+    #             group by NewsId
+    #             '''
+
+    ## FAKE SQL SCRIPT:
+    sqlScript = f'''select distinct(T.NewsId), T.GC from (SELECT NewsId, GROUP_CONCAT('', Word) as GC FROM
+    twitter3.NewsTagMeAnnotations inner join twitter3.news on twitter3.news.Id = twitter3.NewsTagMeAnnotations.NewsId
+    WHERE twitter3.NewsTagMeAnnotations.Score > 0.07 AND NewsTagMeAnnotations.Word NOT IN ("{'","'.join(stopwords)}")
+    group by NewsId) as T
+    inner join twitter3.goldenstandard2 on twitter3.goldenstandard2.NewsId = T.NewsId
+    '''
+    print(sqlScript)
+
     cursor.execute(sqlScript)
     result = cursor.fetchall()
     cnx.close()
-    return result
+    return np.asarray(result)
 
 
 def UserMentions(User, *args, minDate):
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
                                   host='localhost',
-                                  database='CommunityPrediction')
+                                  database='twitter3')
     cursor = cnx.cursor()
     if len(args) == 0:
         sqlScript = '''SELECT * FROM GoldenStandard where UserId = ''' + str(User)
@@ -59,9 +73,9 @@ def UserMentions(User, *args, minDate):
     return table
 
 def DateMentions(Date, minDate):
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
                                   host='localhost',
-                                  database='CommunityPrediction')
+                                  database='twitter3')
     cursor = cnx.cursor()
     date = minDate + pd._libs.tslibs.timestamps.Timedelta(days=Date)
     sqlScript = '''SELECT * From GoldenStandard WHERE date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
@@ -94,20 +108,17 @@ def Analyze2():
     plt.savefig(f'../output/{params.evl["RunId"]}/evl/Mentions_per_Day.jpg')
     return a, b
 
-# def LogFile():
-#     file_handler = logging.FileHandler("../logfile.log")
-#     logger = logging.getLogger()
-#     logger.addHandler(file_handler)
-#     logger.setLevel(logging.ERROR)
-#     return logger
 
 def main():
-    # logger = LogFile()
     cmn.logger.info("\nNewsTopicExtraction.py:\n")
-    # def NewsTopics():
-    NewsText = TextExtractor()
-    NewsText = np.asarray(NewsText)
-    data = pd.DataFrame({'Id': NewsText[:, 0], 'Text': NewsText[:, 1]})
+    NewsIds_NewsText = TextExtractor()
+    print(NewsIds_NewsText.shape)
+    NewsIds = NewsIds_NewsText[:, 0]
+    cmn.save2excel(NewsIds, 'evl/NewsIds')
+    np.save(f'../output/{params.evl["RunId"]}/evl/NewsIds.npy', NewsIds)
+    NewsText = NewsIds_NewsText[:, 1]
+    cmn.save2excel(NewsText, 'evl/NewsText')
+    data = pd.DataFrame({'Id': NewsIds, 'Text': NewsText})
     data_text = data['Text']
     cmn.logger.info("len(data) for news extraction query: "+str(len(data_text))+'\n')
     documents = data_text
@@ -117,13 +128,13 @@ def main():
     processed_docs = np.asarray(processed_docs)
     DicPath = glob.glob(f'../output/{params.evl["RunId"]}/tml/*topics_TopicModelingDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(DicPath)
-    bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
+    ## bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
     # LDA Model Loading
     model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0]
     print('model name:', model_name)
     cmn.logger.critical("model "+model_name + " is loaded.")
-    GenMal = model_name.split('/')[-1].split('_')[0]
+    GenMal = model_name.split('\\')[-1].split('_')[0]
     if GenMal == 'gensim':
         ldaModel = gensim.models.ldamodel.LdaModel.load(model_name)
         print('Lda Model Loaded (Gensim)')
@@ -135,10 +146,23 @@ def main():
         print('Wrong Library!')
 
 
-    topics = ldaModel.get_document_topics(bow_corpus)
+    # topics = ldaModel.get_document_topics(bow_corpus)
+    totalNewsTopics = []
+    for news in range(len(processed_docs)):
+        news_bow_corpus = dictionary.doc2bow(processed_docs[news])
+        topics = tm.doc2topics(ldaModel, news_bow_corpus, threshold=params.evl['Threshold'], justOne=params.uml['JO'],
+                               binary=params.uml['Bin'])
+        totalNewsTopics.append(topics)
+
     cmn.logger.critical("Topics are extracted for news dataset based on the tweets extracted topics.\n")
-    topics.save(f'../output/{params.evl["RunId"]}/evl/NewsTopics.mm')
+    totalNewsTopics = np.asarray(totalNewsTopics)
+    cmn.save2excel(totalNewsTopics, 'evl/totalNewsTopics')
+    np.save(f'../output/{params.evl["RunId"]}/evl/NewsTopics.npy', totalNewsTopics)
+    print('/////////////////////////////')
     print(model_name)
+    print(NewsIds.shape)
+    print(totalNewsTopics.shape)
+    print('/////////////////////////////')
     # a,b = Analyze2()
     # plt.close()
     # c,d,e = Analyze()

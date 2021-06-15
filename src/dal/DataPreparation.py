@@ -14,17 +14,21 @@ tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
 
 sys.path.extend(["../"])
 from cmn import Common as cmn
+import params
 
 def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0):
     global DataLen
+    print(dataset.shape)
     cmn.logger.info(f'DataPreperation: userModeling={userModeling}, timeModeling={timeModeling}, preProcessing={preProcessing}, TagME={TagME}')
     data = pd.DataFrame({'Id': dataset[:, 0], 'Text': dataset[:, 1], 'CreationDate': dataset[:, 2], 'userId': dataset[:, 3], 'ModificationTimeStamp': dataset[:, 4]})
+    data.to_csv(f"../output/{params.uml['RunId']}/data1.csv", sep=",", encoding='utf-8', index=False)
     #data.sort_values(by=['CreationDate']) #moved to sql query
 
     #print(data['CreationDate'])
     # data.sample(frac=1)
     cmn.logger.info(f'DataPreperation: {np.abs(lastRowsNumber)} sampled from the end of dataset (sorted by creationTime)')
     data = data[-lastRowsNumber:]
+    data.to_csv(f"../output/{params.uml['RunId']}/data2.csv", sep=",", encoding='utf-8', index=False)
     if userModeling and timeModeling:
         dataGroupbyUsersTime = data.groupby(['userId', 'CreationDate'])
         documents = dataGroupbyUsersTime['Text'].apply(lambda x: ','.join(x)).reset_index()
@@ -38,6 +42,8 @@ def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessi
         data_text = data[['Text']]
         data_text['index'] = data_text.index
         documents = data_text
+    documents.to_csv(f"../output/{params.uml['RunId']}/documents_data3.csv", sep=",",
+                     encoding='utf-8', index=False)
     DataLen = len(documents)
     cmn.logger.info(f'DataPreperation: Length of the dataset after applying groupby: {DataLen} \n')
     if preProcessing:

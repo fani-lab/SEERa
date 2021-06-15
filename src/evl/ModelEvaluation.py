@@ -31,9 +31,9 @@ def DictonaryGeneration(topRecommendations, Mentions):
     return  Recommendation, Mention
 
 def userMentions(day_before,end_date):
-    cnx = mysql.connector.connect(user='root', password='soroush56673sor7',
+    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
                                   host='localhost',
-                                  database='CommunityPrediction')
+                                  database='twitter3')
     print('Connection Created')
     cursor = cnx.cursor()
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
@@ -52,7 +52,7 @@ def userMentions(day_before,end_date):
     return table
 
 
-def main(RunId, path2_save_evl, ):
+def main(RunId, path2_save_evl):
     if not os.path.isdir(path2_save_evl): os.makedirs(path2_save_evl)
     NTE.main()
     NR.main(topK=params.evl['TopK'])
@@ -61,17 +61,19 @@ def main(RunId, path2_save_evl, ):
     end_date = params.uml['end']
     # end_date = np.load(f'../output/{RunId}/uml/end_date.npy', allow_pickle=True)
     TopRecommendations_clusters = np.load(f'../output/{RunId}/evl/TopRecommendations.npy')
+    cmn.save2excel(TopRecommendations_clusters, 'evl/TopRecommendations_clusters')
     UC = np.load(f'../output/{RunId}/uml/UserClusters.npy')
     TopRecommendations_Users = np.zeros((UC.shape[0], TopRecommendations_clusters.shape[1]))
     for i in range(TopRecommendations_clusters.shape[0]):
         indices = np.where(UC == i)[0]
         TopRecommendations_Users[indices] = TopRecommendations_clusters[i]
+    # cmn.save2excel(TopRecommendations_Users, 'evl/TopRecommendations_Users')
     end_date = pd.Timestamp(str(end_date))
     daybefore = 0
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=daybefore)
     cmn.logger.critical("Selected date for evaluation: "+str(day.date()))
     tbl = userMentions(daybefore, end_date)
-
+    cmn.save2excel(tbl, 'evl/userMentions')
     Mentions_user = []
     MentionerUsers = []
     MissedUsers = []
@@ -102,19 +104,23 @@ def main(RunId, path2_save_evl, ):
     cmn.logger.critical('\nUser: Mentions:'+ str(sum(MentionNumbers_user))+ ' / Missed Users:'+str(len(MissedUsers))+' / Mentioners:'+ str(Mentioners)+ ' / All Users:'+str(len(All_Users)))
     cmn.logger.critical('User: total:'+str(Counter)+ ' / sum:'+ str(sum(MentionNumbers_user)+len(MissedUsers)))
 
-
+    cmn.save2excel(TopRecommendations_Users, 'evl/TopRecommendations_Users')
+    cmn.save2excel(Mentions_user, 'evl/Mentions_user')
     r_user, m_user = DictonaryGeneration(TopRecommendations_Users, Mentions_user)
+
+    cmn.save2excel(tbl, 'evl/userMentions')
     save_obj(r_user, f'../output/{RunId}/evl/RecommendedNews_UserBased')
     save_obj(m_user, f'../output/{RunId}/evl/MentionedNews_UserBased')
     clusters = []
     userCounts = []
     for uc in range(1, UC.max()):
         UsersinCluster = np.where(UC == uc)[0]
-        if len(UsersinCluster) == 1:
+        if len(UsersinCluster) < 10:
             break
         clusters.append(uc)
         userCounts.append(len(UsersinCluster))
     plt.plot(clusters, userCounts)
     plt.savefig(f'../output/{RunId}/uml/UsersInCluster.jpg')
-    pytrec_result = PyEval.main(r_user, m_user)
-    return pytrec_result
+    pytrec_result1 = PyEval.main(r_user, m_user)
+    # pytrec_result2 = PyEval.main2(TopRecommendations_Users, Mentions_user)
+    return pytrec_result1#, pytrec_result2
