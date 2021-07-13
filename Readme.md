@@ -61,7 +61,11 @@ layer to show how our method improves the performance of an application. [[1]](#
 This framework contains six different layers. Each layer is affected by multiple parameters.
 Some of those parameters are fixed in the code via trial and error. However, major parameters such as number of topics can be adjusted by the user.
 They can be modified via '*params.py*' file in root folder.\
-s
+After modifying '*params.py*', you can run the framework via '*main.py*' with following command:
+```bash
+cd src
+python main.py
+```
 ## Examples
 
 ```python
@@ -84,9 +88,7 @@ Please make sure to update tests as appropriate.
 
 
 ## References
-<a id="1">[1]</a>  Dijkstra, E. W. (1968). 
-Go to statement considered harmful. 
-Communications of the ACM, 11(3), 147-148.
+<a id="1">[1]</a>  S.Ziaeinejad, H.Fani (2021). 
+A Framework for Community Prediction in Microblogging
+Social Networks.
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
