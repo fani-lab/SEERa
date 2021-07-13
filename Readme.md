@@ -19,6 +19,10 @@ Topic Modeling Layer (TML), User Modeling Layer (UML), Graph
 Embedding Layer (GEL), and Community Prediction Layer (CPL).
 The application layer, which is described in Section 3, is the last
 layer to show how our method improves the performance of an application. [[1]](#1).\
+
+![image info](fig1.png)
+
+
 ...\
 ├── **output**\
 ├── **src**\
