@@ -67,18 +67,92 @@ cd src
 python main.py
 ```
 ## Examples
-
+### **params.py**
 ```python
-import foobar
+import random
+import numpy as np
 
-# returns 'words'
-foobar.pluralize('word')
+random.seed(0)
+np.random.seed(0)
+RunID = 59
 
-# returns 'geese'
-foobar.pluralize('goose')
 
-# returns 'phenomenon'
-foobar.singularize('phenomena')
+# SQL setting
+# mallet home path
+#
+uml = {
+    'Comment': 'Corrected - Real test',
+    'RunId': RunID,
+
+    'start': '2010-12-17',
+    'end': '2010-12-17',
+    'lastRowsNumber': 100000,
+
+    'num_topics': 25,
+    'library': 'gensim',
+
+    'mallet_home': 'C:/Users/sorou/mallet-2.0.8',
+
+    'userModeling': True,
+    'timeModeling': True,
+    'preProcessing': False,
+    'TagME': False,
+     
+
+    'filterExtremes': True,
+    'JO': False,
+    'Bin': True,
+    'Threshold': 0.2,
+    'UserSimilarityThreshold': 0.2
+}
+
+evl = {
+    'RunId': RunID,
+    'Threshold': 0,
+    'TopK': 20
+}
+```
+
+### **main.py**
+```python
+from shutil import copyfile
+import sys
+
+sys.path.extend(["../"])
+import params
+from cmn import Common as cmn
+cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.uml["RunId"]}.log')
+from uml import UserSimilarities  as uml
+from evl import ModelEvaluation as evl#, PytrecEvaluation as PE
+
+
+def RunPipeline():
+    cmn.logger.info(f'Main: UserSimilarities ...')
+    copyfile('params.py', f'../output/used_params_runid_{params.uml["RunId"]}.py')
+    uml.main(start=params.uml['start'],
+             end=params.uml['end'],
+             stopwords=['www', 'RT', 'com', 'http'],
+             userModeling=params.uml['userModeling'],
+             timeModeling=params.uml['timeModeling'],
+             preProcessing=params.uml['preProcessing'],
+             TagME=params.uml['TagME'],
+             lastRowsNumber=params.uml['lastRowsNumber'], #10000, #all rows = 0
+             num_topics=params.uml['num_topics'],
+             filterExtremes=params.uml['filterExtremes'],
+             library=params.uml['library'],
+             path_2_save_tml=f'../output/{params.uml["RunId"]}/tml',
+             path2_save_uml=f'../output/{params.uml["RunId"]}/uml',
+             JO=params.uml['JO'],
+             Bin=params.uml['Bin'],
+             Threshold=params.uml['Threshold'],
+             RunId=params.uml['RunId'])
+    Pytrec_result = evl.main(RunId=params.evl['RunId'],
+             path2_save_evl=f'../output/{params.evl["RunId"]}/evl',)
+    return  Pytrec_result
+
+PytrecResult = RunPipeline()
+
+
 ```
 
 ## Contributing
