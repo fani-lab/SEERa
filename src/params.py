@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 55
+RunID = 59
 
 
 # SQL setting
@@ -17,7 +17,7 @@ uml = {
     'end': '2010-12-17',
     'lastRowsNumber': 100000,
 
-    'num_topics': 50,
+    'num_topics': 25,
     'library': 'gensim',
 
     'mallet_home': 'C:/Users/sorou/mallet-2.0.8',
