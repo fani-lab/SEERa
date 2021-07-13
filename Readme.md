@@ -20,7 +20,7 @@ Embedding Layer (GEL), and Community Prediction Layer (CPL).
 The application layer, which is described in Section 3, is the last
 layer to show how our method improves the performance of an application. [[1]](#1).\
 
-![image info](fig1.png)
+![image info](fig1.png "T")
 
 
 ...\
@@ -76,7 +76,7 @@ Please make sure to update tests as appropriate.
 
 
 ## References
-[1] Dijkstra, E. W. (1968). 
+<a id="1">[1]</a>  Dijkstra, E. W. (1968). 
 Go to statement considered harmful. 
 Communications of the ACM, 11(3), 147-148.
 
