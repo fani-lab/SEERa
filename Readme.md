@@ -10,6 +10,21 @@ It is strongly recommended to use Linux OS for installing the packages and execu
 ```bash
  pip install -r requirements.txt
 ```
+This command installs compatible version of the following libraries:
+* gensim
+* networkx
+* scikit-network
+* dynamicgem
+* tagme
+* nltk
+* numpy
+* pandas
+* scikit-learn
+* scipy
+* sklearn
+* requests
+* mysql-connector-python
+* matplotlib
 
 ## Structure
 
@@ -48,7 +63,7 @@ layer to show how our method improves the performance of an application.
 │&nbsp;&nbsp;&nbsp;│── **cpl** (community prediction layer)\
 │&nbsp;&nbsp;&nbsp;│──── *GraphClustering.py*\
 │&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **application layer**\
+│&nbsp;&nbsp;&nbsp;│── **application**\
 │&nbsp;&nbsp;&nbsp;│──── *NewsTopicExtraction.py*\
 │&nbsp;&nbsp;&nbsp;│──── *NewsRecommendation.py*\
 │&nbsp;&nbsp;&nbsp;│──── *ModelEvaluation.py*\
@@ -79,42 +94,43 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 59
+RunID = 1                         
 
 
 # SQL setting
 # mallet home path
 #
 uml = {
-    'Comment': 'Corrected - Real test',
-    'RunId': RunID,
+    'Comment': '', # Any comment to express more information about the configuration.
+    'RunId': RunID, # A unique number to identify the configuration per run.
 
-    'start': '2010-12-17',
-    'end': '2010-12-17',
-    'lastRowsNumber': 100000,
+    'start': '2010-12-17', # First date of system activity
+    'end': '2010-12-17', # Last day of system activity
+    'lastRowsNumber': 100000, # Number of picked rows of the dataset for the whole process as a sample.
 
-    'num_topics': 25,
-    'library': 'gensim',
+    'num_topics': 25, # Number of topics that should be extracted from our corpus.
+    'library': 'gensim', # Used library to extract topics from the corpus. Could be 'gensim' or 'mallet'
 
-    'mallet_home': 'C:/Users/sorou/mallet-2.0.8',
-
-    'userModeling': True,
-    'timeModeling': True,
-    'preProcessing': False,
-    'TagME': False,
+    'mallet_home': '--------------', # mallet_home path
+    
+    # Following parameters is used to generate corpus from our dataset:
+    'userModeling': True, # Aggregates all tweets of a user as a document
+    'timeModeling': True, # Aggregate all tweets of a specific day as a document
+    'preProcessing': False, # Applying some traditional pre-processing methods on corpus
+    'TagME': False, # Apply Tagme on the raw dataset. Set it to False if tagme-dataset is used.
      
 
-    'filterExtremes': True,
-    'JO': False,
-    'Bin': True,
-    'Threshold': 0.2,
-    'UserSimilarityThreshold': 0.2
+    'filterExtremes': True, # Filter very common and very rare terms in all documents.
+    'JO': False, # (JO:=JustOne) If True, just one topic is chosen for each document
+    'Bin': True, # (Bin:=Binary) If True, all scores above/below a threshold is set to 1/0 for each topic
+    'Threshold': 0.2, # A threshold for topic scores quantization.
+    'UserSimilarityThreshold': 0.2 # A threshold for filtering low user similarity scores.
 }
 
 evl = {
     'RunId': RunID,
-    'Threshold': 0,
-    'TopK': 20
+    'Threshold': 0, # A threshold for filtering low news recommendation scores.
+    'TopK': 20 # Number of selected top news recommendation candidates.
 }
 ```
 
