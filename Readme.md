@@ -17,8 +17,8 @@ It is strongly recommended to use Linux OS for installing the packages and execu
 Our framework has six major layers: Data Access Layer (DAL),
 Topic Modeling Layer (TML), User Modeling Layer (UML), Graph
 Embedding Layer (GEL), and Community Prediction Layer (CPL).
-The application layer, which is described in Section 3, is the last
-layer to show how our method improves the performance of an application. [[1]](#1)
+The application layer, is the last
+layer to show how our method improves the performance of an application.
 
 ![image info](fig1.png "T")
 
@@ -113,56 +113,13 @@ evl = {
 }
 ```
 
-### **main.py**
-```python
-from shutil import copyfile
-import sys
-
-sys.path.extend(["../"])
-import params
-from cmn import Common as cmn
-cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.uml["RunId"]}.log')
-from uml import UserSimilarities  as uml
-from evl import ModelEvaluation as evl#, PytrecEvaluation as PE
-
-
-def RunPipeline():
-    cmn.logger.info(f'Main: UserSimilarities ...')
-    copyfile('params.py', f'../output/used_params_runid_{params.uml["RunId"]}.py')
-    uml.main(start=params.uml['start'],
-             end=params.uml['end'],
-             stopwords=['www', 'RT', 'com', 'http'],
-             userModeling=params.uml['userModeling'],
-             timeModeling=params.uml['timeModeling'],
-             preProcessing=params.uml['preProcessing'],
-             TagME=params.uml['TagME'],
-             lastRowsNumber=params.uml['lastRowsNumber'], #10000, #all rows = 0
-             num_topics=params.uml['num_topics'],
-             filterExtremes=params.uml['filterExtremes'],
-             library=params.uml['library'],
-             path_2_save_tml=f'../output/{params.uml["RunId"]}/tml',
-             path2_save_uml=f'../output/{params.uml["RunId"]}/uml',
-             JO=params.uml['JO'],
-             Bin=params.uml['Bin'],
-             Threshold=params.uml['Threshold'],
-             RunId=params.uml['RunId'])
-    Pytrec_result = evl.main(RunId=params.evl['RunId'],
-             path2_save_evl=f'../output/{params.evl["RunId"]}/evl',)
-    return  Pytrec_result
-
-PytrecResult = RunPipeline()
-
-
-```
-
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
+## License
+©2021. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.
 
-## References
-<a id="1">[1]</a>  S.Ziaeinejad, H.Fani (2021). 
-A Framework for Community Prediction in Microblogging
-Social Networks.
+
 
