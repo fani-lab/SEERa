@@ -9,6 +9,7 @@ import sys
 
 sys.path.extend(["../"])
 from cmn import Common as cmn
+import params
 
 '''
 create table GoldenStandard2 as
@@ -22,7 +23,7 @@ create table GoldenStandard2 as
 '''
 
 def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['www', 'RT', 'com', 'http']):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     if Tagme:
@@ -50,7 +51,7 @@ def load_tweets(Tagme=True, start='2010-11-08', end='2010-11-18', stopwords=['ww
     return table
 
 def GoldenStandard2Reader():
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673', host='localhost', database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     cmn.logger.info('DataReader: Connection created')
     cursor = cnx.cursor()
     sqlScript = '''

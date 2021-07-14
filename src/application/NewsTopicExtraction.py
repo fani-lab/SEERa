@@ -11,9 +11,7 @@ from cmn import Common as cmn
 
 
 def DistinctUsersandMinMaxDate():
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
-                                      host='localhost',
-                                      database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     print('Connection Created')
     cursor = cnx.cursor()
     sqlScript = '''SELECT min(CreationTimestamp), max(CreationTimestamp) FROM GoldenStandard2'''
@@ -29,9 +27,7 @@ def DistinctUsersandMinMaxDate():
 
 
 def TextExtractor(stopwords=['www', 'RT', 'com', 'http']):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
-                                  host='localhost',
-                                  database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     cursor = cnx.cursor()
     # sqlScript = '''
     # SELECT NewsId,GROUP_CONCAT('', Word)
@@ -56,9 +52,7 @@ def TextExtractor(stopwords=['www', 'RT', 'com', 'http']):
 
 
 def UserMentions(User, *args, minDate):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
-                                  host='localhost',
-                                  database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     cursor = cnx.cursor()
     if len(args) == 0:
         sqlScript = '''SELECT * FROM GoldenStandard where UserId = ''' + str(User)
@@ -73,9 +67,7 @@ def UserMentions(User, *args, minDate):
     return table
 
 def DateMentions(Date, minDate):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
-                                  host='localhost',
-                                  database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     cursor = cnx.cursor()
     date = minDate + pd._libs.tslibs.timestamps.Timedelta(days=Date)
     sqlScript = '''SELECT * From GoldenStandard WHERE date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"

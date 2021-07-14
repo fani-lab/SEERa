@@ -5,10 +5,13 @@ random.seed(0)
 np.random.seed(0)
 RunID = 60
 
-
 # SQL setting
-# mallet home path
-#
+user = 'root'
+password = 'Ghsss.34436673'
+host = 'localhost'
+database = 'twitter3'
+
+
 uml = {
     'Comment': 'Corrected - Real test',
     'RunId': RunID,

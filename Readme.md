@@ -76,8 +76,17 @@ layer to show how our method improves the performance of an application.
 ## Usage
 
 ### Data
-
-
+We crawled and stored Twitter posts (tweets) for 2 consecutive months.
+The data is available as some sql scripts that should be executed.
+They are accessible through the following links. Please download and execute
+them into your local database engine. Please be sure that your sql engine is
+working when you start to run the framework.
+* [GoldenStandard](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/golden_standard.sql?csf=1&web=1&e=DdsSPk)
+* [NewsTables](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/news_tables.zip?csf=1&web=1&e=lrKwxs)
+* [TagMeTables](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tagme_tables.rar?csf=1&web=1&e=Ny5VRY)
+* [TagmeAnnotations](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tagmeannotations.rar?csf=1&web=1&e=PDtoi3)
+* [TweetEntities](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tweet_entities.rar?csf=1&web=1&e=RM5fr8)
+* [TweetUsers](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tweets_users.rar?csf=1&web=1&e=PisPI3)
 ### Run
 This framework contains six different layers. Each layer is affected by multiple parameters.
 Some of those parameters are fixed in the code via trial and error. However, major parameters such as number of topics can be adjusted by the user.
@@ -97,10 +106,13 @@ random.seed(0)
 np.random.seed(0)
 RunID = 1                         
 
+# SQL setting. Should be set for each mysql instance
+user = ''
+password = ''
+host = ''
+database = ''
 
-# SQL setting
-# mallet home path
-#
+
 uml = {
     'Comment': '', # Any comment to express more information about the configuration.
     'RunId': RunID, # A unique number to identify the configuration per run.

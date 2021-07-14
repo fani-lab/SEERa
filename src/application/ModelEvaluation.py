@@ -31,9 +31,7 @@ def DictonaryGeneration(topRecommendations, Mentions):
     return  Recommendation, Mention
 
 def userMentions(day_before,end_date):
-    cnx = mysql.connector.connect(user='root', password='Ghsss.34436673',
-                                  host='localhost',
-                                  database='twitter3')
+    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     print('Connection Created')
     cursor = cnx.cursor()
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
