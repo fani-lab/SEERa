@@ -122,7 +122,7 @@ Please make sure to update tests as appropriate.
 ©2021. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.
 
 ## Contact
-Email: [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)\
+Email: [ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca) - [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)\
 Project link: [https://github.com/soroush-ziaeinejad/Community-Prediction](https://github.com/soroush-ziaeinejad/Community-Prediction)
 ## Acknowledgments
 In this work, we use [dynamicgem](https://github.com/Sujit-O/dynamicgem) library to temporally embed our user graphs. We would like to thank the authors of this library.
