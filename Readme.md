@@ -11,20 +11,21 @@ It is strongly recommended to use Linux OS for installing the packages and execu
  pip install -r requirements.txt
 ```
 This command installs compatible version of the following libraries:
-* gensim
-* networkx
-* scikit-network
-* dynamicgem
-* tagme
-* nltk
-* numpy
-* pandas
-* scikit-learn
-* scipy
-* sklearn
-* requests
-* mysql-connector-python
-* matplotlib
+
+>* gensim
+>* networkx
+>* scikit-network
+>* dynamicgem
+>* tagme
+>* nltk
+>* numpy
+>* pandas
+>* scikit-learn
+>* scipy
+>* sklearn
+>* requests
+>* mysql-connector-python
+>* matplotlib
 
 ## Structure
 
