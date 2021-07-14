@@ -58,6 +58,11 @@ layer to show how our method improves the performance of an application.
 
 
 ## Usage
+
+### Data
+
+
+### Run
 This framework contains six different layers. Each layer is affected by multiple parameters.
 Some of those parameters are fixed in the code via trial and error. However, major parameters such as number of topics can be adjusted by the user.
 They can be modified via '*params.py*' file in root folder.\
@@ -116,7 +121,6 @@ evl = {
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
 
 ## License
 ©2021. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.

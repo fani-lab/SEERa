@@ -14,8 +14,8 @@ from dal import DataReader as dr
 from dal import DataPreparation as dp
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
-from uml import GraphClustering as GC
-from uml import GraphReconstruction_main as GR
+from cpl import GraphClustering as GC
+from cpl import GraphReconstruction_main as GR
 
 
 

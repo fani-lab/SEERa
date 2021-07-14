@@ -5,7 +5,7 @@ import pandas as pd
 import mysql.connector
 import matplotlib.pyplot as plt
 from cmn import Common as cmn
-from evl import NewsTopicExtraction as NTE, NewsRecommendation as NR, PytrecEvaluation as PyEval
+from application import NewsTopicExtraction as NTE, NewsRecommendation as NR, PytrecEvaluation as PyEval
 import params
 import pickle
 

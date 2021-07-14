@@ -7,425 +7,348 @@ DataReader: Connection created
 DataReader: 63744 rows returned
 DataReader: Connection closed
 DataPreperation: userModeling=True, timeModeling=True, preProcessing=False, TagME=False
-DataPreperation: 100000 sampled from the end of dataset (sorted by creationTime)
-DataPreperation: Length of the dataset after applying groupby: 10788 
+DataPreperation: 10000 sampled from the end of dataset (sorted by creationTime)
+DataPreperation: Length of the dataset after applying groupby: 2930 
 
-UserSimilarity: Processed docs shape: (10788,)
+UserSimilarity: Processed docs shape: (2930,)
 UserSimilarity: Topic modeling ...
-TopicModeling: num_topics=5,  filterExtremes=True, library=gensim
+TopicModeling: num_topics=25,  filterExtremes=True, library=gensim
 adding document #0 to Dictionary(0 unique tokens: [])
-adding document #10000 to Dictionary(48161 unique tokens: ['Beethoven', "Beethoven's 5th", 'Swan Lake', 'holiday', 'party']...)
-built Dictionary(49968 unique tokens: ['Beethoven', "Beethoven's 5th", 'Swan Lake', 'holiday', 'party']...) from 10788 documents (total 234804 corpus positions)
+built Dictionary(14606 unique tokens: ['Del.icio.us', 'Yahoo', 'alternative', 'bookmarks', 'cloud']...) from 2930 documents (total 38094 corpus positions)
 discarding 0 tokens: []...
-keeping 49968 tokens which were in no less than 1 and no more than 2157 (=20.0%) documents
+keeping 14606 tokens which were in no less than 1 and no more than 586 (=20.0%) documents
 rebuilding dictionary, shrinking gaps
-resulting dictionary: Dictionary(49968 unique tokens: ['Beethoven', "Beethoven's 5th", 'Swan Lake', 'holiday', 'party']...)
-using symmetric alpha at 0.2
-using symmetric eta at 0.2
+resulting dictionary: Dictionary(14606 unique tokens: ['Del.icio.us', 'Yahoo', 'alternative', 'bookmarks', 'cloud']...)
+using symmetric alpha at 0.04
+using symmetric eta at 0.04
 using serial LDA version on this node
-running online (multi-pass) LDA training, 5 topics, 5 passes over the supplied corpus of 10788 documents, updating model once every 2000 documents, evaluating perplexity every 10788 documents, iterating 50x with a convergence threshold of 0.001000
-PROGRESS: pass 0, at document #2000/10788
+running online (multi-pass) LDA training, 25 topics, 5 passes over the supplied corpus of 2930 documents, updating model once every 2000 documents, evaluating perplexity every 2930 documents, iterating 50x with a convergence threshold of 0.001000
+too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
+PROGRESS: pass 0, at document #2000/2930
 performing inference on a chunk of 2000 documents
-1640/2000 documents converged within 50 iterations
+1829/2000 documents converged within 50 iterations
 updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.004*"lol" + 0.003*"WikiLeaks" + 0.003*"will" + 0.002*"Google" + 0.002*"iPhone" + 0.002*"Facebook" + 0.002*"House" + 0.002*"iPad" + 0.002*"Twitter" + 0.002*"U.S"
-topic #1 (0.200): 0.004*"CNN" + 0.003*"Larry King" + 0.002*"U.S" + 0.002*"Obama" + 0.002*"lol" + 0.002*"Follow Friday" + 0.002*"will" + 0.002*"Yahoo" + 0.002*"Twitter" + 0.002*"WikiLeaks"
-topic #2 (0.200): 0.004*"Facebook" + 0.003*"Delicious" + 0.003*"Christmas" + 0.003*"Apple" + 0.002*"video" + 0.002*"Wikileaks" + 0.002*"U.S" + 0.002*"Yahoo" + 0.002*"CNN" + 0.002*"lol"
-topic #3 (0.200): 0.007*"Twitter" + 0.004*"Facebook" + 0.004*"Yahoo" + 0.004*"CNN" + 0.004*"will" + 0.003*"US" + 0.003*"House" + 0.003*"WikiLeaks" + 0.003*"Obama" + 0.002*"Christmas"
-topic #4 (0.200): 0.004*"Obama" + 0.004*"Facebook" + 0.003*"Twitter" + 0.003*"Yahoo" + 0.003*"bill" + 0.003*"GOP" + 0.003*"House" + 0.002*"US" + 0.002*"will" + 0.002*"today"
-topic diff=3.896832, rho=1.000000
-PROGRESS: pass 0, at document #4000/10788
-performing inference on a chunk of 2000 documents
-1755/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.008*"lol" + 0.003*"time" + 0.003*"will" + 0.002*"WikiLeaks" + 0.002*"LOL" + 0.002*"Christmas" + 0.002*"people" + 0.002*"video" + 0.002*"Google" + 0.002*"who"
-topic #1 (0.200): 0.005*"NYT" + 0.004*"Roll Call" + 0.003*"Larry King" + 0.003*"CNN" + 0.003*"lol" + 0.003*"Obama" + 0.003*"will" + 0.002*"U.S" + 0.002*"LAT" + 0.002*"who"
-topic #2 (0.200): 0.005*"video" + 0.004*"request" + 0.004*"Facebook" + 0.004*"Christmas" + 0.003*"YouTube" + 0.003*"lol" + 0.003*"livestream" + 0.003*"tcot" + 0.003*"people" + 0.003*"chat room"
-topic #3 (0.200): 0.007*"YouTube" + 0.005*"Twitter" + 0.004*"will" + 0.003*"WikiLeaks" + 0.003*"RHOBH" + 0.003*"Facebook" + 0.003*"House" + 0.003*"US" + 0.003*"Senate" + 0.003*"CNN"
-topic #4 (0.200): 0.005*"Obama" + 0.004*"GOP" + 0.003*"Sen" + 0.003*"Facebook" + 0.003*"bill" + 0.003*"will" + 0.003*"today" + 0.003*"Senate" + 0.002*"House" + 0.002*"DADT"
-topic diff=0.996477, rho=0.707107
-PROGRESS: pass 0, at document #6000/10788
-performing inference on a chunk of 2000 documents
-1867/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.010*"lol" + 0.003*"time" + 0.002*"God" + 0.002*"will" + 0.002*"Christmas" + 0.002*"people" + 0.002*"LOL" + 0.002*"photography" + 0.002*"who" + 0.002*"can"
-topic #1 (0.200): 0.004*"Larry King" + 0.003*"Follow Friday" + 0.003*"CNN" + 0.003*"lol" + 0.002*"will" + 0.002*"NYT" + 0.002*"good" + 0.002*"Christmas" + 0.002*"U.S" + 0.002*"Morgan Freeman"
-topic #2 (0.200): 0.005*"video" + 0.004*"Christmas" + 0.003*"Facebook" + 0.003*"people" + 0.003*"lol" + 0.003*"today" + 0.002*"who" + 0.002*"you" + 0.002*"Amtrak" + 0.002*"will"
-topic #3 (0.200): 0.005*"Twitter" + 0.004*"WikiLeaks" + 0.004*"will" + 0.003*"YouTube" + 0.003*"US" + 0.002*"China" + 0.002*"Facebook" + 0.002*"CNN" + 0.002*"India" + 0.002*"House"
-topic #4 (0.200): 0.005*"GOP" + 0.004*"Obama" + 0.004*"pf" + 0.003*"will" + 0.003*"bill" + 0.003*"today" + 0.003*"Senate" + 0.003*"Christmas" + 0.002*"DADT" + 0.002*"Facebook"
-topic diff=0.887025, rho=0.577350
-PROGRESS: pass 0, at document #8000/10788
-performing inference on a chunk of 2000 documents
-1903/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.012*"lol" + 0.004*"VE" + 0.003*"Barinas" + 0.003*"time" + 0.002*"Venezuela" + 0.002*"Vla" + 0.002*"Christmas" + 0.002*"will" + 0.002*"lmao" + 0.002*"people"
-topic #1 (0.200): 0.004*"Larry King" + 0.004*"Follow Friday" + 0.003*"CNN" + 0.003*"U.S" + 0.002*"will" + 0.002*"Christmas" + 0.002*"lol" + 0.002*"Morgan Freeman" + 0.002*"us" + 0.002*"who"
-topic #2 (0.200): 0.004*"video" + 0.004*"Christmas" + 0.003*"Facebook" + 0.003*"people" + 0.003*"lol" + 0.003*"who" + 0.002*"today" + 0.002*"you" + 0.002*"tcot" + 0.002*"pour"
-topic #3 (0.200): 0.005*"Twitter" + 0.004*"US" + 0.004*"WikiLeaks" + 0.003*"will" + 0.003*"India" + 0.003*"China" + 0.003*"Assange" + 0.003*"Wikileaks" + 0.003*"auspol" + 0.003*"Julian Assange"
-topic #4 (0.200): 0.005*"Obama" + 0.005*"GOP" + 0.004*"para" + 0.003*"bill" + 0.003*"DADT" + 0.003*"will" + 0.003*"today" + 0.003*"Senate" + 0.003*"Christmas" + 0.003*"tcot"
-topic diff=1.025281, rho=0.500000
-PROGRESS: pass 0, at document #10000/10788
-performing inference on a chunk of 2000 documents
-1901/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.012*"lol" + 0.003*"time" + 0.003*"God" + 0.003*"Como" + 0.002*"poco" + 0.002*"lentamente" + 0.002*"poco a poco" + 0.002*"pasion" + 0.002*"VE" + 0.002*"will"
-topic #1 (0.200): 0.006*"friends" + 0.005*"Family" + 0.005*"Concert" + 0.005*"Biblical" + 0.005*"Presbyterian" + 0.004*"Fundraising" + 0.004*"Larry King" + 0.003*"Breaking News" + 0.003*"CNN" + 0.003*"Follow Friday"
-topic #2 (0.200): 0.004*"video" + 0.004*"UR" + 0.004*"Christmas" + 0.003*"Facebook" + 0.003*"people" + 0.003*"who" + 0.003*"Amtrak" + 0.003*"Home" + 0.003*"Twitter" + 0.002*"tweet"
-topic #3 (0.200): 0.010*"Twitter" + 0.006*"US" + 0.006*"tweet" + 0.005*"WikiLeaks" + 0.005*"India" + 0.004*"China" + 0.004*"Wikileaks" + 0.003*"Julian Assange" + 0.003*"will" + 0.003*"Pakistan"
-topic #4 (0.200): 0.006*"GOP" + 0.005*"para" + 0.004*"Obama" + 0.004*"bill" + 0.003*"un" + 0.003*"Senate" + 0.003*"will" + 0.003*"Christmas" + 0.003*"DADT" + 0.003*"today"
-topic diff=1.029382, rho=0.447214
+merging changes from 2000 documents into a model of 2930 documents
+topic #1 (0.040): 0.005*"Christmas" + 0.004*"photography" + 0.003*"foto" + 0.003*"YouTube" + 0.003*"video" + 0.003*"Yahoo" + 0.002*"travel" + 0.002*"time" + 0.002*"U.S" + 0.002*"N.J"
+topic #7 (0.040): 0.004*"Senate" + 0.004*"House" + 0.004*"10 um" + 0.004*"Uhr" + 0.003*"will" + 0.003*"Facebook" + 0.003*"today" + 0.002*"tonight" + 0.002*"Obama" + 0.002*"snow"
+topic #0 (0.040): 0.005*"today" + 0.004*"CNN" + 0.004*"Delicious" + 0.004*"Yahoo" + 0.003*"Morgan Freeman" + 0.003*"Larry King" + 0.003*"Fox News" + 0.003*"will" + 0.002*"football" + 0.002*"Assange"
+topic #15 (0.040): 0.005*"will" + 0.004*"pandora" + 0.003*"Christmas" + 0.003*"us" + 0.002*"U.S" + 0.002*"GOD" + 0.002*"can" + 0.002*"corruption" + 0.002*"time" + 0.002*"Sen"
+topic #5 (0.040): 0.007*"will" + 0.005*"lol" + 0.005*"Morgan Freeman" + 0.004*"LOL" + 0.003*"who" + 0.003*"Christmas" + 0.003*"love" + 0.003*"blog" + 0.003*"people" + 0.003*"you"
+topic diff=19.706820, rho=1.000000
 bound: at document #0
--11.118 per-word bound, 2222.5 perplexity estimate based on a held-out corpus of 788 documents with 20452 words
-PROGRESS: pass 0, at document #10788/10788
-performing inference on a chunk of 788 documents
-766/788 documents converged within 50 iterations
+-19.412 per-word bound, 697699.9 perplexity estimate based on a held-out corpus of 930 documents with 14973 words
+PROGRESS: pass 0, at document #2930/2930
+performing inference on a chunk of 930 documents
+901/930 documents converged within 50 iterations
 updating topics
-merging changes from 788 documents into a model of 10788 documents
-topic #0 (0.200): 0.011*"lol" + 0.010*"Como" + 0.003*"Venezuela" + 0.003*"time" + 0.003*"VE" + 0.003*"God" + 0.002*"ur" + 0.002*"will" + 0.002*"you" + 0.002*"people"
-topic #1 (0.200): 0.004*"friends" + 0.003*"CNN" + 0.003*"Follow Friday" + 0.003*"Family" + 0.003*"will" + 0.003*"Concert" + 0.003*"Biblical" + 0.003*"Presbyterian" + 0.003*"Fundraising" + 0.003*"Larry King"
-topic #2 (0.200): 0.006*"video" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"who" + 0.003*"Twitter" + 0.003*"you" + 0.002*"today" + 0.002*"app" + 0.002*"UR"
-topic #3 (0.200): 0.009*"Twitter" + 0.006*"US" + 0.006*"Sudan" + 0.005*"WikiLeaks" + 0.004*"WORLD" + 0.004*"via        s" + 0.004*"LE" + 0.004*"India" + 0.004*"tweet" + 0.004*"Peace"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"para" + 0.005*"un" + 0.004*"bill" + 0.004*"Obama" + 0.004*"Senate" + 0.004*"Venezuela" + 0.004*"will" + 0.003*"House" + 0.003*"Christmas"
-topic diff=0.691359, rho=0.408248
-PROGRESS: pass 1, at document #2000/10788
+merging changes from 930 documents into a model of 2930 documents
+topic #10 (0.040): 0.020*"Twitter" + 0.007*"UR" + 0.007*"music" + 0.005*"LOL" + 0.005*"go" + 0.005*"Love" + 0.004*"sex" + 0.004*"blues" + 0.004*"ESPN" + 0.003*"crazy"
+topic #2 (0.040): 0.012*"wikileaks" + 0.010*"India" + 0.007*"Hindu" + 0.006*"Y U NO" + 0.006*"free" + 0.005*"US" + 0.005*"Tron" + 0.005*"Democrats" + 0.004*"Billion" + 0.004*"muslim"
+topic #17 (0.040): 0.020*"lentamente" + 0.020*"poco" + 0.020*"poco a poco" + 0.020*"pasion" + 0.014*"UR" + 0.012*"Breaking News" + 0.007*"Christmas" + 0.005*"NJ" + 0.004*"iPad" + 0.004*"fb"
+topic #18 (0.040): 0.012*"CNN" + 0.012*"Morgan Freeman" + 0.011*"death" + 0.011*"will" + 0.011*"hoax" + 0.011*"false" + 0.009*"Rumor" + 0.009*"Reid" + 0.008*"altura" + 0.006*"life"
+topic #0 (0.040): 0.006*"Larry King" + 0.005*"Leaked" + 0.005*"Cable" + 0.005*"start" + 0.005*"today" + 0.005*"Hollywood" + 0.005*"Death" + 0.004*"black" + 0.004*"Yahoo" + 0.004*"King Day"
+topic diff=2.829174, rho=0.707107
+PROGRESS: pass 1, at document #2000/2930
 performing inference on a chunk of 2000 documents
-1959/2000 documents converged within 50 iterations
+1997/2000 documents converged within 50 iterations
 updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.012*"lol" + 0.007*"Como" + 0.003*"time" + 0.002*"Venezuela" + 0.002*"God" + 0.002*"VE" + 0.002*"will" + 0.002*"people" + 0.002*"ur" + 0.002*"you"
-topic #1 (0.200): 0.003*"CNN" + 0.003*"Follow Friday" + 0.003*"Larry King" + 0.003*"U.S" + 0.003*"friends" + 0.003*"will" + 0.002*"Morgan Freeman" + 0.002*"Family" + 0.002*"Concert" + 0.002*"Christmas"
-topic #2 (0.200): 0.006*"video" + 0.004*"Facebook" + 0.004*"Christmas" + 0.004*"people" + 0.003*"who" + 0.003*"Twitter" + 0.003*"app" + 0.002*"you" + 0.002*"today" + 0.002*"Delicious"
-topic #3 (0.200): 0.009*"Twitter" + 0.006*"US" + 0.005*"WikiLeaks" + 0.004*"Sudan" + 0.004*"China" + 0.004*"India" + 0.004*"Wikileaks" + 0.003*"Julian Assange" + 0.003*"will" + 0.003*"Assange"
-topic #4 (0.200): 0.007*"GOP" + 0.005*"para" + 0.005*"Obama" + 0.005*"un" + 0.005*"bill" + 0.004*"Senate" + 0.003*"House" + 0.003*"will" + 0.003*"tcot" + 0.003*"DADT"
-topic diff=0.450458, rho=0.367756
-PROGRESS: pass 1, at document #4000/10788
-performing inference on a chunk of 2000 documents
-1986/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.013*"lol" + 0.005*"Como" + 0.003*"time" + 0.003*"LOL" + 0.002*"ur" + 0.002*"will" + 0.002*"God" + 0.002*"you" + 0.002*"Christmas" + 0.002*"people"
-topic #1 (0.200): 0.004*"NYT" + 0.004*"Larry King" + 0.003*"CNN" + 0.003*"U.S" + 0.003*"will" + 0.003*"Follow Friday" + 0.002*"Morgan Freeman" + 0.002*"LAT" + 0.002*"Roll Call" + 0.002*"friends"
-topic #2 (0.200): 0.007*"video" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.004*"YouTube" + 0.003*"who" + 0.003*"request" + 0.003*"today" + 0.002*"livestream" + 0.002*"time"
-topic #3 (0.200): 0.008*"Twitter" + 0.006*"WikiLeaks" + 0.005*"US" + 0.004*"Wikileaks" + 0.004*"India" + 0.004*"Julian Assange" + 0.004*"China" + 0.003*"will" + 0.003*"YouTube" + 0.003*"Assange"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"Obama" + 0.005*"Senate" + 0.005*"bill" + 0.004*"para" + 0.004*"tcot" + 0.004*"House" + 0.004*"will" + 0.004*"un" + 0.003*"vote"
-topic diff=0.467244, rho=0.367756
-PROGRESS: pass 1, at document #6000/10788
-performing inference on a chunk of 2000 documents
-1990/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.003*"Como" + 0.003*"time" + 0.003*"God" + 0.002*"LOL" + 0.002*"ur" + 0.002*"you" + 0.002*"Christmas" + 0.002*"will" + 0.002*"can"
-topic #1 (0.200): 0.004*"Larry King" + 0.004*"Follow Friday" + 0.003*"CNN" + 0.003*"will" + 0.003*"NYT" + 0.003*"U.S" + 0.002*"Morgan Freeman" + 0.002*"Haiti" + 0.002*"Christmas" + 0.002*"good"
-topic #2 (0.200): 0.006*"video" + 0.004*"Facebook" + 0.004*"Christmas" + 0.004*"people" + 0.003*"who" + 0.003*"today" + 0.003*"YouTube" + 0.003*"you" + 0.002*"time" + 0.002*"Twitter"
-topic #3 (0.200): 0.007*"Twitter" + 0.006*"WikiLeaks" + 0.005*"US" + 0.004*"China" + 0.004*"Julian Assange" + 0.004*"Wikileaks" + 0.003*"India" + 0.003*"Assange" + 0.003*"will" + 0.003*"Facebook"
-topic #4 (0.200): 0.007*"GOP" + 0.005*"Obama" + 0.005*"Senate" + 0.005*"bill" + 0.004*"pf" + 0.004*"will" + 0.004*"tcot" + 0.003*"para" + 0.003*"House" + 0.003*"vote"
-topic diff=0.450793, rho=0.367756
-PROGRESS: pass 1, at document #8000/10788
-performing inference on a chunk of 2000 documents
-1984/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.003*"VE" + 0.003*"time" + 0.002*"lmao" + 0.002*"LOL" + 0.002*"ur" + 0.002*"you" + 0.002*"Lol" + 0.002*"can" + 0.002*"Christmas"
-topic #1 (0.200): 0.005*"Larry King" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"U.S" + 0.003*"will" + 0.002*"Morgan Freeman" + 0.002*"NYT" + 0.002*"Christmas" + 0.002*"Blake Edwards" + 0.002*"us"
-topic #2 (0.200): 0.006*"video" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"people" + 0.003*"who" + 0.002*"you" + 0.002*"time" + 0.002*"today" + 0.002*"Twitter" + 0.002*"YouTube"
-topic #3 (0.200): 0.006*"Twitter" + 0.006*"WikiLeaks" + 0.005*"US" + 0.004*"Julian Assange" + 0.004*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.003*"Assange" + 0.003*"will" + 0.003*"Japan"
-topic #4 (0.200): 0.006*"GOP" + 0.006*"Obama" + 0.005*"bill" + 0.005*"Senate" + 0.004*"para" + 0.004*"tcot" + 0.004*"un" + 0.004*"House" + 0.004*"DADT" + 0.003*"will"
-topic diff=0.521652, rho=0.367756
-PROGRESS: pass 1, at document #10000/10788
-performing inference on a chunk of 2000 documents
-1987/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.004*"Como" + 0.003*"ur" + 0.003*"time" + 0.003*"Lol" + 0.003*"God" + 0.003*"poco" + 0.003*"lentamente" + 0.003*"you" + 0.003*"poco a poco"
-topic #1 (0.200): 0.006*"friends" + 0.005*"Family" + 0.004*"Concert" + 0.004*"Presbyterian" + 0.004*"Biblical" + 0.004*"Larry King" + 0.004*"Fundraising" + 0.003*"Follow Friday" + 0.003*"CNN" + 0.003*"Breaking News"
-topic #2 (0.200): 0.005*"video" + 0.004*"Christmas" + 0.004*"Twitter" + 0.004*"Facebook" + 0.004*"people" + 0.003*"UR" + 0.003*"tweet" + 0.003*"who" + 0.003*"time" + 0.003*"you"
-topic #3 (0.200): 0.009*"Twitter" + 0.006*"US" + 0.006*"WikiLeaks" + 0.005*"India" + 0.004*"China" + 0.004*"tweet" + 0.004*"Julian Assange" + 0.004*"Wikileaks" + 0.004*"Pakistan" + 0.003*"Assange"
-topic #4 (0.200): 0.007*"GOP" + 0.005*"para" + 0.005*"Obama" + 0.005*"bill" + 0.004*"Senate" + 0.004*"un" + 0.004*"tcot" + 0.003*"House" + 0.003*"DADT" + 0.003*"will"
-topic diff=0.566574, rho=0.367756
+merging changes from 2000 documents into a model of 2930 documents
+topic #16 (0.040): 0.012*"Venezuela" + 0.009*"Blake Edwards" + 0.005*"un" + 0.005*"Tea Party" + 0.005*"Chavez" + 0.005*"Christmas" + 0.004*"Gaming" + 0.004*"Web" + 0.004*"us" + 0.004*"Assange"
+topic #19 (0.040): 0.006*"es" + 0.006*"AP" + 0.004*"executes" + 0.004*"drug" + 0.004*"para" + 0.004*"Independent" + 0.004*"John David Duty" + 0.004*"sedative" + 0.004*"sues" + 0.004*"Oklahoma"
+topic #17 (0.040): 0.013*"lentamente" + 0.013*"poco" + 0.013*"pasion" + 0.013*"poco a poco" + 0.009*"UR" + 0.009*"Breaking News" + 0.007*"Christmas" + 0.004*"iPad" + 0.003*"holiday" + 0.003*"app"
+topic #5 (0.040): 0.008*"lol" + 0.007*"people" + 0.006*"will" + 0.006*"who" + 0.006*"you" + 0.005*"Lol" + 0.005*"love" + 0.004*"Christmas" + 0.004*"Morgan Freeman" + 0.004*"LOL"
+topic #0 (0.040): 0.008*"Larry King" + 0.008*"today" + 0.007*"Delicious" + 0.006*"Yahoo" + 0.005*"King Day" + 0.005*"Leaked" + 0.004*"tonight" + 0.004*"LTTP" + 0.004*"California" + 0.004*"Governor"
+topic diff=0.887960, rho=0.537215
 bound: at document #0
--10.285 per-word bound, 1248.1 perplexity estimate based on a held-out corpus of 788 documents with 20452 words
-PROGRESS: pass 1, at document #10788/10788
-performing inference on a chunk of 788 documents
-786/788 documents converged within 50 iterations
+-10.641 per-word bound, 1597.3 perplexity estimate based on a held-out corpus of 930 documents with 14973 words
+PROGRESS: pass 1, at document #2930/2930
+performing inference on a chunk of 930 documents
+930/930 documents converged within 50 iterations
 updating topics
-merging changes from 788 documents into a model of 10788 documents
-topic #0 (0.200): 0.013*"lol" + 0.010*"Como" + 0.003*"ur" + 0.003*"time" + 0.003*"you" + 0.003*"God" + 0.003*"VE" + 0.003*"Lol" + 0.002*"can" + 0.002*"LOL"
-topic #1 (0.200): 0.004*"friends" + 0.003*"Follow Friday" + 0.003*"CNN" + 0.003*"Family" + 0.003*"Larry King" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.003*"U.S" + 0.003*"Concert" + 0.003*"Presbyterian"
-topic #2 (0.200): 0.007*"video" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Facebook" + 0.004*"Twitter" + 0.003*"hindi" + 0.003*"who" + 0.003*"tweet" + 0.003*"you" + 0.003*"today"
-topic #3 (0.200): 0.008*"Twitter" + 0.007*"US" + 0.006*"Sudan" + 0.006*"WikiLeaks" + 0.005*"Peace" + 0.005*"Julian Assange" + 0.004*"WORLD" + 0.004*"China" + 0.004*"via        s" + 0.004*"India"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"para" + 0.006*"un" + 0.005*"Senate" + 0.005*"bill" + 0.005*"Venezuela" + 0.005*"Obama" + 0.004*"House" + 0.004*"tcot" + 0.004*"will"
-topic diff=0.409746, rho=0.367756
-PROGRESS: pass 2, at document #2000/10788
+merging changes from 930 documents into a model of 2930 documents
+topic #4 (0.040): 0.011*"video" + 0.009*"US" + 0.008*"Blog" + 0.008*"Pakistan" + 0.007*"Obama" + 0.007*"UK" + 0.006*"mind" + 0.006*"Afghanistan" + 0.005*"WikiLeaks" + 0.004*"Earmarks"
+topic #24 (0.040): 0.029*"tweet" + 0.013*"CNN" + 0.010*"Obama" + 0.009*"Orange County" + 0.007*"Nexus S" + 0.006*"YouTube" + 0.006*"AP" + 0.006*"Morgan Freeman" + 0.005*"arrested" + 0.005*"assange"
+topic #16 (0.040): 0.018*"Venezuela" + 0.011*"Blake Edwards" + 0.009*"un" + 0.007*"Tea Party" + 0.007*"São Carlos" + 0.007*"a R" + 0.006*"Gaming" + 0.005*"Chavez" + 0.005*"us" + 0.005*"sendo"
+topic #20 (0.040): 0.010*"who" + 0.006*"Parabéns" + 0.005*"billion" + 0.004*"via" + 0.004*"business" + 0.004*"bill" + 0.004*"trends" + 0.004*"Xmas" + 0.004*"Car" + 0.004*"Christmas"
+topic #15 (0.040): 0.010*"en" + 0.006*"iPhone" + 0.006*"Trillion" + 0.006*"hoy" + 0.005*"USA" + 0.005*"U.S" + 0.004*"Chicago" + 0.004*"Denver" + 0.004*"free" + 0.004*"man"
+topic diff=0.829482, rho=0.537215
+PROGRESS: pass 2, at document #2000/2930
 performing inference on a chunk of 2000 documents
-1981/2000 documents converged within 50 iterations
+1998/2000 documents converged within 50 iterations
 updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.013*"lol" + 0.008*"Como" + 0.003*"ur" + 0.003*"time" + 0.003*"you" + 0.003*"God" + 0.002*"VE" + 0.002*"LOL" + 0.002*"will" + 0.002*"Lol"
-topic #1 (0.200): 0.004*"CNN" + 0.004*"Larry King" + 0.004*"Follow Friday" + 0.003*"friends" + 0.003*"U.S" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.003*"Family" + 0.002*"Concert" + 0.002*"Biblical"
-topic #2 (0.200): 0.006*"video" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Twitter" + 0.003*"you" + 0.003*"who" + 0.003*"app" + 0.003*"today" + 0.003*"tweet"
-topic #3 (0.200): 0.008*"Twitter" + 0.006*"US" + 0.006*"WikiLeaks" + 0.004*"China" + 0.004*"Julian Assange" + 0.004*"Sudan" + 0.004*"Wikileaks" + 0.004*"India" + 0.003*"Pakistan" + 0.003*"Facebook"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"para" + 0.006*"Obama" + 0.006*"Senate" + 0.005*"un" + 0.005*"bill" + 0.004*"House" + 0.004*"tcot" + 0.004*"Venezuela" + 0.004*"will"
-topic diff=0.311570, rho=0.345156
-PROGRESS: pass 2, at document #4000/10788
-performing inference on a chunk of 2000 documents
-1987/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.005*"Como" + 0.004*"LOL" + 0.003*"ur" + 0.003*"time" + 0.003*"you" + 0.002*"will" + 0.002*"God" + 0.002*"Lol" + 0.002*"can"
-topic #1 (0.200): 0.004*"Larry King" + 0.004*"NYT" + 0.004*"CNN" + 0.003*"U.S" + 0.003*"will" + 0.003*"Follow Friday" + 0.003*"Morgan Freeman" + 0.002*"LAT" + 0.002*"friends" + 0.002*"Roll Call"
-topic #2 (0.200): 0.008*"video" + 0.005*"YouTube" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.003*"Twitter" + 0.003*"time" + 0.003*"who" + 0.003*"today" + 0.003*"you"
-topic #3 (0.200): 0.007*"Twitter" + 0.006*"WikiLeaks" + 0.006*"US" + 0.004*"Wikileaks" + 0.004*"Julian Assange" + 0.004*"China" + 0.004*"India" + 0.003*"Facebook" + 0.003*"Pakistan" + 0.003*"Sudan"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"Obama" + 0.006*"Senate" + 0.006*"bill" + 0.005*"tcot" + 0.004*"House" + 0.004*"para" + 0.004*"un" + 0.004*"will" + 0.004*"vote"
-topic diff=0.324058, rho=0.345156
-PROGRESS: pass 2, at document #6000/10788
-performing inference on a chunk of 2000 documents
-1988/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.004*"Como" + 0.003*"ur" + 0.003*"LOL" + 0.003*"you" + 0.003*"time" + 0.003*"God" + 0.002*"Lol" + 0.002*"can" + 0.002*"Christmas"
-topic #1 (0.200): 0.005*"Larry King" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"NYT" + 0.003*"will" + 0.003*"U.S" + 0.003*"Morgan Freeman" + 0.002*"Haiti" + 0.002*"friends" + 0.002*"Blake Edwards"
-topic #2 (0.200): 0.007*"video" + 0.004*"Facebook" + 0.004*"Christmas" + 0.004*"people" + 0.003*"YouTube" + 0.003*"Twitter" + 0.003*"today" + 0.003*"who" + 0.003*"you" + 0.003*"time"
-topic #3 (0.200): 0.007*"Twitter" + 0.006*"WikiLeaks" + 0.006*"US" + 0.004*"China" + 0.004*"Julian Assange" + 0.004*"Wikileaks" + 0.004*"India" + 0.003*"Assange" + 0.003*"Facebook" + 0.003*"Pakistan"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"Obama" + 0.006*"Senate" + 0.006*"bill" + 0.004*"tcot" + 0.004*"House" + 0.004*"pf" + 0.004*"will" + 0.004*"para" + 0.004*"vote"
-topic diff=0.318562, rho=0.345156
-PROGRESS: pass 2, at document #8000/10788
-performing inference on a chunk of 2000 documents
-1987/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.016*"lol" + 0.003*"VE" + 0.003*"ur" + 0.003*"you" + 0.003*"LOL" + 0.003*"Lol" + 0.003*"time" + 0.003*"lmao" + 0.002*"can" + 0.002*"Como"
-topic #1 (0.200): 0.005*"Larry King" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"U.S" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.003*"NYT" + 0.002*"Blake Edwards" + 0.002*"Christmas" + 0.002*"friends"
-topic #2 (0.200): 0.006*"video" + 0.004*"Christmas" + 0.004*"Facebook" + 0.004*"people" + 0.003*"Twitter" + 0.003*"who" + 0.003*"time" + 0.003*"today" + 0.003*"YouTube" + 0.003*"you"
-topic #3 (0.200): 0.006*"WikiLeaks" + 0.006*"US" + 0.006*"Twitter" + 0.005*"Julian Assange" + 0.004*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.003*"Assange" + 0.003*"Japan" + 0.003*"Pakistan"
-topic #4 (0.200): 0.006*"GOP" + 0.006*"Obama" + 0.005*"Senate" + 0.005*"bill" + 0.005*"tcot" + 0.005*"para" + 0.004*"un" + 0.004*"House" + 0.004*"Venezuela" + 0.004*"will"
-topic diff=0.379030, rho=0.345156
-PROGRESS: pass 2, at document #10000/10788
-performing inference on a chunk of 2000 documents
-1985/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.004*"Como" + 0.004*"ur" + 0.003*"Lol" + 0.003*"you" + 0.003*"time" + 0.003*"LOL" + 0.003*"God" + 0.003*"can" + 0.002*"poco"
-topic #1 (0.200): 0.006*"friends" + 0.005*"Family" + 0.005*"Larry King" + 0.004*"Concert" + 0.004*"Biblical" + 0.004*"Presbyterian" + 0.004*"Fundraising" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"Breaking News"
-topic #2 (0.200): 0.006*"video" + 0.006*"Twitter" + 0.005*"tweet" + 0.004*"Christmas" + 0.004*"Facebook" + 0.004*"people" + 0.003*"UR" + 0.003*"who" + 0.003*"time" + 0.003*"today"
-topic #3 (0.200): 0.008*"Twitter" + 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"China" + 0.005*"Julian Assange" + 0.005*"India" + 0.004*"Wikileaks" + 0.004*"Pakistan" + 0.003*"Assange" + 0.003*"via"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"para" + 0.005*"Obama" + 0.005*"bill" + 0.005*"Senate" + 0.005*"un" + 0.004*"tcot" + 0.004*"House" + 0.003*"Venezuela" + 0.003*"DADT"
-topic diff=0.424680, rho=0.345156
+merging changes from 2000 documents into a model of 2930 documents
+topic #4 (0.040): 0.009*"video" + 0.007*"Obama" + 0.007*"US" + 0.007*"Blog" + 0.006*"Pakistan" + 0.006*"WikiLeaks" + 0.005*"UK" + 0.004*"mind" + 0.004*"Afghanistan" + 0.004*"jail"
+topic #16 (0.040): 0.015*"Venezuela" + 0.010*"Blake Edwards" + 0.006*"un" + 0.006*"Tea Party" + 0.006*"Chavez" + 0.005*"Web" + 0.005*"us" + 0.004*"Assange" + 0.004*"laws" + 0.004*"Christmas"
+topic #17 (0.040): 0.015*"UR" + 0.012*"poco" + 0.012*"lentamente" + 0.012*"pasion" + 0.012*"poco a poco" + 0.010*"Breaking News" + 0.009*"Christmas" + 0.005*"iPad" + 0.004*"4 Star" + 0.004*"Redemption"
+topic #14 (0.040): 0.016*"GOP" + 0.010*"Reid" + 0.009*"Senate" + 0.007*"lol" + 0.006*"pledge" + 0.006*"Earmark" + 0.006*"Sen" + 0.005*"youcut" + 0.005*"bill" + 0.005*"Mc"
+topic #6 (0.040): 0.008*"Manchester City" + 0.007*"Roberto Mancini" + 0.006*"FL" + 0.005*"Carlos Tevez" + 0.005*"Video" + 0.005*"dos" + 0.004*"Endangered" + 0.004*"videos" + 0.004*"para" + 0.004*"UOL"
+topic diff=0.579894, rho=0.473249
 bound: at document #0
--10.107 per-word bound, 1102.6 perplexity estimate based on a held-out corpus of 788 documents with 20452 words
-PROGRESS: pass 2, at document #10788/10788
-performing inference on a chunk of 788 documents
-786/788 documents converged within 50 iterations
+-9.873 per-word bound, 937.7 perplexity estimate based on a held-out corpus of 930 documents with 14973 words
+PROGRESS: pass 2, at document #2930/2930
+performing inference on a chunk of 930 documents
+930/930 documents converged within 50 iterations
 updating topics
-merging changes from 788 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.010*"Como" + 0.004*"ur" + 0.003*"you" + 0.003*"time" + 0.003*"Lol" + 0.003*"God" + 0.003*"VE" + 0.003*"LOL" + 0.002*"can"
-topic #1 (0.200): 0.004*"friends" + 0.004*"Follow Friday" + 0.004*"Larry King" + 0.004*"CNN" + 0.004*"Family" + 0.003*"will" + 0.003*"U.S" + 0.003*"Morgan Freeman" + 0.003*"Concert" + 0.003*"Biblical"
-topic #2 (0.200): 0.007*"video" + 0.006*"Twitter" + 0.004*"people" + 0.004*"tweet" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"hindi" + 0.003*"who" + 0.003*"today" + 0.003*"you"
-topic #3 (0.200): 0.007*"Twitter" + 0.007*"US" + 0.006*"WikiLeaks" + 0.006*"Sudan" + 0.005*"Julian Assange" + 0.005*"Peace" + 0.004*"China" + 0.004*"India" + 0.004*"Wikileaks" + 0.004*"WORLD"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"para" + 0.006*"un" + 0.006*"Senate" + 0.006*"bill" + 0.005*"Venezuela" + 0.005*"Obama" + 0.004*"House" + 0.004*"tcot" + 0.004*"will"
-topic diff=0.304283, rho=0.345156
-PROGRESS: pass 3, at document #2000/10788
+merging changes from 930 documents into a model of 2930 documents
+topic #12 (0.040): 0.015*"Julian Assange" + 0.012*"BBC News" + 0.012*"lol" + 0.009*"Japan" + 0.008*"you" + 0.007*"founder" + 0.007*"via" + 0.006*"Mark Zuckerberg" + 0.006*"Facebook" + 0.005*"Wikileaks"
+topic #1 (0.040): 0.013*"hippies" + 0.008*"age" + 0.008*"YouTube" + 0.007*"Gadget" + 0.007*"video" + 0.007*"INN" + 0.006*"news" + 0.005*"Android" + 0.005*"Can" + 0.005*"first"
+topic #0 (0.040): 0.010*"Larry King" + 0.009*"today" + 0.007*"King Day" + 0.006*"Yahoo" + 0.006*"tonight" + 0.005*"Cuba" + 0.005*"Leaked" + 0.005*"Delicious" + 0.005*"Cable" + 0.005*"black"
+topic #8 (0.040): 0.010*"SURF" + 0.010*"ALOHA" + 0.009*"dollars" + 0.006*"Today" + 0.006*"Natal" + 0.006*"Lawsuit" + 0.005*"life" + 0.005*"para" + 0.005*"Bilderberg Group" + 0.005*"venda"
+topic #18 (0.040): 0.020*"CNN" + 0.020*"Morgan Freeman" + 0.019*"death" + 0.018*"will" + 0.017*"hoax" + 0.017*"false" + 0.015*"Rumor" + 0.008*"altura" + 0.006*"life" + 0.006*"actor"
+topic diff=0.500648, rho=0.473249
+PROGRESS: pass 3, at document #2000/2930
 performing inference on a chunk of 2000 documents
-1986/2000 documents converged within 50 iterations
+2000/2000 documents converged within 50 iterations
 updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.008*"Como" + 0.004*"ur" + 0.003*"you" + 0.003*"time" + 0.003*"LOL" + 0.003*"God" + 0.003*"Lol" + 0.002*"VE" + 0.002*"can"
-topic #1 (0.200): 0.004*"Larry King" + 0.004*"CNN" + 0.004*"Follow Friday" + 0.003*"friends" + 0.003*"U.S" + 0.003*"will" + 0.003*"Family" + 0.003*"Morgan Freeman" + 0.002*"Concert" + 0.002*"London"
-topic #2 (0.200): 0.007*"video" + 0.005*"Twitter" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.004*"tweet" + 0.003*"today" + 0.003*"who" + 0.003*"you" + 0.003*"app"
-topic #3 (0.200): 0.007*"Twitter" + 0.006*"US" + 0.006*"WikiLeaks" + 0.005*"Julian Assange" + 0.004*"China" + 0.004*"Sudan" + 0.004*"Wikileaks" + 0.004*"Facebook" + 0.004*"India" + 0.004*"Pakistan"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"Senate" + 0.006*"bill" + 0.006*"para" + 0.006*"Obama" + 0.006*"un" + 0.005*"House" + 0.004*"tcot" + 0.004*"Venezuela" + 0.004*"will"
-topic diff=0.250330, rho=0.326268
-PROGRESS: pass 3, at document #4000/10788
-performing inference on a chunk of 2000 documents
-1990/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.006*"Como" + 0.004*"LOL" + 0.004*"ur" + 0.003*"you" + 0.003*"time" + 0.003*"Lol" + 0.002*"God" + 0.002*"will" + 0.002*"can"
-topic #1 (0.200): 0.004*"Larry King" + 0.004*"NYT" + 0.004*"CNN" + 0.003*"U.S" + 0.003*"Follow Friday" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.003*"friends" + 0.002*"LAT" + 0.002*"Roll Call"
-topic #2 (0.200): 0.008*"video" + 0.005*"YouTube" + 0.005*"Twitter" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.003*"tweet" + 0.003*"today" + 0.003*"time" + 0.003*"who"
-topic #3 (0.200): 0.006*"WikiLeaks" + 0.006*"Twitter" + 0.006*"US" + 0.005*"Julian Assange" + 0.004*"Wikileaks" + 0.004*"China" + 0.004*"India" + 0.004*"Facebook" + 0.004*"Pakistan" + 0.003*"Assange"
-topic #4 (0.200): 0.007*"GOP" + 0.007*"Obama" + 0.006*"Senate" + 0.006*"bill" + 0.005*"tcot" + 0.005*"House" + 0.005*"para" + 0.004*"un" + 0.004*"will" + 0.004*"vote"
-topic diff=0.254423, rho=0.326268
-PROGRESS: pass 3, at document #6000/10788
-performing inference on a chunk of 2000 documents
-1990/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.004*"Como" + 0.004*"ur" + 0.004*"LOL" + 0.003*"you" + 0.003*"time" + 0.003*"God" + 0.003*"Lol" + 0.003*"can" + 0.002*"Christmas"
-topic #1 (0.200): 0.005*"Larry King" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"NYT" + 0.003*"U.S" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.002*"friends" + 0.002*"Haiti" + 0.002*"Blake Edwards"
-topic #2 (0.200): 0.007*"video" + 0.004*"Twitter" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.004*"YouTube" + 0.003*"today" + 0.003*"who" + 0.003*"you" + 0.003*"time"
-topic #3 (0.200): 0.006*"WikiLeaks" + 0.006*"Twitter" + 0.006*"US" + 0.005*"Julian Assange" + 0.005*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.003*"Facebook" + 0.003*"Pakistan" + 0.003*"Assange"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"Senate" + 0.006*"Obama" + 0.006*"bill" + 0.005*"tcot" + 0.005*"House" + 0.004*"will" + 0.004*"para" + 0.004*"pf" + 0.004*"un"
-topic diff=0.252382, rho=0.326268
-PROGRESS: pass 3, at document #8000/10788
-performing inference on a chunk of 2000 documents
-1992/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.017*"lol" + 0.004*"ur" + 0.003*"you" + 0.003*"LOL" + 0.003*"VE" + 0.003*"Lol" + 0.003*"time" + 0.003*"lmao" + 0.003*"can" + 0.003*"Como"
-topic #1 (0.200): 0.005*"Larry King" + 0.005*"Follow Friday" + 0.004*"CNN" + 0.003*"U.S" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.003*"NYT" + 0.002*"Blake Edwards" + 0.002*"friends" + 0.002*"Christmas"
-topic #2 (0.200): 0.006*"video" + 0.004*"Christmas" + 0.004*"Twitter" + 0.004*"Facebook" + 0.004*"people" + 0.003*"YouTube" + 0.003*"today" + 0.003*"who" + 0.003*"time" + 0.003*"you"
-topic #3 (0.200): 0.006*"WikiLeaks" + 0.006*"US" + 0.005*"Twitter" + 0.005*"Julian Assange" + 0.004*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.003*"Assange" + 0.003*"Pakistan" + 0.003*"via"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"Obama" + 0.006*"Senate" + 0.006*"bill" + 0.005*"tcot" + 0.005*"para" + 0.005*"un" + 0.005*"House" + 0.004*"Venezuela" + 0.004*"will"
-topic diff=0.302918, rho=0.326268
-PROGRESS: pass 3, at document #10000/10788
-performing inference on a chunk of 2000 documents
-1990/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.016*"lol" + 0.004*"ur" + 0.004*"Como" + 0.004*"Lol" + 0.004*"you" + 0.003*"LOL" + 0.003*"time" + 0.003*"can" + 0.003*"God" + 0.002*"poco"
-topic #1 (0.200): 0.006*"friends" + 0.005*"Family" + 0.005*"Larry King" + 0.004*"Concert" + 0.004*"Presbyterian" + 0.004*"Biblical" + 0.004*"Fundraising" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"U.S"
-topic #2 (0.200): 0.009*"Twitter" + 0.007*"tweet" + 0.006*"video" + 0.004*"Christmas" + 0.004*"Facebook" + 0.004*"people" + 0.003*"UR" + 0.003*"who" + 0.003*"time" + 0.003*"today"
-topic #3 (0.200): 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"Twitter" + 0.005*"Julian Assange" + 0.005*"China" + 0.005*"India" + 0.004*"Wikileaks" + 0.004*"Pakistan" + 0.003*"Assange" + 0.003*"via"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"para" + 0.006*"Obama" + 0.005*"bill" + 0.005*"Senate" + 0.005*"un" + 0.005*"tcot" + 0.004*"House" + 0.004*"Venezuela" + 0.003*"DADT"
-topic diff=0.346856, rho=0.326268
+merging changes from 2000 documents into a model of 2930 documents
+topic #4 (0.040): 0.009*"video" + 0.008*"Blog" + 0.008*"US" + 0.007*"Obama" + 0.007*"Pakistan" + 0.007*"WikiLeaks" + 0.006*"UK" + 0.005*"jail" + 0.005*"Assange" + 0.005*"Afghanistan"
+topic #14 (0.040): 0.018*"GOP" + 0.011*"Reid" + 0.011*"Senate" + 0.007*"lol" + 0.006*"pledge" + 0.006*"bill" + 0.006*"DADT" + 0.006*"Earmark" + 0.006*"Sen" + 0.005*"youcut"
+topic #20 (0.040): 0.007*"Kerry" + 0.007*"who" + 0.007*"wrong again" + 0.007*"LUGAR" + 0.006*"Sen" + 0.006*"START" + 0.005*"KYL" + 0.004*"fyi" + 0.004*"billion" + 0.004*"GOP"
+topic #7 (0.040): 0.006*"gay" + 0.005*"president" + 0.005*"Big Think" + 0.005*"Jimmy Carter" + 0.005*"Diddy" + 0.004*"Uhr" + 0.004*"people" + 0.004*"haha" + 0.004*"10 um" + 0.004*"U.S"
+topic #11 (0.040): 0.019*"Afterlife" + 0.017*"song" + 0.014*"Bush" + 0.010*"BAND" + 0.007*"LGBT" + 0.006*"DADT" + 0.006*"Army" + 0.006*"Amanda Knox" + 0.006*"hay" + 0.005*"GLBT"
+topic diff=0.336469, rho=0.427765
 bound: at document #0
--10.006 per-word bound, 1028.4 perplexity estimate based on a held-out corpus of 788 documents with 20452 words
-PROGRESS: pass 3, at document #10788/10788
-performing inference on a chunk of 788 documents
-785/788 documents converged within 50 iterations
+-9.653 per-word bound, 805.1 perplexity estimate based on a held-out corpus of 930 documents with 14973 words
+PROGRESS: pass 3, at document #2930/2930
+performing inference on a chunk of 930 documents
+930/930 documents converged within 50 iterations
 updating topics
-merging changes from 788 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.010*"Como" + 0.004*"ur" + 0.004*"you" + 0.003*"Lol" + 0.003*"time" + 0.003*"God" + 0.003*"LOL" + 0.003*"VE" + 0.003*"can"
-topic #1 (0.200): 0.004*"friends" + 0.004*"Larry King" + 0.004*"Follow Friday" + 0.004*"Family" + 0.003*"CNN" + 0.003*"will" + 0.003*"U.S" + 0.003*"London" + 0.003*"Concert" + 0.003*"Morgan Freeman"
-topic #2 (0.200): 0.008*"Twitter" + 0.007*"video" + 0.006*"tweet" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"hindi" + 0.003*"today" + 0.003*"who" + 0.003*"you"
-topic #3 (0.200): 0.007*"US" + 0.006*"WikiLeaks" + 0.006*"Sudan" + 0.005*"Julian Assange" + 0.005*"Peace" + 0.005*"Twitter" + 0.004*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.004*"WORLD"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"para" + 0.006*"un" + 0.006*"Senate" + 0.006*"bill" + 0.006*"Venezuela" + 0.005*"Obama" + 0.004*"House" + 0.004*"tcot" + 0.004*"will"
-topic diff=0.250310, rho=0.326268
-PROGRESS: pass 4, at document #2000/10788
+merging changes from 930 documents into a model of 2930 documents
+topic #7 (0.040): 0.007*"gay" + 0.007*"president" + 0.006*"Big Think" + 0.006*"Jimmy Carter" + 0.005*"Diddy" + 0.005*"people" + 0.005*"haha" + 0.005*"executed" + 0.005*"deathrow" + 0.005*"euthanize animals"
+topic #2 (0.040): 0.014*"wikileaks" + 0.010*"India" + 0.007*"Hindu" + 0.007*"Y U NO" + 0.007*"US" + 0.006*"Tron" + 0.006*"free" + 0.006*"accused" + 0.006*"Democrats" + 0.005*"Kashmir"
+topic #6 (0.040): 0.008*"FL" + 0.007*"Endangered" + 0.007*"Manchester City" + 0.007*"dos" + 0.005*"para" + 0.005*"QT" + 0.005*"Roberto Mancini" + 0.005*"videos" + 0.004*"alcohol" + 0.004*"se"
+topic #5 (0.040): 0.012*"people" + 0.012*"Lol" + 0.010*"lol" + 0.010*"who" + 0.009*"you" + 0.008*"love" + 0.007*"can" + 0.006*"will" + 0.006*"Christmas" + 0.005*"page"
+topic #19 (0.040): 0.009*"drug" + 0.009*"es" + 0.008*"AP" + 0.008*"euthanize animals" + 0.008*"euthanize" + 0.008*"John David Duty" + 0.008*"executes" + 0.008*"sedative" + 0.008*"Oklahoma" + 0.007*"Independent"
+topic diff=0.291619, rho=0.427765
+PROGRESS: pass 4, at document #2000/2930
 performing inference on a chunk of 2000 documents
-1978/2000 documents converged within 50 iterations
+1999/2000 documents converged within 50 iterations
 updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.008*"Como" + 0.004*"ur" + 0.003*"you" + 0.003*"time" + 0.003*"LOL" + 0.003*"Lol" + 0.003*"God" + 0.002*"can" + 0.002*"VE"
-topic #1 (0.200): 0.004*"Larry King" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"friends" + 0.003*"U.S" + 0.003*"Family" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.002*"London" + 0.002*"Concert"
-topic #2 (0.200): 0.008*"Twitter" + 0.007*"video" + 0.005*"tweet" + 0.004*"Facebook" + 0.004*"people" + 0.004*"Christmas" + 0.003*"today" + 0.003*"who" + 0.003*"you" + 0.003*"app"
-topic #3 (0.200): 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"Twitter" + 0.005*"Julian Assange" + 0.005*"China" + 0.004*"Wikileaks" + 0.004*"Sudan" + 0.004*"Facebook" + 0.004*"Pakistan" + 0.004*"India"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"Senate" + 0.006*"bill" + 0.006*"para" + 0.006*"Obama" + 0.006*"un" + 0.005*"House" + 0.005*"tcot" + 0.004*"Venezuela" + 0.004*"will"
-topic diff=0.218445, rho=0.310176
-PROGRESS: pass 4, at document #4000/10788
-performing inference on a chunk of 2000 documents
-1985/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.015*"lol" + 0.006*"Como" + 0.004*"LOL" + 0.004*"ur" + 0.004*"you" + 0.003*"time" + 0.003*"Lol" + 0.002*"God" + 0.002*"will" + 0.002*"can"
-topic #1 (0.200): 0.005*"Larry King" + 0.004*"NYT" + 0.004*"CNN" + 0.003*"Follow Friday" + 0.003*"U.S" + 0.003*"will" + 0.003*"friends" + 0.003*"Morgan Freeman" + 0.002*"LAT" + 0.002*"Family"
-topic #2 (0.200): 0.008*"video" + 0.007*"Twitter" + 0.005*"YouTube" + 0.004*"Facebook" + 0.004*"people" + 0.004*"tweet" + 0.004*"Christmas" + 0.003*"today" + 0.003*"time" + 0.003*"who"
-topic #3 (0.200): 0.007*"WikiLeaks" + 0.006*"US" + 0.005*"Julian Assange" + 0.005*"Twitter" + 0.004*"China" + 0.004*"Wikileaks" + 0.004*"Facebook" + 0.004*"India" + 0.004*"Pakistan" + 0.003*"Assange"
-topic #4 (0.200): 0.008*"GOP" + 0.007*"Senate" + 0.007*"Obama" + 0.006*"bill" + 0.005*"tcot" + 0.005*"House" + 0.005*"para" + 0.004*"un" + 0.004*"will" + 0.004*"vote"
-topic diff=0.216916, rho=0.310176
-PROGRESS: pass 4, at document #6000/10788
-performing inference on a chunk of 2000 documents
-1994/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.016*"lol" + 0.004*"Como" + 0.004*"ur" + 0.004*"LOL" + 0.004*"you" + 0.003*"time" + 0.003*"Lol" + 0.003*"God" + 0.003*"can" + 0.002*"Christmas"
-topic #1 (0.200): 0.005*"Larry King" + 0.004*"Follow Friday" + 0.004*"CNN" + 0.003*"NYT" + 0.003*"U.S" + 0.003*"will" + 0.003*"Morgan Freeman" + 0.002*"friends" + 0.002*"Blake Edwards" + 0.002*"Haiti"
-topic #2 (0.200): 0.007*"video" + 0.006*"Twitter" + 0.004*"Facebook" + 0.004*"YouTube" + 0.004*"people" + 0.004*"Christmas" + 0.004*"tweet" + 0.003*"today" + 0.003*"who" + 0.003*"you"
-topic #3 (0.200): 0.006*"WikiLeaks" + 0.006*"US" + 0.005*"Julian Assange" + 0.005*"China" + 0.004*"Twitter" + 0.004*"Wikileaks" + 0.004*"Facebook" + 0.004*"India" + 0.003*"Pakistan" + 0.003*"Assange"
-topic #4 (0.200): 0.007*"GOP" + 0.007*"Senate" + 0.006*"Obama" + 0.006*"bill" + 0.005*"House" + 0.005*"tcot" + 0.004*"para" + 0.004*"will" + 0.004*"pf" + 0.004*"un"
-topic diff=0.216322, rho=0.310176
-PROGRESS: pass 4, at document #8000/10788
-performing inference on a chunk of 2000 documents
-1988/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.017*"lol" + 0.004*"ur" + 0.004*"you" + 0.003*"LOL" + 0.003*"Lol" + 0.003*"VE" + 0.003*"time" + 0.003*"Como" + 0.003*"can" + 0.003*"lmao"
-topic #1 (0.200): 0.005*"Larry King" + 0.005*"Follow Friday" + 0.004*"CNN" + 0.003*"U.S" + 0.003*"will" + 0.003*"NYT" + 0.003*"Morgan Freeman" + 0.003*"Blake Edwards" + 0.002*"friends" + 0.002*"Christmas"
-topic #2 (0.200): 0.007*"video" + 0.006*"Twitter" + 0.004*"Christmas" + 0.004*"Facebook" + 0.004*"people" + 0.003*"YouTube" + 0.003*"tweet" + 0.003*"today" + 0.003*"who" + 0.003*"time"
-topic #3 (0.200): 0.006*"WikiLeaks" + 0.006*"US" + 0.005*"Julian Assange" + 0.004*"China" + 0.004*"Wikileaks" + 0.004*"Twitter" + 0.004*"India" + 0.003*"Assange" + 0.003*"Pakistan" + 0.003*"Facebook"
-topic #4 (0.200): 0.007*"GOP" + 0.007*"Obama" + 0.006*"Senate" + 0.006*"bill" + 0.005*"tcot" + 0.005*"para" + 0.005*"House" + 0.005*"un" + 0.004*"Venezuela" + 0.004*"will"
-topic diff=0.259149, rho=0.310176
-PROGRESS: pass 4, at document #10000/10788
-performing inference on a chunk of 2000 documents
-1991/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 10788 documents
-topic #0 (0.200): 0.016*"lol" + 0.005*"ur" + 0.004*"Como" + 0.004*"Lol" + 0.004*"you" + 0.003*"LOL" + 0.003*"time" + 0.003*"can" + 0.003*"God" + 0.002*"poco"
-topic #1 (0.200): 0.006*"friends" + 0.005*"Family" + 0.005*"Larry King" + 0.004*"Concert" + 0.004*"Biblical" + 0.004*"Presbyterian" + 0.004*"Fundraising" + 0.004*"Follow Friday" + 0.003*"CNN" + 0.003*"U.S"
-topic #2 (0.200): 0.011*"Twitter" + 0.008*"tweet" + 0.006*"video" + 0.004*"Christmas" + 0.004*"Facebook" + 0.004*"people" + 0.003*"now" + 0.003*"UR" + 0.003*"who" + 0.003*"today"
-topic #3 (0.200): 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"Julian Assange" + 0.005*"China" + 0.005*"India" + 0.004*"Wikileaks" + 0.004*"Pakistan" + 0.004*"Twitter" + 0.003*"Facebook" + 0.003*"via"
-topic #4 (0.200): 0.007*"GOP" + 0.006*"Obama" + 0.006*"para" + 0.006*"Senate" + 0.006*"bill" + 0.005*"un" + 0.005*"tcot" + 0.004*"House" + 0.004*"Venezuela" + 0.003*"DADT"
-topic diff=0.301435, rho=0.310176
+merging changes from 2000 documents into a model of 2930 documents
+topic #23 (0.040): 0.010*"Yes" + 0.009*"bill" + 0.007*"Del.icio.us" + 0.007*"AJC" + 0.006*"Yahoo" + 0.005*"Earth" + 0.005*"phone" + 0.005*"SmartPlanet" + 0.004*"funding" + 0.004*"hybrid cars"
+topic #8 (0.040): 0.008*"ALOHA" + 0.008*"SURF" + 0.006*"dollars" + 0.006*"Today" + 0.006*"Natal" + 0.005*"life" + 0.005*"lol" + 0.004*"Grim Sleeper" + 0.004*"via" + 0.004*"Bilderberg Group"
+topic #2 (0.040): 0.012*"wikileaks" + 0.008*"India" + 0.007*"US" + 0.007*"NRO" + 0.007*"Reason" + 0.006*"Kennard" + 0.006*"Y U NO" + 0.006*"Logic" + 0.006*"Weekly Standard" + 0.005*"free"
+topic #18 (0.040): 0.025*"CNN" + 0.024*"Morgan Freeman" + 0.021*"will" + 0.021*"death" + 0.018*"hoax" + 0.018*"false" + 0.017*"Rumor" + 0.007*"actor" + 0.006*"life" + 0.006*"Shelley Malil"
+topic #13 (0.040): 0.018*"VE" + 0.014*"Barinas" + 0.010*"Vla" + 0.009*"God" + 0.007*"out" + 0.006*"UOL" + 0.005*"pour" + 0.004*"SP" + 0.004*"Google" + 0.004*"Chuva"
+topic diff=0.200979, rho=0.393293
 bound: at document #0
--9.937 per-word bound, 980.4 perplexity estimate based on a held-out corpus of 788 documents with 20452 words
-PROGRESS: pass 4, at document #10788/10788
-performing inference on a chunk of 788 documents
-785/788 documents converged within 50 iterations
+-9.566 per-word bound, 757.8 perplexity estimate based on a held-out corpus of 930 documents with 14973 words
+PROGRESS: pass 4, at document #2930/2930
+performing inference on a chunk of 930 documents
+930/930 documents converged within 50 iterations
 updating topics
-merging changes from 788 documents into a model of 10788 documents
-topic #0 (0.200): 0.014*"lol" + 0.009*"Como" + 0.004*"ur" + 0.004*"you" + 0.003*"Lol" + 0.003*"time" + 0.003*"God" + 0.003*"LOL" + 0.003*"VE" + 0.003*"can"
-topic #1 (0.200): 0.004*"friends" + 0.004*"Larry King" + 0.004*"Follow Friday" + 0.004*"Family" + 0.003*"CNN" + 0.003*"London" + 0.003*"will" + 0.003*"Concert" + 0.003*"U.S" + 0.003*"Presbyterian"
-topic #2 (0.200): 0.010*"Twitter" + 0.007*"video" + 0.006*"tweet" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"today" + 0.003*"who" + 0.003*"hindi" + 0.003*"you"
-topic #3 (0.200): 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"Sudan" + 0.005*"Julian Assange" + 0.005*"Peace" + 0.005*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.004*"Pakistan" + 0.004*"WORLD"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"para" + 0.006*"un" + 0.006*"Senate" + 0.006*"Venezuela" + 0.006*"bill" + 0.005*"Obama" + 0.005*"House" + 0.004*"tcot" + 0.004*"will"
-topic diff=0.219453, rho=0.310176
-saving LdaState object under ../output/58/tml/gensim_5topics.model.state, separately None
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/58/tml/gensim_5topics.model.state'}
-saved ../output/58/tml/gensim_5topics.model.state
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/58/tml/gensim_5topics.model.id2word'}
-saving LdaModel object under ../output/58/tml/gensim_5topics.model, separately ['expElogbeta', 'sstats']
-storing np array 'expElogbeta' to ../output/58/tml/gensim_5topics.model.expElogbeta.npy
-not storing attribute dispatcher
+merging changes from 930 documents into a model of 2930 documents
+topic #5 (0.040): 0.012*"Lol" + 0.012*"people" + 0.011*"lol" + 0.010*"who" + 0.009*"you" + 0.008*"love" + 0.007*"can" + 0.006*"Christmas" + 0.006*"will" + 0.005*"page"
+topic #15 (0.040): 0.010*"en" + 0.007*"iPhone" + 0.006*"free" + 0.006*"U.S" + 0.006*"Trillion" + 0.005*"hoy" + 0.005*"USA" + 0.005*"Denver" + 0.005*"Reuters" + 0.004*"New York"
+topic #20 (0.040): 0.011*"who" + 0.006*"billion" + 0.006*"via" + 0.005*"business" + 0.005*"Parabéns" + 0.005*"Xmas" + 0.005*"heart" + 0.005*"Kerry" + 0.004*"trends" + 0.004*"wrong again"
+topic #24 (0.040): 0.030*"tweet" + 0.013*"CNN" + 0.012*"Obama" + 0.009*"Orange County" + 0.007*"arrested" + 0.007*"Nexus S" + 0.006*"AP" + 0.006*"YouTube" + 0.005*"Twitter" + 0.005*"video"
+topic #19 (0.040): 0.009*"drug" + 0.009*"es" + 0.009*"AP" + 0.008*"euthanize animals" + 0.008*"euthanize" + 0.008*"John David Duty" + 0.008*"executes" + 0.008*"sedative" + 0.008*"Oklahoma" + 0.007*"para"
+topic diff=0.184367, rho=0.393293
+saving LdaState object under ../output/60/tml/gensim_25topics.model.state, separately None
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/60/tml/gensim_25topics.model.state'}
+saved ../output/60/tml/gensim_25topics.model.state
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/60/tml/gensim_25topics.model.id2word'}
+saving LdaModel object under ../output/60/tml/gensim_25topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/60/tml/gensim_25topics.model.expElogbeta.npy
 not storing attribute id2word
 not storing attribute state
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/58/tml/gensim_5topics.model'}
-saved ../output/58/tml/gensim_5topics.model
-topic #0 (0.200): 0.014*"lol" + 0.009*"Como" + 0.004*"ur" + 0.004*"you" + 0.003*"Lol" + 0.003*"time" + 0.003*"God" + 0.003*"LOL" + 0.003*"VE" + 0.003*"can"
-topic #1 (0.200): 0.004*"friends" + 0.004*"Larry King" + 0.004*"Follow Friday" + 0.004*"Family" + 0.003*"CNN" + 0.003*"London" + 0.003*"will" + 0.003*"Concert" + 0.003*"U.S" + 0.003*"Presbyterian"
-topic #2 (0.200): 0.010*"Twitter" + 0.007*"video" + 0.006*"tweet" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"today" + 0.003*"who" + 0.003*"hindi" + 0.003*"you"
-topic #3 (0.200): 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"Sudan" + 0.005*"Julian Assange" + 0.005*"Peace" + 0.005*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.004*"Pakistan" + 0.004*"WORLD"
-topic #4 (0.200): 0.008*"GOP" + 0.006*"para" + 0.006*"un" + 0.006*"Senate" + 0.006*"Venezuela" + 0.006*"bill" + 0.005*"Obama" + 0.005*"House" + 0.004*"tcot" + 0.004*"will"
+not storing attribute dispatcher
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/60/tml/gensim_25topics.model'}
+saved ../output/60/tml/gensim_25topics.model
+topic #0 (0.040): 0.012*"Larry King" + 0.010*"today" + 0.007*"King Day" + 0.006*"Yahoo" + 0.006*"tonight" + 0.006*"watch" + 0.006*"Delicious" + 0.006*"California" + 0.006*"Cuba" + 0.005*"Leaked"
+topic #1 (0.040): 0.013*"hippies" + 0.009*"YouTube" + 0.008*"age" + 0.008*"video" + 0.007*"Gadget" + 0.007*"INN" + 0.006*"Can" + 0.005*"news" + 0.005*"first" + 0.005*"private"
+topic #2 (0.040): 0.014*"wikileaks" + 0.010*"India" + 0.007*"Hindu" + 0.007*"Y U NO" + 0.007*"US" + 0.006*"Tron" + 0.006*"accused" + 0.006*"Democrats" + 0.006*"free" + 0.005*"Kashmir"
+topic #3 (0.040): 0.038*"Twitter" + 0.018*"now" + 0.013*"Home" + 0.012*"Las Vegas" + 0.009*"Gaming" + 0.009*"Reid" + 0.009*"Mafia" + 0.009*"Mormon Church" + 0.007*"Mormon" + 0.006*"inmate"
+topic #4 (0.040): 0.011*"video" + 0.011*"Blog" + 0.009*"US" + 0.008*"Pakistan" + 0.008*"UK" + 0.008*"Obama" + 0.007*"WikiLeaks" + 0.007*"Afghanistan" + 0.006*"mind" + 0.005*"jail"
+topic #5 (0.040): 0.012*"Lol" + 0.012*"people" + 0.011*"lol" + 0.010*"who" + 0.009*"you" + 0.008*"love" + 0.007*"can" + 0.006*"Christmas" + 0.006*"will" + 0.005*"page"
+topic #6 (0.040): 0.008*"FL" + 0.007*"Endangered" + 0.007*"dos" + 0.007*"Manchester City" + 0.006*"para" + 0.005*"QT" + 0.005*"Roberto Mancini" + 0.005*"videos" + 0.004*"alcohol" + 0.004*"se"
+topic #7 (0.040): 0.007*"gay" + 0.007*"president" + 0.006*"Big Think" + 0.006*"Jimmy Carter" + 0.005*"Diddy" + 0.005*"people" + 0.005*"haha" + 0.005*"Aretha Franklin" + 0.004*"game" + 0.004*"executed"
+topic #8 (0.040): 0.013*"SURF" + 0.013*"ALOHA" + 0.008*"dollars" + 0.007*"Natal" + 0.007*"Bilderberg Group" + 0.006*"Today" + 0.005*"life" + 0.005*"Lawsuit" + 0.005*"US" + 0.004*"via"
+topic #9 (0.040): 0.014*"NYC" + 0.009*"time" + 0.009*"Venezuela" + 0.007*"people" + 0.005*"Hugo Chávez" + 0.005*"Decree Powers" + 0.005*"Blake Edwards" + 0.005*"love" + 0.005*"God" + 0.005*"lol"
+topic #10 (0.040): 0.008*"music" + 0.007*"fez" + 0.007*"prometeu" + 0.007*"Love" + 0.006*"sex" + 0.005*"LOL" + 0.004*"Twitter" + 0.004*"Italian" + 0.004*"reality" + 0.004*"go"
+topic #11 (0.040): 0.014*"song" + 0.011*"Afterlife" + 0.010*"LGBT" + 0.009*"Amanda Knox" + 0.009*"Bush" + 0.009*"hay" + 0.008*"GLBT" + 0.006*"Guede" + 0.006*"Rudy Guede" + 0.006*"DADT"
+topic #12 (0.040): 0.016*"Julian Assange" + 0.012*"lol" + 0.012*"BBC News" + 0.010*"Japan" + 0.008*"you" + 0.007*"founder" + 0.007*"via" + 0.006*"Mark Zuckerberg" + 0.006*"Wikileaks" + 0.006*"Apple"
+topic #13 (0.040): 0.022*"VE" + 0.020*"Barinas" + 0.014*"Vla" + 0.009*"God" + 0.007*"out" + 0.005*"pour" + 0.005*"change" + 0.004*"Google" + 0.004*"plan" + 0.004*"Judge"
+topic #14 (0.040): 0.022*"GOP" + 0.013*"Senate" + 0.011*"Reid" + 0.007*"Earmark" + 0.007*"pledge" + 0.007*"youcut" + 0.007*"bill" + 0.006*"Mc" + 0.006*"House" + 0.006*"McConnell"
+topic #15 (0.040): 0.010*"en" + 0.007*"iPhone" + 0.006*"free" + 0.006*"U.S" + 0.006*"Trillion" + 0.005*"hoy" + 0.005*"USA" + 0.005*"Denver" + 0.005*"Reuters" + 0.004*"New York"
+topic #16 (0.040): 0.020*"Venezuela" + 0.012*"Blake Edwards" + 0.011*"un" + 0.007*"Tea Party" + 0.007*"a R" + 0.007*"São Carlos" + 0.006*"us" + 0.006*"Chavez" + 0.005*"laws" + 0.005*"sendo"
+topic #17 (0.040): 0.022*"UR" + 0.015*"poco a poco" + 0.015*"poco" + 0.015*"pasion" + 0.015*"lentamente" + 0.013*"Breaking News" + 0.010*"Christmas" + 0.007*"4 Star" + 0.007*"Redemption" + 0.006*"iPad"
+topic #18 (0.040): 0.023*"CNN" + 0.023*"Morgan Freeman" + 0.021*"death" + 0.021*"will" + 0.018*"hoax" + 0.018*"false" + 0.017*"Rumor" + 0.007*"altura" + 0.007*"actor" + 0.007*"life"
+topic #19 (0.040): 0.009*"drug" + 0.009*"es" + 0.009*"AP" + 0.008*"euthanize animals" + 0.008*"euthanize" + 0.008*"John David Duty" + 0.008*"executes" + 0.008*"sedative" + 0.008*"Oklahoma" + 0.007*"para"
+topic #20 (0.040): 0.011*"who" + 0.006*"billion" + 0.006*"via" + 0.005*"business" + 0.005*"Parabéns" + 0.005*"Xmas" + 0.005*"heart" + 0.005*"Kerry" + 0.004*"trends" + 0.004*"wrong again"
+topic #21 (0.040): 0.017*"Facebook" + 0.007*"Google" + 0.007*"Greenwich Village" + 0.006*"director" + 0.006*"Tonight" + 0.004*"Blake Edwards" + 0.004*"via" + 0.004*"Database" + 0.004*"Book" + 0.004*"prices"
+topic #22 (0.040): 0.031*"Como" + 0.006*"review" + 0.006*"Afghanistan" + 0.005*"Brasil" + 0.005*"Assange" + 0.004*"US" + 0.004*"Source Code" + 0.004*"Glee" + 0.004*"American" + 0.004*"truthout"
+topic #23 (0.040): 0.011*"AJC" + 0.009*"Yes" + 0.009*"bill" + 0.006*"Del.icio.us" + 0.005*"Antofagasta" + 0.005*"earthquake" + 0.005*"phone" + 0.005*"Mexico" + 0.005*"SmartPlanet" + 0.005*"hybrid cars"
+topic #24 (0.040): 0.030*"tweet" + 0.013*"CNN" + 0.012*"Obama" + 0.009*"Orange County" + 0.007*"arrested" + 0.007*"Nexus S" + 0.006*"AP" + 0.006*"YouTube" + 0.005*"Twitter" + 0.005*"video"
 TopicModeling: GENSIM Topic: 0 
-Words: 0.014*"lol" + 0.009*"Como" + 0.004*"ur" + 0.004*"you" + 0.003*"Lol" + 0.003*"time" + 0.003*"God" + 0.003*"LOL" + 0.003*"VE" + 0.003*"can"
+Words: 0.012*"Larry King" + 0.010*"today" + 0.007*"King Day" + 0.006*"Yahoo" + 0.006*"tonight" + 0.006*"watch" + 0.006*"Delicious" + 0.006*"California" + 0.006*"Cuba" + 0.005*"Leaked"
 TopicModeling: GENSIM Topic: 1 
-Words: 0.004*"friends" + 0.004*"Larry King" + 0.004*"Follow Friday" + 0.004*"Family" + 0.003*"CNN" + 0.003*"London" + 0.003*"will" + 0.003*"Concert" + 0.003*"U.S" + 0.003*"Presbyterian"
+Words: 0.013*"hippies" + 0.009*"YouTube" + 0.008*"age" + 0.008*"video" + 0.007*"Gadget" + 0.007*"INN" + 0.006*"Can" + 0.005*"news" + 0.005*"first" + 0.005*"private"
 TopicModeling: GENSIM Topic: 2 
-Words: 0.010*"Twitter" + 0.007*"video" + 0.006*"tweet" + 0.004*"people" + 0.004*"Christmas" + 0.004*"Facebook" + 0.003*"today" + 0.003*"who" + 0.003*"hindi" + 0.003*"you"
+Words: 0.014*"wikileaks" + 0.010*"India" + 0.007*"Hindu" + 0.007*"Y U NO" + 0.007*"US" + 0.006*"Tron" + 0.006*"accused" + 0.006*"Democrats" + 0.006*"free" + 0.005*"Kashmir"
 TopicModeling: GENSIM Topic: 3 
-Words: 0.007*"US" + 0.006*"WikiLeaks" + 0.005*"Sudan" + 0.005*"Julian Assange" + 0.005*"Peace" + 0.005*"China" + 0.004*"Wikileaks" + 0.004*"India" + 0.004*"Pakistan" + 0.004*"WORLD"
+Words: 0.038*"Twitter" + 0.018*"now" + 0.013*"Home" + 0.012*"Las Vegas" + 0.009*"Gaming" + 0.009*"Reid" + 0.009*"Mafia" + 0.009*"Mormon Church" + 0.007*"Mormon" + 0.006*"inmate"
 TopicModeling: GENSIM Topic: 4 
-Words: 0.008*"GOP" + 0.006*"para" + 0.006*"un" + 0.006*"Senate" + 0.006*"Venezuela" + 0.006*"bill" + 0.005*"Obama" + 0.005*"House" + 0.004*"tcot" + 0.004*"will"
+Words: 0.011*"video" + 0.011*"Blog" + 0.009*"US" + 0.008*"Pakistan" + 0.008*"UK" + 0.008*"Obama" + 0.007*"WikiLeaks" + 0.007*"Afghanistan" + 0.006*"mind" + 0.005*"jail"
+TopicModeling: GENSIM Topic: 5 
+Words: 0.012*"Lol" + 0.012*"people" + 0.011*"lol" + 0.010*"who" + 0.009*"you" + 0.008*"love" + 0.007*"can" + 0.006*"Christmas" + 0.006*"will" + 0.005*"page"
+TopicModeling: GENSIM Topic: 6 
+Words: 0.008*"FL" + 0.007*"Endangered" + 0.007*"dos" + 0.007*"Manchester City" + 0.006*"para" + 0.005*"QT" + 0.005*"Roberto Mancini" + 0.005*"videos" + 0.004*"alcohol" + 0.004*"se"
+TopicModeling: GENSIM Topic: 7 
+Words: 0.007*"gay" + 0.007*"president" + 0.006*"Big Think" + 0.006*"Jimmy Carter" + 0.005*"Diddy" + 0.005*"people" + 0.005*"haha" + 0.005*"Aretha Franklin" + 0.004*"game" + 0.004*"executed"
+TopicModeling: GENSIM Topic: 8 
+Words: 0.013*"SURF" + 0.013*"ALOHA" + 0.008*"dollars" + 0.007*"Natal" + 0.007*"Bilderberg Group" + 0.006*"Today" + 0.005*"life" + 0.005*"Lawsuit" + 0.005*"US" + 0.004*"via"
+TopicModeling: GENSIM Topic: 9 
+Words: 0.014*"NYC" + 0.009*"time" + 0.009*"Venezuela" + 0.007*"people" + 0.005*"Hugo Chávez" + 0.005*"Decree Powers" + 0.005*"Blake Edwards" + 0.005*"love" + 0.005*"God" + 0.005*"lol"
+TopicModeling: GENSIM Topic: 10 
+Words: 0.008*"music" + 0.007*"fez" + 0.007*"prometeu" + 0.007*"Love" + 0.006*"sex" + 0.005*"LOL" + 0.004*"Twitter" + 0.004*"Italian" + 0.004*"reality" + 0.004*"go"
+TopicModeling: GENSIM Topic: 11 
+Words: 0.014*"song" + 0.011*"Afterlife" + 0.010*"LGBT" + 0.009*"Amanda Knox" + 0.009*"Bush" + 0.009*"hay" + 0.008*"GLBT" + 0.006*"Guede" + 0.006*"Rudy Guede" + 0.006*"DADT"
+TopicModeling: GENSIM Topic: 12 
+Words: 0.016*"Julian Assange" + 0.012*"lol" + 0.012*"BBC News" + 0.010*"Japan" + 0.008*"you" + 0.007*"founder" + 0.007*"via" + 0.006*"Mark Zuckerberg" + 0.006*"Wikileaks" + 0.006*"Apple"
+TopicModeling: GENSIM Topic: 13 
+Words: 0.022*"VE" + 0.020*"Barinas" + 0.014*"Vla" + 0.009*"God" + 0.007*"out" + 0.005*"pour" + 0.005*"change" + 0.004*"Google" + 0.004*"plan" + 0.004*"Judge"
+TopicModeling: GENSIM Topic: 14 
+Words: 0.022*"GOP" + 0.013*"Senate" + 0.011*"Reid" + 0.007*"Earmark" + 0.007*"pledge" + 0.007*"youcut" + 0.007*"bill" + 0.006*"Mc" + 0.006*"House" + 0.006*"McConnell"
+TopicModeling: GENSIM Topic: 15 
+Words: 0.010*"en" + 0.007*"iPhone" + 0.006*"free" + 0.006*"U.S" + 0.006*"Trillion" + 0.005*"hoy" + 0.005*"USA" + 0.005*"Denver" + 0.005*"Reuters" + 0.004*"New York"
+TopicModeling: GENSIM Topic: 16 
+Words: 0.020*"Venezuela" + 0.012*"Blake Edwards" + 0.011*"un" + 0.007*"Tea Party" + 0.007*"a R" + 0.007*"São Carlos" + 0.006*"us" + 0.006*"Chavez" + 0.005*"laws" + 0.005*"sendo"
+TopicModeling: GENSIM Topic: 17 
+Words: 0.022*"UR" + 0.015*"poco a poco" + 0.015*"poco" + 0.015*"pasion" + 0.015*"lentamente" + 0.013*"Breaking News" + 0.010*"Christmas" + 0.007*"4 Star" + 0.007*"Redemption" + 0.006*"iPad"
+TopicModeling: GENSIM Topic: 18 
+Words: 0.023*"CNN" + 0.023*"Morgan Freeman" + 0.021*"death" + 0.021*"will" + 0.018*"hoax" + 0.018*"false" + 0.017*"Rumor" + 0.007*"altura" + 0.007*"actor" + 0.007*"life"
+TopicModeling: GENSIM Topic: 19 
+Words: 0.009*"drug" + 0.009*"es" + 0.009*"AP" + 0.008*"euthanize animals" + 0.008*"euthanize" + 0.008*"John David Duty" + 0.008*"executes" + 0.008*"sedative" + 0.008*"Oklahoma" + 0.007*"para"
+TopicModeling: GENSIM Topic: 20 
+Words: 0.011*"who" + 0.006*"billion" + 0.006*"via" + 0.005*"business" + 0.005*"Parabéns" + 0.005*"Xmas" + 0.005*"heart" + 0.005*"Kerry" + 0.004*"trends" + 0.004*"wrong again"
+TopicModeling: GENSIM Topic: 21 
+Words: 0.017*"Facebook" + 0.007*"Google" + 0.007*"Greenwich Village" + 0.006*"director" + 0.006*"Tonight" + 0.004*"Blake Edwards" + 0.004*"via" + 0.004*"Database" + 0.004*"Book" + 0.004*"prices"
+TopicModeling: GENSIM Topic: 22 
+Words: 0.031*"Como" + 0.006*"review" + 0.006*"Afghanistan" + 0.005*"Brasil" + 0.005*"Assange" + 0.004*"US" + 0.004*"Source Code" + 0.004*"Glee" + 0.004*"American" + 0.004*"truthout"
+TopicModeling: GENSIM Topic: 23 
+Words: 0.011*"AJC" + 0.009*"Yes" + 0.009*"bill" + 0.006*"Del.icio.us" + 0.005*"Antofagasta" + 0.005*"earthquake" + 0.005*"phone" + 0.005*"Mexico" + 0.005*"SmartPlanet" + 0.005*"hybrid cars"
+TopicModeling: GENSIM Topic: 24 
+Words: 0.030*"tweet" + 0.013*"CNN" + 0.012*"Obama" + 0.009*"Orange County" + 0.007*"arrested" + 0.007*"Nexus S" + 0.006*"AP" + 0.006*"YouTube" + 0.005*"Twitter" + 0.005*"video"
 TopicModeling: Coherences:
 
 TopicModeling: Calculating model coherence:
 
-Setting topics to those of the model: LdaModel(num_terms=49968, num_topics=5, decay=0.5, chunksize=2000)
+Setting topics to those of the model: LdaModel(num_terms=14606, num_topics=25, decay=0.5, chunksize=2000)
 CorpusAccumulator accumulated stats from 1000 documents
 CorpusAccumulator accumulated stats from 2000 documents
-CorpusAccumulator accumulated stats from 3000 documents
-CorpusAccumulator accumulated stats from 4000 documents
-CorpusAccumulator accumulated stats from 5000 documents
-CorpusAccumulator accumulated stats from 6000 documents
-CorpusAccumulator accumulated stats from 7000 documents
-CorpusAccumulator accumulated stats from 8000 documents
-CorpusAccumulator accumulated stats from 9000 documents
-CorpusAccumulator accumulated stats from 10000 documents
 CorpusAccumulator accumulated stats from 1000 documents
 CorpusAccumulator accumulated stats from 2000 documents
-CorpusAccumulator accumulated stats from 3000 documents
-CorpusAccumulator accumulated stats from 4000 documents
-CorpusAccumulator accumulated stats from 5000 documents
-CorpusAccumulator accumulated stats from 6000 documents
-CorpusAccumulator accumulated stats from 7000 documents
-CorpusAccumulator accumulated stats from 8000 documents
-CorpusAccumulator accumulated stats from 9000 documents
-CorpusAccumulator accumulated stats from 10000 documents
-TopicModeling: Coherence value is: -4.657868511885745
-TopicModeling: Topic coherences are: [-5.6707022517944266, -6.595887569574447, -2.5373837727942847, -2.58786141106487, -2.1722134665811113]
-saving Dictionary object under ../output/58/tml/gensim_5topics_TopicModelingDictionary.mm, separately None
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/58/tml/gensim_5topics_TopicModelingDictionary.mm'}
-saved ../output/58/tml/gensim_5topics_TopicModelingDictionary.mm
+TopicModeling: Coherence value is: -12.401581808629398
+TopicModeling: Topic coherences are: [-4.33484441029974, -16.458052655837935, -9.378001159507466, -9.37831630028411, -3.169327801800141, -4.585393365439418, -18.21583629126422, -9.745898013721995, -7.3412170200955575, -9.68969755918277, -13.643315758633081, -13.175741085012351, -7.383545899381546, -17.535500091622037, -5.853192566143679, -9.985225113272561, -14.628795450460899, -15.024000330687777, -5.538879501040593, -6.358684346844849, -15.891484889604449, -8.982908644279057, -15.089440215894738, -14.096341283395544, -5.49947195329095]
+saving Dictionary object under ../output/60/tml/gensim_25topics_TopicModelingDictionary.mm, separately None
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/60/tml/gensim_25topics_TopicModelingDictionary.mm'}
+saved ../output/60/tml/gensim_25topics_TopicModelingDictionary.mm
 UserSimilarity: Topic modeling done
-UserSimilarity: All users size 10788
-UserSimilarity: All distinct users:10788
-UserSimilarity: users_topic_interests=(10788, 5)
+UserSimilarity: All users size 2930
+UserSimilarity: All distinct users:2930
+UserSimilarity: users_topic_interests=(2930, 25)
 UserSimilarity: Just one topic? False, Binary topic? True, Threshold: 0.2
-10788 users has twitted in 2010-12-17 00:00:00
+2930 users has twitted in 2010-12-17 00:00:00
 UserSimilarity: 0 / 1
-UserSimilarity: UsersTopicInterests.npy is saved for day:0 with shape: (10788, 5)
-UsersGraph: There are 10788 users on 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:0 with shape: (2930, 25)
+UsersGraph: There are 2930 users on 0
+UserSimilarity: A graph is being created for 0 with 2930 users
+UserSimilarity: Number of users per day: [2930]
+UserSimilarity: Graphs created!
+UserSimilarity: Graphs are written in "graphs" directory
+Graph Clustering: Louvain clustering for ../output/60/uml/graphs\01.net
+nodes: 2930 / edges: 255438 / isolates: 3
+Graph Clustering: Louvain clustering output: 25 clusters. 23 of them are multi-user clusters and rest of them (2) are singleton clusters.
+
+Graph Clustering: Length of multi-user clusters: [282, 271, 162, 158, 147, 142, 139, 133, 129, 120, 118, 117, 111, 107, 101, 99, 96, 92, 87, 84, 81, 76, 75]
+
+Graph Clustering: UserClusters.npy saved.
+
+Cluster 0 has 282 users. Topic 5 is the favorite topic for 46.45390070921986% of users.
+Cluster 1 has 271 users. Topic 14 is the favorite topic for 50.184501845018445% of users.
+Cluster 2 has 162 users. Topic 12 is the favorite topic for 81.48148148148148% of users.
+Cluster 3 has 158 users. Topic 4 is the favorite topic for 95.56962025316456% of users.
+Cluster 4 has 147 users. Topic 3 is the favorite topic for 95.91836734693877% of users.
+Cluster 5 has 142 users. Topic 17 is the favorite topic for 88.73239436619718% of users.
+Cluster 6 has 139 users. Topic 9 is the favorite topic for 92.08633093525181% of users.
+Cluster 7 has 133 users. Topic 16 is the favorite topic for 84.9624060150376% of users.
+Cluster 8 has 129 users. Topic 15 is the favorite topic for 87.59689922480621% of users.
+Cluster 9 has 120 users. Topic 18 is the favorite topic for 82.5% of users.
+Cluster 10 has 118 users. Topic 13 is the favorite topic for 88.13559322033898% of users.
+Cluster 11 has 117 users. Topic 19 is the favorite topic for 87.17948717948718% of users.
+Cluster 12 has 111 users. Topic 21 is the favorite topic for 87.38738738738738% of users.
+Cluster 13 has 107 users. Topic 22 is the favorite topic for 92.5233644859813% of users.
+Cluster 14 has 101 users. Topic 10 is the favorite topic for 96.03960396039604% of users.
+Cluster 15 has 99 users. Topic 6 is the favorite topic for 96.96969696969697% of users.
+Cluster 16 has 96 users. Topic 20 is the favorite topic for 90.625% of users.
+Cluster 17 has 92 users. Topic 1 is the favorite topic for 98.91304347826086% of users.
+Cluster 18 has 87 users. Topic 8 is the favorite topic for 98.85057471264368% of users.
+Cluster 19 has 84 users. Topic 7 is the favorite topic for 96.42857142857143% of users.
+Cluster 20 has 81 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 21 has 76 users. Topic 11 is the favorite topic for 100.0% of users.
+Cluster 22 has 75 users. Topic 23 is the favorite topic for 100.0% of users.
+Cluster 23 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 24 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 25 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+update_title_pos
+update_title_pos
+
+NewsTopicExtraction.py:
+
+len(data) for news extraction query: 3446
+
+loading Dictionary object from ../output/60/tml\gensim_25topics_TopicModelingDictionary.mm
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml\\gensim_25topics_TopicModelingDictionary.mm'}
+loaded ../output/60/tml\gensim_25topics_TopicModelingDictionary.mm
+model ../output/60/tml\gensim_25topics.model is loaded.
+loading LdaModel object from ../output/60/tml\gensim_25topics.model
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml\\gensim_25topics.model'}
+loading expElogbeta from ../output/60/tml\gensim_25topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute id2word to None
+setting ignored attribute state to None
+setting ignored attribute dispatcher to None
+loaded ../output/60/tml\gensim_25topics.model
+loading LdaState object from ../output/60/tml\gensim_25topics.model.state
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml\\gensim_25topics.model.state'}
+loaded ../output/60/tml\gensim_25topics.model.state
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml\\gensim_25topics.model.id2word'}
+Topics are extracted for news dataset based on the tweets extracted topics.
+
+
+NewsRecommendation2.py:
+
+loading LdaModel object from ../output/60/tml/gensim_25topics.model
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml/gensim_25topics.model'}
+loading expElogbeta from ../output/60/tml/gensim_25topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute id2word to None
+setting ignored attribute state to None
+setting ignored attribute dispatcher to None
+loaded ../output/60/tml/gensim_25topics.model
+loading LdaState object from ../output/60/tml/gensim_25topics.model.state
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml/gensim_25topics.model.state'}
+loaded ../output/60/tml/gensim_25topics.model.state
+{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml/gensim_25topics.model.id2word'}
+update_title_pos
+findfont: Matching :family=sans-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('C:\\Users\\sorou\\AppData\\Roaming\\Python\\Python36\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf') with score of 0.050000.
+update_title_pos
+update_title_pos
+update_title_pos
+Shape of TopRecommendations: (23, 20)
+
+ModelEvaluation.py:
+
+Selected date for evaluation: 2010-12-17
+
+User: Mentions:12421 / Missed Users:13667 / Mentioners:783 / All Users:2930
+User: total:26088 / sum:26088
+update_title_pos
+update_title_pos
+
+
+Evaluation:
+
+Evaluation: hits: 50
+Evaluation: percentage: 0.06385696040868455
+Evaluation: topK recommendations: 20
+Evaluation: users: 2930

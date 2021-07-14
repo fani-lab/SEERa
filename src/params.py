@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 59
+RunID = 60
 
 
 # SQL setting
@@ -15,7 +15,7 @@ uml = {
 
     'start': '2010-12-17',
     'end': '2010-12-17',
-    'lastRowsNumber': 100000,
+    'lastRowsNumber': 10000,
 
     'num_topics': 25,
     'library': 'gensim',

@@ -6,7 +6,7 @@ import params
 from cmn import Common as cmn
 cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.uml["RunId"]}.log')
 from uml import UserSimilarities  as uml
-from evl import ModelEvaluation as evl#, PytrecEvaluation as PE
+from application import ModelEvaluation as evl#, PytrecEvaluation as PE
 
 
 def RunPipeline():
