@@ -1,7 +1,7 @@
 
 # Community Prediction in Microblogging Social Networks
 
-This is an open-source python-based framework to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest.
+This is an open-source python-based framework to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest. Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as news recommendation and user prediction.
 
 ## Installation
 

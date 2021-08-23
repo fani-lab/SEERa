@@ -150,9 +150,9 @@ saved ../output/60/tml/gensim_25topics.model.state
 {'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/60/tml/gensim_25topics.model.id2word'}
 saving LdaModel object under ../output/60/tml/gensim_25topics.model, separately ['expElogbeta', 'sstats']
 storing np array 'expElogbeta' to ../output/60/tml/gensim_25topics.model.expElogbeta.npy
-not storing attribute id2word
-not storing attribute state
 not storing attribute dispatcher
+not storing attribute state
+not storing attribute id2word
 {'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/60/tml/gensim_25topics.model'}
 saved ../output/60/tml/gensim_25topics.model
 topic #0 (0.040): 0.012*"Larry King" + 0.010*"today" + 0.007*"King Day" + 0.006*"Yahoo" + 0.006*"tonight" + 0.006*"watch" + 0.006*"Delicious" + 0.006*"California" + 0.006*"Cuba" + 0.005*"Leaked"
@@ -305,9 +305,9 @@ model ../output/60/tml\gensim_25topics.model is loaded.
 loading LdaModel object from ../output/60/tml\gensim_25topics.model
 {'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml\\gensim_25topics.model'}
 loading expElogbeta from ../output/60/tml\gensim_25topics.model.expElogbeta.npy with mmap=None
-setting ignored attribute id2word to None
-setting ignored attribute state to None
 setting ignored attribute dispatcher to None
+setting ignored attribute state to None
+setting ignored attribute id2word to None
 loaded ../output/60/tml\gensim_25topics.model
 loading LdaState object from ../output/60/tml\gensim_25topics.model.state
 {'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml\\gensim_25topics.model.state'}
@@ -321,9 +321,9 @@ NewsRecommendation2.py:
 loading LdaModel object from ../output/60/tml/gensim_25topics.model
 {'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml/gensim_25topics.model'}
 loading expElogbeta from ../output/60/tml/gensim_25topics.model.expElogbeta.npy with mmap=None
-setting ignored attribute id2word to None
-setting ignored attribute state to None
 setting ignored attribute dispatcher to None
+setting ignored attribute state to None
+setting ignored attribute id2word to None
 loaded ../output/60/tml/gensim_25topics.model
 loading LdaState object from ../output/60/tml/gensim_25topics.model.state
 {'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/60/tml/gensim_25topics.model.state'}
