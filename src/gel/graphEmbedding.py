@@ -2,6 +2,9 @@ import os
 import networkx as nx
 import matplotlib.pyplot as plt
 from dynamicgem.embedding.dynAERNN import DynAERNN
+from dynamicgem.embedding.ae_static    import AE
+from dynamicgem.embedding.dynAE        import DynAE
+from dynamicgem.embedding.dynRNN       import DynRNN
 import glob
 from dynamicgem.graph_generation import dynamic_SBM_graph as sbm
 from dynamicgem.visualization import plot_dynamic_sbm_embedding
@@ -10,8 +13,74 @@ from sklearn.metrics.pairwise import cosine_similarity
 # import ToyGraphGeneration as TGG
 import numpy as np
 
-
-def main():
+def GEMmethod(dim_emb, lookback, method='DynAERNN'):
+    methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    if method == methods[0]:
+        embedding = AE(d=dim_emb,
+                       beta=5,
+                       nu1=1e-6,
+                       nu2=1e-6,
+                       K=3,
+                       n_units=[500, 300, ],
+                       n_iter=200,
+                       xeta=1e-4,
+                       n_batch=100,
+                       modelfile=['./GEL/enc_model_AE.json',
+                                  './GEL/dec_model_AE.json'],
+                       weightfile=['./GEL/enc_weights_AE.hdf5',
+                                   './GEL/dec_weights_AE.hdf5'])
+    elif method == methods[1]:
+        embedding = DynAE(d=dim_emb,
+                          beta=5,
+                          n_prev_graphs=lookback,
+                          nu1=1e-6,
+                          nu2=1e-6,
+                          n_units=[500, 300, ],
+                          rho=0.3,
+                          n_iter=250,
+                          xeta=1e-4,
+                          n_batch=100,
+                          modelfile=['./intermediate/enc_model_dynAE.json',
+                                     './intermediate/dec_model_dynAE.json'],
+                          weightfile=['./intermediate/enc_weights_dynAE.hdf5',
+                                      './intermediate/dec_weights_dynAE.hdf5'],
+                          savefilesuffix="testing")
+    elif method == methods[2]:
+        embedding = DynRNN(d=dim_emb,
+                           beta=5,
+                           n_prev_graphs=lookback,
+                           nu1=1e-6,
+                           nu2=1e-6,
+                           n_enc_units=[500, 300],
+                           n_dec_units=[500, 300],
+                           rho=0.3,
+                           n_iter=250,
+                           xeta=1e-3,
+                           n_batch=100,
+                           modelfile=['./intermediate/enc_model_dynRNN.json',
+                                      './intermediate/dec_model_dynRNN.json'],
+                           weightfile=['./intermediate/enc_weights_dynRNN.hdf5',
+                                       './intermediate/dec_weights_dynRNN.hdf5'],
+                           savefilesuffix="testing")
+    elif method == methods[3]:
+        embedding = DynAERNN(d=dim_emb,
+                             beta=5,
+                             n_prev_graphs=lookback,
+                             nu1=1e-6,
+                             nu2=1e-6,
+                             n_aeunits=[500, 300],
+                             n_lstmunits=[500, dim_emb],
+                             rho=0.3,
+                             n_iter=200,
+                             xeta=1e-3,
+                             n_batch=100,
+                             modelfile=['./GEL/enc_model_dynAERNN.json',
+                                        './GEL/dec_model_dynAERNN.json'],
+                             weightfile=['./GEL/enc_weights_dynAERNN.hdf5',
+                                         './GEL/dec_weights_dynAERNN.hdf5'],
+                             savefilesuffix="testing")
+    return embedding
+def main(method='DynAERNN'):
     # Parameters for Stochastic block model graph
     # Todal of 1000 nodes
     node_num = 1000
@@ -85,23 +154,8 @@ def main():
     lookback = 2
     print('lookback: ', lookback)
 
-    # dynAERNN
-    embedding = DynAERNN(d=dim_emb,
-                         beta=5,
-                         n_prev_graphs=lookback,
-                         nu1=1e-6,
-                         nu2=1e-6,
-                         n_aeunits=[500, 300],
-                         n_lstmunits=[500, dim_emb],
-                         rho=0.3,
-                         n_iter=20,
-                         xeta=1e-3,
-                         n_batch=5,
-                         modelfile=['./intermediate/enc_model_dynAERNN.json',
-                                    './intermediate/dec_model_dynAERNN.json'],
-                         weightfile=['./intermediate/enc_weights_dynAERNN.hdf5',
-                                     './intermediate/dec_weights_dynAERNN.hdf5'],
-                         savefilesuffix="testing")
+    # methods: ['AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
+    embedding = GEMmethod(dim_emb=dim_emb, lookback=lookback, method=method)
 
     embs = []
     t1 = time()
