@@ -4,10 +4,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import gensim
 import glob
-import os
+import os, sys
+import tagme
+sys.path.extend(["../"])
 import params
 from tml import TopicModeling as tm
 from cmn import Common as cmn
+from dal import DataPreparation as DP
 
 
 def DistinctUsersandMinMaxDate():
@@ -26,7 +29,7 @@ def DistinctUsersandMinMaxDate():
     return minCreationtime, maxCreationtime, DistinctUsers
 
 
-def TextExtractor(stopwords=['www', 'RT', 'com', 'http']):
+def TextExtractor(TagME = True, stopwords=['www', 'RT', 'com', 'http']):
     cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
     cursor = cnx.cursor()
     # sqlScript = '''
@@ -37,18 +40,22 @@ def TextExtractor(stopwords=['www', 'RT', 'com', 'http']):
     #             '''
 
     ## FAKE SQL SCRIPT:
-    sqlScript = f'''select distinct(T.NewsId), T.GC from (SELECT NewsId, GROUP_CONCAT('', Word) as GC FROM
-    twitter3.NewsTagMeAnnotations inner join twitter3.news on twitter3.news.Id = twitter3.NewsTagMeAnnotations.NewsId
-    WHERE twitter3.NewsTagMeAnnotations.Score > 0.07 AND NewsTagMeAnnotations.Word NOT IN ("{'","'.join(stopwords)}")
-    group by NewsId) as T
-    inner join twitter3.goldenstandard2 on twitter3.goldenstandard2.NewsId = T.NewsId
-    '''
+    TagME_SQL = False
+    if TagME and TagME_SQL:
+        sqlScript = f'''select distinct(T.NewsId), T.GC from (SELECT NewsId, GROUP_CONCAT('', Word) as GC FROM
+        twitter3.NewsTagMeAnnotations inner join twitter3.news on twitter3.news.Id = twitter3.NewsTagMeAnnotations.NewsId
+        WHERE twitter3.NewsTagMeAnnotations.Score > 0.07 AND NewsTagMeAnnotations.Word NOT IN ("{'","'.join(stopwords)}")
+        group by NewsId) as T
+        inner join twitter3.goldenstandard2 on twitter3.goldenstandard2.NewsId = T.NewsId
+        '''
+    else:
+        sqlScript = 'select Id,Text from news LIMIT 2000'
     print(sqlScript)
 
     cursor.execute(sqlScript)
     result = cursor.fetchall()
     cnx.close()
-    return np.asarray(result)
+    return np.asarray(result), TagME, TagME_SQL
 
 
 def UserMentions(User, *args, minDate):
@@ -100,15 +107,27 @@ def Analyze2():
     plt.savefig(f'../output/{params.evl["RunId"]}/evl/Mentions_per_Day.jpg')
     return a, b
 
-
+def TAGME(text, threshold=0.05):
+    global DataLen
+    annotations = tagme.annotate(text)
+    result = []
+    if annotations is not None:
+        for keyword in annotations.get_annotations(threshold):
+            result.append(keyword.entity_title)
+    return result
 def main():
     cmn.logger.info("\nNewsTopicExtraction.py:\n")
-    NewsIds_NewsText = TextExtractor()
+    NewsIds_NewsText, TagME, TagME_SQL = TextExtractor()
     print(NewsIds_NewsText.shape)
     NewsIds = NewsIds_NewsText[:, 0]
-    cmn.save2excel(NewsIds, 'evl/NewsIds')
-    np.save(f'../output/{params.evl["RunId"]}/evl/NewsIds.npy', NewsIds)
-    NewsText = NewsIds_NewsText[:, 1]
+    # cmn.save2excel(NewsIds, 'evl/NewsIds')
+    # np.save(f'../output/{params.evl["RunId"]}/evl/NewsIds.npy', NewsIds)
+    if (TagME and TagME_SQL) or (not TagME):
+        NewsText = NewsIds_NewsText[:, 1]
+    if TagME:
+        NewsText_temp = pd.Series(NewsIds_NewsText[:, 1])
+        print(type(NewsText_temp))
+        NewsText = NewsText_temp.map(TAGME)
     cmn.save2excel(NewsText, 'evl/NewsText')
     data = pd.DataFrame({'Id': NewsIds, 'Text': NewsText})
     data_text = data['Text']

@@ -32,8 +32,7 @@ def ClusterTopicInterest(clusters, usertopicinterests):
 
 def main(RunId, method):
     if method == 'louvain':
-
-    louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True,
+        louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True,
                                      return_aggregate=True, verbose=1)
     print(os.getcwd())
     graphName = glob.glob(f'../output/{RunId}/uml/graphs/*.net')[-1]
