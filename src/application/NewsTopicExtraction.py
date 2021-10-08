@@ -126,7 +126,6 @@ def main():
         NewsText = NewsIds_NewsText[:, 1]
     if TagME:
         NewsText_temp = pd.Series(NewsIds_NewsText[:, 1])
-        print(type(NewsText_temp))
         NewsText = NewsText_temp.map(TAGME)
     cmn.save2excel(NewsText, 'evl/NewsText')
     data = pd.DataFrame({'Id': NewsIds, 'Text': NewsText})
