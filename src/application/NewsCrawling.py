@@ -48,9 +48,9 @@ for count, url in enumerate(URLs):
         article.download()
         article.parse()
         text = article.text
-        text = text.replace("'", "")
+        # text = text.replace("'", "")
         title = article.title
-        title = title.replace("'", "")
+        # title = title.replace("'", "")
         newsArticles.append(text)
         newsTitles.append(title)
         TweetIds.append(Ids[count])
