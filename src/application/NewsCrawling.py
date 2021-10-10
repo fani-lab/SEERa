@@ -35,8 +35,8 @@ sqlScript = 'SELECT distinct Id, ExpandedUrl FROM twitter3.tweetentities where E
 cursor.execute(sqlScript)
 result = cursor.fetchall()
 result = np.asarray(result)
-Ids = result[:, 0][:100]
-URLs = result[:, 1][:100]
+Ids = result[:, 0]
+URLs = result[:, 1]
 newsArticles = []
 newsTitles = []
 TweetIds = []
