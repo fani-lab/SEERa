@@ -72,4 +72,5 @@ def main(RunId, method):
     UTIName = glob.glob(f'../output/{RunId}/uml/Day*UsersTopicInterests.npy')[-1]
     UTI = np.load(UTIName)
     ClusterTopicInterest(lbls_louvain, UTI)
+    return lbls_louvain
 

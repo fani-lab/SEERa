@@ -115,8 +115,9 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     #     else:
     #         nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/{i+1}.net')
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
-    GC.main(RunId=RunId)
+    Communities = GC.main(RunId=RunId)
     GR.main(RunId=RunId)
+    return Communities
 
 
 ## test

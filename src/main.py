@@ -12,7 +12,7 @@ from application import ModelEvaluation as evl#, PytrecEvaluation as PE
 def RunPipeline():
     cmn.logger.info(f'Main: UserSimilarities ...')
     copyfile('params.py', f'../output/used_params_runid_{params.uml["RunId"]}.py')
-    uml.main(start=params.uml['start'],
+    Communities = uml.main(start=params.uml['start'],
              end=params.uml['end'],
              stopwords=['www', 'RT', 'com', 'http'],
              userModeling=params.uml['userModeling'],
@@ -29,9 +29,15 @@ def RunPipeline():
              Bin=params.uml['Bin'],
              Threshold=params.uml['Threshold'],
              RunId=params.uml['RunId'])
-    Pytrec_result = evl.main(RunId=params.evl['RunId'],
-             path2_save_evl=f'../output/{params.evl["RunId"]}/evl',)
-    return  Pytrec_result
+    if params.evl['EvaluationType'] == 'Extrinsic':
+        result = evl.main(RunId=params.evl['RunId'],
+                 path2_save_evl=f'../output/{params.evl["RunId"]}/evl',)
+    elif params.evl['EvaluationType'] == 'Intrinsic':
+        result = evl.intrinsic_evaluation(Communities, params.evl['GoldenStandardPath'])
+    else:
+        result = -1
+        print('Wrong Evaluation Type. ')
+    return result
 
 PytrecResult = RunPipeline()
 
