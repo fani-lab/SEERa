@@ -16,6 +16,7 @@ from tml import TopicModeling as tm
 from uml import UsersGraph as UG
 from cpl import GraphClustering as GC
 from cpl import GraphReconstruction_main as GR
+import params
 
 
 
@@ -24,8 +25,11 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
              num_topics=20, filterExtremes=True, library='gensim', path_2_save_tml='../../output/tml',
              path2_save_uml='../../output/uml', JO=True, Bin=True, Threshold = 0.4, RunId=0):
     if not os.path.isdir(path2_save_uml): os.makedirs(path2_save_uml)
+    print('salam')
     dataset = dr.load_tweets(Tagme=True, start=start, end=end, stopwords=['www', 'RT', 'com', 'http'])
-    processed_docs, documents = dp.data_preparation(dataset, userModeling=userModeling, timeModeling=timeModeling,  preProcessing=preProcessing, TagME=TagME, lastRowsNumber=lastRowsNumber)
+    processed_docs, documents = dp.data_preparation(dataset, userModeling=userModeling, timeModeling=timeModeling,
+                                                    preProcessing=preProcessing, TagME=TagME, lastRowsNumber=lastRowsNumber,
+                                                    startDate=params.uml['start'])
     pp = np.asarray(processed_docs)
     cmn.logger.info(f'UserSimilarity: Processed docs shape: {pp.shape}')
     cmn.logger.info(f'UserSimilarity: Topic modeling ...')

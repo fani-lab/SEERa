@@ -30,7 +30,7 @@ def ClusterTopicInterest(clusters, usertopicinterests):
         cmn.logger.info("Cluster "+str(ci)+" has "+str(len(clusterInterests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(countpercentage)+ '% of users.')
 
 
-def main(RunId, method):
+def main(RunId, method='louvain'):
     if method == 'louvain':
         louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True,
                                      return_aggregate=True, verbose=1)

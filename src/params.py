@@ -13,12 +13,13 @@ database = 'twitter3'
 
 
 uml = {
-    'Comment': 'Corrected - Real test',
+    'Comment': '',
     'RunId': RunID,
 
     'start': '2010-12-17',
-    'end': '2010-12-17',
-    'lastRowsNumber': 10000,
+    'end': '2011-05-14',
+    'timeInterval': 3,
+    'lastRowsNumber': 2000,
 
     'num_topics': 25,
     'library': 'gensim',

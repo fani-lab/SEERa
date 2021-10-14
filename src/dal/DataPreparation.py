@@ -9,6 +9,7 @@ from gensim.parsing.preprocessing import STOPWORDS
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 global TagmeCounter
 global DataLen
+import datetime
 tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
 
 
@@ -16,15 +17,33 @@ sys.path.extend(["../"])
 from cmn import Common as cmn
 import params
 
-def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0):
+# def datetimetoday(reverse=False):
+#     if reverse == False:
+#         return
+#         pass
+#     else:
+
+def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0,
+                     startDate = params.uml['start'], timeInterval=params.uml['timeInterval']):
     global DataLen
-    print(dataset.shape)
-    cmn.logger.info(f'DataPreperation: userModeling={userModeling}, timeModeling={timeModeling}, preProcessing={preProcessing}, TagME={TagME}')
-    data = pd.DataFrame({'Id': dataset[:, 0], 'Text': dataset[:, 1], 'CreationDate': dataset[:, 2], 'userId': dataset[:, 3], 'ModificationTimeStamp': dataset[:, 4]})
+    date_time_obj = datetime.datetime.strptime(startDate, '%Y-%m-%d').date()
+    startDateOrdinal = date_time_obj.toordinal()
+    newDateTime = []
+    for i in range(len(dataset)):
+        date = dataset[i, 2].toordinal() - startDateOrdinal
+        exeededdays = date % timeInterval
+        newDateTime.append(dataset[i, 2] - datetime.timedelta(exeededdays))
+    dataset = np.c_[dataset, np.asarray(newDateTime)]
+    cmn.logger.info(f'DataPreperation: userModeling={userModeling}, timeModeling={timeModeling},'
+                    f'preProcessing={preProcessing}, TagME={TagME}')
+
+    data = pd.DataFrame({'Id': dataset[:, 0], 'Text': dataset[:, 1], 'OriginalCreationDate:': dataset[:, 2],
+                         'CreationDate': dataset[:, 2], 'userId': dataset[:, 3],
+                         'ModificationTimeStamp': dataset[:, 4], 'CreationDate:': dataset[:, 5]})
+
     data.to_csv(f"../output/{params.uml['RunId']}/data1.csv", sep=",", encoding='utf-8', index=False)
     #data.sort_values(by=['CreationDate']) #moved to sql query
 
-    #print(data['CreationDate'])
     # data.sample(frac=1)
     cmn.logger.info(f'DataPreperation: {np.abs(lastRowsNumber)} sampled from the end of dataset (sorted by creationTime)')
     data = data[-lastRowsNumber:]
