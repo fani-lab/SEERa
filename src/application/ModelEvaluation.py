@@ -9,7 +9,6 @@ from application import NewsTopicExtraction as NTE, NewsRecommendation as NR, Py
 import params
 import pickle
 import sklearn.metrics.cluster as CM
-
 def save_obj(obj, name ):
     with open(name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
@@ -51,6 +50,7 @@ def userMentions(day_before,end_date):
 
 
 def main(RunId, path2_save_evl):
+    os.chdir('../../../')
     if not os.path.isdir(path2_save_evl): os.makedirs(path2_save_evl)
     NTE.main()
     NR.main(topK=params.evl['TopK'])

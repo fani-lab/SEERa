@@ -6,6 +6,8 @@ from dynamicgem.embedding.ae_static    import AE
 from dynamicgem.embedding.dynAE        import DynAE
 from dynamicgem.embedding.dynRNN       import DynRNN
 import glob
+from gel import CppWrapper as N2V
+import params
 from dynamicgem.graph_generation import dynamic_SBM_graph as sbm
 from dynamicgem.visualization import plot_dynamic_sbm_embedding
 from time import time
@@ -80,7 +82,7 @@ def GEMmethod(dim_emb, lookback, method='DynAERNN'):
                                          './GEL/dec_weights_dynAERNN.hdf5'],
                              savefilesuffix="testing")
     return embedding
-def main(method='DynAERNN'):
+def main(method='Node2Vec'):
     # Parameters for Stochastic block model graph
     # Todal of 1000 nodes
     node_num = 1000
@@ -124,11 +126,13 @@ def main(method='DynAERNN'):
     #           nx.read_gpickle('scenario3/graph_day3.net'), nx.read_gpickle('scenario3/graph_day4.net'),
     #           nx.read_gpickle('scenario3/graph_day5.net'), nx.read_gpickle('scenario3/graph_day6.net'),
     #           nx.read_gpickle('scenario3/graph_day7.net')]
-    graphs_path = glob.glob('*.net')
+    graphs_path = glob.glob(f'{params.uml["path2saveUML"]}/graphs/*.net')
     graphs = []
     for gp in graphs_path:
         graphs.append(nx.read_gpickle(gp))
     print('len graph: ', len(graphs))
+    # print(os.getcwd())
+    # print(f'{params.uml["path2saveUML"]}/{params.RunID}/uml/graphs/*.net')
     # graphs = [nx.read_gpickle('graph_day1.net'), nx.read_gpickle('graph_day2.net'),
     #           nx.read_gpickle('graph_day3.net'), nx.read_gpickle('graph_day4.net'),
     #           nx.read_gpickle('graph_day5.net'), nx.read_gpickle('graph_day6.net'),
@@ -150,28 +154,35 @@ def main(method='DynAERNN'):
 
     # parameters for the dynamic embedding
     # dimension of the embedding
-    dim_emb = 100
+    dim_emb = params.uml['EmbeddingDim']
     lookback = 2
     print('lookback: ', lookback)
 
     # methods: ['AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
-    embedding = GEMmethod(dim_emb=dim_emb, lookback=lookback, method=method)
+    if method == 'Node2Vec':
+        # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
+        if not os.path.isdir(params.uml["path2saveGEL"]): os.makedirs(params.uml["path2saveGEL"])
+        N2V.main(params.uml['path2saveUML']+'/graphs', params.uml['path2saveGEL'], params.uml['EmbeddingDim'])
+    else:
+        embedding = GEMmethod(dim_emb=dim_emb, lookback=lookback, method=method)
 
-    embs = []
-    t1 = time()
-    for temp_var in range(lookback + 1, length + 1):
-        emb, _ = embedding.learn_embeddings(graphs[:temp_var])
-        print('emb type: ', type(emb))
-        embs.append(emb)
-    embs = np.asarray(embs)
-    print('embs shape: ', embs)
-    print(embedding._method_name + ':\n\tTraining time: %f' % (time() - t1))
-    plt.figure()
-    plt.clf()
-    # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
-    # plt.savefig('myname.png')
-    np.save('embeddeds.npy', embs)
-    plt.show()
+        embs = []
+        t1 = time()
+        for temp_var in range(lookback + 1, length + 1):
+            emb, _ = embedding.learn_embeddings(graphs[:temp_var])
+            print('emb type: ', type(emb))
+            embs.append(emb)
+        embs = np.asarray(embs)
+        print('embs shape: ', embs)
+        print(embedding._method_name + ':\n\tTraining time: %f' % (time() - t1))
+        plt.figure()
+        plt.clf()
+        # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
+        # plt.savefig('myname.png')
+        # print(os.getcwd())
+        # print(f'{params.uml["path2saveGEL"]}/embeddeds.npy')
+        np.save(f'{params.uml["path2saveGEL"]}/embeddeds.npy', embs)
+        plt.show()
 
 
 # if __name__ == '__main__':
@@ -187,13 +198,13 @@ def main(method='DynAERNN'):
 #     print('min of similarities: ', usersSimilarity.min())
 
 
-os.chdir('run_outputs/2021_03_31__03_24/graphs')
-main()
-emb = np.load('embeddeds.npy')
-length = np.load('length.npy')
-    # dss = np.load('dynamic_sbm_series.npy', allow_pickle=True)
-grp = np.load('graphs.npy', allow_pickle=True)
-e = emb[-1]
-    # g = nx.read_gpickle('graph_day14.net')
-usersSimilarity = cosine_similarity(e)
-print('min of similarities: ', usersSimilarity.min())
+# os.chdir('run_outputs/2021_03_31__03_24/graphs')
+# main()
+# emb = np.load('embeddeds.npy')
+# length = np.load('length.npy')
+#     # dss = np.load('dynamic_sbm_series.npy', allow_pickle=True)
+# grp = np.load('graphs.npy', allow_pickle=True)
+# e = emb[-1]
+#     # g = nx.read_gpickle('graph_day14.net')
+# usersSimilarity = cosine_similarity(e)
+# print('min of similarities: ', usersSimilarity.min())

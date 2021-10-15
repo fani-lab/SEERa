@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 60
+RunID = 64
 
 # SQL setting
 user = 'root'
@@ -17,9 +17,9 @@ uml = {
     'RunId': RunID,
 
     'start': '2010-12-17',
-    'end': '2011-05-14',
-    'timeInterval': 3,
-    'lastRowsNumber': 2000,
+    'end': '2010-12-17',
+    'timeInterval': 1,
+    'lastRowsNumber': 300,
 
     'num_topics': 25,
     'library': 'gensim',
@@ -36,11 +36,16 @@ uml = {
     'JO': False,
     'Bin': True,
     'Threshold': 0.2,
-    'UserSimilarityThreshold': 0.2
+    'UserSimilarityThreshold': 0.2,
+    'GraphEmbedding': 'Node2Vec',
+    'path2saveUML': f'../output/{RunID}/uml',
+    'path2saveTML': f'../output/{RunID}/tml',
+    'path2saveGEL': f'../output/{RunID}/gel',
+    'EmbeddingDim': 40
 }
 
 evl = {
-    'EvaluationType': 'Intrinsic', # ['Intrinsic', 'Extrinsic']
+    'EvaluationType': 'Extrinsic', # ['Intrinsic', 'Extrinsic']
 
     # If intrinsic evaluation:
     'EvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure',
