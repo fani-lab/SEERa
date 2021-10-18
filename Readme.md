@@ -147,7 +147,98 @@ evl = {
     'TopK': 20 # Number of selected top news recommendation candidates.
 }
 ```
-
+## Results
+<table style="color:#828282;">
+    <tr style=" color:black;" align="center">
+        <th style="background-color:#A8A8A8;" rowspan="2">Method</th>
+        <th style="background-color:#A8A8A8;" colspan="3">News Recommendation</th>
+        <th style="background-color:#A8A8A8;" colspan="3">User Prediction</th>
+    </tr>
+    <tr style="color:black;">
+        <th style="background-color:#A8A8A8;">mrr</th>
+        <th style="background-color:#A8A8A8;">ndcg5</th>
+        <th style="background-color:#A8A8A8;">ndcg10</th>
+        <th style="background-color:#A8A8A8;">Precision</th>
+        <th style="background-color:#A8A8A8;">Recall</th>
+        <th style="background-color:#A8A8A8;">f1-measure</th>
+    </tr>
+    <tr>
+        <th style="text-align:left; color:black; background-color:#FBF0CE" colspan="7"> Community Prediction </th>
+    </tr>
+    <tr>
+        <th style="color:black;">Our approach</th>
+        <th style="color:black;">0.255</th>
+        <th style="color:black;">0.108</th>
+        <th style="color:black;">0.105</th>
+        <th style="color:black;">0.012</th>
+        <th>0.035</th>
+        <th style="color:black;">0.015</th>
+    </tr>
+    <tr>
+        <th style="color:black;">Appel et al. [PKDD' 18]</th>
+        <th>0.176</th>
+        <th>0.056</th>
+        <th>0.055</th>
+        <th>0.007</th>
+        <th>0.094</th>
+        <th>0.0105</th>
+    </tr>
+        <th style="text-align:left; color:black; background-color:#FBF0CE" colspan="7"> Temporal community detection </th>
+        <tr>
+        <th style="color:black;">Hu et al. [SIGMOD’15]</th>
+        <th>0.173</th>
+        <th>0.056</th>
+        <th>0.049</th>
+        <th>0.007</th>
+        <th>0.136</th>
+        <th>0.013</th>
+    </tr>
+        <th style="color:black;">Fani et al.    [CIKM’17]</th>
+        <th>0.065</th>
+        <th>0.040</th>
+        <th>0.040</th>
+        <th>0.007</th>
+        <th>0.136</th>
+        <th>0.013</th>
+    </tr>
+        <th style="text-align:left; color:black; background-color:#FBF0CE" colspan="7"> Non-temporal link-based community detection </th>
+    <tr>
+        <th style="color:black;">Ye et al.[CIKM’18]</th>
+        <th>0.139</th>
+        <th>0.056</th>
+        <th>0.055</th>
+        <th>0.008</th>
+        <th>0.208</th>
+        <th>0.014</th>
+    </tr>
+        <th style="color:black;">Louvain[JSTAT’08]</th>
+        <th>0.108</th>
+        <th>0.048</th>
+        <th>0.055</th>
+        <th>0.004</th>
+        <th>0.129</th>
+        <th>0.007</th>
+    </tr>
+        <th style="text-align:left; color:black;background-color:#FBF0CE" colspan="7"> Collaborative filtering </th>
+    </tr>
+        <th style="color:black;">rrn[WSDM’17]</th>
+        <th>0.173</th>
+        <th>0.073</th>
+        <th>0.08</th>
+        <th>0.004</th>
+        <th style="color:black;">0.740</th>
+        <th>0.008</th>
+    </tr>
+    <tr>
+        <th style="color:black;">timesvd++    [KDD’08]</th>
+        <th>0.141</th>
+        <th>0.058</th>
+        <th>0.064</th>
+        <th>0.003</th>
+        <th>0.657</th>
+        <th>0.005</th>
+    </tr>
+</table>
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

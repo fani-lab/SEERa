@@ -50,6 +50,7 @@ evl = {
     # If intrinsic evaluation:
     'EvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure',
                           'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
+    'GoldenStandardPath': '/path2GS',
     'RunId': RunID,
     'Threshold': 0,
     'TopK': 20
