@@ -19,11 +19,7 @@ Workflow | Layers
 ## 2. Structure
 
 ### Framework Structure
-Our framework has six major layers: Data Access Layer (DAL),
-Topic Modeling Layer (TML), User Modeling Layer (UML), Graph
-Embedding Layer (GEL), and Community Prediction Layer (CPL).
-The application layer, is the last
-layer to show how our method improves the performance of an application.
+Our framework has six major layers: Data Access Layer (``dal``), Topic Modeling Layer (``tml``), User Modeling Layer (``uml``), Graph Embedding Layer (``gel``), and Community Prediction Layer (``cpl``). The application layer (``apl``), is the last layer, as shown in the above figure.
 
 ### Code Structure
 │── **output**\
