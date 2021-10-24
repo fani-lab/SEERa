@@ -1,8 +1,18 @@
 
-# Community Prediction in Microblogging Social Networks
+# A Framework for Community Prediction in Online Social Networks with Streaming Content
+This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``](https://martinfowler.com/bliki/InversionOfControl.html) to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest. User community prediction aims at identifying communities in the future based on the users' temporal topics of interest. We model inter-user topical affinities at each time interval via streams of temporal graphs. Our framework benefits from temporal graph embedding methods to learn temporal vector representations for users as users' topics of interests and hence their inter-user topical affinities are changing in time. We predict user communities in future time intervals based on the final locations of users' vectors in the latent space. Our framework employs ``layered software design`` that adds modularity, maintainability,  ease of extensibility, and stability against customization and ad hoc changes to its components including ``topic modeling``, ``user modeling``, ``temporal user embedding``, ``user community prediction`` and ``evaluation``. More importantly, our framework further offers one-stop shop access to future communities to improve recommendation systems and advertising campaigns. Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as ``news recommendation`` and user ``prediction`` (see [here](https://hosseinfani.github.io/res/papers/Temporal%20Latent%20Space%20Modeling%20For%20Community%20Prediction.pdf), also below).
 
-This is an open-source python-based [framework](https://martinfowler.com/bliki/InversionOfControl.html) to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest.
-Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as news recommendation and user prediction.
+# Demo
+:movie_camera: [Video Playlist](): 1) [Introduction]() -> 2) [Installation]() ->3) [Extension]()
+<p align="center">
+    <img src="./demo/flow.pdf", width="400", alt="Workflow Diagram">
+    <br>
+    Workflow Diagram
+    <img src="./demo/layers.png", width="1000", alt="Component Diagram">
+    <br>
+    Component Diagram 
+</p>
+
 
 ## Installation
 
@@ -36,9 +46,6 @@ Topic Modeling Layer (TML), User Modeling Layer (UML), Graph
 Embedding Layer (GEL), and Community Prediction Layer (CPL).
 The application layer, is the last
 layer to show how our method improves the performance of an application.
-
-![image info](fig1.png "T")
-
 
 ### Code Structure
 │── **output**\
