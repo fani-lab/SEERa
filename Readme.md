@@ -5,7 +5,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 1. [Demo](#1-Demo)
 2. [Structure](#2-Structure)
 3. [Setup](#3-Setup)
-4. [Usage](#4-Usage)
+4. [Quick Start](#4-Quick Start)
 5. [Result](#5-Result)
 6. [License](#6-License)
 
@@ -68,7 +68,7 @@ This command installs compatible version of the following libraries:
 >* gel: ``networkx, dynamicgem``
 >* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``
 
-## 4. Usage
+## 4. Quick Start
 
 ### Data
 We crawled and stored Twitter posts (tweets) for 2 consecutive months.
