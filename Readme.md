@@ -2,43 +2,22 @@
 # A Framework for Community Prediction in Online Social Networks with Streaming Content
 This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``](https://martinfowler.com/bliki/InversionOfControl.html) to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest. User community prediction aims at identifying communities in the future based on the users' temporal topics of interest. We model inter-user topical affinities at each time interval via streams of temporal graphs. Our framework benefits from temporal graph embedding methods to learn temporal vector representations for users as users' topics of interests and hence their inter-user topical affinities are changing in time. We predict user communities in future time intervals based on the final locations of users' vectors in the latent space. Our framework employs ``layered software design`` that adds modularity, maintainability,  ease of extensibility, and stability against customization and ad hoc changes to its components including ``topic modeling``, ``user modeling``, ``temporal user embedding``, ``user community prediction`` and ``evaluation``. More importantly, our framework further offers one-stop shop access to future communities to improve recommendation systems and advertising campaigns. Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as ``news recommendation`` and user ``prediction`` (see [here](https://hosseinfani.github.io/res/papers/Temporal%20Latent%20Space%20Modeling%20For%20Community%20Prediction.pdf), also below).
 
-# Demo
+1. [Demo](#1-Demo)
+2. [Structure](#2-Structure)
+3. [Setup](#3-Setup)
+4. [Usage](#4-Usage)
+5. [Result](#5-Result)
+6. [License](#6-License)
+7. [Contributing](#7-Contributing)
+
+## 1. Demo
 :movie_camera: [Video Playlist](): 1) [Introduction]() -> 2) [Installation]() ->3) [Extension]()
-<p align="center">
-    <img src="./demo/flow.pdf", width="400", alt="Workflow Diagram">
-    <br>
-    Workflow Diagram
-    <img src="./demo/layers.png", width="1000", alt="Component Diagram">
-    <br>
-    Component Diagram 
-</p>
 
+Workflow | Layers
+:---------------:|:-------------------------:
+![](./demo/flow.jpg) | ![](./demo/layers.jpg)
 
-## Installation
-
-It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use this command in your shell:
-
-```bash
- pip install -r requirements.txt
-```
-This command installs compatible version of the following libraries:
-
->* gensim
->* networkx
->* scikit-network
->* dynamicgem
->* tagme
->* nltk
->* numpy
->* pandas
->* scikit-learn
->* scipy
->* sklearn
->* requests
->* mysql-connector-python
->* matplotlib
-
-## Structure
+## 2. Structure
 
 ### Framework Structure
 Our framework has six major layers: Data Access Layer (DAL),
@@ -80,8 +59,21 @@ layer to show how our method improves the performance of an application.
 │&nbsp;&nbsp;&nbsp;│── *params.py*\
 │── *requirements.txt*
 
+## 3. Setup
 
-## Usage
+It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use this command in your shell:
+
+```bash
+ pip install -r requirements.txt
+```
+This command installs compatible version of the following libraries:
+
+>* dal: ``mysql-connector-python``
+>* tml: ``gensim, tagme, nltk, pandas, requests``
+>* gel: ``networkx, dynamicgem``
+>* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``
+
+## 4. Usage
 
 ### Data
 We crawled and stored Twitter posts (tweets) for 2 consecutive months.
@@ -104,8 +96,8 @@ After modifying '*params.py*', you can run the framework via '*main.py*' with fo
 cd src
 python main.py
 ```
-## Examples
-### **params.py**
+### Examples
+#### **params.py**
 ```python
 import random
 import numpy as np
@@ -154,7 +146,7 @@ evl = {
     'TopK': 20 # Number of selected top news recommendation candidates.
 }
 ```
-## Results
+## 5. Result
 <table style="color:#828282;">
     <tr style=" color:black;" align="center">
         <th style="background-color:#A8A8A8;" rowspan="2">Method</th>
@@ -247,17 +239,17 @@ evl = {
     </tr>
 </table>
 
-## Contributing
+## 6. Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-
-## License
+## 7. License
 ©2021. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.
 
-## Contact
+### Contact
 Email: [ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca) - [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)\
 Project link: [https://github.com/soroush-ziaeinejad/Community-Prediction](https://github.com/soroush-ziaeinejad/Community-Prediction)
-## Acknowledgments
+
+### Acknowledgments
 In this work, we use [dynamicgem](https://github.com/Sujit-O/dynamicgem) library to temporally embed our user graphs. We would like to thank the authors of this library.
 
 
