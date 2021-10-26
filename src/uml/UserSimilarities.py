@@ -35,17 +35,7 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     dictionary, bow_corpus, totalTopics, lda_model = tm.topic_modeling(processed_docs, num_topics=num_topics, filterExtremes=filterExtremes, library=library, path_2_save_tml=path_2_save_tml)
     cmn.logger.info(f'UserSimilarity: Topic modeling done')
 
-    # dictionary.save('TopicModelingDictionary.mm') moved to topic_modeling.py
 
-    ##### moved to the main.py.
-    ##### we can play with start and end to have same effect
-    # end_date = datetime.datetime(2010, 11, 17, 0, 0, 0)
-    # np.save('end_date.npy', end_date)
-    # daysBefore = 10
-    # logger.critical("Run the model for last "+str(daysBefore)+" days.")
-    # day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=daysBefore)
-    # logger.critical("From "+str(day.date())+" to "+str(end_date.date())+'\n')
-    #
     total_users_topic_interests = []
     all_users = documents['userId']
     cmn.logger.info(f'UserSimilarity: All users size {len(all_users)}')

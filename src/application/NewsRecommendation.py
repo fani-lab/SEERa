@@ -22,20 +22,8 @@ def RecommendationTableAnalyzer(RT, test, savename):
     plt.close()
     return comm_news
 
-# def ChangeLoc():
-#     run_list = glob.glob('../output/2021*')
-#     print(run_list[-1])
-#     os.chdir(run_list[-1])
-#
-# def LogFile():
-#     file_handler = logging.FileHandler("../logfile.log")
-#     logger = logging.getLogger()
-#     logger.addHandler(file_handler)
-#     logger.setLevel(logging.ERROR)
-#     return logger
 
-def main(topK = 10):
-    # logger = LogFile()
+def main(topK=10):
     cmn.logger.info("\nNewsRecommendation2.py:\n")
     NewsIds = np.load(f'../output/{params.evl["RunId"]}/evl/NewsIds.npy')
     # LDA Model and News Topics Loading

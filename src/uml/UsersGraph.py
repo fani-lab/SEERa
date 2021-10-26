@@ -32,18 +32,3 @@ def create_users_graph(day, users_topic_interests, path_2_save, sparsity=False):
         G = nx.from_numpy_matrix(usersSimilarity)
     # nx.write_pajek(G, f'{path_2_save}/graph_{num_users}users_{num_topics}topics_{day}day.net')
     return G
-
-
-# def similarity(interests1, interests2, sim_type='cos', sparsity=False):
-#     if sim_type == 'cos':
-#         if sparsity:
-#             i1 = sparse.csr_matrix(interests1)
-#             i2 = sparse.csr_matrix(interests2)
-#             sim = np.round(cosine_similarity(i1, i2), 3)[0][0]
-#             if sim < 0.1:
-#                 sim = 0
-#             return sim
-#         else:
-#             return cosine_similarity(interests1, interests2)
-#     else:
-#         pass

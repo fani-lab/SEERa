@@ -39,7 +39,6 @@ def TextExtractor(TagME = True, stopwords=['www', 'RT', 'com', 'http']):
     #             group by NewsId
     #             '''
 
-    ## FAKE SQL SCRIPT:
     TagME_SQL = False
     if TagME and TagME_SQL:
         sqlScript = f'''select distinct(T.NewsId), T.GC from (SELECT NewsId, GROUP_CONCAT('', Word) as GC FROM
