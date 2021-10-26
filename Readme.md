@@ -108,37 +108,66 @@ host = ''
 database = ''
 
 
-uml = {
+general = {
     'Comment': '', # Any comment to express more information about the configuration.
-    'RunId': RunID, # A unique number to identify the configuration per run.
+}
 
+dal = {
     'start': '2010-12-17', # First date of system activity
-    'end': '2010-12-17', # Last day of system activity
-    'lastRowsNumber': 100000, # Number of picked rows of the dataset for the whole process as a sample.
-
-    'num_topics': 25, # Number of topics that should be extracted from our corpus.
-    'library': 'gensim', # Used library to extract topics from the corpus. Could be 'gensim' or 'mallet'
-
-    'mallet_home': '--------------', # mallet_home path
+    'end': '2011-02-17', # Last day of system activity
+    'timeInterval': 1, # Time interval (days) for grouping documents
+    'lastRowsNumber': 100000, # Number of picked rows of the dataset for the whole process as a sample
     
     # Following parameters is used to generate corpus from our dataset:
     'userModeling': True, # Aggregates all tweets of a user as a document
     'timeModeling': True, # Aggregate all tweets of a specific day as a document
     'preProcessing': False, # Applying some traditional pre-processing methods on corpus
-    'TagME': False, # Apply Tagme on the raw dataset. Set it to False if tagme-dataset is used.
-     
+    'TagME': False, # Apply Tagme on the raw dataset. Set it to False if tagme-dataset is used
+    'tagme_GCUBE_TOKEN': "--------------" # Tagme GCUBE TOKEN. For more information, visit: [TagmeHelp](https://sobigdata.d4science.org/web/tagme/tagme-help)
+}
 
-    'filterExtremes': True, # Filter very common and very rare terms in all documents.
+tml = {
+    'num_topics': 25, # Number of topics that should be extracted from our corpus
+    'library': 'gensim', # Used library to extract topics from the corpus. Could be 'gensim' or 'mallet'
+    'mallet_home': '--------------', # mallet_home path
+    'filterExtremes': True, # Filter very common and very rare terms in all documents
     'JO': False, # (JO:=JustOne) If True, just one topic is chosen for each document
     'Bin': True, # (Bin:=Binary) If True, all scores above/below a threshold is set to 1/0 for each topic
-    'Threshold': 0.2, # A threshold for topic scores quantization.
-    'UserSimilarityThreshold': 0.2 # A threshold for filtering low user similarity scores.
+    'Threshold': 0.2, # A threshold for topic scores quantization
+    'path2saveTML': f'../output/{RunID}/tml'
+}
+
+uml = {
+    'RunId': RunID, # A unique number to identify the configuration per run
+    'UserSimilarityThreshold': 0.2, # A threshold for filtering low user similarity scores
+    'path2saveUML': f'../output/{RunID}/uml'
+}
+
+gel = {
+    'GraphEmbedding': 'Node2Vec', # Graph embedding method. Available options are ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    'EmbeddingDim': 40, # Embedding dimension
+    'path2saveGEL': f'../output/{RunID}/gel'
+}
+
+cpl = {
+    'ClusteringApproach': 'Indirect', # Available options are ['Direct', 'Indirect']. 'Direct': Applying a non-graph clustering method directly on predicted communities in latent space; 'Indirect': Apply a graph clustering method on generated graph based on the output of predicted communities
+    'ClusteringMethod': 'Louvain', # Specification of the clustering method based on 'ClusteringApproach'. The only available option is 'Louvain' ('ClusteringApproach': 'Indirect') which is a graph clustering method
 }
 
 evl = {
     'RunId': RunID,
-    'Threshold': 0, # A threshold for filtering low news recommendation scores.
-    'TopK': 20 # Number of selected top news recommendation candidates.
+    'EvaluationType': 'Extrinsic', # ['Intrinsic', 'Extrinsic']
+    
+    # If 'EvaluationType' is set to 'Intrinsic', two below parameters should set as well
+    'EvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure',
+                          'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
+    'GoldenStandardPath': '/path2GS', # Path to the golden standard
+    # ----------------------------------------------------------------------------------
+}
+
+application = {
+    'Threshold': 0.2, # A threshold for filtering low news recommendation scores
+    'TopK': 20 # Number of selected top news recommendation candidates
 }
 ```
 ## 5. Result
