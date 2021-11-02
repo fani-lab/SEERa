@@ -10,7 +10,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 6. [License](#6-License)
 
 ## 1. Demo
-:movie_camera: Video Playlist (tbd): 1) Introduction -> 2) Installation ->3) Extension
+:movie_camera: Video Playlist ([tbd](https://github.com/fani-lab/community_prediction/issues/11)): 1) Introduction -> 2) Installation ->3) Extension
 
 Workflow | Layers
 :---------------:|:-------------------------:
