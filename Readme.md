@@ -274,7 +274,7 @@ application = {
 ©2021. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.
 
 ### Contact
-Email: [ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca) - [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)\
+Email: [ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca), [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)
 
 ### Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
