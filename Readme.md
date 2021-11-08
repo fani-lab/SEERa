@@ -19,40 +19,46 @@ Workflow | Layers
 ## 2. Structure
 
 ### Framework Structure
-Our framework has six major layers: Data Access Layer (``dal``), Topic Modeling Layer (``tml``), User Modeling Layer (``uml``), Graph Embedding Layer (``gel``), and Community Prediction Layer (``cpl``). The application layer (``apl``), is the last layer, as shown in the above figure.
+Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), Topic Modeling Layer ([``tml``](./src/tml)), User Modeling Layer ([``uml``](./src/uml)), Graph Embedding Layer ([``gel``](./src/gel)), and Community Prediction Layer ([``cpl``](./src/cpl)). The application layer ([``apl``](./src/apl)), is the last layer, as shown in the above figure.
 
 ### Code Structure
-│── **output**\
-│── **src**\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **cmn** (common functions)\
-│&nbsp;&nbsp;&nbsp;│──── *Common.py*\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **dal**  (data access layer)\
-│&nbsp;&nbsp;&nbsp;│──── *DataPreparation.py*\
-│&nbsp;&nbsp;&nbsp;│──── *DataReader.py*\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **tml**  (topic modeling layer)\
-│&nbsp;&nbsp;&nbsp;│──── *TopicModeling.py*\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **uml** (user modeling layer)\
-│&nbsp;&nbsp;&nbsp;│──── *UsersGraph.py*\
-│&nbsp;&nbsp;&nbsp;│──── *UserSimilarities.py*\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **gel** (graph embedding layer)\
-│&nbsp;&nbsp;&nbsp;│──── *GraphEmbedding.py*\
-│&nbsp;&nbsp;&nbsp;│──── *GraphReconstruction.py*\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **cpl** (community prediction layer)\
-│&nbsp;&nbsp;&nbsp;│──── *GraphClustering.py*\
-│&nbsp;&nbsp;&nbsp;│\
-│&nbsp;&nbsp;&nbsp;│── **application**\
-│&nbsp;&nbsp;&nbsp;│──── *NewsTopicExtraction.py*\
-│&nbsp;&nbsp;&nbsp;│──── *NewsRecommendation.py*\
-│&nbsp;&nbsp;&nbsp;│──── *ModelEvaluation.py*\
-│&nbsp;&nbsp;&nbsp;│── *main.py*\
-│&nbsp;&nbsp;&nbsp;│── *params.py*\
-│── *requirements.txt*
+```
++---output
++---src
+|   +---cmn (common functions)
+|   |   \---Common.py
+|   |
+|   +---dal  (data access layer)
+|   |   +---DataPreparation.py
+|   |   \---DataReader.py
+|   |
+|   +---dal  (data access layer)
+|   |   +---DataPreparation.py
+|   |   \---DataReader.py
+|   |
+|   +---tml  (topic modeling layer)
+|   |   \---TopicModeling.py
+|   |
+|   +---uml (user modeling layer)
+|   |   +---UsersGraph.py
+|   |   \---UserSimilarities.py
+|   |
+|   +---gel (graph embedding layer)
+|   |   +---GraphEmbedding.py
+|   |   \---GraphReconstruction.py
+|   |
+|   +---cpl (community prediction layer)
+|   |   \---GraphClustering.py
+|   |
+|   +---apl (application layer)
+|   |   +---NewsTopicExtraction.py
+|   |   +---NewsRecommendation.py
+|   |   \---ModelEvaluation.py
+|   |
+|   +---main.py
+|   \---params.py
+\---requirements.txt
+```
 
 ## 3. Setup
 
