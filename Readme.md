@@ -8,6 +8,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 4. [Quick Start](#4-Quick-Start)
 5. [Result](#5-Result)
 6. [License](#6-License)
+7. [Citation](#7-Citation)
 
 ## 1. Demo
 :movie_camera: Video Playlist ([tbd](https://github.com/fani-lab/community_prediction/issues/11)): 1) Introduction -> 2) Installation ->3) Extension
@@ -274,7 +275,6 @@ application = {
 
 ### Contact
 Email: [ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca) - [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)\
-Project link: [https://github.com/soroush-ziaeinejad/Community-Prediction](https://github.com/soroush-ziaeinejad/Community-Prediction)
 
 ### Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -282,4 +282,21 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ### Acknowledgments
 In this work, we use [dynamicgem](https://github.com/Sujit-O/dynamicgem) library to temporally embed our user graphs. We would like to thank the authors of this library.
 
-
+## 7. Citation
+```
+@inproceedings{DBLP:conf/ecir/FaniBD20,
+  author    = {Hossein Fani and Ebrahim Bagheri and Weichang Du},
+  title     = {Temporal Latent Space Modeling for Community Prediction},
+  booktitle = {Advances in Information Retrieval - 42nd European Conference on {IR} Research, {ECIR} 2020, Lisbon, Portugal, April 14-17, 2020, Proceedings, Part {I}},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {12035},
+  pages     = {745--759},
+  publisher = {Springer},
+  year      = {2020},
+  url       = {https://doi.org/10.1007/978-3-030-45439-5\_49},
+  doi       = {10.1007/978-3-030-45439-5\_49},
+  timestamp = {Thu, 14 May 2020 10:17:16 +0200},
+  biburl    = {https://dblp.org/rec/conf/ecir/FaniBD20.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
