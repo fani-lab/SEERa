@@ -33,10 +33,6 @@ Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), To
 |   |   +---DataPreparation.py
 |   |   \---DataReader.py
 |   |
-|   +---dal  (data access layer)
-|   |   +---DataPreparation.py
-|   |   \---DataReader.py
-|   |
 |   +---tml  (topic modeling layer)
 |   |   \---TopicModeling.py
 |   |
