@@ -59,7 +59,7 @@ Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), To
 
 ## 3. Setup
 
-It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use this command in your shell:
+It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use the following commands in your shell:
 
 ```bash
 git clone https://github.com/fani-lab/community_prediction.git
@@ -72,6 +72,8 @@ This command installs compatible version of the following libraries:
 >* tml: ``gensim, tagme, nltk, pandas, requests``
 >* gel: ``networkx, dynamicgem``
 >* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``
+
+Also, you need to install ``MAchine Learning for LanguagE Toolkit (mallet)`` from its [``git``](https://github.com/mimno/Mallet) or [``website``](http://mallet.cs.umass.edu/index.php), as a requirement in ``tml``. 
 
 ## 4. Quick Start
 
@@ -269,7 +271,7 @@ Email: [ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca), [soroushziaeinejad@g
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ### Acknowledgments
-In this work, we use [dynamicgem](https://github.com/Sujit-O/dynamicgem) library to temporally embed our user graphs. We would like to thank the authors of this library.
+In this work, we use [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [``mallet``](https://github.com/mimno/Mallet), [``pytrec_eval``](https://github.com/cvangysel/pytrec_eval) and other libraries. We would like to thank the authors of these libraries.
 
 ## 7. Citation
 ```
