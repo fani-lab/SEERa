@@ -1,6 +1,6 @@
 
 # A Framework for Community Prediction in Online Social Networks with Streaming Content
-This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``](https://martinfowler.com/bliki/InversionOfControl.html) to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest. User community prediction aims at identifying communities in the future based on the users' temporal topics of interest. We model inter-user topical affinities at each time interval via streams of temporal graphs. Our framework benefits from temporal graph embedding methods to learn temporal vector representations for users as users' topics of interests and hence their inter-user topical affinities are changing in time. We predict user communities in future time intervals based on the final locations of users' vectors in the latent space. Our framework employs ``layered software design`` that adds modularity, maintainability,  ease of extensibility, and stability against customization and ad hoc changes to its components including ``topic modeling``, ``user modeling``, ``temporal user embedding``, ``user community prediction`` and ``evaluation``. More importantly, our framework further offers one-stop shop access to future communities to improve recommendation systems and advertising campaigns. Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as ``news recommendation`` and user ``prediction`` (see [here](https://hosseinfani.github.io/res/papers/Temporal%20Latent%20Space%20Modeling%20For%20Community%20Prediction.pdf), also below).
+This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``](https://martinfowler.com/bliki/InversionOfControl.html) to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest. User community prediction aims at identifying communities in the future based on the users' temporal topics of interest. We model inter-user topical affinities at each time interval via streams of temporal graphs. Our framework benefits from temporal graph embedding methods to learn temporal vector representations for users as users' topics of interests and hence their inter-user topical affinities are changing in time. We predict user communities in future time intervals based on the final locations of users' vectors in the latent space. Our framework employs ``layered software design`` that adds modularity, maintainability,  ease of extensibility, and stability against customization and ad hoc changes to its components including ``topic modeling``, ``user modeling``, ``temporal user embedding``, ``user community prediction`` and ``evaluation``. More importantly, our framework further offers one-stop shop access to future communities to improve recommendation systems and advertising campaigns. Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as ``news article recommendation`` and ``user prediction`` (see [here](https://hosseinfani.github.io/res/papers/Temporal%20Latent%20Space%20Modeling%20For%20Community%20Prediction.pdf), also below).
 
 1. [Demo](#1-Demo)
 2. [Structure](#2-Structure)
@@ -62,7 +62,9 @@ Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), To
 It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use this command in your shell:
 
 ```bash
- pip install -r requirements.txt
+git clone https://github.com/fani-lab/community_prediction.git
+cd community_prediction
+pip install -r requirements.txt
 ```
 This command installs compatible version of the following libraries:
 
@@ -74,17 +76,8 @@ This command installs compatible version of the following libraries:
 ## 4. Quick Start
 
 ### Data
-We crawled and stored Twitter posts (tweets) for 2 consecutive months.
-The data is available as some sql scripts that should be executed.
-They are accessible through the following links. Please download and execute
-them into your local database engine. Please be sure that your sql engine is
-working when you start to run the framework.
-* [GoldenStandard](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/golden_standard.sql?csf=1&web=1&e=DdsSPk)
-* [NewsTables](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/news_tables.zip?csf=1&web=1&e=lrKwxs)
-* [TagMeTables](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tagme_tables.rar?csf=1&web=1&e=Ny5VRY)
-* [TagmeAnnotations](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tagmeannotations.rar?csf=1&web=1&e=PDtoi3)
-* [TweetEntities](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tweet_entities.rar?csf=1&web=1&e=RM5fr8)
-* [TweetUsers](https://uwin365.sharepoint.com/:u:/r/sites/cshfrg-CommunityPrediction/Shared%20Documents/Community%20Prediction/Projects/User_Community_Prediction/Data/tweets_users.rar?csf=1&web=1&e=PisPI3)
+We crawled and stored Twitter posts (tweets) for 2 consecutive months. The data is available as ``sql`` scripts at [``ds_twitter``](), including, ``Tweets``, ``TweetEntities``, ``TweetUsers``, ``TagmeAnnotations``, ``NewsTables``, and ``GoldenStandard (for news article recommendation)``.
+
 ### Run
 This framework contains six different layers. Each layer is affected by multiple parameters.
 Some of those parameters are fixed in the code via trial and error. However, major parameters such as number of topics can be adjusted by the user.
@@ -169,8 +162,8 @@ evl = {
 }
 
 application = {
-    'Threshold': 0.2, # A threshold for filtering low news recommendation scores
-    'TopK': 20 # Number of selected top news recommendation candidates
+    'Threshold': 0.2, # A threshold for filtering low news article recommendation scores
+    'TopK': 20 # Number of selected top news article recommendation candidates
 }
 ```
 ## 5. Result
