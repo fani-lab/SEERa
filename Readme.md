@@ -78,7 +78,7 @@ Also, you need to install ``MAchine Learning for LanguagE Toolkit (mallet)`` fro
 ## 4. Quick Start
 
 ### Data
-We crawled and stored Twitter posts (tweets) for 2 consecutive months. The data is available as ``sql`` scripts at [``ds_twitter``](), including, ``Tweets``, ``TweetEntities``, ``TweetUsers``, ``TagmeAnnotations``, ``NewsTables``, and ``GoldenStandard (for news article recommendation)``.
+We crawled and stored Twitter posts (tweets) for 2 consecutive months. The data is available as ``sql`` scripts at [``ds_twitter``](https://drive.google.com/file/d/1UGMPx2xkcNE0e7PbKLpTY61IwvLsKQyN/view?usp=sharing), including, ``Tweets``, ``TweetEntities``, ``TweetUsers``, ``TagmeAnnotations``, ``NewsTables``, and ``GoldenStandard (for news article recommendation)``.
 
 ### Run
 This framework contains six different layers. Each layer is affected by multiple parameters.
