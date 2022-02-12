@@ -5,7 +5,7 @@ import sys
 # MySQL passwords:
 # Surface: Ghsss.34436673
 # Y510: soroush56673sor7
-
+import pandas as pd
 
 sys.path.extend(["../"])
 from cmn import Common as cmn
@@ -66,3 +66,85 @@ def GoldenStandard2Reader():
 
 ## test
 #load_tweets(Tagme=True, start='2015-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'])
+
+
+##########################################################################################################
+#########################################################################################################
+def GoldenStandard2ReaderCSV():
+    table = pd.read_csv(r'../CSV/goldenstandard.csv', sep=';',
+                        encoding='utf-8') #loads all from GoldenStandard CSV into dataframe
+    return table
+
+
+def load_tweetsCVS(startDate, endDate, stopwords=['www', 'RT', 'com', 'http']):
+
+    # reading csv file and creating dataframe with name tweets, change as necessary
+    tweets = pd.read_csv(r'../CSV/stweets.csv', sep=';', encoding='utf-8')
+    # changing name of Id to TweetId to allow merge with tagme dataframe
+    tweets.rename(columns={'Id': 'TweetId'}, inplace=True)
+    tweets = tweets.drop(columns=["Text"])  # drop unwanted columns named Text
+    tweets = tweets[tweets.TweetId != -1]  # remove rows with tweet ids -1 value
+    tweets = tweets[tweets.UserId != -1]  # remove rows with user ids with -1 value
+
+    tagme = pd.read_csv(r'../CSV/tagmeannotations.csv', sep=';', encoding='utf-8')  # creating tagme dataframe from csv
+    tagme = tagme[tagme.Score > 0.07]  # drop scores below .07
+    tagme = tagme[~tagme['Word'].isin(stopwords)]  # drop rows with stopwords
+    tagme = tagme.drop(columns=["StartIndex", "EndIndex", "ConceptId", "IsDeleted", "Id",
+                                "Score"])  # drop unwanted columns
+    tagme.Word = tagme.Word.astype('string')  # declare type of word as string
+    tagme = tagme.groupby('TweetId').agg(
+        lambda word: word.tolist())  # take all words with same TweetId and put them in a list
+
+    tweets = pd.merge(tweets, tagme, on='TweetId')  # merge dataframes
+    tweets.rename(columns={"CreationTimestamp": "CreationDate", "Word": "Tokens"},
+                  inplace=True)  # rename columns to match sql quarry
+
+    tweets['ModificationTimestamp'] = pd.to_datetime(tweets['ModificationTimestamp'])
+    tweets['CreationDate'] = pd.to_datetime(tweets['CreationDate']) # declare that creationdate and modification timestamp is a datetime value
+
+    # locate only the tweets we want to actually grab and save to tweets dataframe from the entered start and end date
+    tweets = tweets.loc[(tweets['CreationDate'] >= startDate)
+                        & (tweets['CreationDate'] < endDate)]
+
+    print(tweets.to_string()) # for viewing table during testing
+    return tweets
+#########################################################################################################
+#########################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
