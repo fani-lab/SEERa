@@ -48,7 +48,34 @@ def userMentions(day_before,end_date):
     print('Connection Closed')
     return table
 
+#########################################################################################################
+##########################################################################################################
+def userMentionsCSV():
+    # creating tweetentities dataframe from tweetentities.csv
+    tweetentities = pd.read_csv(r'../CSV/tweetentities.csv', sep=';', encoding='utf-8')
+    # renaming Id to NewsId
+    tweetentities.rename(columns={"Id": "NewsId"}, inplace=True)
 
+    tweets = pd.read_csv(r'../CSV/stweets.csv', sep=';', encoding='utf-8')  # creating tweets dataframe from csv
+    tweets.rename(columns={"Id": "TweetId"}, inplace=True)  # remaining Id in tweets dataframe to TweetsId
+    tweets = tweets[tweets.UserId != -1]  # remove user ids with -1 value
+
+    # drop tables we dont need from tweetentities dataframe
+    tweetentities = tweetentities.drop(columns=["Text","StartIndex","EndIndex","EntityTypeCode","Url",
+                                                "DisplayUrl","Name","ScreenName","UserOrMediaId","MediaUrl",
+                                                "MediaUrlHttps","MediaType","MediaSize"])
+
+    # drop tables we dont need from tweets dataframe
+    tweets = tweets.drop(columns=["Text","ModificationTimestamp"])
+
+    tweetentities = pd.merge(tweetentities, tweets, on="TweetId") # merge the tables on TweetId
+    tweetentities = tweetentities.dropna(subset=["ExpandedUrl"]) # drop rows with NaN in ExpandableUrl
+
+    # print(tweetentities.to_string()) # for testing table output
+
+    return tweetentities
+#########################################################################################################
+#########################################################################################################
 def main(RunId, path2_save_evl):
     os.chdir('../../../')
     if not os.path.isdir(path2_save_evl): os.makedirs(path2_save_evl)
@@ -148,3 +175,4 @@ def intrinsic_evaluation(Communities, GoldenStandard, EvaluationMetrics=params.e
             print('Wrong Clustering Metric!')
             continue
     return results
+

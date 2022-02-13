@@ -28,6 +28,23 @@ def DistinctUsersandMinMaxDate():
     print('Connection Closed')
     return minCreationtime, maxCreationtime, DistinctUsers
 
+#########################################################################################################
+#########################################################################################################
+def DistinctUsersandMinMaxDateCSV(stopwords = ['www', 'RT', 'com', 'http']):
+    # creating dataframe named tagme which will store our data, please change location of CVS as necessary
+    tagme = pd.read_csv(r'../CSV/newstagmeannotations.csv', sep=';', encoding='utf-8')
+    tagme = tagme[tagme.Score > 0.07]  # drop words with scores below .07 from table
+    tagme = tagme[~tagme['Word'].isin(stopwords)]  # drop rows that contain any words from above stopword list
+    tagme = tagme.drop(columns=["Id","StartIndex","EndIndex","Score","ConceptId","NewsSectionTypeCode"])  # drop unwanted columns from tagme table
+    tagme.Word = tagme.Word.astype('string')  # declare column named "Word" to type of string
+    tagme.rename(columns={"Word": "GC"}, inplace=True) # rename column as per SQL quarry
+    tagme = tagme.groupby('NewsId').agg(lambda word: word.tolist())  # take all words with same NewsId and put them in a list
+
+    ## print(tagme.to_string()) for testing purposes to view table output
+    return tagme
+
+#########################################################################################################
+#########################################################################################################
 
 def TextExtractor(TagME = True, stopwords=['www', 'RT', 'com', 'http']):
     cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
@@ -176,4 +193,5 @@ def main():
     # plt.close()
     # c,d,e = Analyze()
     # plt.close()
+
 
