@@ -4,10 +4,10 @@ import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import gensim
 from gensim.models.coherencemodel import CoherenceModel
-import pyLDAvis
-import pyLDAvis.gensim
+#import pyLDAvis
+#import pyLDAvis.gensim
 
-sys.path.extend(["../"])
+#sys.path.extend(["../"])
 from cmn import Common as cmn
 import params
 

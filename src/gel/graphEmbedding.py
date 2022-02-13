@@ -1,10 +1,12 @@
 import os
 import networkx as nx
 import matplotlib.pyplot as plt
+'''
 from dynamicgem.embedding.dynAERNN import DynAERNN
 from dynamicgem.embedding.ae_static    import AE
 from dynamicgem.embedding.dynAE        import DynAE
 from dynamicgem.embedding.dynRNN       import DynRNN
+'''
 import glob
 from gel import CppWrapper as N2V
 import params
@@ -94,15 +96,15 @@ def main(method='Node2Vec'):
 
     # parameters for the dynamic embedding
     # dimension of the embedding
-    dim_emb = params.uml['EmbeddingDim']
+    dim_emb = params.gel['EmbeddingDim']
     lookback = 2
     print('lookback: ', lookback)
 
     # methods: ['AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
-        if not os.path.isdir(params.uml["path2saveGEL"]): os.makedirs(params.uml["path2saveGEL"])
-        N2V.main(params.uml['path2saveUML']+'/graphs', params.uml['path2saveGEL'], params.uml['EmbeddingDim'])
+        if not os.path.isdir(params.gel["path2saveGEL"]): os.makedirs(params.gel["path2saveGEL"])
+        N2V.main(params.uml['path2saveUML']+'/graphs', params.gel['path2saveGEL'], params.gel['EmbeddingDim'])
     else:
         embedding = GEMmethod(dim_emb=dim_emb, lookback=lookback, method=method)
 
@@ -121,5 +123,5 @@ def main(method='Node2Vec'):
         # plt.savefig('myname.png')
         # print(os.getcwd())
         # print(f'{params.uml["path2saveGEL"]}/embeddeds.npy')
-        np.save(f'{params.uml["path2saveGEL"]}/embeddeds.npy', embs)
+        np.save(f'{params.gel["path2saveGEL"]}/embeddeds.npy', embs)
         plt.show()

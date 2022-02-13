@@ -8,34 +8,17 @@ import gensim
 import networkx as nx
 import pandas as pd
 
-sys.path.extend(["../"])
+#sys.path.extend(["../"])
 from cmn import Common as cmn
-from dal import DataReader as dr
-from dal import DataPreparation as dp
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
-from cpl import GraphClustering as GC
-from cpl import GraphReconstruction_main as GR
 import params
 
 
 
-def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'],
-             userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0,
-             num_topics=20, filterExtremes=True, library='gensim', path_2_save_tml=params.uml['path2saveTML'],
-             path2_save_uml=params.uml['path2saveUML'], JO=True, Bin=True, Threshold = 0.4, RunId=0):
+def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], path2_save_uml=params.uml['path2saveUML'],
+         JO=params.tml['JO'], Bin=params.tml['Bin'], Threshold=params.tml['Threshold'], RunId=params.general['RunId']):
     if not os.path.isdir(path2_save_uml): os.makedirs(path2_save_uml)
-    dataset = dr.load_tweets(Tagme=True, start=start, end=end, stopwords=['www', 'RT', 'com', 'http'])
-    processed_docs, documents = dp.data_preparation(dataset, userModeling=userModeling, timeModeling=timeModeling,
-                                                    preProcessing=preProcessing, TagME=TagME, lastRowsNumber=lastRowsNumber,
-                                                    startDate=params.uml['start'])
-    pp = np.asarray(processed_docs)
-    cmn.logger.info(f'UserSimilarity: Processed docs shape: {pp.shape}')
-    cmn.logger.info(f'UserSimilarity: Topic modeling ...')
-    dictionary, bow_corpus, totalTopics, lda_model = tm.topic_modeling(processed_docs, num_topics=num_topics, filterExtremes=filterExtremes, library=library, path_2_save_tml=path_2_save_tml)
-    cmn.logger.info(f'UserSimilarity: Topic modeling done')
-
-
     total_users_topic_interests = []
     all_users = documents['userId']
     cmn.logger.info(f'UserSimilarity: All users size {len(all_users)}')
@@ -52,9 +35,9 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     lenUsers = []
 
     end_date = documents['CreationDate'].max()
-    end_date = datetime.datetime.strptime(end, '%Y-%m-%d')
+    end_date = datetime.datetime.strptime(params.dal['end'], '%Y-%m-%d')
     day = documents['CreationDate'].min()
-    day = datetime.datetime.strptime(start, '%Y-%m-%d')
+    day = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
 
 
     ## FOR TEST:
@@ -62,13 +45,13 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
 
 
     while day <= end_date:
-        c = documents[(documents['CreationDate'] == day)]
+        c = documents[(documents['CreationDate'] == day.date())]
         cmn.logger.info(f'{len(c)} users has twitted in {day}')
-        texts = c['Text']
+        texts = c['Tokens']
         users = c['userId']
         lenUsers.append(len(users))
         users_Ids = []
-        for userTextidx in range(len(c['Text'])):
+        for userTextidx in range(len(c['Tokens'])):
         # for userTextidx in range(min(5000, len(c['Text']))):
             doc = texts.iloc[userTextidx]
             user_bow_corpus = dictionary.doc2bow(doc.split(','))
@@ -108,9 +91,7 @@ def main(start='2010-11-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'h
     #     else:
     #         nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/{i+1}.net')
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
-    Communities = GC.main(RunId=RunId)
-    GR.main(RunId=RunId)
-    return Communities
+
 
 
 ## test

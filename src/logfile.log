@@ -1,357 +1,625 @@
-CACHEDIR=C:\Users\sorou\.matplotlib
-Using fontManager instance from C:\Users\sorou\.matplotlib\fontlist-v330.json
-Loaded backend module://backend_interagg version unknown.
-Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
-Main: UserSimilarities ...
-DataReader: Connection created
-DataReader: 39968 rows returned
-DataReader: Connection closed
+Data Reading ...
+dataset.shape: (10595, 6)
+dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
+       'Tokens'],
+      dtype='object')
+Data Preparation ...
 DataPreperation: userModeling=True, timeModeling=True,preProcessing=False, TagME=False
-DataPreperation: 300 sampled from the end of dataset (sorted by creationTime)
-DataPreperation: Length of the dataset after applying groupby: 135 
+DataPreperation: 1 sampled from the end of dataset (sorted by creationTime)
+DataPreperation: Length of the dataset after applying groupby: 2207 
 
-UserSimilarity: Processed docs shape: (135,)
-UserSimilarity: Topic modeling ...
+DataPreparation: Processed docs shape: (2207,)
+processed_docs.shape: (2207,)
+documents.shape: (2207, 3)
+Topic modeling ...
 TopicModeling: num_topics=25,  filterExtremes=True, library=gensim
 adding document #0 to Dictionary(0 unique tokens: [])
-built Dictionary(816 unique tokens: ['Henry W. Longfellow', 'beautiful', 'evil', 'lover', "lover's"]...) from 135 documents (total 1065 corpus positions)
+built Dictionary(15239 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...) from 2207 documents (total 35994 corpus positions)
+starting a new internal lifecycle event log for Dictionary
+Dictionary lifecycle event {'msg': "built Dictionary(15239 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...) from 2207 documents (total 35994 corpus positions)", 'datetime': '2022-02-13T05:52:47.064723', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'created'}
 discarding 0 tokens: []...
-keeping 816 tokens which were in no less than 1 and no more than 27 (=20.0%) documents
+keeping 15239 tokens which were in no less than 1 and no more than 441 (=20.0%) documents
 rebuilding dictionary, shrinking gaps
-resulting dictionary: Dictionary(816 unique tokens: ['Henry W. Longfellow', 'beautiful', 'evil', 'lover', "lover's"]...)
+resulting dictionary: Dictionary(15239 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...)
 using symmetric alpha at 0.04
 using symmetric eta at 0.04
 using serial LDA version on this node
-running online (multi-pass) LDA training, 25 topics, 5 passes over the supplied corpus of 135 documents, updating model once every 135 documents, evaluating perplexity every 135 documents, iterating 50x with a convergence threshold of 0.001000
+running online (multi-pass) LDA training, 25 topics, 5 passes over the supplied corpus of 2207 documents, updating model once every 2000 documents, evaluating perplexity every 2207 documents, iterating 50x with a convergence threshold of 0.001000
 too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
-bound: at document #0
--42.930 per-word bound, 8376597509191.7 perplexity estimate based on a held-out corpus of 135 documents with 1065 words
-PROGRESS: pass 0, at document #135/135
-performing inference on a chunk of 135 documents
-122/135 documents converged within 50 iterations
+PROGRESS: pass 0, at document #2000/2207
+performing inference on a chunk of 2000 documents
+1615/2000 documents converged within 50 iterations
 updating topics
-topic #23 (0.040): 0.023*"fono" + 0.017*"Chopin" + 0.012*"Doors" + 0.011*"banned" + 0.011*"earth" + 0.011*"Cuba" + 0.011*"Wikileaks" + 0.011*"Michael Moore" + 0.011*"evolution" + 0.011*"Story"
-topic #5 (0.040): 0.021*"to win" + 0.021*"BBC" + 0.021*"lifetime" + 0.020*"activism" + 0.020*"VAW" + 0.019*"rape" + 0.019*"tcot" + 0.011*"I believe" + 0.011*"Bedfordshire" + 0.011*"Dreamland"
-topic #15 (0.040): 0.092*"BBC" + 0.026*"Gallo" + 0.026*"Knicks" + 0.018*"NBA" + 0.011*"snow" + 0.009*"WikiLeaks" + 0.009*"UK" + 0.009*"dunks" + 0.009*"Celts" + 0.009*"That's what I am"
-topic #20 (0.040): 0.019*"Private" + 0.019*"Words" + 0.019*"Public / Private" + 0.019*"Public" + 0.019*"hoy" + 0.018*"spiritual" + 0.012*"ones" + 0.011*"sleep" + 0.011*"rituals" + 0.011*"Tarot"
-topic #17 (0.040): 0.087*"Marisela" + 0.087*"Escobedo" + 0.022*"burla" + 0.022*"Aquí está" + 0.022*"justicia" + 0.022*"Chihuahua" + 0.022*"Río Pánuco" + 0.022*"U.S" + 0.001*"urges" + 0.001*"Angelina Jolie"
-topic diff=20.957458, rho=1.000000
+merging changes from 2000 documents into a model of 2207 documents
+topic #10 (0.040): 0.007*"un" + 0.005*"como" + 0.004*"Blog" + 0.003*"Kyi" + 0.003*"NZ" + 0.003*"la" + 0.003*"US" + 0.002*"en" + 0.002*"Obama" + 0.002*"British"
+topic #5 (0.040): 0.004*"Obama" + 0.004*"China" + 0.003*"Pakistan" + 0.003*"dead" + 0.003*"Twitter" + 0.003*"Haiti  cholera outbreak" + 0.003*"nice" + 0.003*"India" + 0.003*"lol" + 0.003*"Broadway"
+topic #8 (0.040): 0.014*"xfactor" + 0.007*"British" + 0.005*"Somali pirates" + 0.004*"yacht" + 0.004*"captivity" + 0.003*"Haiti" + 0.003*"will" + 0.003*"Scorpio" + 0.003*"la" + 0.003*"China"
+topic #21 (0.040): 0.005*"Obama" + 0.004*"China" + 0.003*"can" + 0.003*"Karachi" + 0.003*"die" + 0.003*"es" + 0.003*"pour" + 0.003*"people" + 0.002*"FOX News" + 0.002*"New York"
+topic #6 (0.040): 0.004*"who" + 0.004*"will" + 0.004*"French" + 0.004*"Blog" + 0.004*"American" + 0.003*"Sarah Palin" + 0.003*"producer" + 0.003*"Octagon" + 0.003*"British" + 0.002*"captivity"
+topic diff=19.938339, rho=1.000000
 bound: at document #0
--8.045 per-word bound, 264.2 perplexity estimate based on a held-out corpus of 135 documents with 1065 words
-PROGRESS: pass 1, at document #135/135
-performing inference on a chunk of 135 documents
-135/135 documents converged within 50 iterations
+-20.383 per-word bound, 1367185.4 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
+PROGRESS: pass 0, at document #2207/2207
+performing inference on a chunk of 207 documents
+205/207 documents converged within 50 iterations
 updating topics
-topic #7 (0.040): 0.019*"spy" + 0.019*"on line" + 0.019*"Pakistan" + 0.019*"drone attacks" + 0.019*"customer.service" + 0.019*"iraq" + 0.019*"ukuncut" + 0.019*"country" + 0.019*"London" + 0.019*"Protest"
-topic #2 (0.040): 0.021*"Aid" + 0.021*"Jeff" + 0.021*"State" + 0.021*"Malmberg" + 0.021*"Jobless" + 0.021*"evacuated" + 0.021*"Dallas-Fort Worth International Airport" + 0.021*"DFW Airport" + 0.021*"tcot" + 0.021*"People"
-topic #0 (0.040): 0.029*"Brown Betty" + 0.029*"Cloak" + 0.019*"cool" + 0.019*"NOW" + 0.019*"Steve Cooley" + 0.019*"entertainment" + 0.019*"ugly" + 0.019*"War" + 0.019*"Good" + 0.019*"idols"
-topic #14 (0.040): 0.012*"fasse" + 0.012*"puisse" + 0.012*"pourrais" + 0.012*"din" + 0.012*"Sued" + 0.012*"est" + 0.012*"pa" + 0.012*"na" + 0.012*"Mortgages" + 0.012*"Bank of America"
-topic #22 (0.040): 0.140*"BBC" + 0.021*"snow" + 0.015*"UK" + 0.013*"blah" + 0.013*" blah" + 0.013*"am" + 0.013*"Conservative" + 0.013*"gop" + 0.013*"tcot" + 0.010*"hits"
-topic diff=0.212151, rho=0.577350
+merging changes from 207 documents into a model of 2207 documents
+topic #21 (0.040): 0.176*"Sun" + 0.011*"Obama" + 0.008*"don't ask" + 0.008*"oil spill" + 0.007*"iPad" + 0.007*"working" + 0.006*"post" + 0.006*"GOP" + 0.005*"apps" + 0.005*"us"
+topic #18 (0.040): 0.014*"man" + 0.012*"Ohio" + 0.012*"basement" + 0.012*"teen" + 0.012*"charged" + 0.012*"kidnapping" + 0.012*"safe" + 0.012*"members" + 0.012*"Mexican" + 0.012*"family"
+topic #12 (0.040): 0.021*"e-mail" + 0.021*"hacker" + 0.020*"government" + 0.017*"year and a day" + 0.017*"sentenced" + 0.017*"prison" + 0.016*"French" + 0.016*"Sarah Palin" + 0.013*"Myanmar" + 0.013*"Sarkozy"
+topic #6 (0.040): 0.016*"T Magazine" + 0.016*"Delhi" + 0.011*"South America" + 0.011*"Yeah" + 0.010*"currency" + 0.006*"justice" + 0.005*"yoga" + 0.005*"Eye Candy" + 0.005*"Celine" + 0.005*"Celine's"
+topic #7 (0.040): 0.013*"Zahra Baker" + 0.013*"N.Carolina" + 0.011*"first time" + 0.010*"women" + 0.009*"Brain" + 0.008*"authorities" + 0.008*"gay" + 0.007*"hacker" + 0.007*"Meeting" + 0.007*"Palin"
+topic diff=0.866697, rho=0.707107
+PROGRESS: pass 1, at document #2000/2207
+performing inference on a chunk of 2000 documents
+1996/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 2207 documents
+topic #13 (0.040): 0.015*"Leaders" + 0.014*"Asia-Pacific" + 0.014*"Trade" + 0.008*"Work" + 0.007*"first" + 0.007*"President Obama" + 0.007*"white" + 0.007*"Obama" + 0.006*"Treaty" + 0.006*"Arms"
+topic #21 (0.040): 0.074*"Sun" + 0.011*"Obama" + 0.006*"iPad" + 0.006*"apps" + 0.006*"human" + 0.005*"Live" + 0.005*"can" + 0.005*"pour" + 0.004*"oil spill" + 0.004*"working"
+topic #16 (0.040): 0.011*"Indonesia" + 0.009*"Death" + 0.008*"Afghan" + 0.007*"volcano" + 0.007*"NATO" + 0.006*"Netanyahu" + 0.006*"Settlements" + 0.006*"Focus" + 0.006*"billion" + 0.006*"Deficit"
+topic #10 (0.040): 0.009*"un" + 0.009*"West" + 0.009*"defeat" + 0.009*"al-Qaeda" + 0.007*"F1" + 0.007*"como" + 0.006*"Vettel" + 0.006*"Halloween" + 0.006*"Cuba" + 0.005*"organs"
+topic #18 (0.040): 0.018*"Ohio" + 0.018*"basement" + 0.018*"teen" + 0.018*"man" + 0.017*"family" + 0.017*"safe" + 0.016*"Israel" + 0.016*"charged" + 0.016*"kidnapping" + 0.016*"members"
+topic diff=0.597079, rho=0.567641
 bound: at document #0
--7.703 per-word bound, 208.3 perplexity estimate based on a held-out corpus of 135 documents with 1065 words
-PROGRESS: pass 2, at document #135/135
-performing inference on a chunk of 135 documents
-135/135 documents converged within 50 iterations
+-18.528 per-word bound, 378012.3 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
+PROGRESS: pass 1, at document #2207/2207
+performing inference on a chunk of 207 documents
+207/207 documents converged within 50 iterations
 updating topics
-topic #15 (0.040): 0.037*"Gallo" + 0.037*"Knicks" + 0.028*"BBC" + 0.025*"NBA" + 0.013*"WikiLeaks" + 0.013*"dunks" + 0.013*"Celts" + 0.013*"That's what I am" + 0.013*"Bron" + 0.013*"Craig Sager"
-topic #10 (0.040): 0.038*"Don't Ask Don't Tell" + 0.019*"old" + 0.019*"Lmao" + 0.019*"can" + 0.019*"Keri Hilson" + 0.019*"practice" + 0.019*"Donovan McNabb" + 0.019*"lol" + 0.019*"Repeal" + 0.019*"scout team"
-topic #3 (0.040): 0.025*"ppl" + 0.023*"Venezuela" + 0.023*"decree" + 0.023*"lawmakers" + 0.023*"Chavez" + 0.023*"power" + 0.023*"govern" + 0.013*"who" + 0.013*"weeks" + 0.013*"Glaceau"
-topic #13 (0.040): 0.027*"una más" + 0.027*"Reyes" + 0.027*"Cd  Juarez" + 0.027*"chick" + 0.027*"fat" + 0.016*"times" + 0.016*"HELP" + 0.016*"Fox News" + 0.016*"alread" + 0.016*"McCain's"
-topic #19 (0.040): 0.039*"LeBron" + 0.039*"tonight" + 0.039*"nickname" + 0.039*"basketball" + 0.022*"Sale" + 0.022*"Atomic" + 0.022*"Information" + 0.022*"Warehouse" + 0.022*"Scientists" + 0.022*"Nucleii"
-topic diff=0.142372, rho=0.500000
+merging changes from 207 documents into a model of 2207 documents
+topic #8 (0.040): 0.028*"X Factor" + 0.025*"xfactor" + 0.017*"ur" + 0.017*"jewelry" + 0.016*"British" + 0.016*"Somali pirates" + 0.015*"yacht" + 0.015*"captivity" + 0.013*"clothing" + 0.012*"million"
+topic #6 (0.040): 0.018*"T Magazine" + 0.016*"Delhi" + 0.011*"Yeah" + 0.011*"South America" + 0.011*"currency" + 0.007*"officers" + 0.007*"Mexican drug war" + 0.007*"focus" + 0.007*"gunmen" + 0.007*"law-enforcement"
+topic #23 (0.040): 0.024*"measure" + 0.023*"voters" + 0.015*"Arizona" + 0.014*"medical  marijuana" + 0.014*"OK" + 0.010*"Who" + 0.007*"singing" + 0.007*"AP" + 0.006*"link" + 0.006*"LMAO"
+topic #2 (0.040): 0.015*"UN" + 0.014*"powers" + 0.014*"Iran" + 0.012*"Murdoch" + 0.009*"President Obama" + 0.008*"Report" + 0.008*"BP" + 0.008*"moment" + 0.008*"Something" + 0.008*"intelligence"
+topic #7 (0.040): 0.014*"Zahra Baker" + 0.014*"N.Carolina" + 0.012*"women" + 0.012*"gay" + 0.011*"Brain" + 0.010*"authorities" + 0.009*"Meeting" + 0.009*"Palin" + 0.009*"ban" + 0.008*"custody"
+topic diff=0.510928, rho=0.567641
+PROGRESS: pass 2, at document #2000/2207
+performing inference on a chunk of 2000 documents
+2000/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 2207 documents
+topic #2 (0.040): 0.021*"UN" + 0.021*"Iran" + 0.018*"powers" + 0.014*"emergency" + 0.008*"Twitter" + 0.007*"President Obama" + 0.006*"Murdoch" + 0.006*"tax cuts" + 0.005*"Report" + 0.005*"God"
+topic #23 (0.040): 0.024*"voters" + 0.024*"measure" + 0.022*"Arizona" + 0.020*"medical  marijuana" + 0.007*"Who" + 0.007*"OK" + 0.006*"AP" + 0.006*"LMAO" + 0.005*"you" + 0.005*"Trance"
+topic #6 (0.040): 0.008*"T Magazine" + 0.007*"officers" + 0.007*"Mexican drug war" + 0.007*"focus" + 0.007*"Delhi" + 0.007*"gunmen" + 0.007*"law-enforcement" + 0.007*"pre-teen" + 0.006*"dies" + 0.005*"Yeah"
+topic #21 (0.040): 0.097*"Sun" + 0.013*"Obama" + 0.010*"iPad" + 0.008*"apps" + 0.007*"human" + 0.006*"post" + 0.006*"Live" + 0.005*"can" + 0.005*"working" + 0.005*"pour"
+topic #16 (0.040): 0.015*"Indonesia" + 0.014*"Death" + 0.011*"volcano" + 0.010*"Afghan" + 0.008*"NATO" + 0.007*"Focus" + 0.007*"South" + 0.007*"Afghan Police" + 0.007*"Deficit" + 0.007*"Afghanistan"
+topic diff=0.388680, rho=0.493654
 bound: at document #0
--7.553 per-word bound, 187.8 perplexity estimate based on a held-out corpus of 135 documents with 1065 words
-PROGRESS: pass 3, at document #135/135
-performing inference on a chunk of 135 documents
-135/135 documents converged within 50 iterations
+-18.234 per-word bound, 308375.8 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
+PROGRESS: pass 2, at document #2207/2207
+performing inference on a chunk of 207 documents
+207/207 documents converged within 50 iterations
 updating topics
-topic #10 (0.040): 0.038*"Don't Ask Don't Tell" + 0.019*"old" + 0.019*"Lmao" + 0.019*"can" + 0.019*"Keri Hilson" + 0.019*"practice" + 0.019*"lol" + 0.019*"Donovan McNabb" + 0.019*"Repeal" + 0.019*"Song writing"
-topic #16 (0.040): 0.024*"tires" + 0.024*"beautiful experience" + 0.024*"Albert Einstein" + 0.024*"world" + 0.024*"Couchman" + 0.024*"Fox News" + 0.024*"as long as I live" + 0.024*"racist" + 0.024*"teabaggers" + 0.024*"thanks in advance"
-topic #12 (0.040): 0.029*"This Week at War" + 0.029*"North Korea" + 0.029*"Afghanistan" + 0.001*"wikileaks" + 0.001*"urges" + 0.001*"pourrais" + 0.001*"Angelina Jolie" + 0.001*"prosecute" + 0.001*"tu" + 0.001*"puisse"
-topic #0 (0.040): 0.038*"Brown Betty" + 0.038*"Cloak" + 0.021*"cool" + 0.021*"NOW" + 0.021*"entertainment" + 0.021*"ugly" + 0.021*"Steve Cooley" + 0.021*"War" + 0.021*"Good" + 0.021*"idols"
-topic #3 (0.040): 0.027*"Venezuela" + 0.027*"lawmakers" + 0.027*"decree" + 0.027*"Chavez" + 0.027*"power" + 0.027*"govern" + 0.025*"ppl" + 0.013*"who" + 0.013*"weeks" + 0.013*"Glaceau"
-topic diff=0.105299, rho=0.447214
+merging changes from 207 documents into a model of 2207 documents
+topic #20 (0.040): 0.030*"UK" + 0.021*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.011*"threats" + 0.010*"china" + 0.009*"Police" + 0.008*"war" + 0.008*"Spain"
+topic #7 (0.040): 0.015*"gay" + 0.013*"women" + 0.013*"Zahra Baker" + 0.013*"N.Carolina" + 0.011*"authorities" + 0.011*"Brain" + 0.011*"ban" + 0.009*"Meeting" + 0.009*"Palin" + 0.008*"custody"
+topic #0 (0.040): 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"official" + 0.009*"Papers" + 0.009*"U.S. Aid" + 0.009*"Secret" + 0.009*"bacon" + 0.008*"US" + 0.008*"People"
+topic #24 (0.040): 0.026*"twitter" + 0.014*"EU" + 0.013*"Ireland" + 0.013*"bail-out" + 0.012*"ll" + 0.010*"people" + 0.009*"tweets" + 0.009*"wife" + 0.008*"thought" + 0.008*"Facebook"
+topic #13 (0.040): 0.025*"Leaders" + 0.024*"Asia-Pacific" + 0.024*"Trade" + 0.014*"President Obama" + 0.013*"white" + 0.012*"first" + 0.011*"visit" + 0.010*"paris" + 0.010*"forward" + 0.010*"QT"
+topic diff=0.294063, rho=0.493654
+PROGRESS: pass 3, at document #2000/2207
+performing inference on a chunk of 2000 documents
+2000/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 2207 documents
+topic #0 (0.040): 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"NZ" + 0.009*"US" + 0.008*"People" + 0.007*"home" + 0.007*"Win" + 0.007*"Jets" + 0.007*"Browns"
+topic #12 (0.040): 0.030*"French" + 0.024*"e-mail" + 0.023*"hacker" + 0.022*"Sarah Palin" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.018*"government" + 0.016*"year and a day" + 0.016*"sentenced" + 0.016*"prison"
+topic #14 (0.040): 0.088*"hahaha" + 0.008*"sis" + 0.007*"flood" + 0.007*"matter" + 0.007*"heart" + 0.006*"Family" + 0.005*"wind" + 0.005*"dat" + 0.004*"foreign policy" + 0.004*"penis"
+topic #17 (0.040): 0.062*"China" + 0.054*"Nigro" + 0.023*"Insider" + 0.019*"blog" + 0.017*"dead" + 0.015*"Haiti  cholera outbreak" + 0.007*"am" + 0.006*"Yemen" + 0.006*"haha" + 0.006*"Team"
+topic #5 (0.040): 0.012*"chief" + 0.009*"England" + 0.007*"youth" + 0.007*"Broadway" + 0.007*"DADT" + 0.006*"News" + 0.006*"Apple" + 0.006*"plan" + 0.005*"Peace" + 0.005*"Obama"
+topic diff=0.242786, rho=0.442656
 bound: at document #0
--7.473 per-word bound, 177.6 perplexity estimate based on a held-out corpus of 135 documents with 1065 words
-PROGRESS: pass 4, at document #135/135
-performing inference on a chunk of 135 documents
-135/135 documents converged within 50 iterations
+-18.128 per-word bound, 286432.0 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
+PROGRESS: pass 3, at document #2207/2207
+performing inference on a chunk of 207 documents
+207/207 documents converged within 50 iterations
 updating topics
-topic #0 (0.040): 0.040*"Brown Betty" + 0.040*"Cloak" + 0.021*"cool" + 0.021*"NOW" + 0.021*"entertainment" + 0.021*"ugly" + 0.021*"Steve Cooley" + 0.021*"War" + 0.021*"idols" + 0.021*"OIC"
-topic #20 (0.040): 0.028*"spiritual" + 0.015*"Private" + 0.015*"Words" + 0.015*"Public / Private" + 0.015*"Public" + 0.015*"hoy" + 0.014*"ones" + 0.014*"sleep" + 0.014*"rituals" + 0.014*"Tarot"
-topic #2 (0.040): 0.023*"Aid" + 0.023*"State" + 0.023*"Jeff" + 0.023*"Jobless" + 0.023*"Malmberg" + 0.023*"evacuated" + 0.023*"Dallas-Fort Worth International Airport" + 0.023*"tcot" + 0.023*"DFW Airport" + 0.023*"People"
-topic #17 (0.040): 0.122*"Marisela" + 0.122*"Escobedo" + 0.035*"Aquí está" + 0.035*"Chihuahua" + 0.035*"Río Pánuco" + 0.035*"burla" + 0.019*"justicia" + 0.019*"U.S" + 0.001*"urges" + 0.001*"Angelina Jolie"
-topic #3 (0.040): 0.030*"Venezuela" + 0.030*"Chavez" + 0.030*"lawmakers" + 0.030*"decree" + 0.030*"power" + 0.030*"govern" + 0.025*"ppl" + 0.013*"who" + 0.013*"weeks" + 0.013*"Glaceau"
-topic diff=0.079385, rho=0.408248
-saving LdaState object under ../output/64/tml/gensim_25topics.model.state, separately None
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/64/tml/gensim_25topics.model.state'}
-saved ../output/64/tml/gensim_25topics.model.state
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/64/tml/gensim_25topics.model.id2word'}
-saving LdaModel object under ../output/64/tml/gensim_25topics.model, separately ['expElogbeta', 'sstats']
-storing np array 'expElogbeta' to ../output/64/tml/gensim_25topics.model.expElogbeta.npy
+merging changes from 207 documents into a model of 2207 documents
+topic #20 (0.040): 0.030*"UK" + 0.020*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.010*"threats" + 0.010*"china" + 0.009*"war" + 0.009*"Police" + 0.008*"Kenya"
+topic #18 (0.040): 0.023*"Ohio" + 0.022*"basement" + 0.022*"teen" + 0.021*"die" + 0.021*"Israel" + 0.020*"die in" + 0.019*"man" + 0.018*"Mexico" + 0.017*"family" + 0.017*"safe"
+topic #17 (0.040): 0.053*"China" + 0.035*"Nigro" + 0.016*"blog" + 0.015*"Insider" + 0.014*"dead" + 0.013*"Haiti  cholera outbreak" + 0.011*"Yemen" + 0.011*"Team" + 0.010*"Lebanon" + 0.009*"hate"
+topic #12 (0.040): 0.028*"French" + 0.027*"e-mail" + 0.026*"hacker" + 0.024*"Sarah Palin" + 0.021*"government" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.020*"year and a day" + 0.020*"sentenced" + 0.020*"prison"
+topic #23 (0.040): 0.026*"measure" + 0.026*"voters" + 0.018*"Arizona" + 0.016*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.008*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"music"
+topic diff=0.187894, rho=0.442656
+PROGRESS: pass 4, at document #2000/2207
+performing inference on a chunk of 2000 documents
+2000/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 2207 documents
+topic #4 (0.040): 0.015*"Gay" + 0.014*"Nicaragua" + 0.012*"election" + 0.010*"San Francisco" + 0.010*"California" + 0.009*"Dispute" + 0.008*"Military" + 0.007*"Cigarette" + 0.007*"Obama" + 0.007*"Bay Citizen"
+topic #9 (0.040): 0.190*"Cathie Black" + 0.010*"who" + 0.007*"Times" + 0.006*"miles" + 0.006*"i'm" + 0.006*"release" + 0.006*"you" + 0.006*"reaction" + 0.006*"Arsenal" + 0.005*"Zagat"
+topic #0 (0.040): 0.011*"Papers" + 0.011*"Secret" + 0.010*"U.S. Aid" + 0.010*"NZ" + 0.009*"US" + 0.008*"People" + 0.007*"home" + 0.007*"Win" + 0.007*"Jets" + 0.007*"Browns"
+topic #7 (0.040): 0.015*"gay" + 0.013*"women" + 0.012*"ban" + 0.009*"military" + 0.008*"Zahra Baker" + 0.008*"Meeting" + 0.008*"Palin" + 0.008*"US Supreme Court" + 0.008*"gay men" + 0.008*"N.Carolina"
+topic #6 (0.040): 0.011*"T Magazine" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"Delhi" + 0.007*"gunmen" + 0.007*"law-enforcement" + 0.007*"pre-teen" + 0.007*"dies" + 0.006*"Yeah"
+topic diff=0.170901, rho=0.404772
+bound: at document #0
+-18.074 per-word bound, 275993.1 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
+PROGRESS: pass 4, at document #2207/2207
+performing inference on a chunk of 207 documents
+207/207 documents converged within 50 iterations
+updating topics
+merging changes from 207 documents into a model of 2207 documents
+topic #22 (0.040): 0.026*"Haiti" + 0.021*"Dissident" + 0.021*"death" + 0.020*"cholera" + 0.020*"Burmese" + 0.017*"Kyi" + 0.016*"death toll" + 0.011*"toll" + 0.010*"Iraq" + 0.010*"UK"
+topic #16 (0.040): 0.018*"Indonesia" + 0.017*"Death" + 0.013*"volcano" + 0.012*"Afghanistan" + 0.012*"NATO" + 0.012*"Afghan" + 0.011*"Focus" + 0.009*"South" + 0.009*"Afghan Police" + 0.009*"Deficit"
+topic #23 (0.040): 0.026*"voters" + 0.026*"measure" + 0.018*"Arizona" + 0.017*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.009*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"OMG"
+topic #6 (0.040): 0.020*"T Magazine" + 0.014*"Delhi" + 0.010*"Yeah" + 0.010*"South America" + 0.010*"currency" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"gunmen" + 0.008*"law-enforcement"
+topic #0 (0.040): 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"official" + 0.009*"US" + 0.009*"bacon" + 0.008*"People"
+topic diff=0.139723, rho=0.404772
+starting a new internal lifecycle event log for LdaModel
+LdaModel lifecycle event {'msg': 'trained LdaModel(num_terms=15239, num_topics=25, decay=0.5, chunksize=2000) in 2.90s', 'datetime': '2022-02-13T05:52:50.081432', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'created'}
+starting a new internal lifecycle event log for LdaState
+LdaState lifecycle event {'fname_or_handle': '../output/5/tml/gensim_25topics.model.state', 'separately': 'None', 'sep_limit': 10485760, 'ignore': frozenset(), 'datetime': '2022-02-13T05:52:50.081432', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'saving'}
+{'uri': '../output/5/tml/gensim_25topics.model.state', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saved ../output/5/tml/gensim_25topics.model.state
+{'uri': '../output/5/tml/gensim_25topics.model.id2word', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+LdaModel lifecycle event {'fname_or_handle': '../output/5/tml/gensim_25topics.model', 'separately': "['expElogbeta', 'sstats']", 'sep_limit': 10485760, 'ignore': ['dispatcher', 'state', 'id2word'], 'datetime': '2022-02-13T05:52:50.091406', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'saving'}
+storing np array 'expElogbeta' to ../output/5/tml/gensim_25topics.model.expElogbeta.npy
 not storing attribute dispatcher
-not storing attribute id2word
 not storing attribute state
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/64/tml/gensim_25topics.model'}
-saved ../output/64/tml/gensim_25topics.model
-topic #0 (0.040): 0.040*"Brown Betty" + 0.040*"Cloak" + 0.021*"cool" + 0.021*"NOW" + 0.021*"entertainment" + 0.021*"ugly" + 0.021*"Steve Cooley" + 0.021*"War" + 0.021*"idols" + 0.021*"OIC"
-topic #1 (0.040): 0.019*"Interstate Compact" + 0.019*"remember me" + 0.019*"hope" + 0.019*"Technology" + 0.019*"Campus" + 0.019*"Excelsior College" + 0.019*"living" + 0.019*"Pre-Order" + 0.019*"for Dummies" + 0.019*"life"
-topic #2 (0.040): 0.023*"Aid" + 0.023*"State" + 0.023*"Jeff" + 0.023*"Jobless" + 0.023*"Malmberg" + 0.023*"evacuated" + 0.023*"Dallas-Fort Worth International Airport" + 0.023*"tcot" + 0.023*"DFW Airport" + 0.023*"People"
-topic #3 (0.040): 0.030*"Venezuela" + 0.030*"Chavez" + 0.030*"lawmakers" + 0.030*"decree" + 0.030*"power" + 0.030*"govern" + 0.025*"ppl" + 0.013*"who" + 0.013*"weeks" + 0.013*"Glaceau"
-topic #4 (0.040): 0.023*"German" + 0.023*"Scrotum" + 0.023*"weave" + 0.023*"thread" + 0.023*"God" + 0.023*"will" + 0.023*"Proverb" + 0.022*"Snow" + 0.022*"air" + 0.022*"Single"
-topic #5 (0.040): 0.029*"to win" + 0.029*"BBC" + 0.029*"lifetime" + 0.020*"activism" + 0.020*"VAW" + 0.020*"rape" + 0.020*"tcot" + 0.010*"I believe" + 0.010*"Bedfordshire" + 0.010*"tonight"
-topic #6 (0.040): 0.023*"Lil Wayne" + 0.023*"id" + 0.013*"Captain Beefheart" + 0.012*"Dead Money" + 0.012*"Dead" + 0.012*"To 'Be With You" + 0.012*"David Banner" + 0.012*"Sleep Over" + 0.012*"you" + 0.012*"Lady Gaga"
-topic #7 (0.040): 0.019*"spy" + 0.019*"Pakistan" + 0.019*"on line" + 0.019*"drone attacks" + 0.019*"customer.service" + 0.019*"iraq" + 0.019*"country" + 0.019*"ukuncut" + 0.019*"London" + 0.019*"GBC"
-topic #8 (0.040): 0.036*"ma" + 0.020*"Elton" + 0.020*"you" + 0.020*"stuff" + 0.020*"Fans" + 0.020*"Rock" + 0.020*"Captain Beefheart" + 0.020*"Liz Phair" + 0.020*"concert" + 0.020*"tweets"
-topic #9 (0.040): 0.045*"Captain Beefheart" + 0.036*"Don Van Vliet" + 0.036*"Dies" + 0.010*"Nice" + 0.010*"Artisan" + 0.010*"Simon" + 0.010*"Brindle" + 0.010*"press release" + 0.010*"Marketwire" + 0.010*"Medicine Hat"
-topic #10 (0.040): 0.038*"Don't Ask Don't Tell" + 0.019*"old" + 0.019*"Lmao" + 0.019*"can" + 0.019*"Keri Hilson" + 0.019*"lol" + 0.019*"practice" + 0.019*"Repeal" + 0.019*"Donovan McNabb" + 0.019*"Song writing"
-topic #11 (0.040): 0.056*"Tibet" + 0.021*"Occupied" + 0.014*"vehicle" + 0.014*"Witness" + 0.007*"trait" + 0.007*"evil" + 0.007*"Henry W. Longfellow" + 0.007*"lover" + 0.007*"think" + 0.007*"object"
-topic #12 (0.040): 0.029*"This Week at War" + 0.029*"North Korea" + 0.029*"Afghanistan" + 0.001*"wikileaks" + 0.001*"urges" + 0.001*"pourrais" + 0.001*"Angelina Jolie" + 0.001*"prosecute" + 0.001*"tu" + 0.001*"puisse"
-topic #13 (0.040): 0.029*"una más" + 0.029*"Reyes" + 0.029*"Cd  Juarez" + 0.029*"chick" + 0.029*"fat" + 0.015*"times" + 0.015*"HELP" + 0.015*"Fox News" + 0.015*"alread" + 0.015*"McCain's"
-topic #14 (0.040): 0.011*"fasse" + 0.011*"puisse" + 0.011*"pourrais" + 0.011*"est" + 0.011*"din" + 0.011*"Sued" + 0.011*"pa" + 0.011*"na" + 0.011*"Mortgages" + 0.011*"Oui"
-topic #15 (0.040): 0.040*"Gallo" + 0.040*"Knicks" + 0.027*"NBA" + 0.014*"WikiLeaks" + 0.014*"dunks" + 0.014*"Celts" + 0.014*"That's what I am" + 0.014*"Bron" + 0.014*"Craig Sager" + 0.014*"shooter"
-topic #16 (0.040): 0.024*"tires" + 0.024*"beautiful experience" + 0.024*"Albert Einstein" + 0.024*"world" + 0.024*"Couchman" + 0.024*"as long as I live" + 0.024*"Fox News" + 0.024*"racist" + 0.024*"teabaggers" + 0.024*"thanks in advance"
-topic #17 (0.040): 0.122*"Marisela" + 0.122*"Escobedo" + 0.035*"Aquí está" + 0.035*"Chihuahua" + 0.035*"Río Pánuco" + 0.035*"burla" + 0.019*"justicia" + 0.019*"U.S" + 0.001*"urges" + 0.001*"Angelina Jolie"
-topic #18 (0.040): 0.019*"s voice" + 0.019*"tidal wave" + 0.019*"Ok" + 0.019*"Ireland" + 0.019*"Bosh" + 0.019*"lol" + 0.019*"Holocaust" + 0.019*"who" + 0.019*"Aston Villa" + 0.019*"to win"
-topic #19 (0.040): 0.042*"LeBron" + 0.042*"tonight" + 0.042*"nickname" + 0.042*"basketball" + 0.022*"Sale" + 0.022*"Atomic" + 0.022*"Information" + 0.022*"Warehouse" + 0.022*"Scientists" + 0.022*"Nucleii"
-topic #20 (0.040): 0.028*"spiritual" + 0.015*"Private" + 0.015*"Words" + 0.015*"Public / Private" + 0.015*"Public" + 0.015*"hoy" + 0.014*"ones" + 0.014*"sleep" + 0.014*"rituals" + 0.014*"Tarot"
-topic #21 (0.040): 0.090*"video" + 0.016*"YouTube" + 0.016*"Roaming" + 0.016*"MASH-UP" + 0.016*"Voodoo" + 0.016*"click through" + 0.016*"Rolling In The Deep" + 0.016*"iPhone 4" + 0.016*"prices" + 0.016*"economist"
-topic #22 (0.040): 0.152*"BBC" + 0.022*"snow" + 0.017*"UK" + 0.011*"blah" + 0.011*" blah" + 0.011*"am" + 0.011*"Conservative" + 0.011*"gop" + 0.011*"tcot" + 0.011*"hits"
-topic #23 (0.040): 0.038*"fono" + 0.020*"Chopin" + 0.019*"Doors" + 0.010*"banned" + 0.010*"earth" + 0.010*"Cuba" + 0.010*"Wikileaks" + 0.010*"Michael Moore" + 0.010*"evolution" + 0.010*"Story"
-topic #24 (0.040): 0.027*"Australia" + 0.027*"ready to rock" + 0.014*"U.S" + 0.014*"Congress" + 0.014*"WikiLeaks" + 0.014*"Greed" + 0.014*"Obama" + 0.014*"corruption" + 0.014*"national security" + 0.014*"DOJ"
+not storing attribute id2word
+{'uri': '../output/5/tml/gensim_25topics.model', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saved ../output/5/tml/gensim_25topics.model
+topic #0 (0.040): 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"official" + 0.009*"US" + 0.009*"bacon" + 0.008*"People"
+topic #1 (0.040): 0.021*"CNN" + 0.020*"Blog" + 0.014*"will" + 0.013*"President" + 0.012*"federal" + 0.012*"no regrets" + 0.012*"George W.  Bush" + 0.011*"Mandela" + 0.010*"bailout" + 0.010*"us"
+topic #2 (0.040): 0.017*"UN" + 0.017*"Iran" + 0.015*"powers" + 0.011*"Murdoch" + 0.010*"Twitter" + 0.009*"President Obama" + 0.008*"emergency" + 0.008*"Report" + 0.008*"CNN" + 0.008*"time"
+topic #3 (0.040): 0.012*"Turkey" + 0.009*"game" + 0.009*"real" + 0.007*"thoughts" + 0.007*"sad" + 0.007*"services" + 0.007*"tour" + 0.007*"times" + 0.006*"MPs" + 0.006*"Lib Dem"
+topic #4 (0.040): 0.020*"Nicaragua" + 0.016*"election" + 0.015*"Gay" + 0.014*"Dispute" + 0.012*"San Francisco" + 0.011*"California" + 0.009*"contest" + 0.009*"Genius" + 0.009*"heaven" + 0.009*"pretty"
+topic #5 (0.040): 0.021*"chief" + 0.014*"England" + 0.013*"youth" + 0.013*"DADT" + 0.009*"Apple" + 0.009*"plan" + 0.009*"Peace" + 0.009*"friend" + 0.008*"out" + 0.008*"Iraq"
+topic #6 (0.040): 0.020*"T Magazine" + 0.014*"Delhi" + 0.010*"Yeah" + 0.010*"South America" + 0.010*"currency" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"gunmen" + 0.008*"law-enforcement"
+topic #7 (0.040): 0.018*"gay" + 0.014*"women" + 0.013*"Zahra Baker" + 0.012*"N.Carolina" + 0.012*"ban" + 0.011*"authorities" + 0.011*"Brain" + 0.009*"Palin" + 0.009*"Meeting" + 0.008*"custody"
+topic #8 (0.040): 0.025*"ur" + 0.024*"X Factor" + 0.023*"xfactor" + 0.018*"jewelry" + 0.017*"British" + 0.016*"Somali pirates" + 0.016*"yacht" + 0.016*"captivity" + 0.016*"clothing" + 0.015*"Sale"
+topic #9 (0.040): 0.297*"Cathie Black" + 0.010*"who" + 0.010*"miles" + 0.010*"i'm" + 0.008*"you" + 0.008*"Arsenal" + 0.008*"Times" + 0.008*"Zagat" + 0.007*"class" + 0.007*"Online"
+topic #10 (0.040): 0.014*"West" + 0.014*"defeat" + 0.014*"al-Qaeda" + 0.011*"organs" + 0.010*"Sudan" + 0.010*"Cuba" + 0.009*"Halloween" + 0.009*"F1" + 0.009*"Vettel" + 0.009*"un"
+topic #11 (0.040): 0.016*"Margarito" + 0.015*"PM" + 0.015*"FLASH" + 0.012*"Facebook" + 0.012*"twitter" + 0.011*"via" + 0.011*"Will" + 0.011*"Republican" + 0.011*"privacy" + 0.011*"me"
+topic #12 (0.040): 0.029*"French" + 0.027*"e-mail" + 0.026*"hacker" + 0.024*"Sarah Palin" + 0.021*"government" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.020*"year and a day" + 0.020*"sentenced" + 0.020*"prison"
+topic #13 (0.040): 0.025*"Leaders" + 0.025*"Asia-Pacific" + 0.025*"Trade" + 0.015*"white" + 0.014*"President Obama" + 0.013*"first" + 0.010*"visit" + 0.010*"paris" + 0.010*"forward" + 0.009*"QT"
+topic #14 (0.040): 0.153*"hahaha" + 0.012*"flood" + 0.009*"mine" + 0.008*"matter" + 0.008*"heart" + 0.007*"wind" + 0.007*"foreign policy" + 0.007*"penis" + 0.006*"best friends" + 0.006*"london"
+topic #15 (0.040): 0.052*"Aung San Suu Kyi" + 0.034*"Myanmar" + 0.021*"activist" + 0.019*"house arrest" + 0.017*"hospital" + 0.014*"lol" + 0.013*"Zsa Zsa Gabor" + 0.012*"tweet" + 0.011*"leg" + 0.010*"leader"
+topic #16 (0.040): 0.018*"Indonesia" + 0.017*"Death" + 0.013*"volcano" + 0.012*"Afghanistan" + 0.012*"NATO" + 0.012*"Afghan" + 0.011*"Focus" + 0.009*"South" + 0.009*"Afghan Police" + 0.009*"Deficit"
+topic #17 (0.040): 0.055*"China" + 0.037*"Nigro" + 0.016*"blog" + 0.016*"Insider" + 0.015*"dead" + 0.013*"Haiti  cholera outbreak" + 0.010*"Lebanon" + 0.010*"Yemen" + 0.010*"Team" + 0.009*"hate"
+topic #18 (0.040): 0.023*"Ohio" + 0.022*"basement" + 0.022*"teen" + 0.022*"die" + 0.021*"Israel" + 0.020*"die in" + 0.019*"man" + 0.018*"Mexico" + 0.017*"family" + 0.017*"safe"
+topic #19 (0.040): 0.017*"bad" + 0.015*"New York" + 0.014*"photos" + 0.014*"haha" + 0.012*"vote" + 0.010*"Vintage" + 0.010*"1970s" + 0.010*"safety" + 0.009*"left" + 0.009*"twitter"
+topic #20 (0.040): 0.030*"UK" + 0.020*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.012*"Kenya" + 0.010*"threats" + 0.010*"china" + 0.010*"war" + 0.009*"Will"
+topic #21 (0.040): 0.181*"Sun" + 0.016*"iPad" + 0.014*"Obama" + 0.010*"post" + 0.010*"apps" + 0.009*"human" + 0.008*"New York" + 0.008*"working" + 0.007*"oil spill" + 0.007*"don't ask"
+topic #22 (0.040): 0.026*"Haiti" + 0.021*"Dissident" + 0.021*"death" + 0.020*"cholera" + 0.020*"Burmese" + 0.017*"Kyi" + 0.016*"death toll" + 0.011*"toll" + 0.010*"Iraq" + 0.010*"UK"
+topic #23 (0.040): 0.026*"voters" + 0.026*"measure" + 0.018*"Arizona" + 0.017*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.009*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"OMG"
+topic #24 (0.040): 0.029*"twitter" + 0.013*"EU" + 0.013*"people" + 0.012*"Ireland" + 0.012*"bail-out" + 0.011*"ll" + 0.010*"tweets" + 0.009*"tweet" + 0.009*"who" + 0.009*"Facebook"
 TopicModeling: GENSIM Topic: 0 
-Words: 0.040*"Brown Betty" + 0.040*"Cloak" + 0.021*"cool" + 0.021*"NOW" + 0.021*"entertainment" + 0.021*"ugly" + 0.021*"Steve Cooley" + 0.021*"War" + 0.021*"idols" + 0.021*"OIC"
+Words: 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"official" + 0.009*"US" + 0.009*"bacon" + 0.008*"People"
 TopicModeling: GENSIM Topic: 1 
-Words: 0.019*"Interstate Compact" + 0.019*"remember me" + 0.019*"hope" + 0.019*"Technology" + 0.019*"Campus" + 0.019*"Excelsior College" + 0.019*"living" + 0.019*"Pre-Order" + 0.019*"for Dummies" + 0.019*"life"
+Words: 0.021*"CNN" + 0.020*"Blog" + 0.014*"will" + 0.013*"President" + 0.012*"federal" + 0.012*"no regrets" + 0.012*"George W.  Bush" + 0.011*"Mandela" + 0.010*"bailout" + 0.010*"us"
 TopicModeling: GENSIM Topic: 2 
-Words: 0.023*"Aid" + 0.023*"State" + 0.023*"Jeff" + 0.023*"Jobless" + 0.023*"Malmberg" + 0.023*"evacuated" + 0.023*"Dallas-Fort Worth International Airport" + 0.023*"tcot" + 0.023*"DFW Airport" + 0.023*"People"
+Words: 0.017*"UN" + 0.017*"Iran" + 0.015*"powers" + 0.011*"Murdoch" + 0.010*"Twitter" + 0.009*"President Obama" + 0.008*"emergency" + 0.008*"Report" + 0.008*"CNN" + 0.008*"time"
 TopicModeling: GENSIM Topic: 3 
-Words: 0.030*"Venezuela" + 0.030*"Chavez" + 0.030*"lawmakers" + 0.030*"decree" + 0.030*"power" + 0.030*"govern" + 0.025*"ppl" + 0.013*"who" + 0.013*"weeks" + 0.013*"Glaceau"
+Words: 0.012*"Turkey" + 0.009*"game" + 0.009*"real" + 0.007*"thoughts" + 0.007*"sad" + 0.007*"services" + 0.007*"tour" + 0.007*"times" + 0.006*"MPs" + 0.006*"Lib Dem"
 TopicModeling: GENSIM Topic: 4 
-Words: 0.023*"German" + 0.023*"Scrotum" + 0.023*"weave" + 0.023*"thread" + 0.023*"God" + 0.023*"will" + 0.023*"Proverb" + 0.022*"Snow" + 0.022*"air" + 0.022*"Single"
+Words: 0.020*"Nicaragua" + 0.016*"election" + 0.015*"Gay" + 0.014*"Dispute" + 0.012*"San Francisco" + 0.011*"California" + 0.009*"contest" + 0.009*"Genius" + 0.009*"heaven" + 0.009*"pretty"
 TopicModeling: GENSIM Topic: 5 
-Words: 0.029*"to win" + 0.029*"BBC" + 0.029*"lifetime" + 0.020*"activism" + 0.020*"VAW" + 0.020*"rape" + 0.020*"tcot" + 0.010*"I believe" + 0.010*"Bedfordshire" + 0.010*"tonight"
+Words: 0.021*"chief" + 0.014*"England" + 0.013*"youth" + 0.013*"DADT" + 0.009*"Apple" + 0.009*"plan" + 0.009*"Peace" + 0.009*"friend" + 0.008*"out" + 0.008*"Iraq"
 TopicModeling: GENSIM Topic: 6 
-Words: 0.023*"Lil Wayne" + 0.023*"id" + 0.013*"Captain Beefheart" + 0.012*"Dead Money" + 0.012*"Dead" + 0.012*"To 'Be With You" + 0.012*"David Banner" + 0.012*"Sleep Over" + 0.012*"you" + 0.012*"Lady Gaga"
+Words: 0.020*"T Magazine" + 0.014*"Delhi" + 0.010*"Yeah" + 0.010*"South America" + 0.010*"currency" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"gunmen" + 0.008*"law-enforcement"
 TopicModeling: GENSIM Topic: 7 
-Words: 0.019*"spy" + 0.019*"Pakistan" + 0.019*"on line" + 0.019*"drone attacks" + 0.019*"customer.service" + 0.019*"iraq" + 0.019*"country" + 0.019*"ukuncut" + 0.019*"London" + 0.019*"GBC"
+Words: 0.018*"gay" + 0.014*"women" + 0.013*"Zahra Baker" + 0.012*"N.Carolina" + 0.012*"ban" + 0.011*"authorities" + 0.011*"Brain" + 0.009*"Palin" + 0.009*"Meeting" + 0.008*"custody"
 TopicModeling: GENSIM Topic: 8 
-Words: 0.036*"ma" + 0.020*"Elton" + 0.020*"you" + 0.020*"stuff" + 0.020*"Fans" + 0.020*"Rock" + 0.020*"Captain Beefheart" + 0.020*"Liz Phair" + 0.020*"concert" + 0.020*"tweets"
+Words: 0.025*"ur" + 0.024*"X Factor" + 0.023*"xfactor" + 0.018*"jewelry" + 0.017*"British" + 0.016*"Somali pirates" + 0.016*"yacht" + 0.016*"captivity" + 0.016*"clothing" + 0.015*"Sale"
 TopicModeling: GENSIM Topic: 9 
-Words: 0.045*"Captain Beefheart" + 0.036*"Don Van Vliet" + 0.036*"Dies" + 0.010*"Nice" + 0.010*"Artisan" + 0.010*"Simon" + 0.010*"Brindle" + 0.010*"press release" + 0.010*"Marketwire" + 0.010*"Medicine Hat"
+Words: 0.297*"Cathie Black" + 0.010*"who" + 0.010*"miles" + 0.010*"i'm" + 0.008*"you" + 0.008*"Arsenal" + 0.008*"Times" + 0.008*"Zagat" + 0.007*"class" + 0.007*"Online"
 TopicModeling: GENSIM Topic: 10 
-Words: 0.038*"Don't Ask Don't Tell" + 0.019*"old" + 0.019*"Lmao" + 0.019*"can" + 0.019*"Keri Hilson" + 0.019*"lol" + 0.019*"practice" + 0.019*"Repeal" + 0.019*"Donovan McNabb" + 0.019*"Song writing"
+Words: 0.014*"West" + 0.014*"defeat" + 0.014*"al-Qaeda" + 0.011*"organs" + 0.010*"Sudan" + 0.010*"Cuba" + 0.009*"Halloween" + 0.009*"F1" + 0.009*"Vettel" + 0.009*"un"
 TopicModeling: GENSIM Topic: 11 
-Words: 0.056*"Tibet" + 0.021*"Occupied" + 0.014*"vehicle" + 0.014*"Witness" + 0.007*"trait" + 0.007*"evil" + 0.007*"Henry W. Longfellow" + 0.007*"lover" + 0.007*"think" + 0.007*"object"
+Words: 0.016*"Margarito" + 0.015*"PM" + 0.015*"FLASH" + 0.012*"Facebook" + 0.012*"twitter" + 0.011*"via" + 0.011*"Will" + 0.011*"Republican" + 0.011*"privacy" + 0.011*"me"
 TopicModeling: GENSIM Topic: 12 
-Words: 0.029*"This Week at War" + 0.029*"North Korea" + 0.029*"Afghanistan" + 0.001*"wikileaks" + 0.001*"urges" + 0.001*"pourrais" + 0.001*"Angelina Jolie" + 0.001*"prosecute" + 0.001*"tu" + 0.001*"puisse"
+Words: 0.029*"French" + 0.027*"e-mail" + 0.026*"hacker" + 0.024*"Sarah Palin" + 0.021*"government" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.020*"year and a day" + 0.020*"sentenced" + 0.020*"prison"
 TopicModeling: GENSIM Topic: 13 
-Words: 0.029*"una más" + 0.029*"Reyes" + 0.029*"Cd  Juarez" + 0.029*"chick" + 0.029*"fat" + 0.015*"times" + 0.015*"HELP" + 0.015*"Fox News" + 0.015*"alread" + 0.015*"McCain's"
+Words: 0.025*"Leaders" + 0.025*"Asia-Pacific" + 0.025*"Trade" + 0.015*"white" + 0.014*"President Obama" + 0.013*"first" + 0.010*"visit" + 0.010*"paris" + 0.010*"forward" + 0.009*"QT"
 TopicModeling: GENSIM Topic: 14 
-Words: 0.011*"fasse" + 0.011*"puisse" + 0.011*"pourrais" + 0.011*"est" + 0.011*"din" + 0.011*"Sued" + 0.011*"pa" + 0.011*"na" + 0.011*"Mortgages" + 0.011*"Oui"
+Words: 0.153*"hahaha" + 0.012*"flood" + 0.009*"mine" + 0.008*"matter" + 0.008*"heart" + 0.007*"wind" + 0.007*"foreign policy" + 0.007*"penis" + 0.006*"best friends" + 0.006*"london"
 TopicModeling: GENSIM Topic: 15 
-Words: 0.040*"Gallo" + 0.040*"Knicks" + 0.027*"NBA" + 0.014*"WikiLeaks" + 0.014*"dunks" + 0.014*"Celts" + 0.014*"That's what I am" + 0.014*"Bron" + 0.014*"Craig Sager" + 0.014*"shooter"
+Words: 0.052*"Aung San Suu Kyi" + 0.034*"Myanmar" + 0.021*"activist" + 0.019*"house arrest" + 0.017*"hospital" + 0.014*"lol" + 0.013*"Zsa Zsa Gabor" + 0.012*"tweet" + 0.011*"leg" + 0.010*"leader"
 TopicModeling: GENSIM Topic: 16 
-Words: 0.024*"tires" + 0.024*"beautiful experience" + 0.024*"Albert Einstein" + 0.024*"world" + 0.024*"Couchman" + 0.024*"as long as I live" + 0.024*"Fox News" + 0.024*"racist" + 0.024*"teabaggers" + 0.024*"thanks in advance"
+Words: 0.018*"Indonesia" + 0.017*"Death" + 0.013*"volcano" + 0.012*"Afghanistan" + 0.012*"NATO" + 0.012*"Afghan" + 0.011*"Focus" + 0.009*"South" + 0.009*"Afghan Police" + 0.009*"Deficit"
 TopicModeling: GENSIM Topic: 17 
-Words: 0.122*"Marisela" + 0.122*"Escobedo" + 0.035*"Aquí está" + 0.035*"Chihuahua" + 0.035*"Río Pánuco" + 0.035*"burla" + 0.019*"justicia" + 0.019*"U.S" + 0.001*"urges" + 0.001*"Angelina Jolie"
+Words: 0.055*"China" + 0.037*"Nigro" + 0.016*"blog" + 0.016*"Insider" + 0.015*"dead" + 0.013*"Haiti  cholera outbreak" + 0.010*"Lebanon" + 0.010*"Yemen" + 0.010*"Team" + 0.009*"hate"
 TopicModeling: GENSIM Topic: 18 
-Words: 0.019*"s voice" + 0.019*"tidal wave" + 0.019*"Ok" + 0.019*"Ireland" + 0.019*"Bosh" + 0.019*"lol" + 0.019*"Holocaust" + 0.019*"who" + 0.019*"Aston Villa" + 0.019*"to win"
+Words: 0.023*"Ohio" + 0.022*"basement" + 0.022*"teen" + 0.022*"die" + 0.021*"Israel" + 0.020*"die in" + 0.019*"man" + 0.018*"Mexico" + 0.017*"family" + 0.017*"safe"
 TopicModeling: GENSIM Topic: 19 
-Words: 0.042*"LeBron" + 0.042*"tonight" + 0.042*"nickname" + 0.042*"basketball" + 0.022*"Sale" + 0.022*"Atomic" + 0.022*"Information" + 0.022*"Warehouse" + 0.022*"Scientists" + 0.022*"Nucleii"
+Words: 0.017*"bad" + 0.015*"New York" + 0.014*"photos" + 0.014*"haha" + 0.012*"vote" + 0.010*"Vintage" + 0.010*"1970s" + 0.010*"safety" + 0.009*"left" + 0.009*"twitter"
 TopicModeling: GENSIM Topic: 20 
-Words: 0.028*"spiritual" + 0.015*"Private" + 0.015*"Words" + 0.015*"Public / Private" + 0.015*"Public" + 0.015*"hoy" + 0.014*"ones" + 0.014*"sleep" + 0.014*"rituals" + 0.014*"Tarot"
+Words: 0.030*"UK" + 0.020*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.012*"Kenya" + 0.010*"threats" + 0.010*"china" + 0.010*"war" + 0.009*"Will"
 TopicModeling: GENSIM Topic: 21 
-Words: 0.090*"video" + 0.016*"YouTube" + 0.016*"Roaming" + 0.016*"MASH-UP" + 0.016*"Voodoo" + 0.016*"click through" + 0.016*"Rolling In The Deep" + 0.016*"iPhone 4" + 0.016*"prices" + 0.016*"economist"
+Words: 0.181*"Sun" + 0.016*"iPad" + 0.014*"Obama" + 0.010*"post" + 0.010*"apps" + 0.009*"human" + 0.008*"New York" + 0.008*"working" + 0.007*"oil spill" + 0.007*"don't ask"
 TopicModeling: GENSIM Topic: 22 
-Words: 0.152*"BBC" + 0.022*"snow" + 0.017*"UK" + 0.011*"blah" + 0.011*" blah" + 0.011*"am" + 0.011*"Conservative" + 0.011*"gop" + 0.011*"tcot" + 0.011*"hits"
+Words: 0.026*"Haiti" + 0.021*"Dissident" + 0.021*"death" + 0.020*"cholera" + 0.020*"Burmese" + 0.017*"Kyi" + 0.016*"death toll" + 0.011*"toll" + 0.010*"Iraq" + 0.010*"UK"
 TopicModeling: GENSIM Topic: 23 
-Words: 0.038*"fono" + 0.020*"Chopin" + 0.019*"Doors" + 0.010*"banned" + 0.010*"earth" + 0.010*"Cuba" + 0.010*"Wikileaks" + 0.010*"Michael Moore" + 0.010*"evolution" + 0.010*"Story"
+Words: 0.026*"voters" + 0.026*"measure" + 0.018*"Arizona" + 0.017*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.009*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"OMG"
 TopicModeling: GENSIM Topic: 24 
-Words: 0.027*"Australia" + 0.027*"ready to rock" + 0.014*"U.S" + 0.014*"Congress" + 0.014*"WikiLeaks" + 0.014*"Greed" + 0.014*"Obama" + 0.014*"corruption" + 0.014*"national security" + 0.014*"DOJ"
+Words: 0.029*"twitter" + 0.013*"EU" + 0.013*"people" + 0.012*"Ireland" + 0.012*"bail-out" + 0.011*"ll" + 0.010*"tweets" + 0.009*"tweet" + 0.009*"who" + 0.009*"Facebook"
 TopicModeling: Coherences:
 
 TopicModeling: Calculating model coherence:
 
-Setting topics to those of the model: LdaModel(num_terms=816, num_topics=25, decay=0.5, chunksize=2000)
-TopicModeling: Coherence value is: -15.509866914232305
-TopicModeling: Topic coherences are: [-14.623501714434843, -16.206740540880197, -15.750551168430825, -12.828392632658955, -13.707426422848481, -18.22012026519523, -0.3117074698997302, 1.350000111608376e-10, -15.24284237231064, -0.7935717450749212, -8.177919790013318, -12.135801317277512, -13.681657614478905, -18.230098229139994, -15.963579557159504, -4.814857071311984, -13.681657614481898, -12.35735585472323, -18.939918188488505, -12.592965770159152, -14.676287514359412, -16.549689164055696, -15.621606014392281, -11.615381461317845, -14.72608980760788]
-saving Dictionary object under ../output/64/tml/gensim_25topics_TopicModelingDictionary.mm, separately None
-{'transport_params': None, 'ignore_ext': False, 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/64/tml/gensim_25topics_TopicModelingDictionary.mm'}
-saved ../output/64/tml/gensim_25topics_TopicModelingDictionary.mm
-UserSimilarity: Topic modeling done
-UserSimilarity: All users size 135
-UserSimilarity: All distinct users:135
-UserSimilarity: users_topic_interests=(135, 25)
+Setting topics to those of the model: LdaModel(num_terms=15239, num_topics=25, decay=0.5, chunksize=2000)
+CorpusAccumulator accumulated stats from 1000 documents
+CorpusAccumulator accumulated stats from 2000 documents
+CorpusAccumulator accumulated stats from 1000 documents
+CorpusAccumulator accumulated stats from 2000 documents
+TopicModeling: Coherence value is: -14.268486368390406
+TopicModeling: Topic coherences are: [-16.79284459125379, -10.748855277641859, -11.573617938500274, -18.116990805401453, -13.794868994247217, -15.151406272862154, -15.673871301109743, -15.072887769823023, -10.435137551565942, -18.155834356577344, -18.23494215406957, -11.351627177171576, -2.143806417765585, -19.029133574901593, -18.44225448740447, -8.726123186381486, -12.840066578410164, -15.377490401135256, -1.3292796025774505, -9.610807065419822, -14.15333749332901, -14.894006164370138, -11.10362077967186, -15.630645654660075, -10.1849016194111]
+Dictionary lifecycle event {'fname_or_handle': '../output/5/tml/gensim_25topics_TopicModelingDictionary.mm', 'separately': 'None', 'sep_limit': 10485760, 'ignore': frozenset(), 'datetime': '2022-02-13T05:52:50.163716', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'saving'}
+{'uri': '../output/5/tml/gensim_25topics_TopicModelingDictionary.mm', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saved ../output/5/tml/gensim_25topics_TopicModelingDictionary.mm
+dictionary.shape: 15239
+bow_corpus.shape: 2207
+totalTopics: [['Win', 'Jets', 'Browns', 'Papers', 'Secret', 'U.S. Aid', 'official', 'US', 'bacon', 'People'], ['CNN', 'Blog', 'will', 'President', 'federal', 'no regrets', 'George W.  Bush', 'Mandela', 'bailout', 'us'], ['UN', 'Iran', 'powers', 'Murdoch', 'Twitter', 'President Obama', 'emergency', 'Report', 'CNN', 'time'], ['Turkey', 'game', 'real', 'thoughts', 'sad', 'services', 'tour', 'times', 'MPs', 'Lib Dem'], ['Nicaragua', 'election', 'Gay', 'Dispute', 'San Francisco', 'California', 'contest', 'Genius', 'heaven', 'pretty'], ['chief', 'England', 'youth', 'DADT', 'Apple', 'plan', 'Peace', 'friend', 'out', 'Iraq'], ['T Magazine', 'Delhi', 'Yeah', 'South America', 'currency', 'officers', 'Mexican drug war', 'focus', 'gunmen', 'law-enforcement'], ['gay', 'women', 'Zahra Baker', 'N.Carolina', 'ban', 'authorities', 'Brain', 'Palin', 'Meeting', 'custody'], ['ur', 'X Factor', 'xfactor', 'jewelry', 'British', 'Somali pirates', 'yacht', 'captivity', 'clothing', 'Sale'], ['Cathie Black', 'who', 'miles', "i'm", 'you', 'Arsenal', 'Times', 'Zagat', 'class', 'Online'], ['West', 'defeat', 'al-Qaeda', 'organs', 'Sudan', 'Cuba', 'Halloween', 'F1', 'Vettel', 'un'], ['Margarito', 'PM', 'FLASH', 'Facebook', 'twitter', 'via', 'Will', 'Republican', 'privacy', 'me'], ['French', 'e-mail', 'hacker', 'Sarah Palin', 'government', 'French prime minister', 'prime minister', 'year and a day', 'sentenced', 'prison'], ['Leaders', 'Asia-Pacific', 'Trade', 'white', 'President Obama', 'first', 'visit', 'paris', 'forward', 'QT'], ['hahaha', 'flood', 'mine', 'matter', 'heart', 'wind', 'foreign policy', 'penis', 'best friends', 'london'], ['Aung San Suu Kyi', 'Myanmar', 'activist', 'house arrest', 'hospital', 'lol', 'Zsa Zsa Gabor', 'tweet', 'leg', 'leader'], ['Indonesia', 'Death', 'volcano', 'Afghanistan', 'NATO', 'Afghan', 'Focus', 'South', 'Afghan Police', 'Deficit'], ['China', 'Nigro', 'blog', 'Insider', 'dead', 'Haiti  cholera outbreak', 'Lebanon', 'Yemen', 'Team', 'hate'], ['Ohio', 'basement', 'teen', 'die', 'Israel', 'die in', 'man', 'Mexico', 'family', 'safe'], ['bad', 'New York', 'photos', 'haha', 'vote', 'Vintage', '1970s', 'safety', 'left', 'twitter'], ['UK', 'marathon', 'nyc', 'NHS', 'BBC', 'Kenya', 'threats', 'china', 'war', 'Will'], ['Sun', 'iPad', 'Obama', 'post', 'apps', 'human', 'New York', 'working', 'oil spill', "don't ask"], ['Haiti', 'Dissident', 'death', 'cholera', 'Burmese', 'Kyi', 'death toll', 'toll', 'Iraq', 'UK'], ['voters', 'measure', 'Arizona', 'medical  marijuana', 'OK', 'Who', 'singing', 'AP', 'LMAO', 'OMG'], ['twitter', 'EU', 'people', 'Ireland', 'bail-out', 'll', 'tweets', 'tweet', 'who', 'Facebook']]
+Users' graph generating ...
+UserSimilarity: All users size 2207
+UserSimilarity: All distinct users:895
+UserSimilarity: users_topic_interests=(895, 25)
 UserSimilarity: Just one topic? False, Binary topic? True, Threshold: 0.2
-135 users has twitted in 2010-12-17 00:00:00
-NumExpr defaulting to 4 threads.
-UserSimilarity: 0 / 1
-UserSimilarity: UsersTopicInterests.npy is saved for day:0 with shape: (135, 25)
-UsersGraph: There are 135 users on 0
-UserSimilarity: A graph is being created for 0 with 135 users
-UserSimilarity: Number of users per day: [135]
+11 users has twitted in 2010-10-17 00:00:00
+17 users has twitted in 2010-10-18 00:00:00
+16 users has twitted in 2010-10-19 00:00:00
+17 users has twitted in 2010-10-20 00:00:00
+17 users has twitted in 2010-10-21 00:00:00
+18 users has twitted in 2010-10-22 00:00:00
+17 users has twitted in 2010-10-23 00:00:00
+14 users has twitted in 2010-10-24 00:00:00
+21 users has twitted in 2010-10-25 00:00:00
+19 users has twitted in 2010-10-26 00:00:00
+26 users has twitted in 2010-10-27 00:00:00
+29 users has twitted in 2010-10-28 00:00:00
+24 users has twitted in 2010-10-29 00:00:00
+23 users has twitted in 2010-10-30 00:00:00
+25 users has twitted in 2010-10-31 00:00:00
+36 users has twitted in 2010-11-01 00:00:00
+32 users has twitted in 2010-11-02 00:00:00
+33 users has twitted in 2010-11-03 00:00:00
+40 users has twitted in 2010-11-04 00:00:00
+43 users has twitted in 2010-11-05 00:00:00
+43 users has twitted in 2010-11-06 00:00:00
+43 users has twitted in 2010-11-07 00:00:00
+53 users has twitted in 2010-11-08 00:00:00
+58 users has twitted in 2010-11-09 00:00:00
+70 users has twitted in 2010-11-10 00:00:00
+83 users has twitted in 2010-11-11 00:00:00
+419 users has twitted in 2010-11-12 00:00:00
+431 users has twitted in 2010-11-13 00:00:00
+529 users has twitted in 2010-11-14 00:00:00
+0 users has twitted in 2010-11-15 00:00:00
+0 users has twitted in 2010-11-16 00:00:00
+0 users has twitted in 2010-11-17 00:00:00
+0 users has twitted in 2010-11-18 00:00:00
+0 users has twitted in 2010-11-19 00:00:00
+0 users has twitted in 2010-11-20 00:00:00
+0 users has twitted in 2010-11-21 00:00:00
+0 users has twitted in 2010-11-22 00:00:00
+0 users has twitted in 2010-11-23 00:00:00
+0 users has twitted in 2010-11-24 00:00:00
+0 users has twitted in 2010-11-25 00:00:00
+0 users has twitted in 2010-11-26 00:00:00
+0 users has twitted in 2010-11-27 00:00:00
+0 users has twitted in 2010-11-28 00:00:00
+0 users has twitted in 2010-11-29 00:00:00
+0 users has twitted in 2010-11-30 00:00:00
+0 users has twitted in 2010-12-01 00:00:00
+0 users has twitted in 2010-12-02 00:00:00
+0 users has twitted in 2010-12-03 00:00:00
+0 users has twitted in 2010-12-04 00:00:00
+0 users has twitted in 2010-12-05 00:00:00
+0 users has twitted in 2010-12-06 00:00:00
+0 users has twitted in 2010-12-07 00:00:00
+0 users has twitted in 2010-12-08 00:00:00
+0 users has twitted in 2010-12-09 00:00:00
+0 users has twitted in 2010-12-10 00:00:00
+0 users has twitted in 2010-12-11 00:00:00
+0 users has twitted in 2010-12-12 00:00:00
+0 users has twitted in 2010-12-13 00:00:00
+0 users has twitted in 2010-12-14 00:00:00
+0 users has twitted in 2010-12-15 00:00:00
+0 users has twitted in 2010-12-16 00:00:00
+0 users has twitted in 2010-12-17 00:00:00
+0 users has twitted in 2010-12-18 00:00:00
+0 users has twitted in 2010-12-19 00:00:00
+0 users has twitted in 2010-12-20 00:00:00
+0 users has twitted in 2010-12-21 00:00:00
+0 users has twitted in 2010-12-22 00:00:00
+0 users has twitted in 2010-12-23 00:00:00
+0 users has twitted in 2010-12-24 00:00:00
+0 users has twitted in 2010-12-25 00:00:00
+0 users has twitted in 2010-12-26 00:00:00
+0 users has twitted in 2010-12-27 00:00:00
+UserSimilarity: 0 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:0 with shape: (895, 25)
+UsersGraph: There are 895 users on 0
+UserSimilarity: A graph is being created for 0 with 895 users
+UserSimilarity: 1 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:1 with shape: (895, 25)
+UsersGraph: There are 895 users on 1
+UserSimilarity: A graph is being created for 1 with 895 users
+UserSimilarity: 2 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:2 with shape: (895, 25)
+UsersGraph: There are 895 users on 2
+UserSimilarity: A graph is being created for 2 with 895 users
+UserSimilarity: 3 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:3 with shape: (895, 25)
+UsersGraph: There are 895 users on 3
+UserSimilarity: A graph is being created for 3 with 895 users
+UserSimilarity: 4 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:4 with shape: (895, 25)
+UsersGraph: There are 895 users on 4
+UserSimilarity: A graph is being created for 4 with 895 users
+UserSimilarity: 5 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:5 with shape: (895, 25)
+UsersGraph: There are 895 users on 5
+UserSimilarity: A graph is being created for 5 with 895 users
+UserSimilarity: 6 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:6 with shape: (895, 25)
+UsersGraph: There are 895 users on 6
+UserSimilarity: A graph is being created for 6 with 895 users
+UserSimilarity: 7 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:7 with shape: (895, 25)
+UsersGraph: There are 895 users on 7
+UserSimilarity: A graph is being created for 7 with 895 users
+UserSimilarity: 8 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:8 with shape: (895, 25)
+UsersGraph: There are 895 users on 8
+UserSimilarity: A graph is being created for 8 with 895 users
+UserSimilarity: 9 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:9 with shape: (895, 25)
+UsersGraph: There are 895 users on 9
+UserSimilarity: A graph is being created for 9 with 895 users
+UserSimilarity: 10 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:10 with shape: (895, 25)
+UsersGraph: There are 895 users on 10
+UserSimilarity: A graph is being created for 10 with 895 users
+UserSimilarity: 11 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:11 with shape: (895, 25)
+UsersGraph: There are 895 users on 11
+UserSimilarity: A graph is being created for 11 with 895 users
+UserSimilarity: 12 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:12 with shape: (895, 25)
+UsersGraph: There are 895 users on 12
+UserSimilarity: A graph is being created for 12 with 895 users
+UserSimilarity: 13 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:13 with shape: (895, 25)
+UsersGraph: There are 895 users on 13
+UserSimilarity: A graph is being created for 13 with 895 users
+UserSimilarity: 14 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:14 with shape: (895, 25)
+UsersGraph: There are 895 users on 14
+UserSimilarity: A graph is being created for 14 with 895 users
+UserSimilarity: 15 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:15 with shape: (895, 25)
+UsersGraph: There are 895 users on 15
+UserSimilarity: A graph is being created for 15 with 895 users
+UserSimilarity: 16 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:16 with shape: (895, 25)
+UsersGraph: There are 895 users on 16
+UserSimilarity: A graph is being created for 16 with 895 users
+UserSimilarity: 17 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:17 with shape: (895, 25)
+UsersGraph: There are 895 users on 17
+UserSimilarity: A graph is being created for 17 with 895 users
+UserSimilarity: 18 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:18 with shape: (895, 25)
+UsersGraph: There are 895 users on 18
+UserSimilarity: A graph is being created for 18 with 895 users
+UserSimilarity: 19 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:19 with shape: (895, 25)
+UsersGraph: There are 895 users on 19
+UserSimilarity: A graph is being created for 19 with 895 users
+UserSimilarity: 20 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:20 with shape: (895, 25)
+UsersGraph: There are 895 users on 20
+UserSimilarity: A graph is being created for 20 with 895 users
+UserSimilarity: 21 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:21 with shape: (895, 25)
+UsersGraph: There are 895 users on 21
+UserSimilarity: A graph is being created for 21 with 895 users
+UserSimilarity: 22 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:22 with shape: (895, 25)
+UsersGraph: There are 895 users on 22
+UserSimilarity: A graph is being created for 22 with 895 users
+UserSimilarity: 23 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:23 with shape: (895, 25)
+UsersGraph: There are 895 users on 23
+UserSimilarity: A graph is being created for 23 with 895 users
+UserSimilarity: 24 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:24 with shape: (895, 25)
+UsersGraph: There are 895 users on 24
+UserSimilarity: A graph is being created for 24 with 895 users
+UserSimilarity: 25 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:25 with shape: (895, 25)
+UsersGraph: There are 895 users on 25
+UserSimilarity: A graph is being created for 25 with 895 users
+UserSimilarity: 26 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:26 with shape: (895, 25)
+UsersGraph: There are 895 users on 26
+UserSimilarity: A graph is being created for 26 with 895 users
+UserSimilarity: 27 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:27 with shape: (895, 25)
+UsersGraph: There are 895 users on 27
+UserSimilarity: A graph is being created for 27 with 895 users
+UserSimilarity: 28 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:28 with shape: (895, 25)
+UsersGraph: There are 895 users on 28
+UserSimilarity: A graph is being created for 28 with 895 users
+UserSimilarity: 29 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:29 with shape: (895, 25)
+UsersGraph: There are 895 users on 29
+UserSimilarity: A graph is being created for 29 with 895 users
+UserSimilarity: 30 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:30 with shape: (895, 25)
+UsersGraph: There are 895 users on 30
+UserSimilarity: A graph is being created for 30 with 895 users
+UserSimilarity: 31 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:31 with shape: (895, 25)
+UsersGraph: There are 895 users on 31
+UserSimilarity: A graph is being created for 31 with 895 users
+UserSimilarity: 32 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:32 with shape: (895, 25)
+UsersGraph: There are 895 users on 32
+UserSimilarity: A graph is being created for 32 with 895 users
+UserSimilarity: 33 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:33 with shape: (895, 25)
+UsersGraph: There are 895 users on 33
+UserSimilarity: A graph is being created for 33 with 895 users
+UserSimilarity: 34 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:34 with shape: (895, 25)
+UsersGraph: There are 895 users on 34
+UserSimilarity: A graph is being created for 34 with 895 users
+UserSimilarity: 35 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:35 with shape: (895, 25)
+UsersGraph: There are 895 users on 35
+UserSimilarity: A graph is being created for 35 with 895 users
+UserSimilarity: 36 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:36 with shape: (895, 25)
+UsersGraph: There are 895 users on 36
+UserSimilarity: A graph is being created for 36 with 895 users
+UserSimilarity: 37 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:37 with shape: (895, 25)
+UsersGraph: There are 895 users on 37
+UserSimilarity: A graph is being created for 37 with 895 users
+UserSimilarity: 38 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:38 with shape: (895, 25)
+UsersGraph: There are 895 users on 38
+UserSimilarity: A graph is being created for 38 with 895 users
+UserSimilarity: 39 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:39 with shape: (895, 25)
+UsersGraph: There are 895 users on 39
+UserSimilarity: A graph is being created for 39 with 895 users
+UserSimilarity: 40 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:40 with shape: (895, 25)
+UsersGraph: There are 895 users on 40
+UserSimilarity: A graph is being created for 40 with 895 users
+UserSimilarity: 41 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:41 with shape: (895, 25)
+UsersGraph: There are 895 users on 41
+UserSimilarity: A graph is being created for 41 with 895 users
+UserSimilarity: 42 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:42 with shape: (895, 25)
+UsersGraph: There are 895 users on 42
+UserSimilarity: A graph is being created for 42 with 895 users
+UserSimilarity: 43 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:43 with shape: (895, 25)
+UsersGraph: There are 895 users on 43
+UserSimilarity: A graph is being created for 43 with 895 users
+UserSimilarity: 44 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:44 with shape: (895, 25)
+UsersGraph: There are 895 users on 44
+UserSimilarity: A graph is being created for 44 with 895 users
+UserSimilarity: 45 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:45 with shape: (895, 25)
+UsersGraph: There are 895 users on 45
+UserSimilarity: A graph is being created for 45 with 895 users
+UserSimilarity: 46 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:46 with shape: (895, 25)
+UsersGraph: There are 895 users on 46
+UserSimilarity: A graph is being created for 46 with 895 users
+UserSimilarity: 47 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:47 with shape: (895, 25)
+UsersGraph: There are 895 users on 47
+UserSimilarity: A graph is being created for 47 with 895 users
+UserSimilarity: 48 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:48 with shape: (895, 25)
+UsersGraph: There are 895 users on 48
+UserSimilarity: A graph is being created for 48 with 895 users
+UserSimilarity: 49 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:49 with shape: (895, 25)
+UsersGraph: There are 895 users on 49
+UserSimilarity: A graph is being created for 49 with 895 users
+UserSimilarity: 50 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:50 with shape: (895, 25)
+UsersGraph: There are 895 users on 50
+UserSimilarity: A graph is being created for 50 with 895 users
+UserSimilarity: 51 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:51 with shape: (895, 25)
+UsersGraph: There are 895 users on 51
+UserSimilarity: A graph is being created for 51 with 895 users
+UserSimilarity: 52 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:52 with shape: (895, 25)
+UsersGraph: There are 895 users on 52
+UserSimilarity: A graph is being created for 52 with 895 users
+UserSimilarity: 53 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:53 with shape: (895, 25)
+UsersGraph: There are 895 users on 53
+UserSimilarity: A graph is being created for 53 with 895 users
+UserSimilarity: 54 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:54 with shape: (895, 25)
+UsersGraph: There are 895 users on 54
+UserSimilarity: A graph is being created for 54 with 895 users
+UserSimilarity: 55 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:55 with shape: (895, 25)
+UsersGraph: There are 895 users on 55
+UserSimilarity: A graph is being created for 55 with 895 users
+UserSimilarity: 56 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:56 with shape: (895, 25)
+UsersGraph: There are 895 users on 56
+UserSimilarity: A graph is being created for 56 with 895 users
+UserSimilarity: 57 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:57 with shape: (895, 25)
+UsersGraph: There are 895 users on 57
+UserSimilarity: A graph is being created for 57 with 895 users
+UserSimilarity: 58 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:58 with shape: (895, 25)
+UsersGraph: There are 895 users on 58
+UserSimilarity: A graph is being created for 58 with 895 users
+UserSimilarity: 59 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:59 with shape: (895, 25)
+UsersGraph: There are 895 users on 59
+UserSimilarity: A graph is being created for 59 with 895 users
+UserSimilarity: 60 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:60 with shape: (895, 25)
+UsersGraph: There are 895 users on 60
+UserSimilarity: A graph is being created for 60 with 895 users
+UserSimilarity: 61 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:61 with shape: (895, 25)
+UsersGraph: There are 895 users on 61
+UserSimilarity: A graph is being created for 61 with 895 users
+UserSimilarity: 62 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:62 with shape: (895, 25)
+UsersGraph: There are 895 users on 62
+UserSimilarity: A graph is being created for 62 with 895 users
+UserSimilarity: 63 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:63 with shape: (895, 25)
+UsersGraph: There are 895 users on 63
+UserSimilarity: A graph is being created for 63 with 895 users
+UserSimilarity: 64 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:64 with shape: (895, 25)
+UsersGraph: There are 895 users on 64
+UserSimilarity: A graph is being created for 64 with 895 users
+UserSimilarity: 65 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:65 with shape: (895, 25)
+UsersGraph: There are 895 users on 65
+UserSimilarity: A graph is being created for 65 with 895 users
+UserSimilarity: 66 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:66 with shape: (895, 25)
+UsersGraph: There are 895 users on 66
+UserSimilarity: A graph is being created for 66 with 895 users
+UserSimilarity: 67 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:67 with shape: (895, 25)
+UsersGraph: There are 895 users on 67
+UserSimilarity: A graph is being created for 67 with 895 users
+UserSimilarity: 68 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:68 with shape: (895, 25)
+UsersGraph: There are 895 users on 68
+UserSimilarity: A graph is being created for 68 with 895 users
+UserSimilarity: 69 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:69 with shape: (895, 25)
+UsersGraph: There are 895 users on 69
+UserSimilarity: A graph is being created for 69 with 895 users
+UserSimilarity: 70 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:70 with shape: (895, 25)
+UsersGraph: There are 895 users on 70
+UserSimilarity: A graph is being created for 70 with 895 users
+UserSimilarity: 71 / 72
+UserSimilarity: UsersTopicInterests.npy is saved for day:71 with shape: (895, 25)
+UsersGraph: There are 895 users on 71
+UserSimilarity: A graph is being created for 71 with 895 users
+UserSimilarity: Number of users per day: [11, 17, 16, 17, 17, 18, 17, 14, 21, 19, 26, 29, 24, 23, 25, 36, 32, 33, 40, 43, 43, 43, 53, 58, 70, 83, 419, 431, 529, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 UserSimilarity: Graphs created!
 UserSimilarity: Graphs are written in "graphs" directory
-Graph Clustering: Louvain clustering for ../output/64/uml/graphs\01.net
-nodes: 135 / edges: 512 / isolates: 0
-Graph Clustering: Louvain clustering output: 22 clusters. 22 of them are multi-user clusters and rest of them (0) are singleton clusters.
-
-Graph Clustering: Length of multi-user clusters: [20, 11, 8, 8, 8, 7, 7, 6, 6, 6, 5, 5, 5, 5, 5, 4, 4, 3, 3, 3, 3, 2]
-
-Graph Clustering: UserClusters.npy saved.
-
-Cluster 0 has 20 users. Topic 3 is the favorite topic for 55.00000000000001% of users.
-Cluster 1 has 11 users. Topic 11 is the favorite topic for 63.63636363636363% of users.
-Cluster 2 has 8 users. Topic 24 is the favorite topic for 100.0% of users.
-Cluster 3 has 8 users. Topic 22 is the favorite topic for 100.0% of users.
-Cluster 4 has 8 users. Topic 13 is the favorite topic for 100.0% of users.
-Cluster 5 has 7 users. Topic 5 is the favorite topic for 100.0% of users.
-Cluster 6 has 7 users. Topic 4 is the favorite topic for 100.0% of users.
-Cluster 7 has 6 users. Topic 1 is the favorite topic for 100.0% of users.
-Cluster 8 has 6 users. Topic 15 is the favorite topic for 100.0% of users.
-Cluster 9 has 6 users. Topic 6 is the favorite topic for 100.0% of users.
-Cluster 10 has 5 users. Topic 8 is the favorite topic for 100.0% of users.
-Cluster 11 has 5 users. Topic 21 is the favorite topic for 100.0% of users.
-Cluster 12 has 5 users. Topic 14 is the favorite topic for 100.0% of users.
-Cluster 13 has 5 users. Topic 23 is the favorite topic for 100.0% of users.
-Cluster 14 has 5 users. Topic 18 is the favorite topic for 100.0% of users.
-Cluster 15 has 4 users. Topic 0 is the favorite topic for 100.0% of users.
-Cluster 16 has 4 users. Topic 10 is the favorite topic for 100.0% of users.
-Cluster 17 has 3 users. Topic 16 is the favorite topic for 100.0% of users.
-Cluster 18 has 3 users. Topic 20 is the favorite topic for 100.0% of users.
-Cluster 19 has 3 users. Topic 2 is the favorite topic for 100.0% of users.
-Cluster 20 has 3 users. Topic 19 is the favorite topic for 100.0% of users.
-Cluster 21 has 2 users. Topic 7 is the favorite topic for 100.0% of users.
-Cluster 22 has 1 users. Topic 12 is the favorite topic for 100.0% of users.
-top of axes not in the figure, so title not moved
-top of axes not in the figure, so title not moved
-
-NewsTopicExtraction.py:
-
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
-Calling https://tagme.d4science.org/tagme/tag
+CACHEDIR=C:\Users\Soroush\.matplotlib
+Using fontManager instance from C:\Users\Soroush\.matplotlib\fontlist-v330.json
+Loaded backend module://backend_interagg version unknown.

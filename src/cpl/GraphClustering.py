@@ -41,6 +41,7 @@ def main(RunId, method='louvain'):
     graph = nx.read_gpickle(graphName)
     adj = nx.adj_matrix(graph)
     print('Louvain 1')
+
     # lbls_louvain = louvain.fit_transform(cosine_adj)
     print('Louvain2')
     lbls_louvain = louvain.fit_transform(adj)

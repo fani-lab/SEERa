@@ -4,7 +4,7 @@ import glob
 import numpy as np
 import params
 
-def G2T(graph_path, path2_save_gel=params.uml['path2saveGEL']):
+def G2T(graph_path, path2_save_gel=params.gel['path2saveGEL']):
     graphs_path = glob.glob(f'{graph_path}/*.net')
     for gp in graphs_path:
         pathtemp = path2_save_gel+'/' + str(gp.split("\\")[-1].split(".")[0])
@@ -34,7 +34,7 @@ def T2A(path2read, path2save):
     for embeddedpath in embeddedspath:
         file1 = open(embeddedpath, 'r')
         lines = file1.readlines()
-        array = np.zeros((int(lines[0].split('\n')[0]), params.uml['EmbeddingDim']))
+        array = np.zeros((int(lines[0].split('\n')[0]), params.gel['EmbeddingDim']))
         for i in range(1,len(lines)):
             line = lines[i]
             parts = line.split(':')

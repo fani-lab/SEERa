@@ -52,11 +52,11 @@ def userMentions(day_before,end_date):
 ##########################################################################################################
 def userMentionsCSV():
     # creating tweetentities dataframe from tweetentities.csv
-    tweetentities = pd.read_csv(r'../CSV/tweetentities.csv', sep=';', encoding='utf-8')
+    tweetentities = pd.read_csv(r'../../data/tweetentities_N20000.csv', sep=';', encoding='utf-8')
     # renaming Id to NewsId
     tweetentities.rename(columns={"Id": "NewsId"}, inplace=True)
 
-    tweets = pd.read_csv(r'../CSV/stweets.csv', sep=';', encoding='utf-8')  # creating tweets dataframe from csv
+    tweets = pd.read_csv(r'../../data/tweets_N20000.csv', sep=';', encoding='utf-8')  # creating tweets dataframe from csv
     tweets.rename(columns={"Id": "TweetId"}, inplace=True)  # remaining Id in tweets dataframe to TweetsId
     tweets = tweets[tweets.UserId != -1]  # remove user ids with -1 value
 
