@@ -8,6 +8,6 @@ def main(graphPath, newGraphPath, dim):
     script = f'.\BCGDEmbed ../../../../{newGraphPath} -c {dim}'
     stream = os.popen(script)
     output = stream.read()
-    print(output)
+    #print(output)
     GTT.T2A('../main', '../../../../'+newGraphPath)
     os.chdir('../../../../')

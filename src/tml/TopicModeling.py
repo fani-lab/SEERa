@@ -43,8 +43,8 @@ def topic_modeling(processed_docs, num_topics=20, filterExtremes=False,
         np.savetxt(f"{path_2_save_tml}/gensim_{num_topics}topics.csv", G, delimiter=",", fmt='%s')
         totalTopics = GENSIM_Topics
     elif library == 'mallet':
-        os.environ['MALLET_HOME'] = params.uml['mallet_home']
-        mallet_path = f'{params.uml["mallet_home"]}/bin/mallet'
+        os.environ['MALLET_HOME'] = params.tml['mallet_home']
+        mallet_path = f'{params.tml["mallet_home"]}/bin/mallet'
         lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics,
                                                      id2word=dictionary)
         lda_model.save(f"{path_2_save_tml}/mallet_{num_topics}topics.model")

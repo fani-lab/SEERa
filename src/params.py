@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 19
+RunID = 28
 
 
 general = {
@@ -11,11 +11,11 @@ general = {
     'RunId': RunID,
 }
 dal = {
-    'path': ['../data/tweets_all.csv', '../data/tagmeannotation_N80000.csv'],
+    'path': ['../data/tweets_all.csv', '../data/tagmeannotation_all.csv'],
     'userModeling': True,
     'timeModeling': True,
-    'start': '2010-11-01',
-    'end': '2010-12-14',
+    'start': '2010-10-01',
+    'end': '2010-11-19',
     'timeInterval': 1,
     'preProcessing': False,
     'TagME': False,
@@ -23,19 +23,17 @@ dal = {
 }
 tml = {
     'path2saveTML': f'../output/{RunID}/tml',
-    'num_topics': 25,
+    'num_topics': 75,
     'library': 'gensim',
-    'mallet_home': 'C:/Users/sorou/mallet-2.0.8',
+    'mallet_home': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
     'filterExtremes': True,
     'JO': False,
-    'Bin': True,
-    'Threshold': 0.2
+    'Bin': False,
+    'Threshold': 0.02
 }
 uml = {
-    'UserSimilarityThreshold': 0.0,
+    'UserSimilarityThreshold': 0.25,
     'path2saveUML': f'../output/{RunID}/uml'
-
-
 }
 gel = {
     'path2saveGEL': f'../output/{RunID}/gel',

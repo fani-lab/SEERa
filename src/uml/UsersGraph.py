@@ -26,9 +26,9 @@ def create_users_graph(day, users_topic_interests, path_2_save, sparsity=False):
         usersSimilarity = cosine_similarity(users_topic_interests)
         super_threshold_indices = usersSimilarity < UserSimilarityThreshold
         usersSimilarity[super_threshold_indices] = 0
-        print('usersSimilarities min:', usersSimilarity.min())
-        print('usersSimilarities max:', usersSimilarity.max())
-        print('usersSimilarities mean:', usersSimilarity.mean())
+        #print('usersSimilarities min:', usersSimilarity.min())
+        #print('usersSimilarities max:', usersSimilarity.max())
+        #print('usersSimilarities mean:', usersSimilarity.mean())
         G = nx.from_numpy_matrix(usersSimilarity)
     # nx.write_pajek(G, f'{path_2_save}/graph_{num_users}users_{num_topics}topics_{day}day.net')
     return G

@@ -1,19 +1,14 @@
-import datetime, time
-import os, sys
+import datetime
+import os
 import numpy as np
-import glob
 import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
-import gensim
 import networkx as nx
 import pandas as pd
-
-#sys.path.extend(["../"])
 from cmn import Common as cmn
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
 import params
-
 
 
 def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], path2_save_uml=params.uml['path2saveUML'],
@@ -28,26 +23,13 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
     users_topic_interests = np.zeros((len(unique_users), num_topics))
     cmn.logger.info(f'UserSimilarity: users_topic_interests={users_topic_interests.shape}')
     total_user_ids = []
-    max_users = 0
     daycounter = 1
-
     cmn.logger.info(f'UserSimilarity: Just one topic? {JO}, Binary topic? {Bin}, Threshold: {Threshold}')
     lenUsers = []
-
-    end_date = documents['CreationDate'].max()
     end_date = datetime.datetime.strptime(params.dal['end'], '%Y-%m-%d')
-    day = documents['CreationDate'].min()
     day = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
 
-
-    ## FOR TEST:
-    # day = end_date
-
-
     while day <= end_date:
-        #print(documents['CreationDate'].min(),documents['CreationDate'].max())
-        #print(day.date())
-        #print(sum(documents['CreationDate'] == day))
         users_topic_interests = np.zeros((len(unique_users), num_topics))
         #users_topic_interests[0] += 1
         c = documents[(documents['CreationDate'] == day)]
@@ -57,7 +39,6 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
         lenUsers.append(len(users))
         users_Ids = []
         for userTextidx in range(len(c['Tokens'])):
-        # for userTextidx in range(min(5000, len(c['Text']))):
             doc = texts.iloc[userTextidx]
             user_bow_corpus = dictionary.doc2bow(doc.split(','))
             D2T = tm.doc2topics(lda_model, user_bow_corpus, threshold=Threshold, justOne=JO, binary=Bin)
@@ -68,7 +49,6 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
         day = day + pd._libs.tslibs.timestamps.Timedelta(days=1)
         daycounter += 1
     total_users_topic_interests = np.asarray(total_users_topic_interests)
-    graphs = []
 
     if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
     if not os.path.isdir(f'{path2_save_uml}/graphs/pajek'): os.makedirs(f'{path2_save_uml}/graphs/pajek')
@@ -85,20 +65,38 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
 
         graph = UG.create_users_graph(day, total_users_topic_interests[day], f'{path2_save_uml}/graphs/pajek')
         cmn.logger.info(f'UserSimilarity: A graph is being created for {day} with {len(total_users_topic_interests[day])} users')
-        # graphs.append(graph)
         nx.write_gpickle(graph, f'{path2_save_uml}/graphs/{daystr}.net')
     cmn.logger.info(f'UserSimilarity: Number of users per day: {lenUsers}')
-    cmn.logger.info(f'UserSimilarity: Graphs created!')
-
-    # for i in range(len(graphs)):
-    #     if i < 9:
-    #         nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/0{i+1}.net')
-    #     else:
-    #         nx.write_gpickle(graphs[i], f'{path2_save_uml}/graphs/{i+1}.net')
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
-
-
-
+    userTopics(documents, total_users_topic_interests[0], total_user_ids[0], total_user_ids[0][0], unique_users, lda_model)
+    userTopics(documents, total_users_topic_interests[0], total_user_ids[0], total_user_ids[0][1], unique_users, lda_model)
+    userTopics(documents, total_users_topic_interests[0], total_user_ids[0], total_user_ids[0][2], unique_users,
+               lda_model)
+    userTopics(documents, total_users_topic_interests[0], total_user_ids[0], total_user_ids[0][3], unique_users,
+               lda_model)
+    userTopics(documents, total_users_topic_interests[0], total_user_ids[0], total_user_ids[0][4], unique_users,
+               lda_model)
+def userTopics(documents, total_users_topic_interests, total_user_ids, userid, unique_users, lda_model):
+    #print(documents)
+    #print(documents.shape)
+    #print(total_users_topic_interests)
+    #print(total_users_topic_interests.shape)
+    #print(total_user_ids)
+    #print(len(total_user_ids))
+    print(userid)
+    #idx = total_user_ids.index(userid)
+    #print(idx)
+    #print(type(unique_users))
+    #print(unique_users)
+    #idx = unique_users.where(userid)
+    idx = unique_users[unique_users == userid].index[0]
+    print(idx)
+    print(documents['Tokens'][documents['userId'] == userid])
+    print(total_users_topic_interests[idx])
+    #print('topics:', lda_model.get_topics())
+    for i, j in enumerate(total_users_topic_interests[idx]):
+        if j > 0:
+            print(lda_model.print_topic(i))
 ## test
 # main(start='2010-11-10', end='2010-11-17', stopwords=['www', 'RT', 'com', 'http'],
 #              userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=0,
