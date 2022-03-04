@@ -11,7 +11,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 7. [Citation](#7-Citation)
 
 ## 1. Demo
-:movie_camera: Video Playlist ([tbd](https://github.com/fani-lab/community_prediction/issues/11)): 1) [Introduction](https://youtu.be/6rsaMldfT_U) -> 2) Installation ->3) Extension
+:movie_camera: Video Playlist ([tbd](https://github.com/fani-lab/seera/issues/11)): 1) [Introduction](https://youtu.be/6rsaMldfT_U) -> 2) Installation ->3) Extension
 
 Workflow | Layers
 :---------------:|:-------------------------:
@@ -62,8 +62,8 @@ Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), To
 It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use the following commands in your shell:
 
 ```bash
-git clone https://github.com/fani-lab/community_prediction.git
-cd community_prediction
+git clone https://github.com/fani-lab/seera.git
+cd seera
 pip install -r requirements.txt
 ```
 This command installs compatible version of the following libraries:
