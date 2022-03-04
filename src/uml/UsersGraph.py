@@ -1,11 +1,11 @@
 import networkx as nx
 from scipy import sparse
-import numpy as np
-import sys
+#import numpy as np
+#import sys
 import params
 from sklearn.metrics.pairwise import cosine_similarity
 
-sys.path.extend(["../"])
+#sys.path.extend(["../"])
 from cmn import Common as cmn
 
 def create_users_graph(day, users_topic_interests, path_2_save, sparsity=False):

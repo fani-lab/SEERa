@@ -97,15 +97,14 @@ def main(method='Node2Vec'):
     # parameters for the dynamic embedding
     # dimension of the embedding
     dim_emb = params.gel['EmbeddingDim']
-    lookback = 2
-    print('lookback: ', lookback)
-
-    # methods: ['AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
+    # methods: ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
         if not os.path.isdir(params.gel["path2saveGEL"]): os.makedirs(params.gel["path2saveGEL"])
         N2V.main(params.uml['path2saveUML']+'/graphs', params.gel['path2saveGEL'], params.gel['EmbeddingDim'])
     else:
+        lookback = 2
+        print('lookback: ', lookback)
         embedding = GEMmethod(dim_emb=dim_emb, lookback=lookback, method=method)
 
         embs = []

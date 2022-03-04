@@ -31,7 +31,7 @@ def RunPipeline():
                                                                      startDate=params.dal['start'], timeInterval=params.dal['timeInterval'])
     cmn.logger.info(f'processed_docs.shape: {processed_docs.shape}')
     cmn.logger.info(f'documents.shape: {documents.shape}')
-    print(documents.keys())
+    #print(documents.keys())
 
 
     # Topic Modeling
@@ -54,12 +54,13 @@ def RunPipeline():
 
     # Graph Embedding
     from gel import graphEmbedding as GE
-    GE.main(method='Node2Vec')
+    GE.main(method=params.gel['method'])
 
     # Community Extraction
     from cpl import GraphClustering as GC, GraphReconstruction_main as GR
-    Communities = GC.main(RunId=params.general['RunId'])
     GR.main(RunId=params.general['RunId'])
+    Communities = GC.main(RunId=params.general['RunId'])
+
     return Communities
 
 

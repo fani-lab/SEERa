@@ -50,10 +50,10 @@ def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessi
         #documents = dataGroupbyUsersTime['Text'].apply(lambda x: ','.join(x)).reset_index()
     elif userModeling:
         dataGroupbyUsers = data.groupby(['userId'])
-        documents = dataGroupbyUsers['Text'].apply(lambda x: ','.join(x)).reset_index()
+        documents = dataGroupbyUsers['Tokens'].apply(lambda x: ','.join(x)).reset_index()
     elif timeModeling:
         dataGroupbyTime = data.groupby(['CreationDate'])
-        documents = dataGroupbyTime['Text'].apply(lambda x: ','.join(x)).reset_index()
+        documents = dataGroupbyTime['Tokens'].apply(lambda x: ','.join(x)).reset_index()
     else:
         data_text = data[['Text']]
         data_text['index'] = data_text.index

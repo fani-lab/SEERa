@@ -1,625 +1,1366 @@
 Data Reading ...
-dataset.shape: (10595, 6)
+dataset.shape: (9414, 6)
 dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
        'Tokens'],
       dtype='object')
 Data Preparation ...
 DataPreperation: userModeling=True, timeModeling=True,preProcessing=False, TagME=False
 DataPreperation: 1 sampled from the end of dataset (sorted by creationTime)
-DataPreperation: Length of the dataset after applying groupby: 2207 
+DataPreperation: Length of the dataset after applying groupby: 1913 
 
-DataPreparation: Processed docs shape: (2207,)
-processed_docs.shape: (2207,)
-documents.shape: (2207, 3)
+DataPreparation: Processed docs shape: (1913,)
+processed_docs.shape: (1913,)
+documents.shape: (1913, 3)
 Topic modeling ...
 TopicModeling: num_topics=25,  filterExtremes=True, library=gensim
 adding document #0 to Dictionary(0 unique tokens: [])
-built Dictionary(15239 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...) from 2207 documents (total 35994 corpus positions)
-starting a new internal lifecycle event log for Dictionary
-Dictionary lifecycle event {'msg': "built Dictionary(15239 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...) from 2207 documents (total 35994 corpus positions)", 'datetime': '2022-02-13T05:52:47.064723', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'created'}
+built Dictionary(13591 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...) from 1913 documents (total 32039 corpus positions)
 discarding 0 tokens: []...
-keeping 15239 tokens which were in no less than 1 and no more than 441 (=20.0%) documents
+keeping 13591 tokens which were in no less than 1 and no more than 382 (=20.0%) documents
 rebuilding dictionary, shrinking gaps
-resulting dictionary: Dictionary(15239 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...)
+resulting dictionary: Dictionary(13591 unique tokens: ['Papers', 'Secret', 'U.S. Aid', 'Cuba', 'Political prisoner']...)
 using symmetric alpha at 0.04
 using symmetric eta at 0.04
 using serial LDA version on this node
-running online (multi-pass) LDA training, 25 topics, 5 passes over the supplied corpus of 2207 documents, updating model once every 2000 documents, evaluating perplexity every 2207 documents, iterating 50x with a convergence threshold of 0.001000
+running online (multi-pass) LDA training, 25 topics, 5 passes over the supplied corpus of 1913 documents, updating model once every 1913 documents, evaluating perplexity every 1913 documents, iterating 50x with a convergence threshold of 0.001000
 too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
-PROGRESS: pass 0, at document #2000/2207
-performing inference on a chunk of 2000 documents
-1615/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 2207 documents
-topic #10 (0.040): 0.007*"un" + 0.005*"como" + 0.004*"Blog" + 0.003*"Kyi" + 0.003*"NZ" + 0.003*"la" + 0.003*"US" + 0.002*"en" + 0.002*"Obama" + 0.002*"British"
-topic #5 (0.040): 0.004*"Obama" + 0.004*"China" + 0.003*"Pakistan" + 0.003*"dead" + 0.003*"Twitter" + 0.003*"Haiti  cholera outbreak" + 0.003*"nice" + 0.003*"India" + 0.003*"lol" + 0.003*"Broadway"
-topic #8 (0.040): 0.014*"xfactor" + 0.007*"British" + 0.005*"Somali pirates" + 0.004*"yacht" + 0.004*"captivity" + 0.003*"Haiti" + 0.003*"will" + 0.003*"Scorpio" + 0.003*"la" + 0.003*"China"
-topic #21 (0.040): 0.005*"Obama" + 0.004*"China" + 0.003*"can" + 0.003*"Karachi" + 0.003*"die" + 0.003*"es" + 0.003*"pour" + 0.003*"people" + 0.002*"FOX News" + 0.002*"New York"
-topic #6 (0.040): 0.004*"who" + 0.004*"will" + 0.004*"French" + 0.004*"Blog" + 0.004*"American" + 0.003*"Sarah Palin" + 0.003*"producer" + 0.003*"Octagon" + 0.003*"British" + 0.002*"captivity"
-topic diff=19.938339, rho=1.000000
 bound: at document #0
--20.383 per-word bound, 1367185.4 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
-PROGRESS: pass 0, at document #2207/2207
-performing inference on a chunk of 207 documents
-205/207 documents converged within 50 iterations
+-29.893 per-word bound, 997265431.6 perplexity estimate based on a held-out corpus of 1913 documents with 32039 words
+PROGRESS: pass 0, at document #1913/1913
+performing inference on a chunk of 1913 documents
+1543/1913 documents converged within 50 iterations
 updating topics
-merging changes from 207 documents into a model of 2207 documents
-topic #21 (0.040): 0.176*"Sun" + 0.011*"Obama" + 0.008*"don't ask" + 0.008*"oil spill" + 0.007*"iPad" + 0.007*"working" + 0.006*"post" + 0.006*"GOP" + 0.005*"apps" + 0.005*"us"
-topic #18 (0.040): 0.014*"man" + 0.012*"Ohio" + 0.012*"basement" + 0.012*"teen" + 0.012*"charged" + 0.012*"kidnapping" + 0.012*"safe" + 0.012*"members" + 0.012*"Mexican" + 0.012*"family"
-topic #12 (0.040): 0.021*"e-mail" + 0.021*"hacker" + 0.020*"government" + 0.017*"year and a day" + 0.017*"sentenced" + 0.017*"prison" + 0.016*"French" + 0.016*"Sarah Palin" + 0.013*"Myanmar" + 0.013*"Sarkozy"
-topic #6 (0.040): 0.016*"T Magazine" + 0.016*"Delhi" + 0.011*"South America" + 0.011*"Yeah" + 0.010*"currency" + 0.006*"justice" + 0.005*"yoga" + 0.005*"Eye Candy" + 0.005*"Celine" + 0.005*"Celine's"
-topic #7 (0.040): 0.013*"Zahra Baker" + 0.013*"N.Carolina" + 0.011*"first time" + 0.010*"women" + 0.009*"Brain" + 0.008*"authorities" + 0.008*"gay" + 0.007*"hacker" + 0.007*"Meeting" + 0.007*"Palin"
-topic diff=0.866697, rho=0.707107
-PROGRESS: pass 1, at document #2000/2207
-performing inference on a chunk of 2000 documents
-1996/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 2207 documents
-topic #13 (0.040): 0.015*"Leaders" + 0.014*"Asia-Pacific" + 0.014*"Trade" + 0.008*"Work" + 0.007*"first" + 0.007*"President Obama" + 0.007*"white" + 0.007*"Obama" + 0.006*"Treaty" + 0.006*"Arms"
-topic #21 (0.040): 0.074*"Sun" + 0.011*"Obama" + 0.006*"iPad" + 0.006*"apps" + 0.006*"human" + 0.005*"Live" + 0.005*"can" + 0.005*"pour" + 0.004*"oil spill" + 0.004*"working"
-topic #16 (0.040): 0.011*"Indonesia" + 0.009*"Death" + 0.008*"Afghan" + 0.007*"volcano" + 0.007*"NATO" + 0.006*"Netanyahu" + 0.006*"Settlements" + 0.006*"Focus" + 0.006*"billion" + 0.006*"Deficit"
-topic #10 (0.040): 0.009*"un" + 0.009*"West" + 0.009*"defeat" + 0.009*"al-Qaeda" + 0.007*"F1" + 0.007*"como" + 0.006*"Vettel" + 0.006*"Halloween" + 0.006*"Cuba" + 0.005*"organs"
-topic #18 (0.040): 0.018*"Ohio" + 0.018*"basement" + 0.018*"teen" + 0.018*"man" + 0.017*"family" + 0.017*"safe" + 0.016*"Israel" + 0.016*"charged" + 0.016*"kidnapping" + 0.016*"members"
-topic diff=0.597079, rho=0.567641
+topic #11 (0.040): 0.004*"Death" + 0.003*"Obama" + 0.003*"will" + 0.003*"Western" + 0.002*"Pa" + 0.002*"Shot" + 0.002*"Family" + 0.002*"Ohio" + 0.002*"New York" + 0.002*"family"
+topic #4 (0.040): 0.005*"dead" + 0.004*"Haiti  cholera outbreak" + 0.004*"Kyi" + 0.003*"cheers" + 0.003*"Spain" + 0.003*"Mandela" + 0.003*"Bono" + 0.002*"Times" + 0.002*"U.S" + 0.002*"who"
+topic #15 (0.040): 0.005*"China" + 0.004*"Obama" + 0.003*"voters" + 0.003*"medical  marijuana" + 0.003*"Arizona" + 0.003*"Data" + 0.003*"measure" + 0.003*"Nigro" + 0.003*"Netanyahu" + 0.003*"un"
+topic #8 (0.040): 0.014*"xfactor" + 0.005*"Haiti" + 0.005*"death" + 0.004*"cholera" + 0.004*"death toll" + 0.004*"China" + 0.004*"U.S" + 0.003*"Ham" + 0.003*"Obama" + 0.003*"Israel"
+topic #6 (0.040): 0.008*"Blog" + 0.008*"Aung San Suu Kyi" + 0.007*"Myanmar" + 0.006*"Obama" + 0.006*"Octagon" + 0.004*"will" + 0.004*"people" + 0.004*"activist" + 0.004*"measure" + 0.004*"voters"
+topic diff=19.588917, rho=1.000000
 bound: at document #0
--18.528 per-word bound, 378012.3 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
-PROGRESS: pass 1, at document #2207/2207
-performing inference on a chunk of 207 documents
-207/207 documents converged within 50 iterations
+-10.543 per-word bound, 1492.1 perplexity estimate based on a held-out corpus of 1913 documents with 32039 words
+PROGRESS: pass 1, at document #1913/1913
+performing inference on a chunk of 1913 documents
+1893/1913 documents converged within 50 iterations
 updating topics
-merging changes from 207 documents into a model of 2207 documents
-topic #8 (0.040): 0.028*"X Factor" + 0.025*"xfactor" + 0.017*"ur" + 0.017*"jewelry" + 0.016*"British" + 0.016*"Somali pirates" + 0.015*"yacht" + 0.015*"captivity" + 0.013*"clothing" + 0.012*"million"
-topic #6 (0.040): 0.018*"T Magazine" + 0.016*"Delhi" + 0.011*"Yeah" + 0.011*"South America" + 0.011*"currency" + 0.007*"officers" + 0.007*"Mexican drug war" + 0.007*"focus" + 0.007*"gunmen" + 0.007*"law-enforcement"
-topic #23 (0.040): 0.024*"measure" + 0.023*"voters" + 0.015*"Arizona" + 0.014*"medical  marijuana" + 0.014*"OK" + 0.010*"Who" + 0.007*"singing" + 0.007*"AP" + 0.006*"link" + 0.006*"LMAO"
-topic #2 (0.040): 0.015*"UN" + 0.014*"powers" + 0.014*"Iran" + 0.012*"Murdoch" + 0.009*"President Obama" + 0.008*"Report" + 0.008*"BP" + 0.008*"moment" + 0.008*"Something" + 0.008*"intelligence"
-topic #7 (0.040): 0.014*"Zahra Baker" + 0.014*"N.Carolina" + 0.012*"women" + 0.012*"gay" + 0.011*"Brain" + 0.010*"authorities" + 0.009*"Meeting" + 0.009*"Palin" + 0.009*"ban" + 0.008*"custody"
-topic diff=0.510928, rho=0.567641
-PROGRESS: pass 2, at document #2000/2207
-performing inference on a chunk of 2000 documents
-2000/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 2207 documents
-topic #2 (0.040): 0.021*"UN" + 0.021*"Iran" + 0.018*"powers" + 0.014*"emergency" + 0.008*"Twitter" + 0.007*"President Obama" + 0.006*"Murdoch" + 0.006*"tax cuts" + 0.005*"Report" + 0.005*"God"
-topic #23 (0.040): 0.024*"voters" + 0.024*"measure" + 0.022*"Arizona" + 0.020*"medical  marijuana" + 0.007*"Who" + 0.007*"OK" + 0.006*"AP" + 0.006*"LMAO" + 0.005*"you" + 0.005*"Trance"
-topic #6 (0.040): 0.008*"T Magazine" + 0.007*"officers" + 0.007*"Mexican drug war" + 0.007*"focus" + 0.007*"Delhi" + 0.007*"gunmen" + 0.007*"law-enforcement" + 0.007*"pre-teen" + 0.006*"dies" + 0.005*"Yeah"
-topic #21 (0.040): 0.097*"Sun" + 0.013*"Obama" + 0.010*"iPad" + 0.008*"apps" + 0.007*"human" + 0.006*"post" + 0.006*"Live" + 0.005*"can" + 0.005*"working" + 0.005*"pour"
-topic #16 (0.040): 0.015*"Indonesia" + 0.014*"Death" + 0.011*"volcano" + 0.010*"Afghan" + 0.008*"NATO" + 0.007*"Focus" + 0.007*"South" + 0.007*"Afghan Police" + 0.007*"Deficit" + 0.007*"Afghanistan"
-topic diff=0.388680, rho=0.493654
+topic #11 (0.040): 0.006*"Death" + 0.004*"Western" + 0.004*"Pa" + 0.004*"Shot" + 0.004*"Family" + 0.004*"New York" + 0.003*"Vintage" + 0.003*"photos" + 0.003*"1970s" + 0.003*"Henryk Mikolaj Gorecki"
+topic #0 (0.040): 0.010*"China" + 0.008*"Papers" + 0.008*"Secret" + 0.008*"U.S. Aid" + 0.006*"India" + 0.006*"Nigro" + 0.005*"Afghan" + 0.005*"NATO" + 0.005*"will" + 0.005*"people"
+topic #5 (0.040): 0.012*"French" + 0.012*"prime minister" + 0.012*"French prime minister" + 0.008*"Israel" + 0.007*"Sarah Palin" + 0.007*"reshuffle" + 0.007*"resigns" + 0.007*"Sarkozy" + 0.007*"U.S" + 0.007*"government"
+topic #22 (0.040): 0.014*"teen" + 0.014*"basement" + 0.014*"Ohio" + 0.012*"man" + 0.011*"dead" + 0.011*"safe" + 0.011*"charged" + 0.011*"members" + 0.011*"kidnapping" + 0.011*"family"
+topic #6 (0.040): 0.011*"Aung San Suu Kyi" + 0.010*"Myanmar" + 0.007*"activist" + 0.007*"Blog" + 0.007*"Obama" + 0.006*"house arrest" + 0.005*"will" + 0.004*"people" + 0.004*"Octagon" + 0.003*"G20"
+topic diff=0.495612, rho=0.577350
 bound: at document #0
--18.234 per-word bound, 308375.8 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
-PROGRESS: pass 2, at document #2207/2207
-performing inference on a chunk of 207 documents
-207/207 documents converged within 50 iterations
+-9.893 per-word bound, 950.5 perplexity estimate based on a held-out corpus of 1913 documents with 32039 words
+PROGRESS: pass 2, at document #1913/1913
+performing inference on a chunk of 1913 documents
+1911/1913 documents converged within 50 iterations
 updating topics
-merging changes from 207 documents into a model of 2207 documents
-topic #20 (0.040): 0.030*"UK" + 0.021*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.011*"threats" + 0.010*"china" + 0.009*"Police" + 0.008*"war" + 0.008*"Spain"
-topic #7 (0.040): 0.015*"gay" + 0.013*"women" + 0.013*"Zahra Baker" + 0.013*"N.Carolina" + 0.011*"authorities" + 0.011*"Brain" + 0.011*"ban" + 0.009*"Meeting" + 0.009*"Palin" + 0.008*"custody"
-topic #0 (0.040): 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"official" + 0.009*"Papers" + 0.009*"U.S. Aid" + 0.009*"Secret" + 0.009*"bacon" + 0.008*"US" + 0.008*"People"
-topic #24 (0.040): 0.026*"twitter" + 0.014*"EU" + 0.013*"Ireland" + 0.013*"bail-out" + 0.012*"ll" + 0.010*"people" + 0.009*"tweets" + 0.009*"wife" + 0.008*"thought" + 0.008*"Facebook"
-topic #13 (0.040): 0.025*"Leaders" + 0.024*"Asia-Pacific" + 0.024*"Trade" + 0.014*"President Obama" + 0.013*"white" + 0.012*"first" + 0.011*"visit" + 0.010*"paris" + 0.010*"forward" + 0.010*"QT"
-topic diff=0.294063, rho=0.493654
-PROGRESS: pass 3, at document #2000/2207
-performing inference on a chunk of 2000 documents
-2000/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 2207 documents
-topic #0 (0.040): 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"NZ" + 0.009*"US" + 0.008*"People" + 0.007*"home" + 0.007*"Win" + 0.007*"Jets" + 0.007*"Browns"
-topic #12 (0.040): 0.030*"French" + 0.024*"e-mail" + 0.023*"hacker" + 0.022*"Sarah Palin" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.018*"government" + 0.016*"year and a day" + 0.016*"sentenced" + 0.016*"prison"
-topic #14 (0.040): 0.088*"hahaha" + 0.008*"sis" + 0.007*"flood" + 0.007*"matter" + 0.007*"heart" + 0.006*"Family" + 0.005*"wind" + 0.005*"dat" + 0.004*"foreign policy" + 0.004*"penis"
-topic #17 (0.040): 0.062*"China" + 0.054*"Nigro" + 0.023*"Insider" + 0.019*"blog" + 0.017*"dead" + 0.015*"Haiti  cholera outbreak" + 0.007*"am" + 0.006*"Yemen" + 0.006*"haha" + 0.006*"Team"
-topic #5 (0.040): 0.012*"chief" + 0.009*"England" + 0.007*"youth" + 0.007*"Broadway" + 0.007*"DADT" + 0.006*"News" + 0.006*"Apple" + 0.006*"plan" + 0.005*"Peace" + 0.005*"Obama"
-topic diff=0.242786, rho=0.442656
+topic #14 (0.040): 0.007*"radiation" + 0.007*"Airport" + 0.006*"white" + 0.006*"New Orleans" + 0.006*"elementary school" + 0.006*"black child" + 0.006*"first" + 0.006*"black" + 0.005*"Intel" + 0.005*"Toronto"
+topic #13 (0.040): 0.007*"Trade" + 0.007*"Asia-Pacific" + 0.007*"Leaders" + 0.006*"lol" + 0.006*"Obama" + 0.004*"God" + 0.003*"LoL" + 0.003*"haha" + 0.003*"YouTube" + 0.003*"Work"
+topic #11 (0.040): 0.007*"Death" + 0.005*"Western" + 0.005*"Pa" + 0.005*"Shot" + 0.005*"Family" + 0.004*"New York" + 0.004*"Henryk Mikolaj Gorecki" + 0.003*"Composer" + 0.003*"ngo" + 0.003*"Vintage"
+topic #18 (0.040): 0.022*"UN" + 0.022*"Iran" + 0.022*"powers" + 0.021*"emergency" + 0.015*"Somali pirates" + 0.014*"British" + 0.014*"captivity" + 0.014*"yacht" + 0.005*"West" + 0.004*"defeat"
+topic #17 (0.040): 0.006*"gay" + 0.006*"women" + 0.006*"ban" + 0.006*"military" + 0.006*"US Supreme Court" + 0.006*"gay men" + 0.006*"openly gay" + 0.006*"Pentagon" + 0.005*"Aung San Suu Kyi" + 0.004*"NZ Herald"
+topic diff=0.400251, rho=0.500000
 bound: at document #0
--18.128 per-word bound, 286432.0 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
-PROGRESS: pass 3, at document #2207/2207
-performing inference on a chunk of 207 documents
-207/207 documents converged within 50 iterations
+-9.603 per-word bound, 777.6 perplexity estimate based on a held-out corpus of 1913 documents with 32039 words
+PROGRESS: pass 3, at document #1913/1913
+performing inference on a chunk of 1913 documents
+1910/1913 documents converged within 50 iterations
 updating topics
-merging changes from 207 documents into a model of 2207 documents
-topic #20 (0.040): 0.030*"UK" + 0.020*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.010*"threats" + 0.010*"china" + 0.009*"war" + 0.009*"Police" + 0.008*"Kenya"
-topic #18 (0.040): 0.023*"Ohio" + 0.022*"basement" + 0.022*"teen" + 0.021*"die" + 0.021*"Israel" + 0.020*"die in" + 0.019*"man" + 0.018*"Mexico" + 0.017*"family" + 0.017*"safe"
-topic #17 (0.040): 0.053*"China" + 0.035*"Nigro" + 0.016*"blog" + 0.015*"Insider" + 0.014*"dead" + 0.013*"Haiti  cholera outbreak" + 0.011*"Yemen" + 0.011*"Team" + 0.010*"Lebanon" + 0.009*"hate"
-topic #12 (0.040): 0.028*"French" + 0.027*"e-mail" + 0.026*"hacker" + 0.024*"Sarah Palin" + 0.021*"government" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.020*"year and a day" + 0.020*"sentenced" + 0.020*"prison"
-topic #23 (0.040): 0.026*"measure" + 0.026*"voters" + 0.018*"Arizona" + 0.016*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.008*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"music"
-topic diff=0.187894, rho=0.442656
-PROGRESS: pass 4, at document #2000/2207
-performing inference on a chunk of 2000 documents
-2000/2000 documents converged within 50 iterations
-updating topics
-merging changes from 2000 documents into a model of 2207 documents
-topic #4 (0.040): 0.015*"Gay" + 0.014*"Nicaragua" + 0.012*"election" + 0.010*"San Francisco" + 0.010*"California" + 0.009*"Dispute" + 0.008*"Military" + 0.007*"Cigarette" + 0.007*"Obama" + 0.007*"Bay Citizen"
-topic #9 (0.040): 0.190*"Cathie Black" + 0.010*"who" + 0.007*"Times" + 0.006*"miles" + 0.006*"i'm" + 0.006*"release" + 0.006*"you" + 0.006*"reaction" + 0.006*"Arsenal" + 0.005*"Zagat"
-topic #0 (0.040): 0.011*"Papers" + 0.011*"Secret" + 0.010*"U.S. Aid" + 0.010*"NZ" + 0.009*"US" + 0.008*"People" + 0.007*"home" + 0.007*"Win" + 0.007*"Jets" + 0.007*"Browns"
-topic #7 (0.040): 0.015*"gay" + 0.013*"women" + 0.012*"ban" + 0.009*"military" + 0.008*"Zahra Baker" + 0.008*"Meeting" + 0.008*"Palin" + 0.008*"US Supreme Court" + 0.008*"gay men" + 0.008*"N.Carolina"
-topic #6 (0.040): 0.011*"T Magazine" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"Delhi" + 0.007*"gunmen" + 0.007*"law-enforcement" + 0.007*"pre-teen" + 0.007*"dies" + 0.006*"Yeah"
-topic diff=0.170901, rho=0.404772
+topic #16 (0.040): 0.014*"e-mail" + 0.014*"hacker" + 0.009*"year and a day" + 0.009*"sentenced" + 0.008*"Sarah Palin" + 0.008*"prison" + 0.008*"Democrats" + 0.008*"time" + 0.006*"House" + 0.006*"Palin"
+topic #10 (0.040): 0.019*"Haiti" + 0.019*"cholera" + 0.019*"Arizona" + 0.019*"death toll" + 0.019*"voters" + 0.019*"death" + 0.018*"measure" + 0.018*"medical  marijuana" + 0.013*"toll" + 0.012*"bailout"
+topic #4 (0.040): 0.008*"fiscal year" + 0.008*"U.S.  Postal Service" + 0.008*"CNNMoney.com" + 0.008*"billion" + 0.005*"release" + 0.004*"reaction" + 0.004*"Times" + 0.004*"Palin" + 0.004*"Burma" + 0.004*"in custody"
+topic #21 (0.040): 0.006*"New York" + 0.005*"Live" + 0.005*"French" + 0.004*"Cigarette" + 0.004*"Political prisoner" + 0.004*"freed in" + 0.004*"T Magazine" + 0.004*"WAGE" + 0.004*"PEACE" + 0.004*"PEACE NOW"
+topic #22 (0.040): 0.019*"teen" + 0.019*"basement" + 0.019*"Ohio" + 0.016*"man" + 0.015*"safe" + 0.015*"members" + 0.015*"charged" + 0.015*"kidnapping" + 0.015*"family" + 0.013*"dead"
+topic diff=0.314813, rho=0.447214
 bound: at document #0
--18.074 per-word bound, 275993.1 perplexity estimate based on a held-out corpus of 207 documents with 3601 words
-PROGRESS: pass 4, at document #2207/2207
-performing inference on a chunk of 207 documents
-207/207 documents converged within 50 iterations
+-9.452 per-word bound, 700.4 perplexity estimate based on a held-out corpus of 1913 documents with 32039 words
+PROGRESS: pass 4, at document #1913/1913
+performing inference on a chunk of 1913 documents
+1910/1913 documents converged within 50 iterations
 updating topics
-merging changes from 207 documents into a model of 2207 documents
-topic #22 (0.040): 0.026*"Haiti" + 0.021*"Dissident" + 0.021*"death" + 0.020*"cholera" + 0.020*"Burmese" + 0.017*"Kyi" + 0.016*"death toll" + 0.011*"toll" + 0.010*"Iraq" + 0.010*"UK"
-topic #16 (0.040): 0.018*"Indonesia" + 0.017*"Death" + 0.013*"volcano" + 0.012*"Afghanistan" + 0.012*"NATO" + 0.012*"Afghan" + 0.011*"Focus" + 0.009*"South" + 0.009*"Afghan Police" + 0.009*"Deficit"
-topic #23 (0.040): 0.026*"voters" + 0.026*"measure" + 0.018*"Arizona" + 0.017*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.009*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"OMG"
-topic #6 (0.040): 0.020*"T Magazine" + 0.014*"Delhi" + 0.010*"Yeah" + 0.010*"South America" + 0.010*"currency" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"gunmen" + 0.008*"law-enforcement"
-topic #0 (0.040): 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"official" + 0.009*"US" + 0.009*"bacon" + 0.008*"People"
-topic diff=0.139723, rho=0.404772
-starting a new internal lifecycle event log for LdaModel
-LdaModel lifecycle event {'msg': 'trained LdaModel(num_terms=15239, num_topics=25, decay=0.5, chunksize=2000) in 2.90s', 'datetime': '2022-02-13T05:52:50.081432', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'created'}
-starting a new internal lifecycle event log for LdaState
-LdaState lifecycle event {'fname_or_handle': '../output/5/tml/gensim_25topics.model.state', 'separately': 'None', 'sep_limit': 10485760, 'ignore': frozenset(), 'datetime': '2022-02-13T05:52:50.081432', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'saving'}
-{'uri': '../output/5/tml/gensim_25topics.model.state', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
-saved ../output/5/tml/gensim_25topics.model.state
-{'uri': '../output/5/tml/gensim_25topics.model.id2word', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
-LdaModel lifecycle event {'fname_or_handle': '../output/5/tml/gensim_25topics.model', 'separately': "['expElogbeta', 'sstats']", 'sep_limit': 10485760, 'ignore': ['dispatcher', 'state', 'id2word'], 'datetime': '2022-02-13T05:52:50.091406', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'saving'}
-storing np array 'expElogbeta' to ../output/5/tml/gensim_25topics.model.expElogbeta.npy
-not storing attribute dispatcher
+topic #16 (0.040): 0.016*"e-mail" + 0.016*"hacker" + 0.010*"year and a day" + 0.010*"sentenced" + 0.009*"prison" + 0.009*"Sarah Palin" + 0.009*"Democrats" + 0.008*"time" + 0.007*"House" + 0.006*"Palin"
+topic #5 (0.040): 0.021*"French" + 0.019*"prime minister" + 0.019*"French prime minister" + 0.014*"Israel" + 0.013*"U.S" + 0.012*"Sarkozy" + 0.012*"resigns" + 0.012*"reshuffle" + 0.011*"West Bank" + 0.011*"construction"
+topic #17 (0.040): 0.009*"gay" + 0.008*"ban" + 0.008*"US Supreme Court" + 0.008*"gay men" + 0.008*"openly gay" + 0.008*"military" + 0.008*"Pentagon" + 0.008*"women" + 0.005*"Aung San Suu Kyi" + 0.004*"NZ Herald"
+topic #13 (0.040): 0.009*"Leaders" + 0.009*"Trade" + 0.009*"Asia-Pacific" + 0.006*"lol" + 0.006*"Obama" + 0.005*"God" + 0.004*"LoL" + 0.003*"Work" + 0.003*"Indian" + 0.003*"Tata Steel"
+topic #9 (0.040): 0.041*"Nigro" + 0.038*"China" + 0.018*"Insider" + 0.014*"blog" + 0.006*"US" + 0.006*"China's Economy" + 0.004*"people" + 0.004*"Obama" + 0.004*"China's economy" + 0.003*"economies"
+topic diff=0.238928, rho=0.408248
+saving LdaState object under ../output/19/tml/gensim_25topics.model.state, separately None
+{'uri': '../output/19/tml/gensim_25topics.model.state', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saved ../output/19/tml/gensim_25topics.model.state
+{'uri': '../output/19/tml/gensim_25topics.model.id2word', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saving LdaModel object under ../output/19/tml/gensim_25topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/19/tml/gensim_25topics.model.expElogbeta.npy
 not storing attribute state
+not storing attribute dispatcher
 not storing attribute id2word
-{'uri': '../output/5/tml/gensim_25topics.model', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
-saved ../output/5/tml/gensim_25topics.model
-topic #0 (0.040): 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"official" + 0.009*"US" + 0.009*"bacon" + 0.008*"People"
-topic #1 (0.040): 0.021*"CNN" + 0.020*"Blog" + 0.014*"will" + 0.013*"President" + 0.012*"federal" + 0.012*"no regrets" + 0.012*"George W.  Bush" + 0.011*"Mandela" + 0.010*"bailout" + 0.010*"us"
-topic #2 (0.040): 0.017*"UN" + 0.017*"Iran" + 0.015*"powers" + 0.011*"Murdoch" + 0.010*"Twitter" + 0.009*"President Obama" + 0.008*"emergency" + 0.008*"Report" + 0.008*"CNN" + 0.008*"time"
-topic #3 (0.040): 0.012*"Turkey" + 0.009*"game" + 0.009*"real" + 0.007*"thoughts" + 0.007*"sad" + 0.007*"services" + 0.007*"tour" + 0.007*"times" + 0.006*"MPs" + 0.006*"Lib Dem"
-topic #4 (0.040): 0.020*"Nicaragua" + 0.016*"election" + 0.015*"Gay" + 0.014*"Dispute" + 0.012*"San Francisco" + 0.011*"California" + 0.009*"contest" + 0.009*"Genius" + 0.009*"heaven" + 0.009*"pretty"
-topic #5 (0.040): 0.021*"chief" + 0.014*"England" + 0.013*"youth" + 0.013*"DADT" + 0.009*"Apple" + 0.009*"plan" + 0.009*"Peace" + 0.009*"friend" + 0.008*"out" + 0.008*"Iraq"
-topic #6 (0.040): 0.020*"T Magazine" + 0.014*"Delhi" + 0.010*"Yeah" + 0.010*"South America" + 0.010*"currency" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"gunmen" + 0.008*"law-enforcement"
-topic #7 (0.040): 0.018*"gay" + 0.014*"women" + 0.013*"Zahra Baker" + 0.012*"N.Carolina" + 0.012*"ban" + 0.011*"authorities" + 0.011*"Brain" + 0.009*"Palin" + 0.009*"Meeting" + 0.008*"custody"
-topic #8 (0.040): 0.025*"ur" + 0.024*"X Factor" + 0.023*"xfactor" + 0.018*"jewelry" + 0.017*"British" + 0.016*"Somali pirates" + 0.016*"yacht" + 0.016*"captivity" + 0.016*"clothing" + 0.015*"Sale"
-topic #9 (0.040): 0.297*"Cathie Black" + 0.010*"who" + 0.010*"miles" + 0.010*"i'm" + 0.008*"you" + 0.008*"Arsenal" + 0.008*"Times" + 0.008*"Zagat" + 0.007*"class" + 0.007*"Online"
-topic #10 (0.040): 0.014*"West" + 0.014*"defeat" + 0.014*"al-Qaeda" + 0.011*"organs" + 0.010*"Sudan" + 0.010*"Cuba" + 0.009*"Halloween" + 0.009*"F1" + 0.009*"Vettel" + 0.009*"un"
-topic #11 (0.040): 0.016*"Margarito" + 0.015*"PM" + 0.015*"FLASH" + 0.012*"Facebook" + 0.012*"twitter" + 0.011*"via" + 0.011*"Will" + 0.011*"Republican" + 0.011*"privacy" + 0.011*"me"
-topic #12 (0.040): 0.029*"French" + 0.027*"e-mail" + 0.026*"hacker" + 0.024*"Sarah Palin" + 0.021*"government" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.020*"year and a day" + 0.020*"sentenced" + 0.020*"prison"
-topic #13 (0.040): 0.025*"Leaders" + 0.025*"Asia-Pacific" + 0.025*"Trade" + 0.015*"white" + 0.014*"President Obama" + 0.013*"first" + 0.010*"visit" + 0.010*"paris" + 0.010*"forward" + 0.009*"QT"
-topic #14 (0.040): 0.153*"hahaha" + 0.012*"flood" + 0.009*"mine" + 0.008*"matter" + 0.008*"heart" + 0.007*"wind" + 0.007*"foreign policy" + 0.007*"penis" + 0.006*"best friends" + 0.006*"london"
-topic #15 (0.040): 0.052*"Aung San Suu Kyi" + 0.034*"Myanmar" + 0.021*"activist" + 0.019*"house arrest" + 0.017*"hospital" + 0.014*"lol" + 0.013*"Zsa Zsa Gabor" + 0.012*"tweet" + 0.011*"leg" + 0.010*"leader"
-topic #16 (0.040): 0.018*"Indonesia" + 0.017*"Death" + 0.013*"volcano" + 0.012*"Afghanistan" + 0.012*"NATO" + 0.012*"Afghan" + 0.011*"Focus" + 0.009*"South" + 0.009*"Afghan Police" + 0.009*"Deficit"
-topic #17 (0.040): 0.055*"China" + 0.037*"Nigro" + 0.016*"blog" + 0.016*"Insider" + 0.015*"dead" + 0.013*"Haiti  cholera outbreak" + 0.010*"Lebanon" + 0.010*"Yemen" + 0.010*"Team" + 0.009*"hate"
-topic #18 (0.040): 0.023*"Ohio" + 0.022*"basement" + 0.022*"teen" + 0.022*"die" + 0.021*"Israel" + 0.020*"die in" + 0.019*"man" + 0.018*"Mexico" + 0.017*"family" + 0.017*"safe"
-topic #19 (0.040): 0.017*"bad" + 0.015*"New York" + 0.014*"photos" + 0.014*"haha" + 0.012*"vote" + 0.010*"Vintage" + 0.010*"1970s" + 0.010*"safety" + 0.009*"left" + 0.009*"twitter"
-topic #20 (0.040): 0.030*"UK" + 0.020*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.012*"Kenya" + 0.010*"threats" + 0.010*"china" + 0.010*"war" + 0.009*"Will"
-topic #21 (0.040): 0.181*"Sun" + 0.016*"iPad" + 0.014*"Obama" + 0.010*"post" + 0.010*"apps" + 0.009*"human" + 0.008*"New York" + 0.008*"working" + 0.007*"oil spill" + 0.007*"don't ask"
-topic #22 (0.040): 0.026*"Haiti" + 0.021*"Dissident" + 0.021*"death" + 0.020*"cholera" + 0.020*"Burmese" + 0.017*"Kyi" + 0.016*"death toll" + 0.011*"toll" + 0.010*"Iraq" + 0.010*"UK"
-topic #23 (0.040): 0.026*"voters" + 0.026*"measure" + 0.018*"Arizona" + 0.017*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.009*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"OMG"
-topic #24 (0.040): 0.029*"twitter" + 0.013*"EU" + 0.013*"people" + 0.012*"Ireland" + 0.012*"bail-out" + 0.011*"ll" + 0.010*"tweets" + 0.009*"tweet" + 0.009*"who" + 0.009*"Facebook"
+{'uri': '../output/19/tml/gensim_25topics.model', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saved ../output/19/tml/gensim_25topics.model
+topic #0 (0.040): 0.017*"Papers" + 0.017*"Secret" + 0.017*"U.S. Aid" + 0.008*"NATO" + 0.008*"Afghan" + 0.008*"India" + 0.007*"Afghan Police" + 0.007*"South" + 0.005*"people" + 0.005*"will"
+topic #1 (0.040): 0.026*"Kyi" + 0.020*"Dissident" + 0.018*"Burmese" + 0.013*"cheers" + 0.012*"Mandela" + 0.012*"Bono" + 0.010*"Detention" + 0.005*"Attention" + 0.005*"National" + 0.005*"Focus"
+topic #2 (0.040): 0.005*"human" + 0.004*"F1" + 0.004*"UK" + 0.004*"killed" + 0.004*"Obama" + 0.004*"apps" + 0.004*"iPad" + 0.003*"Vettel" + 0.003*"Aung San Suu Kyi" + 0.003*"seals"
+topic #3 (0.040): 0.014*"hahaha" + 0.009*"Mc" + 0.008*"Connell" + 0.006*"Mexico" + 0.005*"Aung San Suu Kyi" + 0.004*"die" + 0.004*"die in" + 0.004*"will" + 0.004*"US" + 0.003*"Warning"
+topic #4 (0.040): 0.008*"fiscal year" + 0.008*"U.S.  Postal Service" + 0.008*"CNNMoney.com" + 0.008*"billion" + 0.005*"release" + 0.005*"reaction" + 0.004*"Times" + 0.004*"Palin" + 0.004*"in custody" + 0.004*"custody"
+topic #5 (0.040): 0.021*"French" + 0.019*"prime minister" + 0.019*"French prime minister" + 0.014*"Israel" + 0.013*"U.S" + 0.012*"Sarkozy" + 0.012*"resigns" + 0.012*"reshuffle" + 0.011*"West Bank" + 0.011*"construction"
+topic #6 (0.040): 0.018*"Aung San Suu Kyi" + 0.014*"Myanmar" + 0.011*"activist" + 0.010*"house arrest" + 0.008*"Obama" + 0.005*"will" + 0.005*"people" + 0.005*"G20" + 0.003*"today" + 0.003*"Blog"
+topic #7 (0.040): 0.016*"Octagon" + 0.016*"Blog" + 0.010*"MMA" + 0.005*"Iran" + 0.004*"British" + 0.004*"Meeting" + 0.004*"E.U" + 0.004*"Nuclear" + 0.003*"CNN" + 0.003*"Somali Pirates"
+topic #8 (0.040): 0.014*"xfactor" + 0.006*"Mexican drug war" + 0.006*"officers" + 0.006*"gunmen" + 0.006*"pre-teen" + 0.006*"law-enforcement" + 0.006*"focus" + 0.005*"left" + 0.005*"vote" + 0.005*"Mexican"
+topic #9 (0.040): 0.041*"Nigro" + 0.038*"China" + 0.018*"Insider" + 0.014*"blog" + 0.006*"US" + 0.006*"China's Economy" + 0.004*"people" + 0.004*"Obama" + 0.004*"China's economy" + 0.003*"economies"
+topic #10 (0.040): 0.021*"Haiti" + 0.021*"cholera" + 0.020*"death toll" + 0.020*"Arizona" + 0.020*"death" + 0.020*"voters" + 0.020*"measure" + 0.019*"medical  marijuana" + 0.014*"toll" + 0.013*"bailout"
+topic #11 (0.040): 0.009*"Death" + 0.006*"Pa" + 0.006*"Shot" + 0.006*"Western" + 0.006*"Family" + 0.004*"Henryk Mikolaj Gorecki" + 0.004*"Composer" + 0.003*"New York" + 0.003*"ngo" + 0.003*"will"
+topic #12 (0.040): 0.034*"Cathie Black" + 0.025*"Tweed" + 0.024*"Sun" + 0.024*"Norman Siegel" + 0.009*"appt" + 0.007*"Bklyn" + 0.007*"link 4" + 0.005*"President Obama" + 0.004*"tax cuts" + 0.004*"middle class"
+topic #13 (0.040): 0.009*"Leaders" + 0.009*"Trade" + 0.009*"Asia-Pacific" + 0.006*"lol" + 0.006*"Obama" + 0.005*"God" + 0.004*"LoL" + 0.003*"Work" + 0.003*"Indian" + 0.003*"Tata Steel"
+topic #14 (0.040): 0.008*"radiation" + 0.008*"Airport" + 0.007*"white" + 0.007*"New Orleans" + 0.007*"elementary school" + 0.007*"black child" + 0.007*"first" + 0.007*"black" + 0.006*"Intel" + 0.006*"Toronto"
+topic #15 (0.040): 0.010*"Netanyahu" + 0.010*"Settlements" + 0.009*"Data" + 0.009*"Scientists" + 0.009*"Glaciers" + 0.005*"Obama" + 0.005*"Arms" + 0.005*"Treaty" + 0.005*"Calls" + 0.005*"San Francisco"
+topic #16 (0.040): 0.016*"e-mail" + 0.016*"hacker" + 0.010*"year and a day" + 0.010*"sentenced" + 0.009*"prison" + 0.009*"Sarah Palin" + 0.009*"Democrats" + 0.008*"time" + 0.007*"House" + 0.006*"Palin"
+topic #17 (0.040): 0.009*"gay" + 0.008*"ban" + 0.008*"US Supreme Court" + 0.008*"gay men" + 0.008*"openly gay" + 0.008*"military" + 0.008*"Pentagon" + 0.008*"women" + 0.005*"Aung San Suu Kyi" + 0.004*"NZ Herald"
+topic #18 (0.040): 0.024*"UN" + 0.024*"Iran" + 0.023*"powers" + 0.023*"emergency" + 0.018*"Somali pirates" + 0.017*"British" + 0.016*"captivity" + 0.016*"yacht" + 0.006*"West" + 0.006*"defeat"
+topic #19 (0.040): 0.020*"Cathie Black" + 0.017*"Brooklyn Boro Hall" + 0.016*"appt" + 0.013*"Trance" + 0.008*"pour" + 0.006*"Family" + 0.006*"un" + 0.006*"TATW" + 0.005*"para" + 0.005*"como"
+topic #20 (0.040): 0.016*"Indonesia" + 0.014*"volcano" + 0.014*"Death" + 0.012*"NZ" + 0.005*"India" + 0.005*"Karachi" + 0.004*"China" + 0.004*"Pakistan" + 0.003*"Sehwag" + 0.003*"Subway"
+topic #21 (0.040): 0.006*"New York" + 0.006*"Live" + 0.005*"Cigarette" + 0.005*"French" + 0.004*"Political prisoner" + 0.004*"freed in" + 0.004*"Cuba" + 0.004*"T Magazine" + 0.004*"WAGE" + 0.004*"PEACE"
+topic #22 (0.040): 0.020*"teen" + 0.020*"basement" + 0.020*"Ohio" + 0.017*"man" + 0.016*"safe" + 0.016*"family" + 0.016*"members" + 0.016*"charged" + 0.016*"kidnapping" + 0.014*"dead"
+topic #23 (0.040): 0.014*"Sale" + 0.014*"nets" + 0.014*"furnishings" + 0.014*"clothing" + 0.014*"million" + 0.014*"jewelry" + 0.009*"leg" + 0.008*"infection" + 0.008*"Swollen" + 0.008*"hospital"
+topic #24 (0.040): 0.014*"Gay" + 0.007*"Justices" + 0.007*"Ban" + 0.007*"Military" + 0.007*"MIA" + 0.005*"lol" + 0.005*"Scorpio" + 0.004*"Bill Handel" + 0.004*"Robert Iger" + 0.004*"Who"
 TopicModeling: GENSIM Topic: 0 
-Words: 0.011*"Win" + 0.011*"Jets" + 0.011*"Browns" + 0.010*"Papers" + 0.010*"Secret" + 0.010*"U.S. Aid" + 0.010*"official" + 0.009*"US" + 0.009*"bacon" + 0.008*"People"
+Words: 0.017*"Papers" + 0.017*"Secret" + 0.017*"U.S. Aid" + 0.008*"NATO" + 0.008*"Afghan" + 0.008*"India" + 0.007*"Afghan Police" + 0.007*"South" + 0.005*"people" + 0.005*"will"
 TopicModeling: GENSIM Topic: 1 
-Words: 0.021*"CNN" + 0.020*"Blog" + 0.014*"will" + 0.013*"President" + 0.012*"federal" + 0.012*"no regrets" + 0.012*"George W.  Bush" + 0.011*"Mandela" + 0.010*"bailout" + 0.010*"us"
+Words: 0.026*"Kyi" + 0.020*"Dissident" + 0.018*"Burmese" + 0.013*"cheers" + 0.012*"Mandela" + 0.012*"Bono" + 0.010*"Detention" + 0.005*"Attention" + 0.005*"National" + 0.005*"Focus"
 TopicModeling: GENSIM Topic: 2 
-Words: 0.017*"UN" + 0.017*"Iran" + 0.015*"powers" + 0.011*"Murdoch" + 0.010*"Twitter" + 0.009*"President Obama" + 0.008*"emergency" + 0.008*"Report" + 0.008*"CNN" + 0.008*"time"
+Words: 0.005*"human" + 0.004*"F1" + 0.004*"UK" + 0.004*"killed" + 0.004*"Obama" + 0.004*"apps" + 0.004*"iPad" + 0.003*"Vettel" + 0.003*"Aung San Suu Kyi" + 0.003*"seals"
 TopicModeling: GENSIM Topic: 3 
-Words: 0.012*"Turkey" + 0.009*"game" + 0.009*"real" + 0.007*"thoughts" + 0.007*"sad" + 0.007*"services" + 0.007*"tour" + 0.007*"times" + 0.006*"MPs" + 0.006*"Lib Dem"
+Words: 0.014*"hahaha" + 0.009*"Mc" + 0.008*"Connell" + 0.006*"Mexico" + 0.005*"Aung San Suu Kyi" + 0.004*"die" + 0.004*"die in" + 0.004*"will" + 0.004*"US" + 0.003*"Warning"
 TopicModeling: GENSIM Topic: 4 
-Words: 0.020*"Nicaragua" + 0.016*"election" + 0.015*"Gay" + 0.014*"Dispute" + 0.012*"San Francisco" + 0.011*"California" + 0.009*"contest" + 0.009*"Genius" + 0.009*"heaven" + 0.009*"pretty"
+Words: 0.008*"fiscal year" + 0.008*"U.S.  Postal Service" + 0.008*"CNNMoney.com" + 0.008*"billion" + 0.005*"release" + 0.005*"reaction" + 0.004*"Times" + 0.004*"Palin" + 0.004*"in custody" + 0.004*"custody"
 TopicModeling: GENSIM Topic: 5 
-Words: 0.021*"chief" + 0.014*"England" + 0.013*"youth" + 0.013*"DADT" + 0.009*"Apple" + 0.009*"plan" + 0.009*"Peace" + 0.009*"friend" + 0.008*"out" + 0.008*"Iraq"
+Words: 0.021*"French" + 0.019*"prime minister" + 0.019*"French prime minister" + 0.014*"Israel" + 0.013*"U.S" + 0.012*"Sarkozy" + 0.012*"resigns" + 0.012*"reshuffle" + 0.011*"West Bank" + 0.011*"construction"
 TopicModeling: GENSIM Topic: 6 
-Words: 0.020*"T Magazine" + 0.014*"Delhi" + 0.010*"Yeah" + 0.010*"South America" + 0.010*"currency" + 0.008*"officers" + 0.008*"Mexican drug war" + 0.008*"focus" + 0.008*"gunmen" + 0.008*"law-enforcement"
+Words: 0.018*"Aung San Suu Kyi" + 0.014*"Myanmar" + 0.011*"activist" + 0.010*"house arrest" + 0.008*"Obama" + 0.005*"will" + 0.005*"people" + 0.005*"G20" + 0.003*"today" + 0.003*"Blog"
 TopicModeling: GENSIM Topic: 7 
-Words: 0.018*"gay" + 0.014*"women" + 0.013*"Zahra Baker" + 0.012*"N.Carolina" + 0.012*"ban" + 0.011*"authorities" + 0.011*"Brain" + 0.009*"Palin" + 0.009*"Meeting" + 0.008*"custody"
+Words: 0.016*"Octagon" + 0.016*"Blog" + 0.010*"MMA" + 0.005*"Iran" + 0.004*"British" + 0.004*"Meeting" + 0.004*"E.U" + 0.004*"Nuclear" + 0.003*"CNN" + 0.003*"Somali Pirates"
 TopicModeling: GENSIM Topic: 8 
-Words: 0.025*"ur" + 0.024*"X Factor" + 0.023*"xfactor" + 0.018*"jewelry" + 0.017*"British" + 0.016*"Somali pirates" + 0.016*"yacht" + 0.016*"captivity" + 0.016*"clothing" + 0.015*"Sale"
+Words: 0.014*"xfactor" + 0.006*"Mexican drug war" + 0.006*"officers" + 0.006*"gunmen" + 0.006*"pre-teen" + 0.006*"law-enforcement" + 0.006*"focus" + 0.005*"left" + 0.005*"vote" + 0.005*"Mexican"
 TopicModeling: GENSIM Topic: 9 
-Words: 0.297*"Cathie Black" + 0.010*"who" + 0.010*"miles" + 0.010*"i'm" + 0.008*"you" + 0.008*"Arsenal" + 0.008*"Times" + 0.008*"Zagat" + 0.007*"class" + 0.007*"Online"
+Words: 0.041*"Nigro" + 0.038*"China" + 0.018*"Insider" + 0.014*"blog" + 0.006*"US" + 0.006*"China's Economy" + 0.004*"people" + 0.004*"Obama" + 0.004*"China's economy" + 0.003*"economies"
 TopicModeling: GENSIM Topic: 10 
-Words: 0.014*"West" + 0.014*"defeat" + 0.014*"al-Qaeda" + 0.011*"organs" + 0.010*"Sudan" + 0.010*"Cuba" + 0.009*"Halloween" + 0.009*"F1" + 0.009*"Vettel" + 0.009*"un"
+Words: 0.021*"Haiti" + 0.021*"cholera" + 0.020*"death toll" + 0.020*"Arizona" + 0.020*"death" + 0.020*"voters" + 0.020*"measure" + 0.019*"medical  marijuana" + 0.014*"toll" + 0.013*"bailout"
 TopicModeling: GENSIM Topic: 11 
-Words: 0.016*"Margarito" + 0.015*"PM" + 0.015*"FLASH" + 0.012*"Facebook" + 0.012*"twitter" + 0.011*"via" + 0.011*"Will" + 0.011*"Republican" + 0.011*"privacy" + 0.011*"me"
+Words: 0.009*"Death" + 0.006*"Pa" + 0.006*"Shot" + 0.006*"Western" + 0.006*"Family" + 0.004*"Henryk Mikolaj Gorecki" + 0.004*"Composer" + 0.003*"New York" + 0.003*"ngo" + 0.003*"will"
 TopicModeling: GENSIM Topic: 12 
-Words: 0.029*"French" + 0.027*"e-mail" + 0.026*"hacker" + 0.024*"Sarah Palin" + 0.021*"government" + 0.021*"French prime minister" + 0.021*"prime minister" + 0.020*"year and a day" + 0.020*"sentenced" + 0.020*"prison"
+Words: 0.034*"Cathie Black" + 0.025*"Tweed" + 0.024*"Sun" + 0.024*"Norman Siegel" + 0.009*"appt" + 0.007*"Bklyn" + 0.007*"link 4" + 0.005*"President Obama" + 0.004*"tax cuts" + 0.004*"middle class"
 TopicModeling: GENSIM Topic: 13 
-Words: 0.025*"Leaders" + 0.025*"Asia-Pacific" + 0.025*"Trade" + 0.015*"white" + 0.014*"President Obama" + 0.013*"first" + 0.010*"visit" + 0.010*"paris" + 0.010*"forward" + 0.009*"QT"
+Words: 0.009*"Leaders" + 0.009*"Trade" + 0.009*"Asia-Pacific" + 0.006*"lol" + 0.006*"Obama" + 0.005*"God" + 0.004*"LoL" + 0.003*"Work" + 0.003*"Indian" + 0.003*"Tata Steel"
 TopicModeling: GENSIM Topic: 14 
-Words: 0.153*"hahaha" + 0.012*"flood" + 0.009*"mine" + 0.008*"matter" + 0.008*"heart" + 0.007*"wind" + 0.007*"foreign policy" + 0.007*"penis" + 0.006*"best friends" + 0.006*"london"
+Words: 0.008*"radiation" + 0.008*"Airport" + 0.007*"white" + 0.007*"New Orleans" + 0.007*"elementary school" + 0.007*"black child" + 0.007*"first" + 0.007*"black" + 0.006*"Intel" + 0.006*"Toronto"
 TopicModeling: GENSIM Topic: 15 
-Words: 0.052*"Aung San Suu Kyi" + 0.034*"Myanmar" + 0.021*"activist" + 0.019*"house arrest" + 0.017*"hospital" + 0.014*"lol" + 0.013*"Zsa Zsa Gabor" + 0.012*"tweet" + 0.011*"leg" + 0.010*"leader"
+Words: 0.010*"Netanyahu" + 0.010*"Settlements" + 0.009*"Data" + 0.009*"Scientists" + 0.009*"Glaciers" + 0.005*"Obama" + 0.005*"Arms" + 0.005*"Treaty" + 0.005*"Calls" + 0.005*"San Francisco"
 TopicModeling: GENSIM Topic: 16 
-Words: 0.018*"Indonesia" + 0.017*"Death" + 0.013*"volcano" + 0.012*"Afghanistan" + 0.012*"NATO" + 0.012*"Afghan" + 0.011*"Focus" + 0.009*"South" + 0.009*"Afghan Police" + 0.009*"Deficit"
+Words: 0.016*"e-mail" + 0.016*"hacker" + 0.010*"year and a day" + 0.010*"sentenced" + 0.009*"prison" + 0.009*"Sarah Palin" + 0.009*"Democrats" + 0.008*"time" + 0.007*"House" + 0.006*"Palin"
 TopicModeling: GENSIM Topic: 17 
-Words: 0.055*"China" + 0.037*"Nigro" + 0.016*"blog" + 0.016*"Insider" + 0.015*"dead" + 0.013*"Haiti  cholera outbreak" + 0.010*"Lebanon" + 0.010*"Yemen" + 0.010*"Team" + 0.009*"hate"
+Words: 0.009*"gay" + 0.008*"ban" + 0.008*"US Supreme Court" + 0.008*"gay men" + 0.008*"openly gay" + 0.008*"military" + 0.008*"Pentagon" + 0.008*"women" + 0.005*"Aung San Suu Kyi" + 0.004*"NZ Herald"
 TopicModeling: GENSIM Topic: 18 
-Words: 0.023*"Ohio" + 0.022*"basement" + 0.022*"teen" + 0.022*"die" + 0.021*"Israel" + 0.020*"die in" + 0.019*"man" + 0.018*"Mexico" + 0.017*"family" + 0.017*"safe"
+Words: 0.024*"UN" + 0.024*"Iran" + 0.023*"powers" + 0.023*"emergency" + 0.018*"Somali pirates" + 0.017*"British" + 0.016*"captivity" + 0.016*"yacht" + 0.006*"West" + 0.006*"defeat"
 TopicModeling: GENSIM Topic: 19 
-Words: 0.017*"bad" + 0.015*"New York" + 0.014*"photos" + 0.014*"haha" + 0.012*"vote" + 0.010*"Vintage" + 0.010*"1970s" + 0.010*"safety" + 0.009*"left" + 0.009*"twitter"
+Words: 0.020*"Cathie Black" + 0.017*"Brooklyn Boro Hall" + 0.016*"appt" + 0.013*"Trance" + 0.008*"pour" + 0.006*"Family" + 0.006*"un" + 0.006*"TATW" + 0.005*"para" + 0.005*"como"
 TopicModeling: GENSIM Topic: 20 
-Words: 0.030*"UK" + 0.020*"marathon" + 0.016*"nyc" + 0.015*"NHS" + 0.013*"BBC" + 0.012*"Kenya" + 0.010*"threats" + 0.010*"china" + 0.010*"war" + 0.009*"Will"
+Words: 0.016*"Indonesia" + 0.014*"volcano" + 0.014*"Death" + 0.012*"NZ" + 0.005*"India" + 0.005*"Karachi" + 0.004*"China" + 0.004*"Pakistan" + 0.003*"Sehwag" + 0.003*"Subway"
 TopicModeling: GENSIM Topic: 21 
-Words: 0.181*"Sun" + 0.016*"iPad" + 0.014*"Obama" + 0.010*"post" + 0.010*"apps" + 0.009*"human" + 0.008*"New York" + 0.008*"working" + 0.007*"oil spill" + 0.007*"don't ask"
+Words: 0.006*"New York" + 0.006*"Live" + 0.005*"Cigarette" + 0.005*"French" + 0.004*"Political prisoner" + 0.004*"freed in" + 0.004*"Cuba" + 0.004*"T Magazine" + 0.004*"WAGE" + 0.004*"PEACE"
 TopicModeling: GENSIM Topic: 22 
-Words: 0.026*"Haiti" + 0.021*"Dissident" + 0.021*"death" + 0.020*"cholera" + 0.020*"Burmese" + 0.017*"Kyi" + 0.016*"death toll" + 0.011*"toll" + 0.010*"Iraq" + 0.010*"UK"
+Words: 0.020*"teen" + 0.020*"basement" + 0.020*"Ohio" + 0.017*"man" + 0.016*"safe" + 0.016*"family" + 0.016*"members" + 0.016*"charged" + 0.016*"kidnapping" + 0.014*"dead"
 TopicModeling: GENSIM Topic: 23 
-Words: 0.026*"voters" + 0.026*"measure" + 0.018*"Arizona" + 0.017*"medical  marijuana" + 0.014*"OK" + 0.012*"Who" + 0.009*"singing" + 0.007*"AP" + 0.007*"LMAO" + 0.007*"OMG"
+Words: 0.014*"Sale" + 0.014*"nets" + 0.014*"furnishings" + 0.014*"clothing" + 0.014*"million" + 0.014*"jewelry" + 0.009*"leg" + 0.008*"infection" + 0.008*"Swollen" + 0.008*"hospital"
 TopicModeling: GENSIM Topic: 24 
-Words: 0.029*"twitter" + 0.013*"EU" + 0.013*"people" + 0.012*"Ireland" + 0.012*"bail-out" + 0.011*"ll" + 0.010*"tweets" + 0.009*"tweet" + 0.009*"who" + 0.009*"Facebook"
+Words: 0.014*"Gay" + 0.007*"Justices" + 0.007*"Ban" + 0.007*"Military" + 0.007*"MIA" + 0.005*"lol" + 0.005*"Scorpio" + 0.004*"Bill Handel" + 0.004*"Robert Iger" + 0.004*"Who"
 TopicModeling: Coherences:
 
 TopicModeling: Calculating model coherence:
 
-Setting topics to those of the model: LdaModel(num_terms=15239, num_topics=25, decay=0.5, chunksize=2000)
+Setting topics to those of the model: LdaModel(num_terms=13591, num_topics=25, decay=0.5, chunksize=2000)
 CorpusAccumulator accumulated stats from 1000 documents
-CorpusAccumulator accumulated stats from 2000 documents
 CorpusAccumulator accumulated stats from 1000 documents
-CorpusAccumulator accumulated stats from 2000 documents
-TopicModeling: Coherence value is: -14.268486368390406
-TopicModeling: Topic coherences are: [-16.79284459125379, -10.748855277641859, -11.573617938500274, -18.116990805401453, -13.794868994247217, -15.151406272862154, -15.673871301109743, -15.072887769823023, -10.435137551565942, -18.155834356577344, -18.23494215406957, -11.351627177171576, -2.143806417765585, -19.029133574901593, -18.44225448740447, -8.726123186381486, -12.840066578410164, -15.377490401135256, -1.3292796025774505, -9.610807065419822, -14.15333749332901, -14.894006164370138, -11.10362077967186, -15.630645654660075, -10.1849016194111]
-Dictionary lifecycle event {'fname_or_handle': '../output/5/tml/gensim_25topics_TopicModelingDictionary.mm', 'separately': 'None', 'sep_limit': 10485760, 'ignore': frozenset(), 'datetime': '2022-02-13T05:52:50.163716', 'gensim': '4.1.2', 'python': '3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19041-SP0', 'event': 'saving'}
-{'uri': '../output/5/tml/gensim_25topics_TopicModelingDictionary.mm', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
-saved ../output/5/tml/gensim_25topics_TopicModelingDictionary.mm
-dictionary.shape: 15239
-bow_corpus.shape: 2207
-totalTopics: [['Win', 'Jets', 'Browns', 'Papers', 'Secret', 'U.S. Aid', 'official', 'US', 'bacon', 'People'], ['CNN', 'Blog', 'will', 'President', 'federal', 'no regrets', 'George W.  Bush', 'Mandela', 'bailout', 'us'], ['UN', 'Iran', 'powers', 'Murdoch', 'Twitter', 'President Obama', 'emergency', 'Report', 'CNN', 'time'], ['Turkey', 'game', 'real', 'thoughts', 'sad', 'services', 'tour', 'times', 'MPs', 'Lib Dem'], ['Nicaragua', 'election', 'Gay', 'Dispute', 'San Francisco', 'California', 'contest', 'Genius', 'heaven', 'pretty'], ['chief', 'England', 'youth', 'DADT', 'Apple', 'plan', 'Peace', 'friend', 'out', 'Iraq'], ['T Magazine', 'Delhi', 'Yeah', 'South America', 'currency', 'officers', 'Mexican drug war', 'focus', 'gunmen', 'law-enforcement'], ['gay', 'women', 'Zahra Baker', 'N.Carolina', 'ban', 'authorities', 'Brain', 'Palin', 'Meeting', 'custody'], ['ur', 'X Factor', 'xfactor', 'jewelry', 'British', 'Somali pirates', 'yacht', 'captivity', 'clothing', 'Sale'], ['Cathie Black', 'who', 'miles', "i'm", 'you', 'Arsenal', 'Times', 'Zagat', 'class', 'Online'], ['West', 'defeat', 'al-Qaeda', 'organs', 'Sudan', 'Cuba', 'Halloween', 'F1', 'Vettel', 'un'], ['Margarito', 'PM', 'FLASH', 'Facebook', 'twitter', 'via', 'Will', 'Republican', 'privacy', 'me'], ['French', 'e-mail', 'hacker', 'Sarah Palin', 'government', 'French prime minister', 'prime minister', 'year and a day', 'sentenced', 'prison'], ['Leaders', 'Asia-Pacific', 'Trade', 'white', 'President Obama', 'first', 'visit', 'paris', 'forward', 'QT'], ['hahaha', 'flood', 'mine', 'matter', 'heart', 'wind', 'foreign policy', 'penis', 'best friends', 'london'], ['Aung San Suu Kyi', 'Myanmar', 'activist', 'house arrest', 'hospital', 'lol', 'Zsa Zsa Gabor', 'tweet', 'leg', 'leader'], ['Indonesia', 'Death', 'volcano', 'Afghanistan', 'NATO', 'Afghan', 'Focus', 'South', 'Afghan Police', 'Deficit'], ['China', 'Nigro', 'blog', 'Insider', 'dead', 'Haiti  cholera outbreak', 'Lebanon', 'Yemen', 'Team', 'hate'], ['Ohio', 'basement', 'teen', 'die', 'Israel', 'die in', 'man', 'Mexico', 'family', 'safe'], ['bad', 'New York', 'photos', 'haha', 'vote', 'Vintage', '1970s', 'safety', 'left', 'twitter'], ['UK', 'marathon', 'nyc', 'NHS', 'BBC', 'Kenya', 'threats', 'china', 'war', 'Will'], ['Sun', 'iPad', 'Obama', 'post', 'apps', 'human', 'New York', 'working', 'oil spill', "don't ask"], ['Haiti', 'Dissident', 'death', 'cholera', 'Burmese', 'Kyi', 'death toll', 'toll', 'Iraq', 'UK'], ['voters', 'measure', 'Arizona', 'medical  marijuana', 'OK', 'Who', 'singing', 'AP', 'LMAO', 'OMG'], ['twitter', 'EU', 'people', 'Ireland', 'bail-out', 'll', 'tweets', 'tweet', 'who', 'Facebook']]
+TopicModeling: Coherence value is: -12.71554917578266
+TopicModeling: Topic coherences are: [-7.086835645705945, -9.103071188892576, -8.74388594443282, -14.37615597819863, -12.397478036725118, -1.2444388731797276, -8.563944580837273, -15.106724769210533, -14.526276437793362, -6.332756020478861, -1.8108087830408686, -13.796199699584893, -10.11287026045876, -15.45689270476363, -8.670271568054618, -1.6974410619624793, -1.6147569199907386, -7.991518116271259, -12.892850105442252, -16.63791599332376, -15.210319547348288, -17.868387956623646, -4.032455411870942, -1.400277563298079, -17.096385842775053]
+saving Dictionary object under ../output/19/tml/gensim_25topics_TopicModelingDictionary.mm, separately None
+{'uri': '../output/19/tml/gensim_25topics_TopicModelingDictionary.mm', 'mode': 'wb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+saved ../output/19/tml/gensim_25topics_TopicModelingDictionary.mm
+dictionary.shape: 13591
+bow_corpus.shape: 1913
+totalTopics: [['Papers', 'Secret', 'U.S. Aid', 'NATO', 'Afghan', 'India', 'Afghan Police', 'South', 'people', 'will'], ['Kyi', 'Dissident', 'Burmese', 'cheers', 'Mandela', 'Bono', 'Detention', 'Attention', 'National', 'Focus'], ['human', 'F1', 'UK', 'killed', 'Obama', 'apps', 'iPad', 'Vettel', 'Aung San Suu Kyi', 'seals'], ['hahaha', 'Mc', 'Connell', 'Mexico', 'Aung San Suu Kyi', 'die', 'die in', 'will', 'US', 'Warning'], ['fiscal year', 'U.S.  Postal Service', 'CNNMoney.com', 'billion', 'release', 'reaction', 'Times', 'Palin', 'in custody', 'custody'], ['French', 'prime minister', 'French prime minister', 'Israel', 'U.S', 'Sarkozy', 'resigns', 'reshuffle', 'West Bank', 'construction'], ['Aung San Suu Kyi', 'Myanmar', 'activist', 'house arrest', 'Obama', 'will', 'people', 'G20', 'today', 'Blog'], ['Octagon', 'Blog', 'MMA', 'Iran', 'British', 'Meeting', 'E.U', 'Nuclear', 'CNN', 'Somali Pirates'], ['xfactor', 'Mexican drug war', 'officers', 'gunmen', 'pre-teen', 'law-enforcement', 'focus', 'left', 'vote', 'Mexican'], ['Nigro', 'China', 'Insider', 'blog', 'US', "China's Economy", 'people', 'Obama', "China's economy", 'economies'], ['Haiti', 'cholera', 'death toll', 'Arizona', 'death', 'voters', 'measure', 'medical  marijuana', 'toll', 'bailout'], ['Death', 'Pa', 'Shot', 'Western', 'Family', 'Henryk Mikolaj Gorecki', 'Composer', 'New York', 'ngo', 'will'], ['Cathie Black', 'Tweed', 'Sun', 'Norman Siegel', 'appt', 'Bklyn', 'link 4', 'President Obama', 'tax cuts', 'middle class'], ['Leaders', 'Trade', 'Asia-Pacific', 'lol', 'Obama', 'God', 'LoL', 'Work', 'Indian', 'Tata Steel'], ['radiation', 'Airport', 'white', 'New Orleans', 'elementary school', 'black child', 'first', 'black', 'Intel', 'Toronto'], ['Netanyahu', 'Settlements', 'Data', 'Scientists', 'Glaciers', 'Obama', 'Arms', 'Treaty', 'Calls', 'San Francisco'], ['e-mail', 'hacker', 'year and a day', 'sentenced', 'prison', 'Sarah Palin', 'Democrats', 'time', 'House', 'Palin'], ['gay', 'ban', 'US Supreme Court', 'gay men', 'openly gay', 'military', 'Pentagon', 'women', 'Aung San Suu Kyi', 'NZ Herald'], ['UN', 'Iran', 'powers', 'emergency', 'Somali pirates', 'British', 'captivity', 'yacht', 'West', 'defeat'], ['Cathie Black', 'Brooklyn Boro Hall', 'appt', 'Trance', 'pour', 'Family', 'un', 'TATW', 'para', 'como'], ['Indonesia', 'volcano', 'Death', 'NZ', 'India', 'Karachi', 'China', 'Pakistan', 'Sehwag', 'Subway'], ['New York', 'Live', 'Cigarette', 'French', 'Political prisoner', 'freed in', 'Cuba', 'T Magazine', 'WAGE', 'PEACE'], ['teen', 'basement', 'Ohio', 'man', 'safe', 'family', 'members', 'charged', 'kidnapping', 'dead'], ['Sale', 'nets', 'furnishings', 'clothing', 'million', 'jewelry', 'leg', 'infection', 'Swollen', 'hospital'], ['Gay', 'Justices', 'Ban', 'Military', 'MIA', 'lol', 'Scorpio', 'Bill Handel', 'Robert Iger', 'Who']]
 Users' graph generating ...
-UserSimilarity: All users size 2207
+UserSimilarity: All users size 1913
 UserSimilarity: All distinct users:895
 UserSimilarity: users_topic_interests=(895, 25)
 UserSimilarity: Just one topic? False, Binary topic? True, Threshold: 0.2
-11 users has twitted in 2010-10-17 00:00:00
-17 users has twitted in 2010-10-18 00:00:00
-16 users has twitted in 2010-10-19 00:00:00
-17 users has twitted in 2010-10-20 00:00:00
-17 users has twitted in 2010-10-21 00:00:00
-18 users has twitted in 2010-10-22 00:00:00
-17 users has twitted in 2010-10-23 00:00:00
-14 users has twitted in 2010-10-24 00:00:00
-21 users has twitted in 2010-10-25 00:00:00
-19 users has twitted in 2010-10-26 00:00:00
-26 users has twitted in 2010-10-27 00:00:00
-29 users has twitted in 2010-10-28 00:00:00
-24 users has twitted in 2010-10-29 00:00:00
-23 users has twitted in 2010-10-30 00:00:00
-25 users has twitted in 2010-10-31 00:00:00
-36 users has twitted in 2010-11-01 00:00:00
-32 users has twitted in 2010-11-02 00:00:00
-33 users has twitted in 2010-11-03 00:00:00
-40 users has twitted in 2010-11-04 00:00:00
-43 users has twitted in 2010-11-05 00:00:00
-43 users has twitted in 2010-11-06 00:00:00
-43 users has twitted in 2010-11-07 00:00:00
-53 users has twitted in 2010-11-08 00:00:00
-58 users has twitted in 2010-11-09 00:00:00
-70 users has twitted in 2010-11-10 00:00:00
-83 users has twitted in 2010-11-11 00:00:00
-419 users has twitted in 2010-11-12 00:00:00
-431 users has twitted in 2010-11-13 00:00:00
-529 users has twitted in 2010-11-14 00:00:00
-0 users has twitted in 2010-11-15 00:00:00
-0 users has twitted in 2010-11-16 00:00:00
-0 users has twitted in 2010-11-17 00:00:00
-0 users has twitted in 2010-11-18 00:00:00
-0 users has twitted in 2010-11-19 00:00:00
-0 users has twitted in 2010-11-20 00:00:00
-0 users has twitted in 2010-11-21 00:00:00
-0 users has twitted in 2010-11-22 00:00:00
-0 users has twitted in 2010-11-23 00:00:00
-0 users has twitted in 2010-11-24 00:00:00
-0 users has twitted in 2010-11-25 00:00:00
-0 users has twitted in 2010-11-26 00:00:00
-0 users has twitted in 2010-11-27 00:00:00
-0 users has twitted in 2010-11-28 00:00:00
-0 users has twitted in 2010-11-29 00:00:00
-0 users has twitted in 2010-11-30 00:00:00
-0 users has twitted in 2010-12-01 00:00:00
-0 users has twitted in 2010-12-02 00:00:00
-0 users has twitted in 2010-12-03 00:00:00
-0 users has twitted in 2010-12-04 00:00:00
-0 users has twitted in 2010-12-05 00:00:00
-0 users has twitted in 2010-12-06 00:00:00
-0 users has twitted in 2010-12-07 00:00:00
-0 users has twitted in 2010-12-08 00:00:00
-0 users has twitted in 2010-12-09 00:00:00
-0 users has twitted in 2010-12-10 00:00:00
-0 users has twitted in 2010-12-11 00:00:00
-0 users has twitted in 2010-12-12 00:00:00
-0 users has twitted in 2010-12-13 00:00:00
-0 users has twitted in 2010-12-14 00:00:00
-0 users has twitted in 2010-12-15 00:00:00
-0 users has twitted in 2010-12-16 00:00:00
-0 users has twitted in 2010-12-17 00:00:00
-0 users has twitted in 2010-12-18 00:00:00
-0 users has twitted in 2010-12-19 00:00:00
-0 users has twitted in 2010-12-20 00:00:00
-0 users has twitted in 2010-12-21 00:00:00
-0 users has twitted in 2010-12-22 00:00:00
-0 users has twitted in 2010-12-23 00:00:00
-0 users has twitted in 2010-12-24 00:00:00
-0 users has twitted in 2010-12-25 00:00:00
-0 users has twitted in 2010-12-26 00:00:00
-0 users has twitted in 2010-12-27 00:00:00
-UserSimilarity: 0 / 72
+36 users have twitted in 2010-11-01 00:00:00
+32 users have twitted in 2010-11-02 00:00:00
+33 users have twitted in 2010-11-03 00:00:00
+40 users have twitted in 2010-11-04 00:00:00
+43 users have twitted in 2010-11-05 00:00:00
+43 users have twitted in 2010-11-06 00:00:00
+43 users have twitted in 2010-11-07 00:00:00
+53 users have twitted in 2010-11-08 00:00:00
+58 users have twitted in 2010-11-09 00:00:00
+70 users have twitted in 2010-11-10 00:00:00
+83 users have twitted in 2010-11-11 00:00:00
+419 users have twitted in 2010-11-12 00:00:00
+431 users have twitted in 2010-11-13 00:00:00
+529 users have twitted in 2010-11-14 00:00:00
+0 users have twitted in 2010-11-15 00:00:00
+0 users have twitted in 2010-11-16 00:00:00
+0 users have twitted in 2010-11-17 00:00:00
+0 users have twitted in 2010-11-18 00:00:00
+0 users have twitted in 2010-11-19 00:00:00
+0 users have twitted in 2010-11-20 00:00:00
+0 users have twitted in 2010-11-21 00:00:00
+0 users have twitted in 2010-11-22 00:00:00
+0 users have twitted in 2010-11-23 00:00:00
+0 users have twitted in 2010-11-24 00:00:00
+0 users have twitted in 2010-11-25 00:00:00
+0 users have twitted in 2010-11-26 00:00:00
+0 users have twitted in 2010-11-27 00:00:00
+0 users have twitted in 2010-11-28 00:00:00
+0 users have twitted in 2010-11-29 00:00:00
+0 users have twitted in 2010-11-30 00:00:00
+0 users have twitted in 2010-12-01 00:00:00
+0 users have twitted in 2010-12-02 00:00:00
+0 users have twitted in 2010-12-03 00:00:00
+0 users have twitted in 2010-12-04 00:00:00
+0 users have twitted in 2010-12-05 00:00:00
+0 users have twitted in 2010-12-06 00:00:00
+0 users have twitted in 2010-12-07 00:00:00
+0 users have twitted in 2010-12-08 00:00:00
+0 users have twitted in 2010-12-09 00:00:00
+0 users have twitted in 2010-12-10 00:00:00
+0 users have twitted in 2010-12-11 00:00:00
+0 users have twitted in 2010-12-12 00:00:00
+0 users have twitted in 2010-12-13 00:00:00
+0 users have twitted in 2010-12-14 00:00:00
+UserSimilarity: 0 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:0 with shape: (895, 25)
 UsersGraph: There are 895 users on 0
 UserSimilarity: A graph is being created for 0 with 895 users
-UserSimilarity: 1 / 72
+UserSimilarity: 1 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:1 with shape: (895, 25)
 UsersGraph: There are 895 users on 1
 UserSimilarity: A graph is being created for 1 with 895 users
-UserSimilarity: 2 / 72
+UserSimilarity: 2 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:2 with shape: (895, 25)
 UsersGraph: There are 895 users on 2
 UserSimilarity: A graph is being created for 2 with 895 users
-UserSimilarity: 3 / 72
+UserSimilarity: 3 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:3 with shape: (895, 25)
 UsersGraph: There are 895 users on 3
 UserSimilarity: A graph is being created for 3 with 895 users
-UserSimilarity: 4 / 72
+UserSimilarity: 4 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:4 with shape: (895, 25)
 UsersGraph: There are 895 users on 4
 UserSimilarity: A graph is being created for 4 with 895 users
-UserSimilarity: 5 / 72
+UserSimilarity: 5 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:5 with shape: (895, 25)
 UsersGraph: There are 895 users on 5
 UserSimilarity: A graph is being created for 5 with 895 users
-UserSimilarity: 6 / 72
+UserSimilarity: 6 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:6 with shape: (895, 25)
 UsersGraph: There are 895 users on 6
 UserSimilarity: A graph is being created for 6 with 895 users
-UserSimilarity: 7 / 72
+UserSimilarity: 7 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:7 with shape: (895, 25)
 UsersGraph: There are 895 users on 7
 UserSimilarity: A graph is being created for 7 with 895 users
-UserSimilarity: 8 / 72
+UserSimilarity: 8 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:8 with shape: (895, 25)
 UsersGraph: There are 895 users on 8
 UserSimilarity: A graph is being created for 8 with 895 users
-UserSimilarity: 9 / 72
+UserSimilarity: 9 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:9 with shape: (895, 25)
 UsersGraph: There are 895 users on 9
 UserSimilarity: A graph is being created for 9 with 895 users
-UserSimilarity: 10 / 72
+UserSimilarity: 10 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:10 with shape: (895, 25)
 UsersGraph: There are 895 users on 10
 UserSimilarity: A graph is being created for 10 with 895 users
-UserSimilarity: 11 / 72
+UserSimilarity: 11 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:11 with shape: (895, 25)
 UsersGraph: There are 895 users on 11
 UserSimilarity: A graph is being created for 11 with 895 users
-UserSimilarity: 12 / 72
+UserSimilarity: 12 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:12 with shape: (895, 25)
 UsersGraph: There are 895 users on 12
 UserSimilarity: A graph is being created for 12 with 895 users
-UserSimilarity: 13 / 72
+UserSimilarity: 13 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:13 with shape: (895, 25)
 UsersGraph: There are 895 users on 13
 UserSimilarity: A graph is being created for 13 with 895 users
-UserSimilarity: 14 / 72
+UserSimilarity: 14 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:14 with shape: (895, 25)
 UsersGraph: There are 895 users on 14
 UserSimilarity: A graph is being created for 14 with 895 users
-UserSimilarity: 15 / 72
+UserSimilarity: 15 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:15 with shape: (895, 25)
 UsersGraph: There are 895 users on 15
 UserSimilarity: A graph is being created for 15 with 895 users
-UserSimilarity: 16 / 72
+UserSimilarity: 16 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:16 with shape: (895, 25)
 UsersGraph: There are 895 users on 16
 UserSimilarity: A graph is being created for 16 with 895 users
-UserSimilarity: 17 / 72
+UserSimilarity: 17 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:17 with shape: (895, 25)
 UsersGraph: There are 895 users on 17
 UserSimilarity: A graph is being created for 17 with 895 users
-UserSimilarity: 18 / 72
+UserSimilarity: 18 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:18 with shape: (895, 25)
 UsersGraph: There are 895 users on 18
 UserSimilarity: A graph is being created for 18 with 895 users
-UserSimilarity: 19 / 72
+UserSimilarity: 19 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:19 with shape: (895, 25)
 UsersGraph: There are 895 users on 19
 UserSimilarity: A graph is being created for 19 with 895 users
-UserSimilarity: 20 / 72
+UserSimilarity: 20 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:20 with shape: (895, 25)
 UsersGraph: There are 895 users on 20
 UserSimilarity: A graph is being created for 20 with 895 users
-UserSimilarity: 21 / 72
+UserSimilarity: 21 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:21 with shape: (895, 25)
 UsersGraph: There are 895 users on 21
 UserSimilarity: A graph is being created for 21 with 895 users
-UserSimilarity: 22 / 72
+UserSimilarity: 22 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:22 with shape: (895, 25)
 UsersGraph: There are 895 users on 22
 UserSimilarity: A graph is being created for 22 with 895 users
-UserSimilarity: 23 / 72
+UserSimilarity: 23 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:23 with shape: (895, 25)
 UsersGraph: There are 895 users on 23
 UserSimilarity: A graph is being created for 23 with 895 users
-UserSimilarity: 24 / 72
+UserSimilarity: 24 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:24 with shape: (895, 25)
 UsersGraph: There are 895 users on 24
 UserSimilarity: A graph is being created for 24 with 895 users
-UserSimilarity: 25 / 72
+UserSimilarity: 25 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:25 with shape: (895, 25)
 UsersGraph: There are 895 users on 25
 UserSimilarity: A graph is being created for 25 with 895 users
-UserSimilarity: 26 / 72
+UserSimilarity: 26 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:26 with shape: (895, 25)
 UsersGraph: There are 895 users on 26
 UserSimilarity: A graph is being created for 26 with 895 users
-UserSimilarity: 27 / 72
+UserSimilarity: 27 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:27 with shape: (895, 25)
 UsersGraph: There are 895 users on 27
 UserSimilarity: A graph is being created for 27 with 895 users
-UserSimilarity: 28 / 72
+UserSimilarity: 28 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:28 with shape: (895, 25)
 UsersGraph: There are 895 users on 28
 UserSimilarity: A graph is being created for 28 with 895 users
-UserSimilarity: 29 / 72
+UserSimilarity: 29 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:29 with shape: (895, 25)
 UsersGraph: There are 895 users on 29
 UserSimilarity: A graph is being created for 29 with 895 users
-UserSimilarity: 30 / 72
+UserSimilarity: 30 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:30 with shape: (895, 25)
 UsersGraph: There are 895 users on 30
 UserSimilarity: A graph is being created for 30 with 895 users
-UserSimilarity: 31 / 72
+UserSimilarity: 31 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:31 with shape: (895, 25)
 UsersGraph: There are 895 users on 31
 UserSimilarity: A graph is being created for 31 with 895 users
-UserSimilarity: 32 / 72
+UserSimilarity: 32 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:32 with shape: (895, 25)
 UsersGraph: There are 895 users on 32
 UserSimilarity: A graph is being created for 32 with 895 users
-UserSimilarity: 33 / 72
+UserSimilarity: 33 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:33 with shape: (895, 25)
 UsersGraph: There are 895 users on 33
 UserSimilarity: A graph is being created for 33 with 895 users
-UserSimilarity: 34 / 72
+UserSimilarity: 34 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:34 with shape: (895, 25)
 UsersGraph: There are 895 users on 34
 UserSimilarity: A graph is being created for 34 with 895 users
-UserSimilarity: 35 / 72
+UserSimilarity: 35 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:35 with shape: (895, 25)
 UsersGraph: There are 895 users on 35
 UserSimilarity: A graph is being created for 35 with 895 users
-UserSimilarity: 36 / 72
+UserSimilarity: 36 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:36 with shape: (895, 25)
 UsersGraph: There are 895 users on 36
 UserSimilarity: A graph is being created for 36 with 895 users
-UserSimilarity: 37 / 72
+UserSimilarity: 37 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:37 with shape: (895, 25)
 UsersGraph: There are 895 users on 37
 UserSimilarity: A graph is being created for 37 with 895 users
-UserSimilarity: 38 / 72
+UserSimilarity: 38 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:38 with shape: (895, 25)
 UsersGraph: There are 895 users on 38
 UserSimilarity: A graph is being created for 38 with 895 users
-UserSimilarity: 39 / 72
+UserSimilarity: 39 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:39 with shape: (895, 25)
 UsersGraph: There are 895 users on 39
 UserSimilarity: A graph is being created for 39 with 895 users
-UserSimilarity: 40 / 72
+UserSimilarity: 40 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:40 with shape: (895, 25)
 UsersGraph: There are 895 users on 40
 UserSimilarity: A graph is being created for 40 with 895 users
-UserSimilarity: 41 / 72
+UserSimilarity: 41 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:41 with shape: (895, 25)
 UsersGraph: There are 895 users on 41
 UserSimilarity: A graph is being created for 41 with 895 users
-UserSimilarity: 42 / 72
+UserSimilarity: 42 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:42 with shape: (895, 25)
 UsersGraph: There are 895 users on 42
 UserSimilarity: A graph is being created for 42 with 895 users
-UserSimilarity: 43 / 72
+UserSimilarity: 43 / 44
 UserSimilarity: UsersTopicInterests.npy is saved for day:43 with shape: (895, 25)
 UsersGraph: There are 895 users on 43
 UserSimilarity: A graph is being created for 43 with 895 users
-UserSimilarity: 44 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:44 with shape: (895, 25)
-UsersGraph: There are 895 users on 44
-UserSimilarity: A graph is being created for 44 with 895 users
-UserSimilarity: 45 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:45 with shape: (895, 25)
-UsersGraph: There are 895 users on 45
-UserSimilarity: A graph is being created for 45 with 895 users
-UserSimilarity: 46 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:46 with shape: (895, 25)
-UsersGraph: There are 895 users on 46
-UserSimilarity: A graph is being created for 46 with 895 users
-UserSimilarity: 47 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:47 with shape: (895, 25)
-UsersGraph: There are 895 users on 47
-UserSimilarity: A graph is being created for 47 with 895 users
-UserSimilarity: 48 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:48 with shape: (895, 25)
-UsersGraph: There are 895 users on 48
-UserSimilarity: A graph is being created for 48 with 895 users
-UserSimilarity: 49 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:49 with shape: (895, 25)
-UsersGraph: There are 895 users on 49
-UserSimilarity: A graph is being created for 49 with 895 users
-UserSimilarity: 50 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:50 with shape: (895, 25)
-UsersGraph: There are 895 users on 50
-UserSimilarity: A graph is being created for 50 with 895 users
-UserSimilarity: 51 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:51 with shape: (895, 25)
-UsersGraph: There are 895 users on 51
-UserSimilarity: A graph is being created for 51 with 895 users
-UserSimilarity: 52 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:52 with shape: (895, 25)
-UsersGraph: There are 895 users on 52
-UserSimilarity: A graph is being created for 52 with 895 users
-UserSimilarity: 53 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:53 with shape: (895, 25)
-UsersGraph: There are 895 users on 53
-UserSimilarity: A graph is being created for 53 with 895 users
-UserSimilarity: 54 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:54 with shape: (895, 25)
-UsersGraph: There are 895 users on 54
-UserSimilarity: A graph is being created for 54 with 895 users
-UserSimilarity: 55 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:55 with shape: (895, 25)
-UsersGraph: There are 895 users on 55
-UserSimilarity: A graph is being created for 55 with 895 users
-UserSimilarity: 56 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:56 with shape: (895, 25)
-UsersGraph: There are 895 users on 56
-UserSimilarity: A graph is being created for 56 with 895 users
-UserSimilarity: 57 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:57 with shape: (895, 25)
-UsersGraph: There are 895 users on 57
-UserSimilarity: A graph is being created for 57 with 895 users
-UserSimilarity: 58 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:58 with shape: (895, 25)
-UsersGraph: There are 895 users on 58
-UserSimilarity: A graph is being created for 58 with 895 users
-UserSimilarity: 59 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:59 with shape: (895, 25)
-UsersGraph: There are 895 users on 59
-UserSimilarity: A graph is being created for 59 with 895 users
-UserSimilarity: 60 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:60 with shape: (895, 25)
-UsersGraph: There are 895 users on 60
-UserSimilarity: A graph is being created for 60 with 895 users
-UserSimilarity: 61 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:61 with shape: (895, 25)
-UsersGraph: There are 895 users on 61
-UserSimilarity: A graph is being created for 61 with 895 users
-UserSimilarity: 62 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:62 with shape: (895, 25)
-UsersGraph: There are 895 users on 62
-UserSimilarity: A graph is being created for 62 with 895 users
-UserSimilarity: 63 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:63 with shape: (895, 25)
-UsersGraph: There are 895 users on 63
-UserSimilarity: A graph is being created for 63 with 895 users
-UserSimilarity: 64 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:64 with shape: (895, 25)
-UsersGraph: There are 895 users on 64
-UserSimilarity: A graph is being created for 64 with 895 users
-UserSimilarity: 65 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:65 with shape: (895, 25)
-UsersGraph: There are 895 users on 65
-UserSimilarity: A graph is being created for 65 with 895 users
-UserSimilarity: 66 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:66 with shape: (895, 25)
-UsersGraph: There are 895 users on 66
-UserSimilarity: A graph is being created for 66 with 895 users
-UserSimilarity: 67 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:67 with shape: (895, 25)
-UsersGraph: There are 895 users on 67
-UserSimilarity: A graph is being created for 67 with 895 users
-UserSimilarity: 68 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:68 with shape: (895, 25)
-UsersGraph: There are 895 users on 68
-UserSimilarity: A graph is being created for 68 with 895 users
-UserSimilarity: 69 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:69 with shape: (895, 25)
-UsersGraph: There are 895 users on 69
-UserSimilarity: A graph is being created for 69 with 895 users
-UserSimilarity: 70 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:70 with shape: (895, 25)
-UsersGraph: There are 895 users on 70
-UserSimilarity: A graph is being created for 70 with 895 users
-UserSimilarity: 71 / 72
-UserSimilarity: UsersTopicInterests.npy is saved for day:71 with shape: (895, 25)
-UsersGraph: There are 895 users on 71
-UserSimilarity: A graph is being created for 71 with 895 users
-UserSimilarity: Number of users per day: [11, 17, 16, 17, 17, 18, 17, 14, 21, 19, 26, 29, 24, 23, 25, 36, 32, 33, 40, 43, 43, 43, 53, 58, 70, 83, 419, 431, 529, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+UserSimilarity: Number of users per day: [36, 32, 33, 40, 43, 43, 43, 53, 58, 70, 83, 419, 431, 529, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 UserSimilarity: Graphs created!
 UserSimilarity: Graphs are written in "graphs" directory
 CACHEDIR=C:\Users\Soroush\.matplotlib
 Using fontManager instance from C:\Users\Soroush\.matplotlib\fontlist-v330.json
 Loaded backend module://backend_interagg version unknown.
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+top of axes not in the figure, so title not moved
+Graph Clustering: Louvain clustering for all graphs
+nodes: 895 / edges: 84 / isolates: 853
+Graph Clustering: Louvain clustering output: 851 clusters. 0 of them are multi-user clusters and rest of them (851) are singleton clusters.
+
+Graph Clustering: Length of multi-user clusters: []
+
+Graph Clustering: UserClusters.npy saved.
+
+Cluster 0 has 7 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 1 has 6 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 2 has 6 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 3 has 6 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 4 has 5 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 5 has 5 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 6 has 5 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 7 has 5 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 8 has 4 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 9 has 3 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 10 has 2 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 11 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 12 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 13 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 14 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 15 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 16 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 17 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 18 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 19 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 20 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 21 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 22 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 23 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 24 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 25 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 26 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 27 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 28 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 29 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 30 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 31 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 32 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 33 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 34 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 35 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 36 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 37 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 38 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 39 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 40 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 41 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 42 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 43 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 44 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 45 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 46 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 47 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 48 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 49 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 50 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 51 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 52 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 53 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 54 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 55 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 56 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 57 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 58 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 59 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 60 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 61 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 62 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 63 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 64 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 65 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 66 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 67 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 68 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 69 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 70 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 71 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 72 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 73 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 74 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 75 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 76 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 77 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 78 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 79 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 80 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 81 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 82 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 83 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 84 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 85 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 86 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 87 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 88 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 89 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 90 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 91 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 92 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 93 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 94 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 95 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 96 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 97 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 98 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 99 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 100 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 101 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 102 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 103 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 104 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 105 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 106 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 107 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 108 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 109 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 110 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 111 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 112 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 113 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 114 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 115 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 116 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 117 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 118 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 119 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 120 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 121 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 122 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 123 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 124 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 125 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 126 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 127 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 128 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 129 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 130 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 131 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 132 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 133 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 134 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 135 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 136 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 137 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 138 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 139 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 140 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 141 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 142 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 143 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 144 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 145 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 146 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 147 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 148 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 149 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 150 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 151 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 152 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 153 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 154 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 155 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 156 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 157 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 158 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 159 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 160 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 161 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 162 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 163 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 164 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 165 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 166 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 167 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 168 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 169 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 170 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 171 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 172 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 173 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 174 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 175 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 176 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 177 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 178 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 179 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 180 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 181 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 182 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 183 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 184 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 185 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 186 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 187 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 188 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 189 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 190 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 191 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 192 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 193 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 194 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 195 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 196 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 197 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 198 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 199 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 200 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 201 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 202 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 203 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 204 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 205 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 206 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 207 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 208 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 209 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 210 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 211 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 212 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 213 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 214 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 215 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 216 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 217 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 218 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 219 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 220 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 221 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 222 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 223 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 224 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 225 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 226 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 227 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 228 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 229 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 230 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 231 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 232 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 233 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 234 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 235 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 236 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 237 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 238 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 239 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 240 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 241 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 242 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 243 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 244 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 245 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 246 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 247 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 248 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 249 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 250 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 251 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 252 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 253 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 254 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 255 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 256 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 257 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 258 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 259 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 260 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 261 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 262 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 263 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 264 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 265 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 266 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 267 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 268 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 269 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 270 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 271 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 272 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 273 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 274 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 275 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 276 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 277 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 278 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 279 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 280 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 281 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 282 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 283 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 284 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 285 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 286 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 287 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 288 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 289 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 290 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 291 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 292 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 293 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 294 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 295 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 296 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 297 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 298 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 299 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 300 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 301 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 302 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 303 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 304 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 305 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 306 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 307 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 308 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 309 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 310 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 311 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 312 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 313 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 314 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 315 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 316 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 317 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 318 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 319 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 320 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 321 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 322 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 323 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 324 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 325 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 326 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 327 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 328 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 329 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 330 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 331 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 332 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 333 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 334 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 335 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 336 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 337 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 338 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 339 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 340 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 341 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 342 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 343 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 344 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 345 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 346 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 347 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 348 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 349 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 350 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 351 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 352 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 353 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 354 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 355 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 356 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 357 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 358 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 359 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 360 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 361 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 362 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 363 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 364 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 365 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 366 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 367 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 368 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 369 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 370 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 371 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 372 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 373 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 374 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 375 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 376 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 377 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 378 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 379 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 380 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 381 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 382 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 383 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 384 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 385 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 386 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 387 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 388 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 389 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 390 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 391 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 392 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 393 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 394 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 395 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 396 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 397 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 398 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 399 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 400 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 401 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 402 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 403 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 404 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 405 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 406 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 407 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 408 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 409 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 410 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 411 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 412 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 413 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 414 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 415 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 416 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 417 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 418 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 419 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 420 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 421 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 422 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 423 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 424 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 425 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 426 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 427 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 428 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 429 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 430 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 431 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 432 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 433 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 434 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 435 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 436 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 437 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 438 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 439 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 440 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 441 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 442 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 443 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 444 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 445 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 446 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 447 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 448 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 449 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 450 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 451 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 452 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 453 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 454 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 455 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 456 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 457 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 458 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 459 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 460 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 461 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 462 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 463 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 464 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 465 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 466 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 467 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 468 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 469 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 470 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 471 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 472 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 473 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 474 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 475 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 476 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 477 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 478 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 479 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 480 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 481 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 482 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 483 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 484 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 485 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 486 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 487 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 488 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 489 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 490 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 491 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 492 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 493 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 494 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 495 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 496 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 497 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 498 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 499 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 500 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 501 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 502 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 503 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 504 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 505 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 506 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 507 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 508 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 509 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 510 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 511 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 512 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 513 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 514 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 515 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 516 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 517 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 518 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 519 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 520 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 521 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 522 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 523 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 524 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 525 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 526 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 527 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 528 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 529 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 530 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 531 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 532 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 533 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 534 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 535 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 536 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 537 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 538 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 539 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 540 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 541 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 542 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 543 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 544 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 545 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 546 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 547 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 548 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 549 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 550 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 551 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 552 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 553 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 554 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 555 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 556 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 557 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 558 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 559 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 560 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 561 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 562 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 563 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 564 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 565 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 566 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 567 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 568 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 569 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 570 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 571 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 572 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 573 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 574 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 575 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 576 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 577 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 578 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 579 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 580 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 581 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 582 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 583 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 584 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 585 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 586 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 587 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 588 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 589 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 590 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 591 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 592 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 593 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 594 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 595 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 596 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 597 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 598 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 599 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 600 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 601 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 602 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 603 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 604 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 605 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 606 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 607 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 608 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 609 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 610 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 611 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 612 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 613 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 614 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 615 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 616 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 617 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 618 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 619 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 620 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 621 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 622 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 623 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 624 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 625 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 626 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 627 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 628 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 629 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 630 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 631 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 632 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 633 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 634 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 635 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 636 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 637 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 638 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 639 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 640 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 641 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 642 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 643 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 644 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 645 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 646 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 647 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 648 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 649 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 650 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 651 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 652 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 653 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 654 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 655 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 656 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 657 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 658 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 659 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 660 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 661 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 662 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 663 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 664 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 665 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 666 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 667 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 668 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 669 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 670 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 671 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 672 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 673 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 674 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 675 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 676 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 677 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 678 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 679 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 680 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 681 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 682 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 683 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 684 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 685 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 686 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 687 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 688 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 689 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 690 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 691 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 692 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 693 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 694 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 695 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 696 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 697 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 698 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 699 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 700 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 701 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 702 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 703 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 704 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 705 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 706 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 707 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 708 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 709 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 710 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 711 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 712 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 713 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 714 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 715 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 716 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 717 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 718 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 719 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 720 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 721 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 722 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 723 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 724 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 725 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 726 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 727 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 728 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 729 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 730 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 731 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 732 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 733 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 734 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 735 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 736 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 737 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 738 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 739 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 740 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 741 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 742 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 743 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 744 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 745 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 746 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 747 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 748 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 749 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 750 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 751 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 752 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 753 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 754 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 755 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 756 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 757 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 758 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 759 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 760 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 761 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 762 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 763 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 764 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 765 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 766 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 767 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 768 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 769 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 770 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 771 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 772 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 773 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 774 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 775 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 776 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 777 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 778 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 779 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 780 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 781 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 782 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 783 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 784 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 785 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 786 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 787 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 788 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 789 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 790 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 791 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 792 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 793 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 794 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 795 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 796 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 797 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 798 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 799 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 800 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 801 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 802 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 803 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 804 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 805 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 806 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 807 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 808 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 809 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 810 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 811 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 812 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 813 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 814 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 815 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 816 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 817 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 818 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 819 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 820 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 821 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 822 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 823 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 824 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 825 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 826 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 827 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 828 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 829 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 830 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 831 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 832 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 833 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 834 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 835 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 836 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 837 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 838 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 839 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 840 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 841 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 842 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 843 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 844 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 845 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 846 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 847 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 848 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 849 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 850 has 1 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 851 has 1 users. Topic 0 is the favorite topic for 100.0% of users.

@@ -25,7 +25,7 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
     unique_users = pd.core.series.Series(list(set(all_users)))
     cmn.logger.info(f'UserSimilarity: All distinct users:{len(unique_users)}')
     np.save(f'{path2_save_uml}/AllUsers.npy', np.asarray(unique_users))
-    users_topic_interests = np.zeros((len(set(all_users)), num_topics))
+    users_topic_interests = np.zeros((len(unique_users), num_topics))
     cmn.logger.info(f'UserSimilarity: users_topic_interests={users_topic_interests.shape}')
     total_user_ids = []
     max_users = 0
@@ -45,8 +45,13 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
 
 
     while day <= end_date:
-        c = documents[(documents['CreationDate'] == day.date())]
-        cmn.logger.info(f'{len(c)} users has twitted in {day}')
+        #print(documents['CreationDate'].min(),documents['CreationDate'].max())
+        #print(day.date())
+        #print(sum(documents['CreationDate'] == day))
+        users_topic_interests = np.zeros((len(unique_users), num_topics))
+        #users_topic_interests[0] += 1
+        c = documents[(documents['CreationDate'] == day)]
+        cmn.logger.info(f'{len(c)} users have twitted in {day}')
         texts = c['Tokens']
         users = c['userId']
         lenUsers.append(len(users))
