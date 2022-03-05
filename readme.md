@@ -11,7 +11,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 7. [Citation](#7-Citation)
 
 ## 1. :movie_camera: Demo
-Tutorials ([tbd](https://github.com/fani-lab/seera/issues/11)): 1) [Overview](https://youtu.be/6rsaMldfT_U) 2) [Quickstart](https://youtu.be/jHpd1bIdjdc) 3) Extension
+Tutorials: 1) [Overview](https://youtu.be/6rsaMldfT_U) 2) [Quickstart](https://youtu.be/jHpd1bIdjdc) 3) Extension
 
 Workflow | Layers
 :---------------:|:-------------------------:
