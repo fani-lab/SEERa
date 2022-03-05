@@ -34,6 +34,8 @@ def T2A(path2read, path2save):
     for embeddedpath in embeddedspath:
         file1 = open(embeddedpath, 'r')
         lines = file1.readlines()
+        print(lines[0])
+        print(len(lines))
         array = np.zeros((int(lines[0].split('\n')[0]), params.gel['EmbeddingDim']))
         for i in range(1,len(lines)):
             line = lines[i]
@@ -46,4 +48,4 @@ def T2A(path2read, path2save):
     t = []
     for tt in npys:
         t.append(np.load(tt))
-    np.save(f'{path2save}/embeddeds.npy', array)
+    np.save(f'{path2save}/embeddeds.npy', np.asarray(t))

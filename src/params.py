@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 28
+RunID = 33
 
 
 general = {
@@ -11,10 +11,10 @@ general = {
     'RunId': RunID,
 }
 dal = {
-    'path': ['../data/tweets_all.csv', '../data/tagmeannotation_all.csv'],
+    'path': ['../data/tweets_all.csv', '../data/tagmeannotation_1of16.csv'],
     'userModeling': True,
     'timeModeling': True,
-    'start': '2010-10-01',
+    'start': '2010-11-01',
     'end': '2010-11-19',
     'timeInterval': 1,
     'preProcessing': False,
@@ -32,13 +32,13 @@ tml = {
     'Threshold': 0.02
 }
 uml = {
-    'UserSimilarityThreshold': 0.25,
+    'UserSimilarityThreshold': 0.45,
     'path2saveUML': f'../output/{RunID}/uml'
 }
 gel = {
     'path2saveGEL': f'../output/{RunID}/gel',
-    'EmbeddingDim': 40,
-    'method': 'Node2Vec'
+    'EmbeddingDim': 30,
+    'method': 'DynAERNN'
 }
 evl = {
     'EvaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
