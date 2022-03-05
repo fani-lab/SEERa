@@ -1,17 +1,17 @@
 
-# A Framework for Community Prediction in Online Social Networks with Streaming Content
+# ``SEERa``: An Open-Source Framework for Future Community Prediction 
 This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``](https://martinfowler.com/bliki/InversionOfControl.html) to predict the future user communities in a text streaming social network (e.g., Twitter) based on the users’ topics of interest. User community prediction aims at identifying communities in the future based on the users' temporal topics of interest. We model inter-user topical affinities at each time interval via streams of temporal graphs. Our framework benefits from temporal graph embedding methods to learn temporal vector representations for users as users' topics of interests and hence their inter-user topical affinities are changing in time. We predict user communities in future time intervals based on the final locations of users' vectors in the latent space. Our framework employs ``layered software design`` that adds modularity, maintainability,  ease of extensibility, and stability against customization and ad hoc changes to its components including ``topic modeling``, ``user modeling``, ``temporal user embedding``, ``user community prediction`` and ``evaluation``. More importantly, our framework further offers one-stop shop access to future communities to improve recommendation systems and advertising campaigns. Our proposed framework has already been benchmarked on a Twitter dataset and showed improvements compared to the state of the art in underlying applications such as ``news article recommendation`` and ``user prediction`` (see [here](https://hosseinfani.github.io/res/papers/Temporal%20Latent%20Space%20Modeling%20For%20Community%20Prediction.pdf), also below).
 
 1. [Demo](#1-Demo)
 2. [Structure](#2-Structure)
 3. [Setup](#3-Setup)
-4. [Quick Start](#4-Quick-Start)
+4. [Quickstart](#4-Quickstart)
 5. [Result](#5-Result)
 6. [License](#6-License)
 7. [Citation](#7-Citation)
 
-## 1. Demo
-:movie_camera: Video Playlist ([tbd](https://github.com/fani-lab/seera/issues/11)): 1) [Introduction](https://youtu.be/6rsaMldfT_U) -> 2) Installation ->3) Extension
+## 1. :movie_camera: Demo
+Tutorials ([tbd](https://github.com/fani-lab/seera/issues/11)): 1) [Overview](https://youtu.be/6rsaMldfT_U) 2) [Quickstart](https://youtu.be/jHpd1bIdjdc) 3) Extension
 
 Workflow | Layers
 :---------------:|:-------------------------:
@@ -75,7 +75,7 @@ This command installs compatible version of the following libraries:
 
 Also, you need to install ``MAchine Learning for LanguagE Toolkit (mallet)`` from its [``git``](https://github.com/mimno/Mallet) or [``website``](http://mallet.cs.umass.edu/index.php), as a requirement in ``tml``. 
 
-## 4. Quick Start
+## 4. Quickstart
 
 ### Data
 We crawled and stored Twitter posts (tweets) for 2 consecutive months. The data is available as ``sql`` scripts at [``ds_twitter``](https://drive.google.com/file/d/1UGMPx2xkcNE0e7PbKLpTY61IwvLsKQyN/view?usp=sharing), including, ``Tweets``, ``TweetEntities``, ``TweetUsers``, ``TagmeAnnotations``, ``NewsTables``, and ``GoldenStandard (for news article recommendation)``.
