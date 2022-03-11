@@ -11,7 +11,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 7. [Citation](#7-Citation)
 
 ## 1. :movie_camera: Demo
-Tutorials: 1) [Overview](https://youtu.be/6rsaMldfT_U) 2) [Quickstart](https://www.youtube.com/watch?v=BO6JMvs1jso&t=301s) [(Colab Notebook)](https://colab.research.google.com/drive/1-NTQgriKK-KhLhcMnPc2oqQUgKQv47DU?usp=sharing) 3) Extension
+Tutorials: 1) [Overview](https://youtu.be/ovH-_KHDvFE) 2) [Quickstart](https://youtu.be/EcG6riy_qOA) [(Colab Notebook)](https://colab.research.google.com/drive/1-NTQgriKK-KhLhcMnPc2oqQUgKQv47DU?usp=sharing) 3) Extension
 
 Workflow | Layers
 :---------------:|:-------------------------:
