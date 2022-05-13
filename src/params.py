@@ -9,6 +9,7 @@ RunID = 33
 general = {
     'Comment': '',
     'RunId': RunID,
+    'cuda': '1,2'
 }
 dal = {
     'path': ['../data/tweets_all.csv', '../data/tagmeannotation_1of16.csv'],

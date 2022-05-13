@@ -12,7 +12,7 @@ cmn.logger=cmn.LogFile(f'../output/used_params_runid_{params.general["RunId"]}.l
 
 def RunPipeline():
     copyfile('params.py', f'../output/used_params_runid_{params.general["RunId"]}.py')
-
+    os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
     # Data Reading
     from dal import DataReader as dr, DataPreparation as dp
