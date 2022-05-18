@@ -9,7 +9,6 @@ RunID = 33
 general = {
     'Comment': '',
     'RunId': RunID,
-    'cuda': '1,2'
 }
 dal = {
     'path': ['../data/tweets_all.csv', '../data/tagmeannotation_1of16.csv'],
@@ -49,4 +48,18 @@ evl = {
     'GoldenStandardPath': '/path2GS',
     'Threshold': 0,
     'TopK': 20
+}
+
+# params set for Gibbs Sampling Dirichlet Mixture Model
+gsdmm = {
+    "dataset": "News", # selected dataset from data folder
+    "timefil": "timefil",
+    "MaxBatch": 5,  # The number of saved batches + 1
+    "AllBatchNum": 16,  # The number of batches you want to divide the dataset to
+    "alpha": 0.03,  # document-topic density
+    "beta": 0.03,  # topic-word density
+    "iterNum": 5,  # number of iterations
+    "sampleNum": 1,
+    "wordsInTopicNum": 5,
+    "K": 0
 }
