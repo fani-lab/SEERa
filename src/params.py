@@ -9,6 +9,7 @@ RunID = 33
 general = {
     'Comment': '',
     'RunId': RunID,
+    'cuda': '1,2'
 }
 dal = {
     'path': ['../data/tweets_all.csv', '../data/tagmeannotation_1of16.csv'],
@@ -50,7 +51,7 @@ evl = {
     'TopK': 20
 }
 
-# params set for Gibbs Sampling Dirichlet Mixture Model
+# default parameters set for Gibbs Sampling Dirichlet Mixture Model
 gsdmm = {
     "dataset": "News", # selected dataset from data folder
     "timefil": "timefil",
