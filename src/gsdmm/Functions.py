@@ -3,7 +3,7 @@ import json
 import os
 import time
 
-
+if not os.path.isdir(f'../results'): os.makedirs(f'../results') # create results folder for gsdmm output if it does not exists
 outputPath = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) + r"\results/"  # setting path for output
 
 # different usable Gibbs sampling functions
