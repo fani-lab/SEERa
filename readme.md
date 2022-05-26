@@ -187,7 +187,7 @@ application = {
         <th style="text-align:left; color:black; background-color:#FBF0CE" colspan="7"> Community Prediction </th>
     </tr>
     <tr>
-        <th style="color:black;">Our approach</th>
+        <th style="color:black;"><a href="https://link.springer.com/chapter/10.1007/978-3-030-45439-5_49">Fani et al.[ECIR'20]</a></th>
         <th style="color:black;">0.255</th>
         <th style="color:black;">0.108</th>
         <th style="color:black;">0.105</th>
@@ -196,7 +196,7 @@ application = {
         <th style="color:black;">0.015</th>
     </tr>
     <tr>
-        <th style="color:black;">Appel et al. [PKDD' 18]</th>
+        <th style="color:black;"><a href="https://link.springer.com/chapter/10.1007/978-3-030-10928-8_1">Appel et al. [PKDD'18]</a></th>
         <th>0.176</th>
         <th>0.056</th>
         <th>0.055</th>
@@ -206,7 +206,7 @@ application = {
     </tr>
         <th style="text-align:left; color:black; background-color:#FBF0CE" colspan="7"> Temporal community detection </th>
         <tr>
-        <th style="color:black;">Hu et al. [SIGMOD’15]</th>
+        <th style="color:black;">Hu et al. [SIGMOD'15]</th>
         <th>0.173</th>
         <th>0.056</th>
         <th>0.049</th>
@@ -214,7 +214,7 @@ application = {
         <th>0.136</th>
         <th>0.013</th>
     </tr>
-        <th style="color:black;">Fani et al.    [CIKM’17]</th>
+        <th style="color:black;">Fani et al. [CIKM'17]</th>
         <th>0.065</th>
         <th>0.040</th>
         <th>0.040</th>
@@ -224,7 +224,7 @@ application = {
     </tr>
         <th style="text-align:left; color:black; background-color:#FBF0CE" colspan="7"> Non-temporal link-based community detection </th>
     <tr>
-        <th style="color:black;">Ye et al.[CIKM’18]</th>
+        <th style="color:black;">Ye et al.[CIKM'18]</th>
         <th>0.139</th>
         <th>0.056</th>
         <th>0.055</th>
@@ -232,7 +232,7 @@ application = {
         <th>0.208</th>
         <th>0.014</th>
     </tr>
-        <th style="color:black;">Louvain[JSTAT’08]</th>
+        <th style="color:black;">Louvain[JSTAT'08]</th>
         <th>0.108</th>
         <th>0.048</th>
         <th>0.055</th>
@@ -251,7 +251,7 @@ application = {
         <th>0.008</th>
     </tr>
     <tr>
-        <th style="color:black;">timesvd++    [KDD’08]</th>
+        <th style="color:black;">timesvd++    [KDD'08]</th>
         <th>0.141</th>
         <th>0.058</th>
         <th>0.064</th>
