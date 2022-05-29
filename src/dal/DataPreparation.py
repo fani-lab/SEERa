@@ -17,6 +17,10 @@ import datetime
 from cmn import Common as cmn
 import params
 
+def drop_user(dataset, userId):
+
+
+
 def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=params.dal['lastRowsNumber'],
                      startDate = params.dal['start'], timeInterval=params.dal['timeInterval']):
     global DataLen
@@ -34,7 +38,8 @@ def data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessi
     data = pd.DataFrame({'Id': dataset[:, 0], 'Text': dataset[:, 1], 'OriginalCreationDate': dataset[:, 2],
                          'CreationDate': dataset[:, 6], 'userId': dataset[:, 3],
                          'ModificationTimeStamp': dataset[:, 4], 'Tokens': dataset[:, 5]})
-
+    for u in data['userId'].unique():
+        print('salam')
     data.to_csv(f"../output/{params.general['RunId']}/data1.csv", sep=",", encoding='utf-8', index=False)
     #data.sort_values(by=['CreationDate']) #moved to sql query
 

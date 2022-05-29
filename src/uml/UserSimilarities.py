@@ -32,7 +32,10 @@ def main(documents, dictionary, lda_model, num_topics=params.tml['num_topics'], 
     while day <= end_date:
         users_topic_interests = np.zeros((len(unique_users), num_topics))
         #users_topic_interests[0] += 1
-        c = documents[(documents['CreationDate'] == day)]
+        c = documents[(documents['CreationDate'] == day.date())]
+        #print('salaaaaam', documents['CreationDate'][0], day)
+        #print(type(day))
+        print(day.date())
         cmn.logger.info(f'{len(c)} users have twitted in {day}')
         texts = c['Tokens']
         users = c['userId']

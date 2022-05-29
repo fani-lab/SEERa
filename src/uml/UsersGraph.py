@@ -23,7 +23,10 @@ def create_users_graph(day, users_topic_interests, path_2_save, sparsity=False):
         usersSimilarity_interests_sparse = sparse.csr_matrix(usersSimilarity)
         G = nx.from_scipy_sparse_matrix(usersSimilarity_interests_sparse, parallel_edges=False, create_using=None, edge_attribute='weight')
     else:
+        print('start cosine')
+        print(users_topic_interests.shape)
         usersSimilarity = cosine_similarity(users_topic_interests)
+        print('end cosine')
         super_threshold_indices = usersSimilarity < UserSimilarityThreshold
         usersSimilarity[super_threshold_indices] = 0
         #print('usersSimilarities min:', usersSimilarity.min())
