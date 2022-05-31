@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 19
+RunID = 1
 
 
 general = {
@@ -12,33 +12,31 @@ general = {
     'cuda': '-1'
 }
 dal = {
-    'path': ['../mainTables/stringsemicolon/Tweets.csv', '../mainTables/TweetTagmeAnnotations.csv'],
-    #'path': ['../data/tweets_all.csv', '../data/tagmeannotation_1of16.csv'],
+    'path': '../data/toy/Tweets.csv',
     'userModeling': True,
     'timeModeling': True,
-    'start': '2010-11-15',
-    'end': '2010-12-1',
-    'timeInterval': 1,
+    'start': '2010-12-01',
+    'end': '2010-12-04',
+    'timeInterval': 1, #unit of day
     'preProcessing': False,
-    'TagME': False,
-    'lastRowsNumber': -1
+    'TagME': False
 }
 tml = {
-    'path2saveTML': f'../output/{RunID}/tml',
+    'path2save': f'../output/{RunID}/tml',
     'num_topics': 30,
     'library': 'gensim',
     'mallet_home': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
     'filterExtremes': True,
     'JO': False,
     'Bin': False,
-    'Threshold': 0.02
+    'Threshold': 0.5
 }
 uml = {
     'UserSimilarityThreshold': 0.45,
-    'path2saveUML': f'../output/{RunID}/uml'
+    'path2save': f'../output/{RunID}/uml'
 }
 gel = {
-    'path2saveGEL': f'../output/{RunID}/gel',
+    'path2save': f'../output/{RunID}/gel',
     'EmbeddingDim': 30,
     'method': 'DynAERNN'
 }

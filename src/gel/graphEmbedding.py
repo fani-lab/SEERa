@@ -1,17 +1,14 @@
 import os
-import networkx as nx
 import matplotlib.pyplot as plt
-'''
-from dynamicgem.embedding.dynAERNN import DynAERNN
-from dynamicgem.embedding.ae_static    import AE
-from dynamicgem.embedding.dynAE        import DynAE
-from dynamicgem.embedding.dynRNN       import DynRNN
-'''
-import glob
 from gel import CppWrapper as N2V
 import params
 from time import time
 import numpy as np
+
+from dynamicgem.embedding.dynAERNN import DynAERNN
+from dynamicgem.embedding.ae_static import AE
+from dynamicgem.embedding.dynAE import DynAE
+from dynamicgem.embedding.dynRNN import DynRNN
 
 def GEMmethod(dim_emb, lookback, method='DynAERNN'):
     methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
@@ -80,19 +77,7 @@ def GEMmethod(dim_emb, lookback, method='DynAERNN'):
                                          './GEL/dec_weights_dynAERNN.hdf5'],
                              savefilesuffix="testing")
     return embedding
-def main(method='Node2Vec'):
-    graphs_path = glob.glob(f'{params.uml["path2saveUML"]}/graphs/*.net')
-    graphs = []
-    for gp in graphs_path:
-        graphs.append(nx.read_gpickle(gp))
-    print('len graph: ', len(graphs))
-    length = len(graphs)
-    np.save('length.npy', length)
-    print('GRAPHS: ')
-    print('type: ', type(graphs))
-    print('subtype: ', type(graphs[0]))
-    print('graphs shape: ', np.asarray(graphs).shape)
-    np.save('graphs.npy', graphs)
+def main(graphs, method='Node2Vec'):
 
     # parameters for the dynamic embedding
     # dimension of the embedding
@@ -101,7 +86,7 @@ def main(method='Node2Vec'):
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
         if not os.path.isdir(params.gel["path2saveGEL"]): os.makedirs(params.gel["path2saveGEL"])
-        N2V.main(params.uml['path2saveUML']+'/graphs', params.gel['path2saveGEL'], params.gel['EmbeddingDim'])
+        N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['EmbeddingDim'])
     else:
         lookback = 2
         print('lookback: ', lookback)
@@ -109,7 +94,7 @@ def main(method='Node2Vec'):
 
         embs = []
         t1 = time()
-        for temp_var in range(lookback + 1, length + 1):
+        for temp_var in range(lookback + 1, len(graphs) + 1):
             emb, _ = embedding.learn_embeddings(graphs[:temp_var])
             print('emb type: ', type(emb))
             embs.append(emb)
@@ -121,6 +106,6 @@ def main(method='Node2Vec'):
         # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
         # plt.savefig('myname.png')
         # print(os.getcwd())
-        # print(f'{params.uml["path2saveGEL"]}/embeddeds.npy')
-        np.save(f'{params.gel["path2saveGEL"]}/embeddeds.npy', embs)
+        # print(f'{params.uml["path2save"]}/embeddeds.npy')
+        np.savez_compressed(f'{params.gel["path2save"]}/embeddeds.npy', a=embs)
         plt.show()

@@ -11,14 +11,13 @@ from gensim.models.coherencemodel import CoherenceModel
 from cmn import Common as cmn
 import params
 
-def topic_modeling(processed_docs, num_topics=20, filterExtremes=False,
-                   library='gensim', path_2_save_tml='../../output/tml'):
+def topic_modeling(processed_docs, num_topics, filterExtremes, library, path_2_save_tml):
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
     cmn.logger.info(f'TopicModeling: num_topics={num_topics},  filterExtremes={filterExtremes}, library={library}')
     dictionary = gensim.corpora.Dictionary(processed_docs)
-    if filterExtremes:
-        dictionary.filter_extremes(no_below=1, no_above=0.20, keep_n=100000)
+    if filterExtremes: dictionary.filter_extremes(no_below=1, no_above=0.20, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
+
     if library == 'gensim':
         lda_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
         lda_model.save(f"{path_2_save_tml}/gensim_{num_topics}topics.model")

@@ -4,7 +4,7 @@ import glob
 import numpy as np
 import params
 
-def G2T(graph_path, path2_save_gel=params.gel['path2saveGEL']):
+def G2T(graph_path, path2_save_gel):
     graphs_path = glob.glob(f'{graph_path}/*.net')
     for gp in graphs_path:
         pathtemp = path2_save_gel+'/' + str(gp.split("\\")[-1].split(".")[0])
