@@ -18,6 +18,7 @@ from cmn import Common as cmn
 import params
 
 def drop_user(dataset, userId):
+  pass
 
 
 
