@@ -38,6 +38,7 @@ uml = {
 gel = {
     'path2save': f'../output/{RunID}/gel',
     'EmbeddingDim': 30,
+    'epoch': 5,
     'method': 'DynAERNN'
 }
 evl = {

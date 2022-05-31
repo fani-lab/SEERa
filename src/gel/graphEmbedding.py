@@ -19,13 +19,11 @@ def GEMmethod(dim_emb, lookback, method='DynAERNN'):
                        nu2=1e-6,
                        K=3,
                        n_units=[500, 300, ],
-                       n_iter=200,
+                       n_iter=params.gel['epoch'],
                        xeta=1e-4,
                        n_batch=100,
-                       modelfile=['./GEL/enc_model_AE.json',
-                                  './GEL/dec_model_AE.json'],
-                       weightfile=['./GEL/enc_weights_AE.hdf5',
-                                   './GEL/dec_weights_AE.hdf5'])
+                       modelfile=['./GEL/enc_model_AE.json', './GEL/dec_model_AE.json'],
+                       weightfile=['./GEL/enc_weights_AE.hdf5', './GEL/dec_weights_AE.hdf5'])
     elif method == methods[1]:
         embedding = DynAE(d=dim_emb,
                           beta=5,
@@ -34,13 +32,11 @@ def GEMmethod(dim_emb, lookback, method='DynAERNN'):
                           nu2=1e-6,
                           n_units=[500, 300, ],
                           rho=0.3,
-                          n_iter=250,
+                          n_iter=params.gel['epoch'],
                           xeta=1e-4,
                           n_batch=100,
-                          modelfile=['./intermediate/enc_model_dynAE.json',
-                                     './intermediate/dec_model_dynAE.json'],
-                          weightfile=['./intermediate/enc_weights_dynAE.hdf5',
-                                      './intermediate/dec_weights_dynAE.hdf5'],
+                          modelfile=['./intermediate/enc_model_dynAE.json', './intermediate/dec_model_dynAE.json'],
+                          weightfile=['./intermediate/enc_weights_dynAE.hdf5', './intermediate/dec_weights_dynAE.hdf5'],
                           savefilesuffix="testing")
     elif method == methods[2]:
         embedding = DynRNN(d=dim_emb,
@@ -51,13 +47,11 @@ def GEMmethod(dim_emb, lookback, method='DynAERNN'):
                            n_enc_units=[500, 300],
                            n_dec_units=[500, 300],
                            rho=0.3,
-                           n_iter=250,
+                           n_iter=params.gel['epoch'],
                            xeta=1e-3,
                            n_batch=100,
-                           modelfile=['./intermediate/enc_model_dynRNN.json',
-                                      './intermediate/dec_model_dynRNN.json'],
-                           weightfile=['./intermediate/enc_weights_dynRNN.hdf5',
-                                       './intermediate/dec_weights_dynRNN.hdf5'],
+                           modelfile=['./intermediate/enc_model_dynRNN.json', './intermediate/dec_model_dynRNN.json'],
+                           weightfile=['./intermediate/enc_weights_dynRNN.hdf5', './intermediate/dec_weights_dynRNN.hdf5'],
                            savefilesuffix="testing")
     elif method == methods[3]:
         embedding = DynAERNN(d=dim_emb,
@@ -68,16 +62,14 @@ def GEMmethod(dim_emb, lookback, method='DynAERNN'):
                              n_aeunits=[500, 300],
                              n_lstmunits=[500, dim_emb],
                              rho=0.3,
-                             n_iter=200,
+                             n_iter=params.gel['epoch'],
                              xeta=1e-3,
                              n_batch=100,
-                             modelfile=['./GEL/enc_model_dynAERNN.json',
-                                        './GEL/dec_model_dynAERNN.json'],
-                             weightfile=['./GEL/enc_weights_dynAERNN.hdf5',
-                                         './GEL/dec_weights_dynAERNN.hdf5'],
+                             modelfile=['./GEL/enc_model_dynAERNN.json', './GEL/dec_model_dynAERNN.json'],
+                             weightfile=['./GEL/enc_weights_dynAERNN.hdf5', './GEL/dec_weights_dynAERNN.hdf5'],
                              savefilesuffix="testing")
     return embedding
-def main(graphs, method='Node2Vec'):
+def main(graphs, method='DynAERNN'):
 
     # parameters for the dynamic embedding
     # dimension of the embedding

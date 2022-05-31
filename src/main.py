@@ -1,5 +1,5 @@
 from shutil import copyfile
-import sys, os, glob
+import sys, os, glob, pickle
 import numpy as np
 import pandas as pd
 import gensim
@@ -19,12 +19,12 @@ def RunPipeline():
 
     cmn.logger.info(f'1. Data Reading & Preparation ...')
     try:
-        cmn.logger.info(f'Loading files ...')
+        cmn.logger.info(f'Loading perprocessed files ...')
         with open(f"../output/{params.general['RunId']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
         processed_docs = np.load(f"../output/{params.general['RunId']}/prosdocs.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         from dal import DataReader as dr, DataPreparation as dp
-        cmn.logger.info(f'Loading files failed! Generating files ...')
+        cmn.logger.info(f'Loading perprocessed files failed! Generating files ...')
         dataset = dr.load_tweets(params.dal['path'], params.dal['start'], params.dal['end'], stopwords=['www', 'RT', 'com', 'http'])
         cmn.logger.info(f'dataset.shape: {dataset.shape}')
         cmn.logger.info(f'dataset.keys: {dataset.keys()}')
@@ -62,7 +62,7 @@ def RunPipeline():
     cmn.logger.info(f"3. Temporal Graph Creation ...")
     try:
         cmn.logger.info(f"Loading users' graph stream ...")
-        graphs = np.load(f'{params.uml["path2save"]}/graphs/graphs.npy')
+        with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'rb') as g: graphs = pickle.load(g)
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"Loading users' graph stream failed! Generating the stream ...")
@@ -74,7 +74,7 @@ def RunPipeline():
         graphs_path = glob.glob(f'{params.uml["path2save"]}/graphs/*.net')
         graphs = []
         for gp in graphs_path: graphs.append(nx.read_gpickle(gp))
-        np.save(f'{params.uml["path2save"]}/graphs/graphs.npy', graphs)
+        with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'wb') as g: pickle.dump(graphs, g)
 
     # Graph Embedding
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
