@@ -75,9 +75,9 @@ def main(graphs, method='DynAERNN'):
     # dimension of the embedding
     dim_emb = params.gel['EmbeddingDim']
     # methods: ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
+    if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
-        if not os.path.isdir(params.gel["path2saveGEL"]): os.makedirs(params.gel["path2saveGEL"])
         N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['EmbeddingDim'])
     else:
         lookback = 2
@@ -93,11 +93,11 @@ def main(graphs, method='DynAERNN'):
         embs = np.asarray(embs)
         print('embs shape: ', embs)
         print(embedding._method_name + ':\n\tTraining time: %f' % (time() - t1))
-        plt.figure()
-        plt.clf()
+        # plt.figure()
+        # plt.clf()
         # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
         # plt.savefig('myname.png')
         # print(os.getcwd())
         # print(f'{params.uml["path2save"]}/embeddeds.npy')
-        np.savez_compressed(f'{params.gel["path2save"]}/embeddeds.npy', a=embs)
-        plt.show()
+        np.savez_compressed(f'{params.gel["path2save"]}/embeddings.npy', a=embs)
+        # plt.show()
