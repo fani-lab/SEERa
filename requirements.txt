@@ -1,4 +1,5 @@
-#dynamicgem=0.0.3 #install from github repo at https://github.com/palash1992/DynamicGEM => python setup.py install
+#python 3.6
+#dynamicgem=0.0.3 #install from github repo at https://github.com/palash1992/DynamicGEM => c
 Keras==2.2.4
 matplotlib==3.0.1
 tensorflow==1.11.0

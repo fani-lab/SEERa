@@ -91,7 +91,7 @@ python setup.py install
 ## 4. Quickstart
 
 ### Data
-We crawled and stored `~2.9M` Twitter posts (tweets) for 2 consecutive months `2010-11-01` and `2010-12-31`. Tweet Ids are provided at [`./data/TweetIds.csv`](./data/Tweets.csv) for streaming tweets from Twitter using tools like [`hydrator`](https://github.com/DocNow/hydrator).
+We crawled and stored `~2.9M` Twitter posts (tweets) for 2 consecutive months `2010-11-01` and `2010-12-31`. Tweet Ids are provided at [`./data/TweetIds.csv`](./data/) for streaming tweets from Twitter using tools like [`hydrator`](https://github.com/DocNow/hydrator).
 
 For quickstart purposes, a `toy` sample of tweets between `2010-12-01` and `2010-12-04` has been provided at [`./data/toy/Tweets.csv`](./data/toy).  
 
