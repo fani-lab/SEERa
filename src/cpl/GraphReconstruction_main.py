@@ -3,8 +3,6 @@ import os
 import glob
 import matplotlib.pyplot as plt
 
-
-
 def EmbeddedGraphShow(G,day):
     G = G.subgraph(list(G.nodes)[:200])
     nx.draw(G)#, with_labels=True)
@@ -18,7 +16,7 @@ def GraphShow(G,day,RunId):
     nx.draw(G)#, with_labels=True)
     plt.interactive(False)
     # plt.show(block=True)
-    plt.savefig(f'../output/{RunId}/uml/graphs/Graph{str(day)}.jpg')
+    plt.savefig(f'../output/{RunId}/uml/graphs/Graph{str(day)}.png')
     plt.close()
 
 def main(RunId):

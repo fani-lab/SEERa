@@ -9,10 +9,6 @@ import networkx as nx
 import params
 from cmn import Common as cmn
 
-if not os.path.isdir(f'../output'): os.makedirs(f'../output')
-if not os.path.isdir(f'../output/{params.general["RunId"]}'): os.makedirs(f'../output/{params.general["RunId"]}')
-cmn.logger=cmn.LogFile(f'../output/{params.general["RunId"]}/log.txt')
-
 def RunPipeline():
     copyfile('params.py', f'../output/{params.general["RunId"]}/params.py')
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
@@ -80,16 +76,20 @@ def RunPipeline():
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
     try:
         cmn.logger.info(f'Loading embeddings ...')
-        embeddings = np.load(f"{params.gel['path2save']}/embeddeds.npy", allow_pickle=True)['a']
+        embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import graphEmbedding as GE
         GE.main(graphs, method=params.gel['method'])
 
     # Community Extraction
-    from cpl import GraphClustering as GC, GraphReconstruction_main as GR
-    GR.main(RunId=params.general['RunId'])
-    Communities = GC.main(RunId=params.general['RunId'])
+    cmn.logger.info(f'5. Community Prediction ...')
+    from cpl import GraphClustering as GC
+    Communities = GC.main(embeddings, params.cpl['path2save'], params.cpl['method'])
     return Communities
+
+if not os.path.isdir(f'../output'): os.makedirs(f'../output')
+if not os.path.isdir(f'../output/{params.general["RunId"]}'): os.makedirs(f'../output/{params.general["RunId"]}')
+cmn.logger=cmn.LogFile(f'../output/{params.general["RunId"]}/log.txt')
 
 c = RunPipeline()

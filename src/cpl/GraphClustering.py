@@ -1,15 +1,14 @@
+import os, glob, pickle
 import networkx as nx
-import sknetwork as skn
-import os
+from scipy import sparse
 import numpy as np
-import glob
 import matplotlib.pyplot as plt
-from cmn import Common as cmn
-import igraph as ig
 from collections import Counter
-import louvain as lv
-import leidenalg as lg
+import sknetwork as skn
+from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
 
+import params
+from cmn import Common as cmn
 
 def GraphShow(G,day):
     G = G.subgraph(list(G.nodes)[:500])
@@ -33,78 +32,59 @@ def ClusterTopicInterest(clusters, usertopicinterests):
         cmn.logger.info("Cluster "+str(ci)+" has "+str(len(clusterInterests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(countpercentage)+ '% of users.')
 
 
-def main(RunId, method='louvain', temporal=False):
-    if method == 'louvain':
-        louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True,
-                                     return_aggregate=True, verbose=1)
-        graphName = glob.glob(f'../output/{RunId}/uml/graphs/*.net')[-2]
-        graph = nx.read_gpickle(graphName)
-        adj = nx.adjacency_matrix(graph)
-        print(type(adj))
-        print(adj.todense())
-        lbls_louvain = louvain.fit_transform(adj)
-        #h = ig.Graph.from_networkx(graph)
-        #lbls_louvain = lg.find_partition(h, lg.ModularityVertexPartition)
-        lbls_louvain = np.asarray(lbls_louvain)
-        print(lbls_louvain)
-    elif method == 'temporal_louvain':
-        graphName = glob.glob(f'../output/{RunId}/uml/graphs/*.net')
-        igraphs = []
-        adjs = []
-        for g in graphName:#[:5]:
-            graph = nx.read_gpickle(g)
-            G = ig.Graph.from_networkx(graph)
-            G.vs['id'] = list(graph.nodes())
-            #ig.plot(G)
-            igraphs.append(G)
-            adj = nx.adj_matrix(graph)
-            adjs.append(adj)
-        print('Louvain2')
-        print(adj.min(), adj.max(), adj.mean())
-        lbls_louvain, improvement = lg.find_partition_temporal(igraphs, lg.ModularityVertexPartition,
-                                                               interslice_weight=1)
-        lbls_louvain = np.asarray(lbls_louvain[-1])
+def main(embeddings, path2save, method='louvain', temporal=False):
+    if not os.path.isdir(params.cpl["path2save"]): os.makedirs(params.cpl["path2save"])
+    cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
+    UserSimilarityThreshold = params.uml['UserSimilarityThreshold']
+    pred_usersSimilarity = pairwise_kernels(embeddings[-1, :, :], metric='cosine', n_jobs=9)
+    pred_usersSimilarity[pred_usersSimilarity < UserSimilarityThreshold] = 0 #all similarities are close to 1!! Nothing is filtered.
 
-    #print(len(lbls_louvain))
-    #print(lbls_louvain)
+    pred_usersSimilarity = np.random.random(pred_usersSimilarity.shape)
+    pred_usersSimilarity[pred_usersSimilarity < 0.99] = 0
+
+    pred_usersSimilarity = sparse.csr_matrix(pred_usersSimilarity)
+
+    cmn.logger.info(f'5.2. Future Graph Prediction ...')#bottleneck: huge amount of edges!! need for large filtering threshold
+    g = nx.from_scipy_sparse_matrix(pred_usersSimilarity, parallel_edges=False, create_using=None, edge_attribute='weight')
+    nx.write_gpickle(g, f'{params.cpl["path2save"]}/Graph.net')
+    with open(f'{params.cpl["path2save"]}/Graph.pkl', 'wb') as f: pickle.dump(g, f)
+
+    cmn.logger.info(f'5.3. Future Community Prediction ...')
+    cmn.logger.info(f"#Nodes(Users): {g.number_of_nodes()}, #Edges: {g.number_of_edges()}")
+    # if method == 'louvain':
+    louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=1)
+    adj = nx.adjacency_matrix(g)
+    lbls_louvain = louvain.fit_transform(adj)
+    lbls_louvain = np.asarray(lbls_louvain)
+
+    # elif method == 'temporal_louvain':
+    #     igraphs = []
+    #     adjs = []
+    #     for g in graphs:
+    #         G = ig.Graph.from_networkx(g)
+    #         G.vs['id'] = list(g.nodes())
+    #         #ig.plot(G)
+    #         igraphs.append(G)
+    #         adj = nx.adj_matrix(g)
+    #         adjs.append(adj)
+    #     print('Louvain2')
+    #     print(adj.min(), adj.max(), adj.mean())
+    #     lbls_louvain, improvement = lg.find_partition_temporal(igraphs, lg.ModularityVertexPartition, interslice_weight=1)
+    #     lbls_louvain = np.asarray(lbls_louvain[-1])
+
     clusterMembers = []
-    for UC in range(lbls_louvain.min(), lbls_louvain.max()):
+    for UC in range(lbls_louvain.min(), lbls_louvain.max() + 1):
         UsersinCluster = np.where(lbls_louvain == UC)[0]
-        #print(UsersinCluster)
-        #print(np.where(lbls_louvain == UC))
-        if len(UsersinCluster) == 1:
-            break
-        else:
-            clusterMembers.append(len(UsersinCluster))
-    #for cluster in lbls_louvain:
-        #if len(cluster) == 1:
-            #break
-        #else:
-            #clusterMembers.append(len(cluster))
-    #print(lbls_louvain.shape)
-    #print(lbls_louvain.max())
+        if len(UsersinCluster) == 1: break
+        else: clusterMembers.append(len(UsersinCluster))
 
-    #cmn.logger.info("Graph Clustering: Louvain clustering for " + graphName)
-    cmn.logger.info("Graph Clustering: Louvain clustering for all graphs")
-    cmn.logger.info(
-        "nodes: " + str(graph.number_of_nodes()) + " / edges: " + str(graph.number_of_edges()) + " / isolates: " + str(
-            nx.number_of_isolates(graph)))
-    cmn.logger.info("Graph Clustering: Louvain clustering output: " + str(lbls_louvain.max()) + " clusters. " + str(
-        len(clusterMembers)) + " of them are multi-user clusters and rest of them (" + str(
-        lbls_louvain.max() - len(clusterMembers)) + ") are singleton clusters.\n")
-    cmn.logger.info('Graph Clustering: Length of multi-user clusters: ' + str(clusterMembers) + '\n')
-    np.save(f'../output/{RunId}/uml/UserClusters.npy', lbls_louvain)
-    cmn.save2excel(lbls_louvain, 'uml/UserClusters')
-    cmn.logger.info("Graph Clustering: UserClusters.npy saved.\n")
-    #cmn.save2excel(lbls_louvain, 'uml/UserClusters')
-    # GraphShow(G_t,100)
-    # GraphShow(G_t2,101)
-    UTIName = sorted(glob.glob(f'../output/{RunId}/uml/Day*UsersTopicInterests.npy'))[-2]
+    cmn.logger.info(f"#Predicted Future Communities (Louvain): {lbls_louvain.max()}; ({lbls_louvain.max() - len(clusterMembers)}) are singleton.")
+    cmn.logger.info(f'Communities Size: {clusterMembers}')
+    np.save(f'{params.cpl["path2save"]}/PredUserClusters.npy', lbls_louvain)
+    np.savetxt(f'{params.cpl["path2save"]}/PredUserClusters.csv', lbls_louvain, fmt='%s')
+
+    UTIName = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))[-1]
     UTI = np.load(UTIName)
-    print(UTI.shape)
-    print(UTI)
-    print(lbls_louvain)
-    print(lbls_louvain.shape)
     ClusterTopicInterest(lbls_louvain, UTI)
     return lbls_louvain
 

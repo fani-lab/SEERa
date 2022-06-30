@@ -41,6 +41,10 @@ gel = {
     'epoch': 5,
     'method': 'DynAERNN'
 }
+cpl = {
+    'path2save': f'../output/{RunID}/cpl',
+    'method': 'louvain'
+}
 evl = {
     'EvaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If intrinsic evaluation:

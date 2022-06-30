@@ -27,7 +27,16 @@ def load_tweets(path, startDate, endDate, stopwords=['www', 'RT', 'com', 'http']
 #path= ['../../data/tweets_N20000.csv', '../../data/tagmeannotation_N80000.csv']
 #a = load_tweets(path=path, startDate='2000-10-06', endDate='2021-01-01', stopwords=['www', 'RT', 'com', 'http'], tagme_threshold=0.07)
 
-
+## converting tweets in mysql database to csv file
+# pip install mysqlclient
+# pip install sqlalchemy
+# import pandas as pd
+# from sqlalchemy import create_engine
+# engine = create_engine("mysql+mysqldb://userid:password@localhost/twitter")
+#
+# sql="select * from tweets where CreationTimestamp between '2010-12-01' and '2010-12-05'"
+# my_data = pd.read_sql(sql, engine)
+# my_data.to_csv('Twitter.csv', index=False)
 
 
 

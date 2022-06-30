@@ -140,3 +140,4 @@ cython_debug/
 
 # IDE
 .idea
+src/DynamicGEM-master/

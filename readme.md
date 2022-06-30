@@ -59,32 +59,48 @@ Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), To
 
 ## 3. Setup
 
-It is strongly recommended to use Linux OS for installing the packages and executing the framework. To install packages and dependencies, simply use the following commands in your shell:
+`SEERa` has been developed on `Python 3.6` and can be installed by `conda` or `pip`:
+
+```bash
+git clone https://github.com/fani-lab/seera.git
+cd seera
+conda env create -f environment.yml
+```
 
 ```bash
 git clone https://github.com/fani-lab/seera.git
 cd seera
 pip install -r requirements.txt
 ```
+
 This command installs compatible version of the following libraries:
 
 >* dal: ``mysql-connector-python``
 >* tml: ``gensim, tagme, nltk, pandas, requests``
->* gel: ``networkx, dynamicgem``
+>* gel: ``networkx``
 >* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``
 
-Also, you need to install ``MAchine Learning for LanguagE Toolkit (mallet)`` from its [``git``](https://github.com/mimno/Mallet) or [``website``](http://mallet.cs.umass.edu/index.php), as a requirement in ``tml``. 
+Additionally, you need to install the following libraries from their source:
+- [``MAchine Learning for LanguagE Toolkit (mallet)``](http://mallet.cs.umass.edu/index.php) as a requirement in ``tml``.
+- [``DynamicGem``](https://github.com/palash1992/DynamicGEM) as a requirement in ``gel``:
+```bash
+git clone https://github.com/palash1992/DynamicGEM
+python setup.py install
+```
 
 ## 4. Quickstart
 
 ### Data
-We crawled and stored Twitter posts (tweets) for 2 consecutive months. The data is available as ``sql`` scripts at [``ds_twitter``](https://drive.google.com/file/d/1UGMPx2xkcNE0e7PbKLpTY61IwvLsKQyN/view?usp=sharing), including, ``Tweets``, ``TweetEntities``, ``TweetUsers``, ``TagmeAnnotations``, ``NewsTables``, and ``GoldenStandard (for news article recommendation)``.
+We crawled and stored `~2.9M` Twitter posts (tweets) for 2 consecutive months `2010-11-01` and `2010-12-31`. Tweet Ids are provided at [`./data/TweetIds.csv`](./data/Tweets.csv) for streaming tweets from Twitter using tools like [`hydrator`](https://github.com/DocNow/hydrator).
+
+For quickstart purposes, a `toy` sample of tweets between `2010-12-01` and `2010-12-04` has been provided at [`./data/toy/Tweets.csv`](./data/toy).  
 
 ### Run
 This framework contains six different layers. Each layer is affected by multiple parameters.
 Some of those parameters are fixed in the code via trial and error. However, major parameters such as number of topics can be adjusted by the user.
-They can be modified via '*params.py*' file in root folder.\
-After modifying '*params.py*', you can run the framework via '*main.py*' with following command:
+They can be modified via [`./src/params.py`](./src/params.py) file in root folder.
+
+You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
 cd src
 python main.py
@@ -99,22 +115,14 @@ random.seed(0)
 np.random.seed(0)
 RunID = 1                         
 
-# SQL setting. Should be set for each mysql instance
-user = ''
-password = ''
-host = ''
-database = ''
-
-
 general = {
     'Comment': '', # Any comment to express more information about the configuration.
 }
 
 dal = {
-    'start': '2010-12-17', # First date of system activity
-    'end': '2011-02-17', # Last day of system activity
-    'timeInterval': 1, # Time interval (days) for grouping documents
-    'lastRowsNumber': 100000, # Number of picked rows of the dataset for the whole process as a sample
+    'start': '2010-12-01', # First date of social posts
+    'end': '2011-02-04', # Last day of social posts
+    'timeInterval': 1, # Time interval (based on number of days) for grouping posts as documents
     
     # Following parameters is used to generate corpus from our dataset:
     'userModeling': True, # Aggregates all tweets of a user as a document
@@ -132,24 +140,25 @@ tml = {
     'JO': False, # (JO:=JustOne) If True, just one topic is chosen for each document
     'Bin': True, # (Bin:=Binary) If True, all scores above/below a threshold is set to 1/0 for each topic
     'Threshold': 0.2, # A threshold for topic scores quantization
-    'path2saveTML': f'../output/{RunID}/tml'
+    'path2save': f'../output/{RunID}/tml'
 }
 
 uml = {
     'RunId': RunID, # A unique number to identify the configuration per run
     'UserSimilarityThreshold': 0.2, # A threshold for filtering low user similarity scores
-    'path2saveUML': f'../output/{RunID}/uml'
+    'path2save': f'../output/{RunID}/uml'
 }
 
 gel = {
     'GraphEmbedding': 'Node2Vec', # Graph embedding method. Available options are ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN']
     'EmbeddingDim': 40, # Embedding dimension
-    'path2saveGEL': f'../output/{RunID}/gel'
+    'path2save': f'../output/{RunID}/gel'
 }
 
 cpl = {
     'ClusteringApproach': 'Indirect', # Available options are ['Direct', 'Indirect']. 'Direct': Applying a non-graph clustering method directly on predicted communities in latent space; 'Indirect': Apply a graph clustering method on generated graph based on the output of predicted communities
     'ClusteringMethod': 'Louvain', # Specification of the clustering method based on 'ClusteringApproach'. The only available option is 'Louvain' ('ClusteringApproach': 'Indirect') which is a graph clustering method
+    'path2save': f'../output/{RunID}/cpl'
 }
 
 evl = {

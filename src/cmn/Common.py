@@ -3,10 +3,6 @@ import sys
 import numpy as np
 
 sys.path.extend(["../"])
-import params
-
-def save2excel(array, savename):
-    np.savetxt(f"../output/{params.general['RunId']}/{savename}.csv", array, delimiter=",", fmt='%s', encoding='utf-8')
 
 def LogFile(file='logfile.log'):
     logger = logging.getLogger()
