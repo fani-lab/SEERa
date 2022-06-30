@@ -37,14 +37,10 @@ def main(embeddings, path2save, method='louvain', temporal=False):
     cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
     UserSimilarityThreshold = params.uml['UserSimilarityThreshold']
     pred_usersSimilarity = pairwise_kernels(embeddings[-1, :, :], metric='cosine', n_jobs=9)
-    pred_usersSimilarity[pred_usersSimilarity < UserSimilarityThreshold] = 0 #all similarities are close to 1!! Nothing is filtered.
-
-    pred_usersSimilarity = np.random.random(pred_usersSimilarity.shape)
-    pred_usersSimilarity[pred_usersSimilarity < 0.99] = 0
-
+    pred_usersSimilarity[pred_usersSimilarity < UserSimilarityThreshold] = 0
     pred_usersSimilarity = sparse.csr_matrix(pred_usersSimilarity)
 
-    cmn.logger.info(f'5.2. Future Graph Prediction ...')#bottleneck: huge amount of edges!! need for large filtering threshold
+    cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
     g = nx.from_scipy_sparse_matrix(pred_usersSimilarity, parallel_edges=False, create_using=None, edge_attribute='weight')
     nx.write_gpickle(g, f'{params.cpl["path2save"]}/Graph.net')
     with open(f'{params.cpl["path2save"]}/Graph.pkl', 'wb') as f: pickle.dump(g, f)

@@ -73,9 +73,8 @@ cd seera
 pip install -r requirements.txt
 ```
 
-This command installs compatible version of the following libraries:
+This command installs compatible versions of the following libraries:
 
->* dal: ``mysql-connector-python``
 >* tml: ``gensim, tagme, nltk, pandas, requests``
 >* gel: ``networkx``
 >* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``

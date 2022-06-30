@@ -68,23 +68,11 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, JO, Bin, 
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
 
 def userTopics(documents, total_users_topic_interests, total_user_ids, userid, unique_users, lda_model):
-    #print(documents)
-    #print(documents.shape)
-    #print(total_users_topic_interests)
-    #print(total_users_topic_interests.shape)
-    #print(total_user_ids)
-    #print(len(total_user_ids))
     print(userid)
-    #idx = total_user_ids.index(userid)
-    #print(idx)
-    #print(type(unique_users))
-    #print(unique_users)
-    #idx = unique_users.where(userid)
     idx = unique_users[unique_users == userid].index[0]
     print(idx)
     print(documents['Tokens'][documents['userId'] == userid])
     print(total_users_topic_interests[idx])
-    #print('topics:', lda_model.get_topics())
     for i, j in enumerate(total_users_topic_interests[idx]):
         if j > 0:
             print(lda_model.print_topic(i))
