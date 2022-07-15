@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from newspaper import Article
-import re
+from tqdm import tqdm
 
 #tweetentities_path = '../../data/tweetentities.csv'
 tweetentities_path = '../../data/main_tables_csv/TweetEntities.csv'
@@ -24,10 +24,15 @@ accepted_ShortURLs = []
 accepted_DisplayURLs = []
 description = []
 source_URLs = []
-for count, url in zip(URLs.index, URLs.values):
-    if count % 500 == 0:
-        print(count, ' / ', len(URLs))
-    #if count == 100:
+count = 0
+indices = URLs.index
+URL_VALUES = URLs.values
+for i in tqdm(range(len(URL_VALUES))):
+    url = URL_VALUES[i]
+    ind = indices[i]
+    #if i % 10 == 0:
+    #    print(i, ' / ', len(URLs))
+    #if i == 100:
     #    break
     try:
         if url in accepted_URLs:
@@ -37,8 +42,8 @@ for count, url in zip(URLs.index, URLs.values):
         article.parse()
         #TwIds.append(TweetIds[count])
 
-        accepted_ShortURLs.append(ShortURLs[count])
-        accepted_DisplayURLs.append(DisplayURLs[count])
+        accepted_ShortURLs.append(ShortURLs[ind])
+        accepted_DisplayURLs.append(DisplayURLs[ind])
         accepted_URLs.append(url)
         source_URLs.append(article.source_url)
         text = article.text
