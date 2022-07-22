@@ -5,7 +5,6 @@ from scipy import sparse
 import params
 from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
 
-#sys.path.extend(["../"])
 from cmn import Common as cmn
 
 def create_users_graph(day, users_topic_interests, path_2_save):

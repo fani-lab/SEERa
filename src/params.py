@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 1
+RunID = 5
 
 
 general = {
@@ -43,7 +43,8 @@ gel = {
 }
 cpl = {
     'path2save': f'../output/{RunID}/cpl',
-    'method': 'louvain'
+    'method': 'louvain',
+    'min_size': 10
 }
 evl = {
     'EvaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
@@ -53,4 +54,11 @@ evl = {
     'GoldenStandardPath': '/path2GS',
     'Threshold': 0,
     'TopK': 20
+}
+
+apl = {
+    'path2read': f'../data/toy',
+    'path2save': f'../output/{RunID}/apl',
+    'TopK': 20,
+    'Text_Title': 'Title'
 }

@@ -1,4 +1,3 @@
-import mysql.connector
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,160 +5,91 @@ import gensim
 import glob
 import os, sys
 import tagme
-sys.path.extend(["../"])
 import params
 from tml import TopicModeling as tm
 from cmn import Common as cmn
 from dal import DataPreparation as DP
 
 
-def DistinctUsersandMinMaxDate():
-    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
-    print('Connection Created')
-    cursor = cnx.cursor()
-    sqlScript = '''SELECT min(CreationTimestamp), max(CreationTimestamp) FROM GoldenStandard2'''
-    cursor.execute(sqlScript)
-    result = cursor.fetchall()
-    minCreationtime, maxCreationtime = result[0][0], result[0][1]
-    sqlScript = '''SELECT Distinct UserId from GoldenStandard'''
-    cursor.execute(sqlScript)
-    DistinctUsers = cursor.fetchall()
-    cnx.close()
-    print('Connection Closed')
-    return minCreationtime, maxCreationtime, DistinctUsers
+def stats(news):
+    file_object = open(f"{params.apl['path2save']}/NewsStat.txt", 'a')
+    #news = pd.read_csv('News.csv')
+    texts = news.Text.dropna()
+    titles = news.Title.dropna()
+    desc = news.Description.dropna()
+    print("Available texts: ", len(texts))
+    file_object.write(f'Available texts: {len(texts)}\n')
+    print("Available titles: ", len(titles))
+    file_object.write(f'Available titles: {len(titles)}\n')
+    print("Available descriptions: ", len(desc))
+    file_object.write(f'Available descriptions: {len(desc)}\n')
 
-#########################################################################################################
-#########################################################################################################
-def DistinctUsersandMinMaxDateCSV(stopwords = ['www', 'RT', 'com', 'http']):
-    # creating dataframe named tagme which will store our data, please change location of CVS as necessary
-    tagme = pd.read_csv(r'../CSV/newstagmeannotations.csv', sep=';', encoding='utf-8')
-    tagme = tagme[tagme.Score > 0.07]  # drop words with scores below .07 from table
-    tagme = tagme[~tagme['Word'].isin(stopwords)]  # drop rows that contain any words from above stopword list
-    tagme = tagme.drop(columns=["Id","StartIndex","EndIndex","Score","ConceptId","NewsSectionTypeCode"])  # drop unwanted columns from tagme table
-    tagme.Word = tagme.Word.astype('string')  # declare column named "Word" to type of string
-    tagme.rename(columns={"Word": "GC"}, inplace=True) # rename column as per SQL quarry
-    tagme = tagme.groupby('NewsId').agg(lambda word: word.tolist())  # take all words with same NewsId and put them in a list
+    sumtext=0
+    for i in range(len(texts)):
+        sumtext += len(texts.values[i].split())
+    textavg = sumtext//i
+    print("Average texts length: ", textavg)
+    file_object.write(f'Average texts length: {textavg} words.\n')
 
-    ## print(tagme.to_string()) for testing purposes to view table output
-    return tagme
+    sumtitle=0
+    for i in range(len(titles)):
+        sumtitle += len(titles.values[i].split())
+    titleavg = sumtitle//i
+    print("Average titles length: ", titleavg)
+    file_object.write(f'Average titles length: {titleavg} words.\n')
 
-#########################################################################################################
-#########################################################################################################
-
-def TextExtractor(TagME = True, stopwords=['www', 'RT', 'com', 'http']):
-    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
-    cursor = cnx.cursor()
-    # sqlScript = '''
-    # SELECT NewsId,GROUP_CONCAT('', Word)
-    #             FROM NewsTagMeAnnotations
-    #             inner join news on  news.Id=NewsTagMeAnnotations.NewsId
-    #             group by NewsId
-    #             '''
-
-    TagME_SQL = False
-    if TagME and TagME_SQL:
-        sqlScript = f'''select distinct(T.NewsId), T.GC from (SELECT NewsId, GROUP_CONCAT('', Word) as GC FROM
-        twitter3.NewsTagMeAnnotations inner join twitter3.news on twitter3.news.Id = twitter3.NewsTagMeAnnotations.NewsId
-        WHERE twitter3.NewsTagMeAnnotations.Score > 0.07 AND NewsTagMeAnnotations.Word NOT IN ("{'","'.join(stopwords)}")
-        group by NewsId) as T
-        inner join twitter3.goldenstandard2 on twitter3.goldenstandard2.NewsId = T.NewsId
-        '''
-    else:
-        sqlScript = 'select Id,Text from news LIMIT 2000'
-    print(sqlScript)
-
-    cursor.execute(sqlScript)
-    result = cursor.fetchall()
-    cnx.close()
-    return np.asarray(result), TagME, TagME_SQL
+    sumdesc=0
+    for i in range(len(desc)):
+        sumdesc += len(desc.values[i].split())
+    descavg = sumdesc//i
+    print("Average descriptions length: ", descavg)
+    file_object.write(f'Average descriptions length: {descavg} words.\n')
+    file_object.close()
 
 
-def UserMentions(User, *args, minDate):
-    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
-    cursor = cnx.cursor()
-    if len(args) == 0:
-        sqlScript = '''SELECT * FROM GoldenStandard where UserId = ''' + str(User)
-    elif len(args) == 1:
-        date = minDate + pd._libs.tslibs.timestamps.Timedelta(days=args[0])
-        print(date.date())
-        sqlScript = '''Select * FROM GoldenStandard where UserId = ''' + str(User) + ''' and date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
-    cursor.execute(sqlScript)
-    result = cursor.fetchall()
-    table = np.asarray(result)
-    cnx.close()
-    return table
-
-def DateMentions(Date, minDate):
-    cnx = mysql.connector.connect(user=params.user, password=params.password, host=params.host, database=params.database)
-    cursor = cnx.cursor()
-    date = minDate + pd._libs.tslibs.timestamps.Timedelta(days=Date)
-    sqlScript = '''SELECT * From GoldenStandard WHERE date(Creationtimestamp) = ''' + "'" + str(date.date()) + "'"
-    cursor.execute(sqlScript)
-    result = cursor.fetchall()
-    cnx.close()
+def text2tagme(NewsTable, threshold=0.05):
+    for i in range(len(NewsTable)):
+        text = NewsTable[params.apl["Text_Title"]][i]
+        annotations = tagme.annotate(text)
+        result = []
+        if annotations is not None:
+            for keyword in annotations.get_annotations(threshold):
+                result.append([keyword.entity_title, keyword.score, NewsTable.index[i]])
+    Headers = ['Id', 'Word', 'Score', 'NewsId']
+    d = {
+        'Id': list(range(len(result))),
+        'Word': result[0],
+        'Score': result[1],
+        'NewsId': result[2]
+    }
+    df = pd.DataFrame(d)
+    df.to_csv(f'{params.apl["path2read"]}/NewNewsTagmeAnnotated.csv')
     return result
 
-def Analyze(DistinctUSers):
-    a = []
-    b = []
-    c = []
-    for i in range(len(DistinctUSers)):
-        a.append(i)
-        b.append(len(UserMentions(DistinctUSers[i][0])))
-        c.append(DistinctUSers[i])
-    plt.plot(a, b)
-    plt.savefig(f'../output/{params.evl["RunId"]}/evl/Mentions_per_User.jpg')
-    c = np.asarray(c)
-    np.save(f'../output/{params.evl["RunId"]}/evl/users.npy', c)
-    return a, b, c
+def main(NewsTable, newsstat=True):
+    #cmn.logger.info("\nNewsTopicExtraction.py:\n")
+    try:
+        Text = NewsTable[params.apl["Text_Title"]].dropna()
+    except:
+        print("Text_Title in params.py must be Text or Title.")
+    NewsIds = Text.index
+    np.save(f'{params.apl["path2save"]}/NewsIds.npy', NewsIds)
 
-def Analyze2():
-    a = []
-    b = []
-    for i in range(len(DateMentions)):
-        a.append(i)
-        b.append(len(DateMentions(i)))
-    plt.plot(a, b)
-    plt.savefig(f'../output/{params.evl["RunId"]}/evl/Mentions_per_Day.jpg')
-    return a, b
-
-def TAGME(text, threshold=0.05):
-    global DataLen
-    annotations = tagme.annotate(text)
-    result = []
-    if annotations is not None:
-        for keyword in annotations.get_annotations(threshold):
-            result.append(keyword.entity_title)
-    return result
-def main():
-    cmn.logger.info("\nNewsTopicExtraction.py:\n")
-    NewsIds_NewsText, TagME, TagME_SQL = TextExtractor()
-    print(NewsIds_NewsText.shape)
-    NewsIds = NewsIds_NewsText[:, 0]
-    # cmn.save2excel(NewsIds, 'evl/NewsIds')
-    # np.save(f'../output/{params.evl["RunId"]}/evl/NewsIds.npy', NewsIds)
-    if (TagME and TagME_SQL) or (not TagME):
-        NewsText = NewsIds_NewsText[:, 1]
-    if TagME:
-        NewsText_temp = pd.Series(NewsIds_NewsText[:, 1])
-        NewsText = NewsText_temp.map(TAGME)
-    cmn.save2excel(NewsText, 'evl/NewsText')
-    data = pd.DataFrame({'Id': NewsIds, 'Text': NewsText})
-    data_text = data['Text']
-    cmn.logger.info("len(data) for news extraction query: "+str(len(data_text))+'\n')
-    documents = data_text
+    Text = Text.values
     processed_docs = []
-    for tweet in documents:
-        processed_docs.append(tweet.split(','))
+    for news in Text:
+        processed_docs.append(news.split(','))
     processed_docs = np.asarray(processed_docs)
-    DicPath = glob.glob(f'../output/{params.evl["RunId"]}/tml/*topics_TopicModelingDictionary.mm')[0]
+    print(glob.glob(f'{params.tml["path2save"]}/*topics_TopicModelingDictionary.mm'))
+    print(f'{params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')
+    DicPath = glob.glob(f'{params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(DicPath)
     ## bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
     # LDA Model Loading
-    model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0]
+    model_name = glob.glob(f'{params.tml["path2save"]}/*.model')[0]
     print('model name:', model_name)
-    cmn.logger.critical("model "+model_name + " is loaded.")
+    #cmn.logger.critical("model "+model_name + " is loaded.")
     GenMal = model_name.split('\\')[-1].split('_')[0]
     if GenMal == 'gensim':
         ldaModel = gensim.models.ldamodel.LdaModel.load(model_name)
@@ -171,27 +101,18 @@ def main():
     else:
         print('Wrong Library!')
 
-
     # topics = ldaModel.get_document_topics(bow_corpus)
     totalNewsTopics = []
     for news in range(len(processed_docs)):
         news_bow_corpus = dictionary.doc2bow(processed_docs[news])
-        topics = tm.doc2topics(ldaModel, news_bow_corpus, threshold=params.evl['Threshold'], justOne=params.uml['JO'],
-                               binary=params.uml['Bin'])
+        topics = tm.doc2topics(ldaModel, news_bow_corpus, threshold=params.evl['Threshold'], justOne=params.tml['JO'],
+                               binary=params.tml['Bin'])
         totalNewsTopics.append(topics)
 
-    cmn.logger.critical("Topics are extracted for news dataset based on the tweets extracted topics.\n")
+    #cmn.logger.critical("Topics are extracted for news dataset based on the tweets extracted topics.\n")
     totalNewsTopics = np.asarray(totalNewsTopics)
-    cmn.save2excel(totalNewsTopics, 'evl/totalNewsTopics')
-    np.save(f'../output/{params.evl["RunId"]}/evl/NewsTopics.npy', totalNewsTopics)
-    print('/////////////////////////////')
-    print(model_name)
-    print(NewsIds.shape)
-    print(totalNewsTopics.shape)
-    print('/////////////////////////////')
-    # a,b = Analyze2()
-    # plt.close()
-    # c,d,e = Analyze()
-    # plt.close()
-
+    #cmn.save2excel(totalNewsTopics, 'evl/totalNewsTopics')
+    np.save(f'{params.apl["path2save"]}/NewsTopics.npy', totalNewsTopics)
+    if newsstat:
+        stats(NewsTable)
 

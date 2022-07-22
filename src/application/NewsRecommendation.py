@@ -18,47 +18,28 @@ def RecommendationTableAnalyzer(RT, test, savename):
     if test == 'NRN':
         comm_news.sort()
     plt.plot(range(len(comm_news)), comm_news)
-    plt.savefig(f'../output/{params.evl["RunId"]}/evl/{savename}.jpg')
+    plt.savefig(f'{params.apl["path2save"]}/{savename}.jpg')
     plt.close()
     return comm_news
 
 
-def main(topK=10):
-    cmn.logger.info("\nNewsRecommendation2.py:\n")
-    NewsIds = np.load(f'../output/{params.evl["RunId"]}/evl/NewsIds.npy')
-    # LDA Model and News Topics Loading
-    model_name = glob.glob(f'../output/{params.evl["RunId"]}/tml/*.model')[0].split("/")[-1].split('\\')[-1]
-    # print(os.getcwd())
-    # print(model_name)
-    num_topics = int(model_name.split('.')[0].split('_')[1].split('t')[0])
-    # print(num_topics)
-    GenMal = model_name.split('\\')[-1].split('_')[0]
-    # print(GenMal)
-    if GenMal == 'gensim':
-        ldaModel = gensim.models.ldamodel.LdaModel.load(f'../output/{params.evl["RunId"]}/tml/{model_name}')
-        print('Lda Model Loaded (Gensim)')
-    elif GenMal == 'mallet':
-        ldaModel = gensim.models.wrappers.LdaMallet.load(f'../output/{params.evl["RunId"]}/tml/{model_name}')
-        ldaModel = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(ldaModel)
-        print('Lda Model Loaded (Mallet)')
-    else:
-        print('Wrong Library!')
-    #NewsTopics = ldaModel.load(f'../output/{params.evl["RunId"]}/evl/NewsTopics.mm')
-    NewsTopics = np.load(f'../output/{params.evl["RunId"]}/evl/NewsTopics.npy')
-    # topK = len(NewsTopics)
-    # User Clusters loading
-    UserClusters = np.load(f'../output/{params.evl["RunId"]}/uml/UserClusters.npy')
+def main(NewsTopics, topK=10):
+    NewsIds = np.load(f'{params.apl["path2save"]}/NewsIds.npy')
+    UserClusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
+    CommunitiesTopicInterests = CommunitiesTopicInterest(UserClusters, NewsTopics)
+    TopRecommendations = recom(CommunitiesTopicInterests, NewsTopics, NewsIds, topK)
+    return TopRecommendations
 
-    # Users Topic Interest loading
-    UsersTopicInterestsList = glob.glob(f'../output/{params.evl["RunId"]}/uml/Day*UsersTopicInterests.npy')
-    # print(UsersTopicInterestsList[-1])
+
+def CommunitiesTopicInterest(UserClusters, NewsTopics):
+    num_topics = NewsTopics.shape[1]
+    UsersTopicInterestsList = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))
     LastUTI = np.load(UsersTopicInterestsList[-1])
     CommunitiesTopicInterests = []
     ClusterNumbers = []
     for UC in range(UserClusters.min(), UserClusters.max()+1):
         UsersinCluster = np.where(UserClusters == UC)[0]
-        # print(UsersinCluster)
-        if len(UsersinCluster) < 10:
+        if len(UsersinCluster) < params.cpl["min_size"]:
             break
         TopicInterestSum = np.zeros(num_topics)
         for user in UsersinCluster:
@@ -67,10 +48,10 @@ def main(topK=10):
         ClusterNumbers.append(UC)
     print('len CommunitiesTopicInterests:', len(CommunitiesTopicInterests))
     CommunitiesTopicInterests = np.asarray(CommunitiesTopicInterests)
-    np.save(f'../output/{params.evl["RunId"]}/evl/CommunitiesTopicInterests.npy', CommunitiesTopicInterests)
-    cmn.save2excel(CommunitiesTopicInterests, 'evl/CommunitiesTopicInterests')
-    np.save(f'../output/{params.evl["RunId"]}/evl/ClusterNumbers.npy', ClusterNumbers)
-    cmn.save2excel(ClusterNumbers, 'evl/ClusterNumbers')
+    np.save(f'{params.apl["path2save"]}/CommunitiesTopicInterests.npy', CommunitiesTopicInterests)
+    #cmn.save2excel(CommunitiesTopicInterests, 'evl/CommunitiesTopicInterests')
+    np.save(f'{params.apl["path2save"]}/ClusterNumbers.npy', ClusterNumbers)
+    #cmn.save2excel(ClusterNumbers, 'evl/ClusterNumbers')
     News = np.zeros((len(NewsTopics), num_topics))
     for NT in range(len(NewsTopics)):
         NewsVector = np.asarray(NewsTopics[NT])
@@ -80,9 +61,14 @@ def main(topK=10):
             NewsVector_temp[counter] = topic
             counter += 1
         News[NT] = NewsVector_temp
-    # np.save('../NewsTopicInterests.npy', News)
+    # np.save(f'{params.apl["path2save"]}/NewsTopicInterests.npy', News)
+    return CommunitiesTopicInterests
+
+
+
+def recom(CommunitiesTopicInterests, News, NewsIds, topK):
     RecommendationTable = np.matmul(CommunitiesTopicInterests, News.T)
-    cmn.save2excel(RecommendationTable, 'evl/RecommendationTable')
+    #cmn.save2excel(RecommendationTable, 'evl/RecommendationTable')
     TopRecommendations = np.zeros((len(CommunitiesTopicInterests), topK))
     for r in range(len(RecommendationTable)):
         NewsScores = RecommendationTable[r]
@@ -93,21 +79,15 @@ def main(topK=10):
         # Recommendations_sorted = RecommendationCandidates[inds]
         Recommendations_sorted = NewsIds[inds]
         TopRecommendations[r] = Recommendations_sorted[:topK]
-    cmn.save2excel(RecommendationTable[r], 'evl/NR_RecommendationTable_r')
-    cmn.save2excel(NewsScores, 'evl/NR_NewsScores')
-    cmn.save2excel(RecommendationCandidates, 'evl/NR_RecommendationCandidates')
-    cmn.save2excel(RecommendationScores, 'evl/NR_RecommendationScores')
-    cmn.save2excel(inds, 'evl/NR_inds')
-    cmn.save2excel(Recommendations_sorted, 'evl/NR_Recommendations_sorted')
-    cmn.save2excel(TopRecommendations[r], 'evl/NR_TopRecommendations_r')
 
-
-    # RecommendationTable = RecommendationTable.T
-    # RecommendationTable_expanded = RecommendationTable_expanded.T
     RecommendationTableAnalyzer(RecommendationTable, 'NRN', 'CommunityPerNewsNumbers')
     RecommendationTableAnalyzer(RecommendationTable, 'CRN', 'NewsPerCommunityNumbers')
-    np.save(f'../output/{params.evl["RunId"]}/evl/TopRecommendations.npy', TopRecommendations)
+    np.save(f'{params.apl["path2save"]}/TopRecommendations.npy', TopRecommendations)
+    np.save(f'{params.apl["path2save"]}/RecommendationTable.npy', RecommendationTable)
+    return TopRecommendations
 
+
+def InternalTest(TopRecommendations):
     print('Top Recommendation test:')
     a = TopRecommendations.reshape(-1)
     b = set(a)
@@ -121,9 +101,6 @@ def main(topK=10):
             print(i)
     if not duplicate:
         print('All rows has distinct news Ids.', len(i))
-
     print('Top Recommendation shape: ', TopRecommendations.shape)
-    cmn.logger.info("Shape of TopRecommendations: "+str(TopRecommendations.shape))
-    # np.save('../RecommendationTable.npy', RecommendationTable)
-    # np.save('../RecommendationTableExpanded.npy', RecommendationTable_expanded)
+
 

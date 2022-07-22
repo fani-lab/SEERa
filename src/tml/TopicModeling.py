@@ -7,7 +7,6 @@ from gensim.models.coherencemodel import CoherenceModel
 #import pyLDAvis
 #import pyLDAvis.gensim
 
-#sys.path.extend(["../"])
 from cmn import Common as cmn
 import params
 

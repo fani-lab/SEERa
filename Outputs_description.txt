@@ -1,0 +1,28 @@
+Output Description:
+
+tml:
+gensim[or Mallet]_Ntopics.csv -> CSV file of N topics with their top 10 vocabulary set and probabilities
+gensim[or Mallet]_Ntopics.model -> The LDA model
+gensim[or Mallet]_Ntopics_TopicModelingDictionary.mm -> LDA dictionary
+
+uml:
+DayKUserIDs.npy -> User IDs for Kth day [Size: |U_d|*1]
+DayKUsersTopicInterests.npy -> Matrix of users to topics [Size: |U|*|T|]
+users.npy -> User IDs [Size: |U|*1]
+
+
+gel:
+embeddings.npz -> embedded user graphs [Size: |Days|-loockback * |U| * |Embedding dim|]
+
+cpl:
+Graph.net[or .pkl] -> final user graph from last embedding
+PredUserClusters.npy[or .csv] -> Cluster ID for each user [Size: |U|*1]
+
+apl:
+ClusterNumbers.npy -> Cluster IDs [Size: |Communities|]
+NewsIds.npy -> News IDs [Size: |N|*1]
+CommunitiesTopicInterests.npy -> topic vector for each community [Size: |Communities|*|T|]
+NewsTopics.npy -> topic vector for each news article [Size: |N|*|T|]
+RecommendationTable.npy -> Recommendations scores of news articles for each community [Size: |Communities|*|N|]
+TopRecommendations.npy -> TopK recommendations scores of news articles for each community [Size: |Communities|*|TopK|]
+

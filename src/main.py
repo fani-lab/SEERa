@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import gensim
 import networkx as nx
-#sys.path.extend(["../"])
 
 import params
 from cmn import Common as cmn
@@ -81,12 +80,22 @@ def RunPipeline():
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import graphEmbedding as GE
         GE.main(graphs, method=params.gel['method'])
+        embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
+
 
     # Community Extraction
     cmn.logger.info(f'5. Community Prediction ...')
     from cpl import GraphClustering as GC
-    Communities = GC.main(embeddings, params.cpl['path2save'], params.cpl['method'])
-    return Communities
+    try:
+        Communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
+    except:
+        Communities = GC.main(embeddings, params.cpl['path2save'], params.cpl['method'])
+    #return Communities
+
+    cmn.logger.info(f'6. Application: News Recommendation ...')
+    from application import News
+    NewsOutput = News.main()
+
 
 if not os.path.isdir(f'../output'): os.makedirs(f'../output')
 if not os.path.isdir(f'../output/{params.general["RunId"]}'): os.makedirs(f'../output/{params.general["RunId"]}')
