@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import sknetwork as skn
 from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
-import random
+
 import params
 from cmn import Common as cmn
 

@@ -97,7 +97,7 @@ def RunPipeline():
 
     cmn.logger.info(f'6. Application: News Recommendation ...')
     cmn.logger.info('#' * 50)
-    from application import News
+    from apl import News
     NewsOutput = News.main()
 
 

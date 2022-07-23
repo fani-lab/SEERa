@@ -1,7 +1,5 @@
 import os
 import matplotlib.pyplot as plt
-from gel import CppWrapper as N2V
-import params
 from time import time
 import numpy as np
 
@@ -9,6 +7,9 @@ from dynamicgem.embedding.dynAERNN import DynAERNN
 from dynamicgem.embedding.ae_static import AE
 from dynamicgem.embedding.dynAE import DynAE
 from dynamicgem.embedding.dynRNN import DynRNN
+
+from gel import CppWrapper as N2V
+import params
 
 def GEMmethod(dim_emb, lookback, method='DynAERNN'):
     methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
@@ -89,7 +90,6 @@ def main(graphs, method='DynAERNN'):
         t1 = time()
         for temp_var in range(lookback + 1, len(graphs) + 1):
             emb, _ = embedding.learn_embeddings(graphs[:temp_var])
-            print('emb type: ', type(emb))
             embs.append(emb)
         embs = np.asarray(embs)
         print('embs shape: ', embs)
