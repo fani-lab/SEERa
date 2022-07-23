@@ -2,8 +2,8 @@ import sys, re
 import pandas as pd
 import datetime
 
-def NewsGoldenStandard2Reader():
-    return pd.read_csv(r'../../data/NewsGoldenStandard.csv', sep=';', encoding='utf-8')
+# def NewsGoldenStandard2Reader():
+#     return pd.read_csv(r'../../data/NewsGoldenStandard.csv', sep=';', encoding='utf-8')
 
 def load_tweets(path, startDate, endDate, stopwords=['www', 'RT', 'com', 'http']):
     start = datetime.datetime.strptime(startDate, '%Y-%m-%d')

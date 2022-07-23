@@ -13,12 +13,12 @@ def create_users_graph(day, users_topic_interests, path_2_save):
     if num_users < 1:
         return -1
     num_topics = users_topic_interests.shape[1]
-    UserSimilarityThreshold = params.uml['UserSimilarityThreshold']
+    user_similarity_threshold = params.uml['userSimilarityThreshold']
     users_topic_interests = sparse.csr_matrix(users_topic_interests)
     # usersSimilarity = cosine_similarity(users_topic_interests_sparse)
-    usersSimilarity = pairwise_kernels(users_topic_interests, metric='cosine', n_jobs=9)
-    usersSimilarity[usersSimilarity < UserSimilarityThreshold] = 0
-    usersSimilarity = sparse.csr_matrix(usersSimilarity)
-    G = nx.from_scipy_sparse_matrix(usersSimilarity, parallel_edges=False, create_using=None, edge_attribute='weight')
+    users_similarity = pairwise_kernels(users_topic_interests, metric='cosine', n_jobs=9)
+    users_similarity[users_similarity < user_similarity_threshold] = 0
+    users_similarity = sparse.csr_matrix(users_similarity)
+    g = nx.from_scipy_sparse_matrix(users_similarity, parallel_edges=False, create_using=None, edge_attribute='weight')
     # nx.write_pajek(G, f'{path_2_save}/graph_{num_users}users_{num_topics}topics_{day}day.net')
-    return G
+    return g
