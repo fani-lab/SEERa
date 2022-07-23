@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 7
+RunID = 6
 
 
 general = {
@@ -12,6 +12,7 @@ general = {
     'cuda': '-1'
 }
 dal = {
+    'toyPath': '../data/toy',
     'path': '../data/toy/Tweets.csv',
     'userModeling': True,
     'timeModeling': True,

@@ -1,5 +1,6 @@
 import numpy as np
 import glob
+import datetime
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -30,29 +31,28 @@ def dictonary_generation(top_recommendations, mentions):
 
 
 def userMentions():
-    # creating tweetentities dataframe from tweetentities.csv
-    tweetentities = pd.read_csv(r'../../data/tweetentities_N20000.csv', sep=';', encoding='utf-8')
-    # renaming Id to NewsId
-    tweetentities.rename(columns={"Id": "NewsId"}, inplace=True)
 
-    tweets = pd.read_csv(r'../../data/tweets_N20000.csv', sep=';', encoding='utf-8')  # creating tweets dataframe from csv
-    tweets.rename(columns={"Id": "TweetId"}, inplace=True)  # remaining Id in tweets dataframe to TweetsId
-    tweets = tweets[tweets.UserId != -1]  # remove user ids with -1 value
+    tweet_entities = pd.read_csv(f'{params.dal["toyPath"]}/TweetEntities.csv')
+    tweets = pd.read_csv(f'{params.dal["toyPath"]}/Tweets.csv')
+    ids = tweets.Id.values
+    s = []
+    for index, row in tweet_entities.iterrows():
+        if row['TweetId'] in ids:
+            row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
+            if row_date == params.dal['end']:
+                s.append(row)
+    s = pd.DataFrame(s)
+    s = s.dropna(subset=['UserOrMediaId'])
+    users = np.unique(s['UserOrMediaId'])
+    user_news = {}
+    for u in users:
+        user_news[u] = list(s.loc[s['UserOrMediaId'] == u]['Id'].values)
+    return user_news
 
-    # drop tables we dont need from tweetentities dataframe
-    tweetentities = tweetentities.drop(columns=["Text","StartIndex","EndIndex","EntityTypeCode","Url",
-                                                "DisplayUrl","Name","ScreenName","UserOrMediaId","MediaUrl",
-                                                "MediaUrlHttps","MediaType","MediaSize"])
-
-    # drop tables we don't need from tweets dataframe
-    tweets = tweets.drop(columns=["Text","ModificationTimestamp"])
-
-    tweetentities = pd.merge(tweetentities, tweets, on="TweetId") # merge the tables on TweetId
-    tweetentities = tweetentities.dropna(subset=["ExpandedUrl"]) # drop rows with NaN in ExpandableUrl
-
-    # print(tweetentities.to_string()) # for testing table output
-
-    return tweetentities
+    # end date (12-04) has 118148 rows in tweetentities.
+    # 58503 of them have userId in tweetentities table
+    # and 39649 of them can be found in users.npy.
+    # 20723 unique users
 
 
 def main():
@@ -62,11 +62,11 @@ def main():
     #NR.main(topK=params.evl['TopK'])
     #cmn.logger.info("\nModelEvaluation.py:\n")
     all_users = np.load(f'{params.uml["path2save"]}/users.npy')
-    end_date = params.uml['end']
+    end_date = params.dal['end']
     # end_date = np.load(f'../output/{RunId}/uml/end_date.npy', allow_pickle=True)
     TopRecommendations_clusters = np.load(f'{params.apl["path2save"]}/TopRecommendations.npy')
     #cmn.save2excel(TopRecommendations_clusters, 'evl/TopRecommendations_clusters')
-    UC = np.load(f'{params.apl["path2save"]}/PredUserClusters.npy')
+    UC = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
     TopRecommendations_Users = np.zeros((UC.shape[0], TopRecommendations_clusters.shape[1]))
     for i in range(TopRecommendations_clusters.shape[0]):
         indices = np.where(UC == i)[0]
@@ -76,7 +76,7 @@ def main():
     daybefore = 0
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=daybefore)
     cmn.logger.info("Selected date for evaluation: "+str(day.date()))
-    tbl = userMentions(daybefore, end_date)
+    tbl = userMentions()
     #cmn.save2excel(tbl, 'evl/userMentions')
     Mentions_user = []
     MentionerUsers = []
