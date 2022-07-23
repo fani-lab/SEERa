@@ -2,6 +2,7 @@ import os
 import networkx as nx
 import glob
 import numpy as np
+
 import params
 
 def G2T(graph_path, path2_save_gel):

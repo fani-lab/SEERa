@@ -1,35 +1,20 @@
-import os
 import glob
-import gensim
 import numpy as np
 import matplotlib.pyplot as plt
-import logging
+
 import params
 from cmn import Common as cmn
 
 def RecommendationTableAnalyzer(RT, test, savename):
-    if test == 'CRN': # 'CRN' = 'community recommendations number'
-        pass
-    elif test == 'NRN': # 'news recommendations number'
-        RT = RT.T
+    if test == 'CRN': pass# 'CRN' = 'community recommendations number'
+    elif test == 'NRN': RT = RT.T# 'news recommendations number'
     comm_news = []
-    for com in RT:
-        comm_news.append(com.sum())
-    if test == 'NRN':
-        comm_news.sort()
+    for com in RT: comm_news.append(com.sum())
+    if test == 'NRN': comm_news.sort()
     plt.plot(range(len(comm_news)), comm_news)
-    plt.savefig(f'{params.apl["path2save"]}/{savename}.jpg')
+    plt.savefig(f'{params.apl["path2save"]}/{savename}.png')
     plt.close()
     return comm_news
-
-
-def main(NewsTopics, topK=10):
-    NewsIds = np.load(f'{params.apl["path2save"]}/NewsIds.npy')
-    UserClusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
-    CommunitiesTopicInterests = CommunitiesTopicInterest(UserClusters, NewsTopics)
-    TopRecommendations = recom(CommunitiesTopicInterests, NewsTopics, NewsIds, topK)
-    return TopRecommendations
-
 
 def CommunitiesTopicInterest(UserClusters, NewsTopics):
     num_topics = NewsTopics.shape[1]
@@ -39,14 +24,12 @@ def CommunitiesTopicInterest(UserClusters, NewsTopics):
     ClusterNumbers = []
     for UC in range(UserClusters.min(), UserClusters.max()+1):
         UsersinCluster = np.where(UserClusters == UC)[0]
-        if len(UsersinCluster) < params.cpl["min_size"]:
-            break
+        if len(UsersinCluster) < params.cpl["min_size"]: break
         TopicInterestSum = np.zeros(num_topics)
-        for user in UsersinCluster:
-            TopicInterestSum += LastUTI[user]
+        for user in UsersinCluster: TopicInterestSum += LastUTI[user]
         CommunitiesTopicInterests.append(TopicInterestSum)
         ClusterNumbers.append(UC)
-    print('len CommunitiesTopicInterests:', len(CommunitiesTopicInterests))
+
     CommunitiesTopicInterests = np.asarray(CommunitiesTopicInterests)
     np.save(f'{params.apl["path2save"]}/CommunitiesTopicInterests.npy', CommunitiesTopicInterests)
     #cmn.save2excel(CommunitiesTopicInterests, 'evl/CommunitiesTopicInterests')
@@ -64,9 +47,7 @@ def CommunitiesTopicInterest(UserClusters, NewsTopics):
     # np.save(f'{params.apl["path2save"]}/NewsTopicInterests.npy', News)
     return CommunitiesTopicInterests
 
-
-
-def recom(CommunitiesTopicInterests, News, NewsIds, topK):
+def Recommend(CommunitiesTopicInterests, News, NewsIds, topK):
     RecommendationTable = np.matmul(CommunitiesTopicInterests, News.T)
     #cmn.save2excel(RecommendationTable, 'evl/RecommendationTable')
     TopRecommendations = np.zeros((len(CommunitiesTopicInterests), topK))
@@ -103,4 +84,10 @@ def InternalTest(TopRecommendations):
         print('All rows has distinct news Ids.', len(i))
     print('Top Recommendation shape: ', TopRecommendations.shape)
 
+def main(NewsTopics, topK=10):
+    NewsIds = np.load(f'{params.apl["path2save"]}/NewsIds.npy')
+    UserClusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
+    CommunitiesTopicInterests = CommunitiesTopicInterest(UserClusters, NewsTopics)
+    TopRecommendations = Recommend(CommunitiesTopicInterests, NewsTopics, NewsIds, topK)
+    return TopRecommendations
 

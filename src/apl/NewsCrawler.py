@@ -4,7 +4,6 @@ from newspaper import Article
 from tqdm import tqdm
 import glob
 
-
 def CrawlRequest(url):
     article = Article(url)
     article.download()

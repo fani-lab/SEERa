@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import sknetwork as skn
 from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
-import random
+
 import params
 from cmn import Common as cmn
 
@@ -38,9 +38,9 @@ def main(embeddings, path2save, method='louvain', temporal=False):
     UserSimilarityThreshold = params.uml['UserSimilarityThreshold']
     pred_usersSimilarity = pairwise_kernels(embeddings[-1, :, :], metric='cosine', n_jobs=9)
     pred_usersSimilarity[pred_usersSimilarity < UserSimilarityThreshold] = 0
-    #pred_usersSimilarity[random.randint(pred_usersSimilarity.shape[0]*pred_usersSimilarity.shape[1]-100)] == 0
-    pred_usersSimilarity = np.random.random(pred_usersSimilarity.shape)
-    pred_usersSimilarity[pred_usersSimilarity < 0.99] = 0
+    # pred_usersSimilarity[random.randint(pred_usersSimilarity.shape[0]*pred_usersSimilarity.shape[1]-100)] == 0
+    # pred_usersSimilarity = np.random.random(pred_usersSimilarity.shape)
+    # pred_usersSimilarity[pred_usersSimilarity < 0.99] = 0
     pred_usersSimilarity = sparse.csr_matrix(pred_usersSimilarity)
 
     cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
