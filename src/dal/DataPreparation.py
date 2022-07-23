@@ -10,6 +10,8 @@ from gensim.parsing.preprocessing import STOPWORDS
 global TagmeCounter
 global DataLen
 import datetime
+
+#sys.path.extend(["../"])
 from cmn import Common as cmn
 import params
 
@@ -37,7 +39,7 @@ def data_preparation(dataset, userModeling, timeModeling, preProcessing, TagME, 
         data_text['index'] = data_text.index
         documents = data_text
 
-    documents.to_csv(f"../output/{params.general['runId']}/documents.csv", encoding='utf-8', index=False)
+    documents.to_csv(f"../output/{params.general['RunId']}/documents.csv", encoding='utf-8', index=False)
     cmn.logger.info(f'DataPreperation: Length of the dataset after applying groupby: {len(documents)} \n')
 
     if preProcessing: processed_docs = documents['Text'].map(preprocess)
@@ -47,7 +49,7 @@ def data_preparation(dataset, userModeling, timeModeling, preProcessing, TagME, 
         processed_docs = documents['Text'].map(TAGME)
     else: processed_docs = documents['Tokens'].str.split()
     prosdocs = np.asarray(processed_docs)
-    np.savez_compressed(f"../output/{params.general['runId']}/prosdocs.npz", a=prosdocs)
+    np.savez_compressed(f"../output/{params.general['RunId']}/prosdocs.npz", a=prosdocs)
     cmn.logger.info(f'DataPreparation: Processed docs shape: {prosdocs.shape}')
 
     return prosdocs, documents

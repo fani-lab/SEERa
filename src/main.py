@@ -8,16 +8,15 @@ import networkx as nx
 import params
 from cmn import Common as cmn
 
-def run_pipeline():
-    copyfile('params.py', f'../output/{params.general["runId"]}/params.py')
+def RunPipeline():
+    copyfile('params.py', f'../output/{params.general["RunId"]}/params.py')
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
     cmn.logger.info(f'1. Data Reading & Preparation ...')
-    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading perprocessed files ...')
-        with open(f"../output/{params.general['runId']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
-        processed_docs = np.load(f"../output/{params.general['runId']}/prosdocs.npz", allow_pickle=True)['a']
+        with open(f"../output/{params.general['RunId']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
+        processed_docs = np.load(f"../output/{params.general['RunId']}/prosdocs.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         from dal import DataReader as dr, DataPreparation as dp
         cmn.logger.info(f'Loading perprocessed files failed! Generating files ...')
@@ -31,7 +30,7 @@ def run_pipeline():
                                                         userModeling=params.dal['userModeling'],
                                                         timeModeling=params.dal['timeModeling'],
                                                         preProcessing=params.dal['preProcessing'],
-                                                        TagME=params.dal['tagMe'],
+                                                        TagME=params.dal['TagME'],
                                                         startDate=params.dal['start'],
                                                         timeInterval=params.dal['timeInterval'])
 
@@ -39,16 +38,15 @@ def run_pipeline():
     cmn.logger.info(f'documents.shape: {documents.shape}')
 
     cmn.logger.info(f'2. Topic modeling ...')
-    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading LDA model ...')
-        dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
-        lda_model = gensim.models.LdaModel.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics.model")
+        dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['num_topics']}topics_TopicModelingDictionary.mm")
+        lda_model = gensim.models.LdaModel.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['num_topics']}topics.model")
     except (FileNotFoundError, EOFError) as e:
         from tml import TopicModeling as tm
         cmn.logger.info(f'Loading LDA model failed! Training LDA model ...')
         dictionary, _, _, lda_model = tm.topic_modeling(processed_docs,
-                                                        num_topics=params.tml['numTopics'],
+                                                        num_topics=params.tml['num_topics'],
                                                         filterExtremes=params.tml['filterExtremes'],
                                                         library=params.tml['library'],
                                                         path_2_save_tml=params.tml['path2save'])
@@ -57,7 +55,6 @@ def run_pipeline():
 
     # User Graphs
     cmn.logger.info(f"3. Temporal Graph Creation ...")
-    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f"Loading users' graph stream ...")
         with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'rb') as g: graphs = pickle.load(g)
@@ -65,9 +62,9 @@ def run_pipeline():
         from uml import UserSimilarities as US
         cmn.logger.info(f"Loading users' graph stream failed! Generating the stream ...")
         US.main(documents, dictionary, lda_model,
-                num_topics=params.tml['numTopics'],
+                num_topics=params.tml['num_topics'],
                 path2_save_uml=params.uml['path2save'],
-                just_one=params.tml['justOne'], binary=params.tml['binary'], threshold=params.tml['threshold'])
+                JO=params.tml['JO'], Bin=params.tml['Bin'], Threshold=params.tml['Threshold'])
 
         graphs_path = glob.glob(f'{params.uml["path2save"]}/graphs/*.net')
         graphs = []
@@ -76,34 +73,32 @@ def run_pipeline():
 
     # Graph Embedding
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
-    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading embeddings ...')
         embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import graphEmbedding as GE
-        embeddings = GE.main(graphs, method=params.gel['method'])
+        GE.main(graphs, method=params.gel['method'])
+        embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
+
 
     # Community Extraction
     cmn.logger.info(f'5. Community Prediction ...')
-    cmn.logger.info('#' * 50)
     from cpl import GraphClustering as GC
     try:
-        cmn.logger.info(f'Loading user clusters ...')
         Communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
     except:
-        cmn.logger.info(f'Loading user clusters failed! Generating user clusters ...')
         Communities = GC.main(embeddings, params.cpl['path2save'], params.cpl['method'])
+    #return Communities
 
     cmn.logger.info(f'6. Application: News Recommendation ...')
-    cmn.logger.info('#' * 50)
-    from apl import News
-    news_output = News.main()
+    from application import News
+    NewsOutput = News.main()
 
 
 if not os.path.isdir(f'../output'): os.makedirs(f'../output')
-if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(f'../output/{params.general["runId"]}')
-cmn.logger=cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+if not os.path.isdir(f'../output/{params.general["RunId"]}'): os.makedirs(f'../output/{params.general["RunId"]}')
+cmn.logger=cmn.LogFile(f'../output/{params.general["RunId"]}/log.txt')
 
-c = run_pipeline()
+c = RunPipeline()

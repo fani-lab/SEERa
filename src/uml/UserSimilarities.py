@@ -6,13 +6,13 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import networkx as nx
 import pandas as pd
 
-import params
 from cmn import Common as cmn
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
+import params
 
 
-def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one, binary, threshold):
+def main(documents, dictionary, lda_model, num_topics, path2_save_uml, JO, Bin, Threshold):
     if not os.path.isdir(path2_save_uml): os.makedirs(path2_save_uml)
     total_users_topic_interests = []
     all_users = documents['userId']
@@ -23,9 +23,9 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
     users_topic_interests = np.zeros((len(unique_users), num_topics))
     cmn.logger.info(f'UserSimilarity: users_topic_interests={users_topic_interests.shape}')
     total_user_ids = []
-    day_counter = 1
-    cmn.logger.info(f'UserSimilarity: Just one topic? {just_one}, Binary topic? {binary}, Threshold: {threshold}')
-    len_users = []
+    daycounter = 1
+    cmn.logger.info(f'UserSimilarity: Just one topic? {JO}, Binary topic? {Bin}, Threshold: {Threshold}')
+    lenUsers = []
     end_date = datetime.datetime.strptime(params.dal['end'], '%Y-%m-%d')
     day = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
 
@@ -36,18 +36,18 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
         cmn.logger.info(f'{len(c)} users have twitted in {day}')
         texts = c['Tokens']
         users = c['userId']
-        len_users.append(len(users))
-        users_ids = []
-        for user_text_ind in range(len(c['Tokens'])):
-            doc = texts.iloc[user_text_ind]
+        lenUsers.append(len(users))
+        users_Ids = []
+        for userTextidx in range(len(c['Tokens'])):
+            doc = texts.iloc[userTextidx]
             user_bow_corpus = dictionary.doc2bow(doc.split(','))
-            d2t = tm.doc2topics(lda_model, user_bow_corpus, threshold=threshold, justOne=just_one, binary=binary)
-            users_topic_interests[unique_users[unique_users == users.iloc[user_text_ind]].index[0]] = d2t
-            users_ids.append(users.iloc[user_text_ind])
-        total_user_ids.append(users_ids)
+            D2T = tm.doc2topics(lda_model, user_bow_corpus, threshold=Threshold, justOne=JO, binary=Bin)
+            users_topic_interests[unique_users[unique_users == users.iloc[userTextidx]].index[0]] = D2T
+            users_Ids.append(users.iloc[userTextidx])
+        total_user_ids.append(users_Ids)
         total_users_topic_interests.append(users_topic_interests)
         day = day + pd._libs.tslibs.timestamps.Timedelta(days=1)
-        day_counter += 1
+        daycounter += 1
     total_users_topic_interests = np.asarray(total_users_topic_interests)
 
     if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
@@ -56,22 +56,24 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
         if day % 2 == 0 or True:
             cmn.logger.info(f'UserSimilarity: {day} / {len(total_users_topic_interests)}')
 
-        day_str = str(day+1)
-        np.save(f'{path2_save_uml}/Day{day_str}UsersTopicInterests.npy', total_users_topic_interests[day])
-        np.save(f'{path2_save_uml}/Day{day_str}UserIDs.npy', total_user_ids[day])
+        daystr = str(day+1)
+        np.save(f'{path2_save_uml}/Day{daystr}UsersTopicInterests.npy', total_users_topic_interests[day])
+        np.save(f'{path2_save_uml}/Day{daystr}UserIDs.npy', total_user_ids[day])
         cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npy is saved for day:{day} with shape: {total_users_topic_interests[day].shape}')
 
         graph = UG.create_users_graph(day, total_users_topic_interests[day], f'{path2_save_uml}/graphs/pajek')
         cmn.logger.info(f'UserSimilarity: A graph is being created for day:{day} with {len(total_users_topic_interests[day])} users')
-        nx.write_gpickle(graph, f'{path2_save_uml}/graphs/{day_str}.net')
-    cmn.logger.info(f'UserSimilarity: Number of users per day: {len_users}')
+        nx.write_gpickle(graph, f'{path2_save_uml}/graphs/{daystr}.net')
+    cmn.logger.info(f'UserSimilarity: Number of users per day: {lenUsers}')
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
 
-
-def user_topics(documents, total_users_topic_interests, total_user_ids, user_id, unique_users, lda_model):
-
-    ind = unique_users[unique_users == user_id].index[0]
-    for i, j in enumerate(total_users_topic_interests[ind]):
+def userTopics(documents, total_users_topic_interests, total_user_ids, userid, unique_users, lda_model):
+    print(userid)
+    idx = unique_users[unique_users == userid].index[0]
+    print(idx)
+    print(documents['Tokens'][documents['userId'] == userid])
+    print(total_users_topic_interests[idx])
+    for i, j in enumerate(total_users_topic_interests[idx]):
         if j > 0:
             print(lda_model.print_topic(i))
 ## test

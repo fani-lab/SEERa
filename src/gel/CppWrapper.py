@@ -2,11 +2,14 @@ import glob
 import os
 from gel import GraphToText as GTT
 
-def main(graphPath, new_graph_path, dim):
-    GTT.g2t(graphPath, new_graph_path)
+def main(graphPath, newGraphPath, dim):
+    GTT.G2T(graphPath, newGraphPath)
     os.chdir('gel/Temporal-Network-Embedding/source_code/main')
-    script = f'.\BCGDEmbed ../../../../{new_graph_path} -c {dim}'
+    script = f'.\BCGDEmbed ../../../../{newGraphPath} -c {dim}'
     stream = os.popen(script)
     output = stream.read()
-    GTT.t2a('../../../../'+new_graph_path, '../../../../'+new_graph_path)
+    print('out', output)
+    GTT.T2A('../../../../'+newGraphPath, '../../../../'+newGraphPath)
+    print('../../../../'+newGraphPath, '../../../../'+newGraphPath)
     os.chdir('../../../../')
+    print(os.getcwd())
