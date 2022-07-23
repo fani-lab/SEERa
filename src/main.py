@@ -13,6 +13,7 @@ def RunPipeline():
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
     cmn.logger.info(f'1. Data Reading & Preparation ...')
+    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading perprocessed files ...')
         with open(f"../output/{params.general['RunId']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
@@ -38,6 +39,7 @@ def RunPipeline():
     cmn.logger.info(f'documents.shape: {documents.shape}')
 
     cmn.logger.info(f'2. Topic modeling ...')
+    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading LDA model ...')
         dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['num_topics']}topics_TopicModelingDictionary.mm")
@@ -55,6 +57,7 @@ def RunPipeline():
 
     # User Graphs
     cmn.logger.info(f"3. Temporal Graph Creation ...")
+    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f"Loading users' graph stream ...")
         with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'rb') as g: graphs = pickle.load(g)
@@ -73,18 +76,18 @@ def RunPipeline():
 
     # Graph Embedding
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
+    cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading embeddings ...')
         embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import graphEmbedding as GE
-        GE.main(graphs, method=params.gel['method'])
-        embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
-
+        embeddings = GE.main(graphs, method=params.gel['method'])
 
     # Community Extraction
     cmn.logger.info(f'5. Community Prediction ...')
+    cmn.logger.info('#' * 50)
     from cpl import GraphClustering as GC
     try:
         Communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
@@ -93,6 +96,7 @@ def RunPipeline():
     #return Communities
 
     cmn.logger.info(f'6. Application: News Recommendation ...')
+    cmn.logger.info('#' * 50)
     from application import News
     NewsOutput = News.main()
 

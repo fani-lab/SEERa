@@ -79,6 +79,7 @@ def main(graphs, method='DynAERNN'):
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
         N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['EmbeddingDim'])
+        #return emb
     else:
         lookback = 2
         print('lookback: ', lookback)
@@ -98,3 +99,4 @@ def main(graphs, method='DynAERNN'):
         # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
         np.savez_compressed(f'{params.gel["path2save"]}/embeddings.npz', a=embs)
         # plt.show()
+        return embs
