@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import params
 from cmn import Common as cmn
 
-def RecommendationTableAnalyzer(RT, test, savename):
+def recommendation_table_analyzer(RT, test, savename):
     if test == 'CRN': pass# 'CRN' = 'community recommendations number'
     elif test == 'NRN': RT = RT.T# 'news recommendations number'
     comm_news = []
@@ -16,7 +16,7 @@ def RecommendationTableAnalyzer(RT, test, savename):
     plt.close()
     return comm_news
 
-def CommunitiesTopicInterest(UserClusters, NewsTopics):
+def communities_topic_interest(UserClusters, NewsTopics):
     num_topics = NewsTopics.shape[1]
     UsersTopicInterestsList = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))
     LastUTI = np.load(UsersTopicInterestsList[-1])
@@ -24,7 +24,7 @@ def CommunitiesTopicInterest(UserClusters, NewsTopics):
     ClusterNumbers = []
     for UC in range(UserClusters.min(), UserClusters.max()+1):
         UsersinCluster = np.where(UserClusters == UC)[0]
-        if len(UsersinCluster) < params.cpl["min_size"]: break
+        if len(UsersinCluster) < params.cpl["minSize"]: break
         TopicInterestSum = np.zeros(num_topics)
         for user in UsersinCluster: TopicInterestSum += LastUTI[user]
         CommunitiesTopicInterests.append(TopicInterestSum)
@@ -47,47 +47,48 @@ def CommunitiesTopicInterest(UserClusters, NewsTopics):
     # np.save(f'{params.apl["path2save"]}/NewsTopicInterests.npy', News)
     return CommunitiesTopicInterests
 
-def Recommend(CommunitiesTopicInterests, News, NewsIds, topK):
-    RecommendationTable = np.matmul(CommunitiesTopicInterests, News.T)
+def recommend(communities_topic_interests, news, news_ids, topK):
+    recommendation_table = np.matmul(communities_topic_interests, news.T)
     #cmn.save2excel(RecommendationTable, 'evl/RecommendationTable')
-    TopRecommendations = np.zeros((len(CommunitiesTopicInterests), topK))
-    for r in range(len(RecommendationTable)):
-        NewsScores = RecommendationTable[r]
-        topScore = np.partition(NewsScores.flatten(), -topK)[-topK]
-        RecommendationCandidates = np.where(NewsScores >= topScore)[0]
-        RecommendationScores = NewsScores[RecommendationCandidates]
-        inds = np.flip(RecommendationScores.argsort())
+    top_recommendations = np.zeros((len(communities_topic_interests), topK))
+    for r in range(len(recommendation_table)):
+        news_scores = recommendation_table[r]
+        top_score = np.partition(news_scores.flatten(), -topK)[-topK]
+        recommendation_candidates = np.where(news_scores >= top_score)[0]
+        recommendation_scores = news_scores[recommendation_candidates]
+        inds = np.flip(recommendation_scores.argsort())
         # Recommendations_sorted = RecommendationCandidates[inds]
-        Recommendations_sorted = NewsIds[inds]
-        TopRecommendations[r] = Recommendations_sorted[:topK]
+        recommendations_sorted = news_ids[inds]
+        top_recommendations[r] = recommendations_sorted[:topK]
 
-    RecommendationTableAnalyzer(RecommendationTable, 'NRN', 'CommunityPerNewsNumbers')
-    RecommendationTableAnalyzer(RecommendationTable, 'CRN', 'NewsPerCommunityNumbers')
-    np.save(f'{params.apl["path2save"]}/TopRecommendations.npy', TopRecommendations)
-    np.save(f'{params.apl["path2save"]}/RecommendationTable.npy', RecommendationTable)
-    return TopRecommendations
+    recommendation_table_analyzer(recommendation_table, 'NRN', 'CommunityPerNewsNumbers')
+    recommendation_table_analyzer(recommendation_table, 'CRN', 'NewsPerCommunityNumbers')
+    np.save(f'{params.apl["path2save"]}/TopRecommendations.npy', top_recommendations)
+    np.save(f'{params.apl["path2save"]}/RecommendationTable.npy', recommendation_table)
+    return top_recommendations
 
 
-def InternalTest(TopRecommendations):
+def internal_test(top_recommendations):
     print('Top Recommendation test:')
-    a = TopRecommendations.reshape(-1)
+    a = top_recommendations.reshape(-1)
     b = set(a)
     print(len(a))
     print(len(b))
     print(len(a)/len(b))
     duplicate = False
-    for i in TopRecommendations:
+    for i in top_recommendations:
         if len(i) != len(set(i)):
             duplicate = True
             print(i)
     if not duplicate:
         print('All rows has distinct news Ids.', len(i))
-    print('Top Recommendation shape: ', TopRecommendations.shape)
+    print('Top Recommendation shape: ', top_recommendations.shape)
 
-def main(NewsTopics, topK=10):
-    NewsIds = np.load(f'{params.apl["path2save"]}/NewsIds.npy')
-    UserClusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
-    CommunitiesTopicInterests = CommunitiesTopicInterest(UserClusters, NewsTopics)
-    TopRecommendations = Recommend(CommunitiesTopicInterests, NewsTopics, NewsIds, topK)
-    return TopRecommendations
+
+def main(news_topics, topK=10):
+    news_ids = np.load(f'{params.apl["path2save"]}/NewsIds.npy')
+    user_clusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
+    communities_topic_interests = communities_topic_interest(user_clusters, news_topics)
+    return recommend(communities_topic_interests, news_topics, news_ids, topK)
+
 

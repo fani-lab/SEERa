@@ -5,7 +5,7 @@ import numpy as np
 
 import params
 
-def G2T(graph_path, path2_save_gel):
+def g2t(graph_path, path2_save_gel):
     graphs_path = glob.glob(f'{graph_path}/*.net')
     for gp in graphs_path:
         pathtemp = path2_save_gel+'/' + str(gp.split("\\")[-1].split(".")[0])
@@ -30,14 +30,14 @@ def G2T(graph_path, path2_save_gel):
         File_object.close()
 
 
-def T2A(path2read, path2save):
+def t2a(path2read, path2save):
     embeddedspath = glob.glob(f'{path2read}/Zmatrix*')
     for embeddedpath in embeddedspath:
         file1 = open(embeddedpath, 'r')
         lines = file1.readlines()
         print(lines[0])
         print(len(lines))
-        array = np.zeros((int(lines[0].split('\n')[0]), params.gel['EmbeddingDim']))
+        array = np.zeros((int(lines[0].split('\n')[0]), params.gel['embeddingDim']))
         for i in range(1,len(lines)):
             line = lines[i]
             parts = line.split(':')
