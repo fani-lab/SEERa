@@ -37,6 +37,10 @@ def load_tweets(path, start_date, end_date, stopwords=['www', 'RT', 'com', 'http
 # my_data = pd.read_sql(sql, engine)
 # my_data.to_csv('Twitter.csv', index=False)
 
+# sql = "SELECT tweetentities.* FROM tweetentities INNER JOIN tweets on tweets.Id = tweetentities.TweetId and CreationTimestamp between '2010-12-01' and '2010-12-05' and EntityTypeCode = 2;"
+# my_data = pd.read_sql(sql, engine)
+# my_data.to_csv('TweetEntities.csv', index=False)
+
 
 
 
