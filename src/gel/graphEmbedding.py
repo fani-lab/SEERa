@@ -11,11 +11,7 @@ from dynamicgem.embedding.dynRNN import DynRNN
 from gel import CppWrapper as N2V
 import params
 
-<<<<<<< HEAD
 def embedding(dim_emb, lookback, method='DynAERNN'):
-=======
-def GEMmethod(dim_emb, lookback, method='DynAERNN'):
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
     methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
     if method == methods[0]:
         embedding_ = AE(d=dim_emb,
@@ -82,12 +78,7 @@ def main(graphs, method='DynAERNN'):
     if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
-<<<<<<< HEAD
         N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['embeddingDim'])
-=======
-        N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['EmbeddingDim'])
-        #return emb
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
     else:
         lookback = 2
         print('lookback: ', lookback)
@@ -95,11 +86,7 @@ def main(graphs, method='DynAERNN'):
         embs = []
         t1 = time()
         for temp_var in range(lookback + 1, len(graphs) + 1):
-<<<<<<< HEAD
             emb, _ = embedding_instance.learn_embeddings(graphs[:temp_var])
-=======
-            emb, _ = embedding.learn_embeddings(graphs[:temp_var])
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
             embs.append(emb)
         embs = np.asarray(embs)
         print('embs shape: ', embs)

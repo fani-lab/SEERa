@@ -99,11 +99,7 @@ def run_pipeline():
     cmn.logger.info(f'6. Application: News Recommendation ...')
     cmn.logger.info('#' * 50)
     from apl import News
-<<<<<<< HEAD
     news_output = News.main()
-=======
-    NewsOutput = News.main()
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
 
 
 if not os.path.isdir(f'../output'): os.makedirs(f'../output')

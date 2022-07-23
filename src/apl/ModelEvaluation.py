@@ -14,7 +14,6 @@ def save_obj(obj, name ):
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 # for pytrec_eval
-<<<<<<< HEAD
 def dictonary_generation(top_recommendations, mentions):
     Recommendation = {}
     for c in range(len(top_recommendations)):
@@ -26,19 +25,6 @@ def dictonary_generation(top_recommendations, mentions):
     for c in range(len(mentions)):
         Mention['u' + str(c + 1)] = {}
         comm = mentions[c]
-=======
-def DictonaryGeneration(topRecommendations, Mentions):
-    Recommendation = {}
-    for c in range(len(topRecommendations)):
-        Recommendation['u' + str(c + 1)] = {}
-        comm = topRecommendations[c]
-        for n in range(len(comm)):
-            Recommendation['u'+str(c+1)]['n'+str(int(comm[n]))] = 1
-    Mention = {}
-    for c in range(len(Mentions)):
-        Mention['u' + str(c + 1)] = {}
-        comm = Mentions[c]
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
         for n in range(len(comm)):
             Mention['u' + str(c + 1)]['n' + str(int(comm[n]))] = 1
     return  Recommendation, Mention
@@ -145,11 +131,7 @@ def main(RunId, path2_save_evl):
 
     cmn.save2excel(TopRecommendations_Users, 'evl/TopRecommendations_Users')
     cmn.save2excel(Mentions_user, 'evl/Mentions_user')
-<<<<<<< HEAD
     r_user, m_user = dictonary_generation(TopRecommendations_Users, Mentions_user)
-=======
-    r_user, m_user = DictonaryGeneration(TopRecommendations_Users, Mentions_user)
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
 
     cmn.save2excel(tbl, 'evl/userMentions')
     save_obj(r_user, f'../output/{RunId}/evl/RecommendedNews_UserBased')
@@ -168,11 +150,7 @@ def main(RunId, path2_save_evl):
     # pytrec_result2 = PyEval.main2(TopRecommendations_Users, Mentions_user)
     return pytrec_result1#, pytrec_result2
 
-<<<<<<< HEAD
 def intrinsic_evaluation(Communities, GoldenStandard, EvaluationMetrics=params.evl['evaluationMetrics']):
-=======
-def intrinsic_evaluation(Communities, GoldenStandard, EvaluationMetrics=params.evl['EvaluationMetrics']):
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
     results = []
     for m in EvaluationMetrics:
         if m == 'adjusted_rand':

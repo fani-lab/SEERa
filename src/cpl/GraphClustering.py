@@ -35,22 +35,12 @@ def cluster_topic_interest(clusters, user_topic_interests):
 def main(embeddings, path2save, method='louvain', temporal=False):
     if not os.path.isdir(params.cpl["path2save"]): os.makedirs(params.cpl["path2save"])
     cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
-<<<<<<< HEAD
     user_similarity_threshold = params.uml['userSimilarityThreshold']
     pred_users_similarity = pairwise_kernels(embeddings[-1, :, :], metric='cosine', n_jobs=9)
     pred_users_similarity[pred_users_similarity < user_similarity_threshold] = 0
     # pred_users_similarity = np.random.random(pred_users_similarity.shape)
     # pred_users_similarity[pred_users_similarity < 0.99] = 0
     pred_users_similarity = sparse.csr_matrix(pred_users_similarity)
-=======
-    UserSimilarityThreshold = params.uml['UserSimilarityThreshold']
-    pred_usersSimilarity = pairwise_kernels(embeddings[-1, :, :], metric='cosine', n_jobs=9)
-    pred_usersSimilarity[pred_usersSimilarity < UserSimilarityThreshold] = 0
-    # pred_usersSimilarity[random.randint(pred_usersSimilarity.shape[0]*pred_usersSimilarity.shape[1]-100)] == 0
-    # pred_usersSimilarity = np.random.random(pred_usersSimilarity.shape)
-    # pred_usersSimilarity[pred_usersSimilarity < 0.99] = 0
-    pred_usersSimilarity = sparse.csr_matrix(pred_usersSimilarity)
->>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
 
     cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
     g = nx.from_scipy_sparse_matrix(pred_users_similarity, parallel_edges=False, create_using=None, edge_attribute='weight')
