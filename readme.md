@@ -22,6 +22,38 @@ Workflow | Layers
 ### Framework Structure
 Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), Topic Modeling Layer ([``tml``](./src/tml)), User Modeling Layer ([``uml``](./src/uml)), Graph Embedding Layer ([``gel``](./src/gel)), and Community Prediction Layer ([``cpl``](./src/cpl)). The application layer ([``apl``](./src/apl)), is the last layer, as shown in the above figure.
 
+Each layer process the input data from previous layer and produces new processed data for the next layer as explained below. Sample outputs on [``toy``](./data/toy) data can be seen here [``./output/5``](./output/5):
+
+#### [``tml``](./src/tml)
+```
+gensim[or Mallet]_{#Topics}topics.csv                           -> N topics with their top 10 vocabulary set and probabilities
+gensim[or Mallet]_{#Topics}topics.model                         -> The LDA model
+gensim[or Mallet]_{#Topics}topics_TopicModelingDictionary.mm    -> LDA dictionary
+```
+#### [``uml``](./src/uml)
+```
+Day{K}UserIDs.npy               -> User IDs for K-th day [Size: #Users × 1]
+Day{K}UsersTopicInterests.npy   -> Matrix of users to topics [Size: #Users × #Topics]
+users.npy                       -> User IDs [Size: #Users × 1]
+```
+#### [``gel``](./src/gel)
+```
+embeddings.npz -> embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
+```
+#### [``cpl``](./src/cpl)
+```
+Graph.net[.pkl] -> Final predicted user graph for the future from last embeddings
+PredUserClusters.npy[.csv] -> Cluster ID for each user [Size: #Users × 1]
+```
+#### [``apl``](./src/apl)
+```
+ClusterNumbers.npy              -> Cluster IDs [Size: #Communities]
+NewsIds.npy                     -> News IDs [Size: #News × 1]
+CommunitiesTopicInterests.npy   -> Topic vector for each community [Size: #Communities × #Topics]
+NewsTopics.npy                  -> Topic vector for each news article [Size: #News × #Topics]
+RecommendationTable.npy         -> Recommendations scores of news articles for each community [Size: #Communities × #News]
+TopRecommendations.npy          -> TopK recommendations scores of news articles for each community [Size: #Communities × TopK]
+```
 ### Code Structure
 ```
 +---output
