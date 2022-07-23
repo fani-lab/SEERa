@@ -10,7 +10,10 @@ import params
 from cmn import Common as cmn
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
+<<<<<<< HEAD
 
+=======
+>>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
 
 def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one, binary, threshold):
     if not os.path.isdir(path2_save_uml): os.makedirs(path2_save_uml)

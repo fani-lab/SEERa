@@ -16,7 +16,11 @@ from cmn import Common as cmn
 #     evaluator = pytrec_eval.RelevanceEvaluator(
 #         qrel, {'success_1', 'success_5', 'success_10', 'success_100'})
 #     output = evaluator.evaluate(run)
+<<<<<<< HEAD
 #     with open(f'../output/{params.evl["runId"]}/evl/Pytrec_eval.txt', 'w') as outfile:
+=======
+#     with open(f'../output/{params.evl["RunId"]}/evl/Pytrec_eval.txt', 'w') as outfile:
+>>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
 #         json.dump(output, outfile)
 
 

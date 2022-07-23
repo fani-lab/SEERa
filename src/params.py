@@ -49,10 +49,17 @@ cpl = {
 evl = {
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If intrinsic evaluation:
+<<<<<<< HEAD
     'evaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
     'goldenStandardPath': '/path2GS',
     'threshold': 0,
     'topK': 20
+=======
+    'EvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
+    'GoldenStandardPath': '/path2GS',
+    'Threshold': 0,
+    'TopK': 20
+>>>>>>> 54bc47755b58cb9863c9bd516cbac720613f723c
 }
 
 apl = {
