@@ -9,6 +9,7 @@ import params
 from cmn import Common as cmn
 
 def run_pipeline():
+    print(params.general["runId"])
     copyfile('params.py', f'../output/{params.general["runId"]}/params.py')
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
@@ -49,7 +50,7 @@ def run_pipeline():
         cmn.logger.info(f'Loading LDA model failed! Training LDA model ...')
         dictionary, _, _, lda_model = tm.topic_modeling(processed_docs,
                                                         num_topics=params.tml['numTopics'],
-                                                        filterExtremes=params.tml['filterExtremes'],
+                                                        filter_extremes=params.tml['filterExtremes'],
                                                         library=params.tml['library'],
                                                         path_2_save_tml=params.tml['path2save'])
 
@@ -102,8 +103,38 @@ def run_pipeline():
     news_output = News.main()
 
 
-if not os.path.isdir(f'../output'): os.makedirs(f'../output')
-if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(f'../output/{params.general["runId"]}')
-cmn.logger=cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
 
-c = run_pipeline()
+
+
+# Baselines:
+gel_baselines = ['AE', 'DynAE', 'DynRNN', 'DynAERNN', 'Node2Vec']
+tml_baselines = ['LDA']
+current_run_id = params.RunID
+for g in gel_baselines:
+    params.gel['method'] = g
+    for t in tml_baselines:
+        current_run_id += 1
+        params.tml['method'] = t
+        newRunID = f'{current_run_id}__GEL_{g}__TML_{t}'
+
+        with open('params.py') as f:
+            lines = f.readlines()
+
+        # Re-open file here
+        f2 = open('params.py', 'w')
+        for line in lines:
+            try:
+                if line.split()[0] == "RunID":
+                    line = f"RunID = '{newRunID}'\n"
+                    f2.write(line)
+                else:
+                    f2.write(line)
+            except:
+                f2.write(line)
+        f2.close()
+        import params
+        if not os.path.isdir(f'../output'): os.makedirs(f'../output')
+        if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
+            f'../output/{params.general["runId"]}')
+        cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+        c = run_pipeline()

@@ -46,6 +46,7 @@ def userMentions():
     users = np.unique(s['UserOrMediaId'])
     user_news = {}
     for u in users:
+        expanded_url = s.loc[s['UserOrMediaId'] == u]['ExpandedUrl']
         user_news[u] = list(s.loc[s['UserOrMediaId'] == u]['Id'].values)
     return user_news
 
@@ -56,28 +57,22 @@ def userMentions():
 
 
 def main():
-    #os.chdir('../../../')
+    top_recommendation_user = np.load(f'{params.apl["path2save"]}/TopRecommendationsUser.npy')
     #if not os.path.isdir(path2_save_evl): os.makedirs(path2_save_evl)
-    #NTE.main()
-    #NR.main(topK=params.evl['TopK'])
     #cmn.logger.info("\nModelEvaluation.py:\n")
-    all_users = np.load(f'{params.uml["path2save"]}/users.npy')
-    end_date = params.dal['end']
-    # end_date = np.load(f'../output/{RunId}/uml/end_date.npy', allow_pickle=True)
-    TopRecommendations_clusters = np.load(f'{params.apl["path2save"]}/TopRecommendations.npy')
     #cmn.save2excel(TopRecommendations_clusters, 'evl/TopRecommendations_clusters')
     UC = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
-    TopRecommendations_Users = np.zeros((UC.shape[0], TopRecommendations_clusters.shape[1]))
-    for i in range(TopRecommendations_clusters.shape[0]):
-        indices = np.where(UC == i)[0]
-        TopRecommendations_Users[indices] = TopRecommendations_clusters[i]
-    # cmn.save2excel(TopRecommendations_Users, 'evl/TopRecommendations_Users')
-    end_date = pd.Timestamp(str(end_date))
-    daybefore = 0
-    day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=daybefore)
+    end_date = pd.Timestamp(str(params.dal['end']))
+    day_before = 0
+    day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
     cmn.logger.info("Selected date for evaluation: "+str(day.date()))
     tbl = userMentions()
+    f = open("userMentions.pkl", "wb")
+    pickle.dump(tbl, f)
+    f.close()
     #cmn.save2excel(tbl, 'evl/userMentions')
+
+    '''
     Mentions_user = []
     MentionerUsers = []
     MissedUsers = []
@@ -110,7 +105,8 @@ def main():
 
     #cmn.save2excel(TopRecommendations_Users, 'evl/TopRecommendations_Users')
     #cmn.save2excel(Mentions_user, 'evl/Mentions_user')
-    r_user, m_user = dictonary_generation(TopRecommendations_Users, Mentions_user)
+    '''
+    r_user, m_user = dictonary_generation(top_recommendation_user, tbl)
 
     #cmn.save2excel(tbl, 'evl/userMentions')
     #save_obj(r_user, f'../output/{RunId}/evl/RecommendedNews_UserBased')

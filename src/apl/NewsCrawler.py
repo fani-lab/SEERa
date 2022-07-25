@@ -73,6 +73,7 @@ def news_crawler(path):
                 'SourceUrl': source_urls, 'Text': news_articles, 'Title': news_titles, 'Description': description,
                 'PublicationTime': publish_date}
         news = pd.DataFrame.from_dict(news)
+        news.insert(0, "NewsId", list(range(len(news))), True)
         news.to_csv(f'../data/toy/News.csv', index=False)
     else:
         frame_path = sorted(glob.glob(f'../data/toy/News/*_Chunk*.csv'))
@@ -80,5 +81,6 @@ def news_crawler(path):
         for f in frame_path:
             frames.append(pd.read_csv(f))
         news = pd.concat(frames, ignore_index=True)
+        news.insert(0, "NewsId", list(range(len(news))), True)
         news.to_csv(f'../data/toy/News.csv', index=False)
 

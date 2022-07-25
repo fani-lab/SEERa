@@ -1,6 +1,7 @@
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 import params
 from cmn import Common as cmn
@@ -63,10 +64,22 @@ def recommend(communities_topic_interests, news, news_ids, topK):
 
     recommendation_table_analyzer(recommendation_table, 'NRN', 'CommunityPerNewsNumbers')
     recommendation_table_analyzer(recommendation_table, 'CRN', 'NewsPerCommunityNumbers')
-    np.save(f'{params.apl["path2save"]}/TopRecommendations.npy', top_recommendations)
-    np.save(f'{params.apl["path2save"]}/RecommendationTable.npy', recommendation_table)
+    np.save(f'{params.apl["path2save"]}/TopRecommendationsCluster.npy', top_recommendations)
+    np.save(f'{params.apl["path2save"]}/RecommendationTableCluster.npy', recommendation_table)
     return top_recommendations
 
+def user_recommend(pred_user_clusters, top_recommendations):
+    #pred_user_clusters = np.load('../cpl/PredUserClusters.npy')
+    users = np.load(f'{params.uml["path2save"]}/users.npy')
+    user_recommendation = {}
+    for u in range(len(users)):
+        cluster = pred_user_clusters[u]
+        try:
+            user_recommendation[users[u]] = list(top_recommendations[cluster])
+        except:
+            continue
+    np.save(f'{params.apl["path2save"]}/TopRecommendationsUser.npy', pd.DataFrame(user_recommendation))
+    return user_recommendation
 
 def internal_test(top_recommendations):
     print('Top Recommendation test:')
@@ -85,10 +98,12 @@ def internal_test(top_recommendations):
     print('Top Recommendation shape: ', top_recommendations.shape)
 
 
-def main(news_topics, topK=10):
-    news_ids = np.load(f'{params.apl["path2save"]}/NewsIds.npy')
+def main(news_topics, top_k=10):
+    news = pd.read_csv(f'{params.dal["toyPath"]}/News.csv')
+    news_ids = news["NewsId"]
     user_clusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
     communities_topic_interests = communities_topic_interest(user_clusters, news_topics)
-    return recommend(communities_topic_interests, news_topics, news_ids, topK)
+    top_recommendations = recommend(communities_topic_interests, news_topics, news_ids, top_k)
+    return user_recommend(user_clusters,top_recommendations)
 
 

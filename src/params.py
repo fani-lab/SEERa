@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = 6
+RunID = '10__GEL_AE__TML_LDA'
 
 
 general = {
@@ -30,7 +30,8 @@ tml = {
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
-    'threshold': 0.5
+    'threshold': 0.5,
+    'method': 'LDA'
 }
 uml = {
     'userSimilarityThreshold': 0.45,
