@@ -133,11 +133,12 @@ for g in gel_baselines:
             except:
                 f2.write(line)
         f2.close()
-        import params
-        if not os.path.isdir(f'../output'): os.makedirs(f'../output')
-        if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
-            f'../output/{params.general["runId"]}')
-        cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
-'''
+        '''
+        #import params
+if not os.path.isdir(f'../output'): os.makedirs(f'../output')
+if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
+    f'../output/{params.general["runId"]}')
+cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+
 
 c = run_pipeline()
