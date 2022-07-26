@@ -3,7 +3,7 @@ import numpy as np
 
 random.seed(0)
 np.random.seed(0)
-RunID = '10__GEL_AE__TML_LDA'
+RunID = 5
 
 
 general = {
@@ -12,8 +12,7 @@ general = {
     'cuda': '-1'
 }
 dal = {
-    'toyPath': '../data/toy',
-    'path': '../data/toy/Tweets.csv',
+    'path': '../data/toy',
     'userModeling': True,
     'timeModeling': True,
     'start': '2010-12-01',
@@ -49,16 +48,19 @@ cpl = {
     'minSize': 10
 }
 evl = {
+    'topK': 20,
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
+    # If Extrinsic evaluation:
+    'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100'},
     # If intrinsic evaluation:
-    'evaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
+    'intrinsicEvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
     'goldenStandardPath': '/path2GS',
     'threshold': 0,
-    'topK': 20
+
+
 }
 
 apl = {
-    'path2read': f'../data/toy',
     'path2save': f'../output/{RunID}/apl',
     'topK': 20,
     'textTitle': 'Text'

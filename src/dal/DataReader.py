@@ -1,12 +1,13 @@
 import sys, re
 import pandas as pd
 import datetime
+import params
 
 
 def load_tweets(path, start_date, end_date, stopwords=['www', 'RT', 'com', 'http']):
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-    end = end - datetime.timedelta(days=1)
+    end = end - datetime.timedelta(days=params.dal["timeInterval"])
 
     tweets = pd.read_csv(path, encoding='utf-8', parse_dates=['CreationTimestamp'])
     tweets.rename(columns={'Id': 'TweetId', 'CreationTimestamp': 'CreationDate'}, inplace=True)

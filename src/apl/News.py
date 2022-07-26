@@ -47,13 +47,14 @@ def stats(news):
 def main():
     if not os.path.isdir(params.apl["path2save"]): os.makedirs(params.apl["path2save"])
 
-    news_path = f'{params.apl["path2read"]}/News.csv'
+    news_path = f'{params.dal["path"]}/News.csv'
+    tweet_entities_path = f'{params.dal["path"]}/TweetEntities.csv'
     try:
         cmn.logger.info(f"Loading news articles ...")
         news_table = pd.read_csv(news_path)
     except:
         cmn.logger.info(f"News articles do not exist! Crawling news articles ...")
-        NC.news_crawler(news_path)
+        NC.news_crawler(news_path, tweet_entities_path)
         stats(news_table)
         news_table = pd.read_csv(news_path)
 
@@ -72,4 +73,4 @@ def main():
 
 
 
-    return nrr
+    return me

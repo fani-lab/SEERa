@@ -9,7 +9,6 @@ import params
 from cmn import Common as cmn
 
 def run_pipeline():
-    print(params.general["runId"])
     copyfile('params.py', f'../output/{params.general["runId"]}/params.py')
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
@@ -22,7 +21,7 @@ def run_pipeline():
     except (FileNotFoundError, EOFError) as e:
         from dal import DataReader as dr, DataPreparation as dp
         cmn.logger.info(f'Loading perprocessed files failed! Generating files ...')
-        dataset = dr.load_tweets(params.dal['path'], params.dal['start'], params.dal['end'], stopwords=['www', 'RT', 'com', 'http'])
+        dataset = dr.load_tweets(f'{params.dal["path"]}/Tweets.csv', params.dal['start'], params.dal['end'], stopwords=['www', 'RT', 'com', 'http'])
         cmn.logger.info(f'dataset.shape: {dataset.shape}')
         cmn.logger.info(f'dataset.keys: {dataset.keys()}')
         dataset = np.asarray(dataset)
@@ -97,15 +96,17 @@ def run_pipeline():
         cmn.logger.info(f'Loading user clusters failed! Generating user clusters ...')
         Communities = GC.main(embeddings, params.cpl['path2save'], params.cpl['method'])
 
+    # News Article Recommendation
     cmn.logger.info(f'6. Application: News Recommendation ...')
     cmn.logger.info('#' * 50)
     from apl import News
     news_output = News.main()
+    return news_output
 
 
 
 
-
+'''
 # Baselines:
 gel_baselines = ['AE', 'DynAE', 'DynRNN', 'DynAERNN', 'Node2Vec']
 tml_baselines = ['LDA']
@@ -137,4 +138,6 @@ for g in gel_baselines:
         if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
             f'../output/{params.general["runId"]}')
         cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
-        c = run_pipeline()
+'''
+
+c = run_pipeline()

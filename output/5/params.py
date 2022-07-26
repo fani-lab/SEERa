@@ -7,57 +7,62 @@ RunID = 5
 
 
 general = {
-    'Comment': '',
-    'RunId': RunID,
+    'comment': '',
+    'runId': RunID,
     'cuda': '-1'
 }
 dal = {
-    'path': '../data/toy/Tweets.csv',
+    'path': '../data/toy',
     'userModeling': True,
     'timeModeling': True,
     'start': '2010-12-01',
     'end': '2010-12-04',
-    'timeInterval': 1, #unit of day
+    'timeInterval': 1,  # unit of day
     'preProcessing': False,
-    'TagME': False
+    'tagMe': False
 }
 tml = {
     'path2save': f'../output/{RunID}/tml',
-    'num_topics': 30,
+    'numTopics': 30,
     'library': 'gensim',
-    'mallet_home': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
+    'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
     'filterExtremes': True,
-    'JO': False,
-    'Bin': False,
-    'Threshold': 0.5
+    'justOne': False,
+    'binary': False,
+    'threshold': 0.5,
+    'method': 'LDA'
 }
 uml = {
-    'UserSimilarityThreshold': 0.45,
+    'userSimilarityThreshold': 0.45,
     'path2save': f'../output/{RunID}/uml'
 }
 gel = {
     'path2save': f'../output/{RunID}/gel',
-    'EmbeddingDim': 30,
-    'epoch': 1,
+    'embeddingDim': 30,
+    'epoch': 5,
     'method': 'DynAERNN'
 }
 cpl = {
     'path2save': f'../output/{RunID}/cpl',
     'method': 'louvain',
-    'min_size': 10
+    'minSize': 10
 }
 evl = {
-    'EvaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
+    'topK': 20,
+    'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
+    # If Extrinsic evaluation:
+    'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100'},
     # If intrinsic evaluation:
-    'EvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
-    'GoldenStandardPath': '/path2GS',
-    'Threshold': 0,
-    'TopK': 20
+    'intrinsicEvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
+    'goldenStandardPath': '/path2GS',
+    'threshold': 0,
+
+
 }
 
 apl = {
     'path2read': f'../data/toy',
     'path2save': f'../output/{RunID}/apl',
-    'TopK': 20,
-    'Text_Title': 'Title'
+    'topK': 20,
+    'textTitle': 'Text'
 }
