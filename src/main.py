@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import gensim
 import networkx as nx
-
+import importlib
 import params
 from cmn import Common as cmn
 
@@ -54,7 +54,7 @@ def run_pipeline():
                                                         path_2_save_tml=params.tml['path2save'])
 
     cmn.logger.info(f'dictionary.shape: {len(dictionary)}')
-
+    
     # User Graphs
     cmn.logger.info(f"3. Temporal Graph Creation ...")
     cmn.logger.info('#' * 50)
@@ -104,23 +104,19 @@ def run_pipeline():
     return news_output
 
 
-
-
-'''
-# Baselines:
-gel_baselines = ['AE', 'DynAE', 'DynRNN', 'DynAERNN', 'Node2Vec']
-tml_baselines = ['LDA']
-current_run_id = params.RunID
-for g in gel_baselines:
-    params.gel['method'] = g
-    for t in tml_baselines:
-        current_run_id += 1
-        params.tml['method'] = t
-        newRunID = f'{current_run_id}__GEL_{g}__TML_{t}'
-
+def main(tml_baselines, gel_baselines):
+    try:
+        current_run_id = int(params.RunID.split("__")[0])
+    except:
+        current_run_id = params.RunID
+    for g in gel_baselines:
+        params.gel['method'] = g
+        for t in tml_baselines:
+            # current_run_id += 1
+            params.tml['method'] = t
+            newRunID = f'{current_run_id}__{g}__{t}'
         with open('params.py') as f:
             lines = f.readlines()
-
         # Re-open file here
         f2 = open('params.py', 'w')
         for line in lines:
@@ -128,17 +124,56 @@ for g in gel_baselines:
                 if line.split()[0] == "RunID":
                     line = f"RunID = '{newRunID}'\n"
                     f2.write(line)
+                elif line.split()[0] == "tml":
+                    tml_flag = True
+                    gel_flag = False
+                    cpl_flag = False
+                    f2.write(line)
+                elif line.split()[0] == "gel":
+                    tml_flag = False
+                    gel_flag = True
+                    cpl_flag = False
+                    f2.write(line)
+                elif line.split()[0] == "cpl":
+                    tml_flag = False
+                    gel_flag = False
+                    cpl_flag = True
+                    f2.write(line)
+                elif line.split()[0] == "'method':":
+                    if tml_flag:
+                        f2.write(f"    'method': '{t}'\n")
+                    elif gel_flag:
+                        f2.write(f"    'method': '{g}'\n")
+                    else:
+                        f2.write(line)
                 else:
                     f2.write(line)
             except:
                 f2.write(line)
         f2.close()
-        '''
-        #import params
-if not os.path.isdir(f'../output'): os.makedirs(f'../output')
-if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
-    f'../output/{params.general["runId"]}')
-cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+        importlib.reload(params)
+        if not os.path.isdir(f'../output'): os.makedirs(f'../output')
+        if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
+            f'../output/{params.general["runId"]}')
+        cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+        c = run_pipeline()
+    return c
 
 
-c = run_pipeline()
+# Aggregation:
+def aggregate(run_id, gel_baselines=1, tml_baselines=1):
+    print("hello")
+    import glob
+    results_path = glob.glob(f'../output/{run_id}*/apl/evl/final_result.csv')
+    for path in results_path:
+        print(path)
+        folder_name = path.split('\\')[-4]
+        gel_model = folder_name.split('__')[1]
+        tml_model = folder_name.split('__')[2]
+        print(gel_model, tml_model)
+    print(len(results_path))
+
+
+tml_baselines = ['LDA']
+gel_baselines = ['AE', 'DynAE', 'DynRNN', 'DynAERNN', 'Node2Vec']
+main(tml_baselines, gel_baselines)
