@@ -160,18 +160,6 @@ def main(tml_baselines, gel_baselines):
     return c
 
 
-# Aggregation:
-def aggregate(run_id, gel_baselines=1, tml_baselines=1):
-    print("hello")
-    import glob
-    results_path = glob.glob(f'../output/{run_id}*/apl/evl/final_result.csv')
-    for path in results_path:
-        print(path)
-        folder_name = path.split('\\')[-4]
-        gel_model = folder_name.split('__')[1]
-        tml_model = folder_name.split('__')[2]
-        print(gel_model, tml_model)
-    print(len(results_path))
 
 
 tml_baselines = ['LDA']
