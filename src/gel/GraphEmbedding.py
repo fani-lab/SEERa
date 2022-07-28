@@ -24,8 +24,8 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                        n_iter=params.gel['epoch'],
                        xeta=1e-4,
                        n_batch=100,
-                       modelfile=['./GEL/enc_model_AE.json', './GEL/dec_model_AE.json'],
-                       weightfile=['./GEL/enc_weights_AE.hdf5', './GEL/dec_weights_AE.hdf5'])
+                       modelfile=[f'{params.gel["path2save"]}/enc_model_AE.json', f'{params.gel["path2save"]}/dec_model_AE.json'],
+                       weightfile=[f'{params.gel["path2save"]}/enc_weights_AE.hdf5', f'{params.gel["path2save"]}/dec_weights_AE.hdf5'])
     elif method == methods[1]:
         embedding_ = DynAE(d=dim_emb,
                           beta=5,
@@ -37,8 +37,8 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                           n_iter=params.gel['epoch'],
                           xeta=1e-4,
                           n_batch=100,
-                          modelfile=['./intermediate/enc_model_dynAE.json', './intermediate/dec_model_dynAE.json'],
-                          weightfile=['./intermediate/enc_weights_dynAE.hdf5', './intermediate/dec_weights_dynAE.hdf5'],
+                          modelfile=[f'{params.gel["path2save"]}/enc_model_dynAE.json', f'{params.gel["path2save"]}/dec_model_dynAE.json'],
+                          weightfile=[f'{params.gel["path2save"]}/enc_weights_dynAE.hdf5', f'{params.gel["path2save"]}/dec_weights_dynAE.hdf5'],
                           savefilesuffix="testing")
     elif method == methods[2]:
         embedding_ = DynRNN(d=dim_emb,
@@ -52,8 +52,8 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                            n_iter=params.gel['epoch'],
                            xeta=1e-3,
                            n_batch=100,
-                           modelfile=['./intermediate/enc_model_dynRNN.json', './intermediate/dec_model_dynRNN.json'],
-                           weightfile=['./intermediate/enc_weights_dynRNN.hdf5', './intermediate/dec_weights_dynRNN.hdf5'],
+                           modelfile=[f'{params.gel["path2save"]}/enc_model_dynRNN.json', f'{params.gel["path2save"]}/dec_model_dynRNN.json'],
+                           weightfile=[f'{params.gel["path2save"]}/enc_weights_dynRNN.hdf5', f'{params.gel["path2save"]}/dec_weights_dynRNN.hdf5'],
                            savefilesuffix="testing")
     elif method == methods[3]:
         embedding_ = DynAERNN(d=dim_emb,
@@ -67,8 +67,8 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                              n_iter=params.gel['epoch'],
                              xeta=1e-3,
                              n_batch=100,
-                             modelfile=['./GEL/enc_model_dynAERNN.json', './GEL/dec_model_dynAERNN.json'],
-                             weightfile=['./GEL/enc_weights_dynAERNN.hdf5', './GEL/dec_weights_dynAERNN.hdf5'],
+                             modelfile=[f'{params.gel["path2save"]}/enc_model_dynAERNN.json', f'{params.gel["path2save"]}/dec_model_dynAERNN.json'],
+                             weightfile=[f'{params.gel["path2save"]}/enc_weights_dynAERNN.hdf5', f'{params.gel["path2save"]}/dec_weights_dynAERNN.hdf5'],
                              savefilesuffix="testing")
     return embedding_
 def main(graphs, method='DynAERNN'):
@@ -82,12 +82,14 @@ def main(graphs, method='DynAERNN'):
         N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['embeddingDim'])
     else:
         lookback = 2
-        print('lookback: ', lookback)
         embedding_instance = embedding(dim_emb=dim_emb, lookback=lookback, method=method)
         embs = []
         t1 = time()
         for temp_var in range(lookback + 1, len(graphs) + 1):
-            emb, _ = embedding_instance.learn_embeddings(graphs[:temp_var])
+            if method == "AE":
+                emb, _ = embedding_instance.learn_embeddings(graphs[temp_var])
+            else:
+                emb, _ = embedding_instance.learn_embeddings(graphs[:temp_var])
             embs.append(emb)
         embs = np.asarray(embs)
         print('embs shape: ', embs)
