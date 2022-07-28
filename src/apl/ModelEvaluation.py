@@ -6,10 +6,10 @@ import os
 import json
 from cmn import Common as cmn
 from apl import PytrecEvaluation as PyEval
-import params
 import pickle
 import sklearn.metrics.cluster as CM
 
+import params
 
 def pytrec_eval_run(qrel, run):
     evaluator = pytrec_eval.RelevanceEvaluator(

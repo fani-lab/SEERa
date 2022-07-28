@@ -5,6 +5,7 @@ import gensim
 import glob
 import os, sys
 import tagme
+
 import params
 from tml import TopicModeling as tm
 from cmn import Common as cmn

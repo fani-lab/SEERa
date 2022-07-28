@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
+
 import params
 from cmn import Common as cmn
-
 
 def recommendation_table_analyzer(rt, test, savename):
     if test == 'CRN': pass# 'CRN' = 'community recommendations number'

@@ -1,9 +1,10 @@
 import pandas as pd
 import os
 from newspaper import Article
-import params
 from tqdm import tqdm
 import glob
+
+import params
 
 def crawl_request(url):
     article = Article(url)

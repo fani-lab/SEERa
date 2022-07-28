@@ -1,6 +1,10 @@
 import logging
 import sys
 import numpy as np
+import random
+
+random.seed(0)
+np.random.seed(0)
 
 sys.path.extend(["../"])
 

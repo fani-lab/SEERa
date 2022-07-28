@@ -1,15 +1,18 @@
 from shutil import copyfile
-import sys, os, glob, pickle
+import sys, os, glob, pickle, time, argparse, importlib
 import numpy as np
 import pandas as pd
 import gensim
 import networkx as nx
-import importlib
+
 import params
 from cmn import Common as cmn
 
-def run_pipeline():
+def main():
+    if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(f'../output/{params.general["runId"]}')
     copyfile('params.py', f'../output/{params.general["runId"]}/params.py')
+    cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
     cmn.logger.info(f'1. Data Reading & Preparation ...')
@@ -82,7 +85,7 @@ def run_pipeline():
         embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
-        from gel import graphEmbedding as GE
+        from gel import GraphEmbedding as GE
         embeddings = GE.main(graphs, method=params.gel['method'])
 
     # Community Extraction
@@ -104,64 +107,30 @@ def run_pipeline():
     return news_output
 
 
-def main(tml_baselines, gel_baselines):
-    try:
-        current_run_id = int(params.RunID.split("__")[0])
-    except:
-        current_run_id = params.RunID
-    for g in gel_baselines:
-        params.gel['method'] = g
-        for t in tml_baselines:
-            # current_run_id += 1
-            params.tml['method'] = t
-            newRunID = f'{current_run_id}__{g}__{t}'
-        with open('params.py') as f:
-            lines = f.readlines()
-        # Re-open file here
-        f2 = open('params.py', 'w')
-        for line in lines:
+def run(tml_baselines, gel_baselines):
+    for t in tml_baselines:
+        for g in gel_baselines:
             try:
-                if line.split()[0] == "RunID":
-                    line = f"RunID = '{newRunID}'\n"
-                    f2.write(line)
-                elif line.split()[0] == "tml":
-                    tml_flag = True
-                    gel_flag = False
-                    cpl_flag = False
-                    f2.write(line)
-                elif line.split()[0] == "gel":
-                    tml_flag = False
-                    gel_flag = True
-                    cpl_flag = False
-                    f2.write(line)
-                elif line.split()[0] == "cpl":
-                    tml_flag = False
-                    gel_flag = False
-                    cpl_flag = True
-                    f2.write(line)
-                elif line.split()[0] == "'method':":
-                    if tml_flag:
-                        f2.write(f"    'method': '{t}'\n")
-                    elif gel_flag:
-                        f2.write(f"    'method': '{g}'\n")
-                    else:
-                        f2.write(line)
-                else:
-                    f2.write(line)
-            except:
-                f2.write(line)
-        f2.close()
-        importlib.reload(params)
-        if not os.path.isdir(f'../output'): os.makedirs(f'../output')
-        if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(
-            f'../output/{params.general["runId"]}')
-        cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
-        c = run_pipeline()
-    return c
+                print(f'Running pipeline for {t} and {g} ....')#cannot use logger as it's initialized for each run of pipeline
+                runid = f'{t}.{g}.{int(time.time())}'
+                with open('params_template.py') as f: params_str = f.read()
+                new_params_str = params_str.replace('@runid', runid).replace('@tml_method', t).replace('@gel_method', g)
+                with open('params.py', 'w') as f: f.write(new_params_str)
+                importlib.reload(params)
+                main()
+            finally:
+                print('\n\n\n')
+    #aggregate('../ouptut')
 
+def addargs(parser):
+    baseline = parser.add_argument_group('baseline')
+    baseline.add_argument('-tml_methods', '--tml-method-list', nargs='+', default=['LDA'], required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
+    baseline.add_argument('-gel_methods', '--gel-method-list', nargs='+', default=['DynAERNN'], required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
 
-
-
-tml_baselines = ['LDA']
-gel_baselines = ['AE', 'DynAE', 'DynRNN', 'DynAERNN', 'Node2Vec']
-main(tml_baselines, gel_baselines)
+# python -u main.py -tml_methods LDA -gel_methods AE DynAE DynRNN DynAERNN
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='SEERa')
+    addargs(parser)
+    args = parser.parse_args()
+    run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list)
+    # aggregate('../output')

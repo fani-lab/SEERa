@@ -9,6 +9,7 @@ from dynamicgem.embedding.dynAE import DynAE
 from dynamicgem.embedding.dynRNN import DynRNN
 
 from gel import CppWrapper as N2V
+from cmn import Common as cmn
 import params
 
 def embedding(dim_emb, lookback, method='DynAERNN'):

@@ -1,8 +1,8 @@
 import sys, re
 import pandas as pd
 import datetime
-import params
 
+import params
 
 def load_tweets(path, start_date, end_date, stopwords=['www', 'RT', 'com', 'http']):
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')

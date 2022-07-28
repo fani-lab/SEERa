@@ -1,14 +1,7 @@
-import random
-import numpy as np
-
-random.seed(0)
-np.random.seed(0)
-RunID = 5
-
 
 general = {
     'comment': '',
-    'runId': RunID,
+    'runId': '@runid',
     'cuda': '-1'
 }
 dal = {
@@ -22,7 +15,7 @@ dal = {
     'tagMe': False
 }
 tml = {
-    'path2save': f'../output/{RunID}/tml',
+    'path2save': f'../output/{general["runId"]}/tml',
     'numTopics': 30,
     'library': 'gensim',
     'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
@@ -30,20 +23,20 @@ tml = {
     'justOne': False,
     'binary': False,
     'threshold': 0.5,
-    'method': 'LDA'
+    'method': '@tml_method' #[LDA]
 }
 uml = {
     'userSimilarityThreshold': 0.45,
-    'path2save': f'../output/{RunID}/uml'
+    'path2save': f'../output/{general["runId"]}/uml'
 }
 gel = {
-    'path2save': f'../output/{RunID}/gel',
+    'path2save': f'../output/{general["runId"]}/gel',
     'embeddingDim': 30,
-    'epoch': 5,
-    'method': 'DynAERNN'
+    'epoch': 1,
+    'method': '@gel_method' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
-    'path2save': f'../output/{RunID}/cpl',
+    'path2save': f'../output/{general["runId"]}/cpl',
     'method': 'louvain',
     'minSize': 10
 }
@@ -61,8 +54,7 @@ evl = {
 }
 
 apl = {
-    'path2read': f'../data/toy',
-    'path2save': f'../output/{RunID}/apl',
+    'path2save': f'../output/{general["runId"]}/apl',
     'topK': 20,
     'textTitle': 'Text'
 }
