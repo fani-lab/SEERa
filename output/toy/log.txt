@@ -1,0 +1,1049 @@
+Running pipeline for LDA and DynAERNN ....
+1. Data Reading & Preparation ...
+##################################################
+Loading perprocessed files ...
+Loading perprocessed files failed! Generating files ...
+dataset.shape: (146730, 6)
+dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
+       'Tokens'],
+      dtype='object')
+Data Preparation ...
+DataPreperation: userModeling=True, timeModeling=True, preProcessing=False, TagME=False
+DataPreperation: Length of the dataset after applying groupby: 26006 
+
+DataPreparation: Processed docs shape: (26006,)
+processed_docs.shape: (26006,)
+documents.shape: (26006, 3)
+2. Topic modeling ...
+##################################################
+Loading LDA model ...
+loading Dictionary object from ../output/toy/LDA.DynAERNN/tml/gensim_30topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy/LDA.DynAERNN/tml/gensim_30topics_TopicModelingDictionary.mm'}
+Loading LDA model failed! Training LDA model ...
+TopicModeling: num_topics=30,  filterExtremes=True, library=gensim
+adding document #0 to Dictionary(0 unique tokens: [])
+adding document #10000 to Dictionary(112033 unique tokens: ['&', '1,500', '13th', '2,', '2010']...)
+adding document #20000 to Dictionary(200514 unique tokens: ['&', '1,500', '13th', '2,', '2010']...)
+built Dictionary(247019 unique tokens: ['&', '1,500', '13th', '2,', '2010']...) from 26006 documents (total 2030751 corpus positions)
+discarding 147019 tokens: [('and', 6113), ('for', 6631), ('in', 7428), ('on', 5850), ('the', 10682), ('to', 9525), ('#freewillie', 1), ('http://tinyurl.com/28fvxrx', 1), ('is', 5801), ('of', 7583)]...
+keeping 100000 tokens which were in no less than 1 and no more than 5201 (=20.0%) documents
+rebuilding dictionary, shrinking gaps
+resulting dictionary: Dictionary(100000 unique tokens: ['&', '1,500', '13th', '2,', '2010']...)
+using symmetric alpha at 0.03333333333333333
+using symmetric eta at 0.03333333333333333
+using serial LDA version on this node
+running online (multi-pass) LDA training, 30 topics, 5 passes over the supplied corpus of 26006 documents, updating model once every 2000 documents, evaluating perplexity every 20000 documents, iterating 50x with a convergence threshold of 0.001000
+PROGRESS: pass 0, at document #2000/26006
+performing inference on a chunk of 2000 documents
+1362/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #11 (0.033): 0.008*"you" + 0.006*"..." + 0.006*"-" + 0.006*"with" + 0.005*"by" + 0.005*"new" + 0.004*"from" + 0.004*"be" + 0.004*"are" + 0.004*"your"
+topic #19 (0.033): 0.008*"are" + 0.008*"..." + 0.006*"be" + 0.005*"at" + 0.004*"-" + 0.004*"by" + 0.004*"as" + 0.004*"you" + 0.004*"will" + 0.004*"???"
+topic #6 (0.033): 0.008*"you" + 0.007*"..." + 0.006*"that" + 0.005*"not" + 0.005*"my" + 0.004*"new" + 0.004*"from" + 0.004*"-" + 0.004*"this" + 0.004*"with"
+topic #15 (0.033): 0.009*"at" + 0.009*"by" + 0.006*"with" + 0.005*"that" + 0.005*"-" + 0.004*"new" + 0.003*"..." + 0.003*"&" + 0.003*"are" + 0.003*"not"
+topic #28 (0.033): 0.008*"-" + 0.006*"..." + 0.006*"with" + 0.005*"this" + 0.005*"world" + 0.005*"that" + 0.004*"from" + 0.004*"you" + 0.004*"at" + 0.004*"be"
+topic diff=24.541904, rho=1.000000
+PROGRESS: pass 0, at document #4000/26006
+performing inference on a chunk of 2000 documents
+1716/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #17 (0.033): 0.012*"-" + 0.009*"..." + 0.007*"at" + 0.006*"by" + 0.006*"with" + 0.005*"you" + 0.005*"new" + 0.004*"as" + 0.004*"wikileaks" + 0.004*"it"
+topic #1 (0.033): 0.013*"at" + 0.011*"from" + 0.007*"it" + 0.007*"you" + 0.007*"-" + 0.006*"i'm" + 0.006*"..." + 0.006*"with" + 0.005*"our" + 0.004*"about"
+topic #22 (0.033): 0.018*"it" + 0.013*"keep" + 0.010*"-" + 0.007*"going" + 0.007*"you" + 0.007*"..." + 0.007*"have" + 0.006*"wikileaks" + 0.006*"not" + 0.005*"from"
+topic #18 (0.033): 0.010*"..." + 0.010*"by" + 0.009*"new" + 0.008*"at" + 0.006*"it" + 0.005*"wikileaks" + 0.005*"-" + 0.005*"with" + 0.005*"you" + 0.005*"&"
+topic #14 (0.033): 0.062*"de" + 0.023*"la" + 0.021*"en" + 0.021*"el" + 0.012*"no" + 0.011*"que" + 0.009*"para" + 0.009*"un" + 0.008*"se" + 0.008*"por"
+topic diff=0.826597, rho=0.707107
+PROGRESS: pass 0, at document #6000/26006
+performing inference on a chunk of 2000 documents
+1787/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #16 (0.033): 0.014*"-" + 0.006*"be" + 0.006*"by" + 0.006*"that" + 0.006*"from" + 0.005*"&" + 0.005*"with" + 0.005*"#quote" + 0.005*"..." + 0.005*"facebook"
+topic #3 (0.033): 0.011*"de" + 0.009*"do" + 0.009*"rt." + 0.007*"-" + 0.006*"les" + 0.006*"news]" + 0.005*"temps" + 0.005*"no" + 0.005*"à" + 0.004*"east"
+topic #0 (0.033): 0.010*"&" + 0.010*"min" + 0.009*"rt!" + 0.009*"listen" + 0.009*"you" + 0.008*"at" + 0.008*"with" + 0.007*"my" + 0.007*"good" + 0.006*"what"
+topic #1 (0.033): 0.015*"at" + 0.011*"from" + 0.008*"..." + 0.007*"you" + 0.007*"it" + 0.007*"-" + 0.007*"hourly" + 0.006*"with" + 0.005*"are" + 0.005*"our"
+topic #23 (0.033): 0.027*"other." + 0.025*"#ff" + 0.012*"-" + 0.010*"&" + 0.007*"be" + 0.006*"you" + 0.006*"each" + 0.005*"from" + 0.005*"your" + 0.005*"at"
+topic diff=0.732589, rho=0.577350
+PROGRESS: pass 0, at document #8000/26006
+performing inference on a chunk of 2000 documents
+1870/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #22 (0.033): 0.019*"it" + 0.011*"-" + 0.010*"keep" + 0.007*"..." + 0.007*"wikileaks" + 0.006*"have" + 0.006*"you" + 0.006*"are" + 0.006*"be" + 0.005*"not"
+topic #13 (0.033): 0.036*"-" + 0.019*"today" + 0.018*"stories" + 0.017*"daily" + 0.017*"out!" + 0.016*"?" + 0.015*"top" + 0.013*"by" + 0.008*"nyc" + 0.006*"news"
+topic #28 (0.033): 0.011*"-" + 0.009*"this" + 0.009*"..." + 0.007*"with" + 0.007*"be" + 0.007*"at" + 0.007*"are" + 0.007*"that" + 0.006*"&" + 0.006*"it"
+topic #19 (0.033): 0.028*"??????" + 0.025*"?????" + 0.021*"???" + 0.018*"?????????" + 0.017*"????" + 0.017*"??????????????" + 0.017*"???????" + 0.017*"????????" + 0.013*"-" + 0.013*"???????????"
+topic #14 (0.033): 0.069*"de" + 0.021*"en" + 0.019*"la" + 0.017*"que" + 0.016*"el" + 0.015*"do" + 0.015*"no" + 0.012*"da" + 0.012*"é" + 0.011*"se"
+topic diff=0.701256, rho=0.500000
+PROGRESS: pass 0, at document #10000/26006
+performing inference on a chunk of 2000 documents
+1899/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #23 (0.033): 0.029*"#ff" + 0.012*"other." + 0.012*"nyt:" + 0.011*"&" + 0.010*"-" + 0.005*"be" + 0.005*"at" + 0.005*"tonight" + 0.004*"hotel" + 0.004*"this"
+topic #28 (0.033): 0.010*"-" + 0.009*"..." + 0.008*"this" + 0.008*"tax" + 0.008*"that" + 0.007*"are" + 0.007*"&" + 0.007*"with" + 0.007*"gop" + 0.007*"be"
+topic #13 (0.033): 0.032*"-" + 0.020*"?" + 0.018*"today" + 0.018*"daily" + 0.016*"stories" + 0.014*"top" + 0.013*"out!" + 0.012*"by" + 0.010*"unions" + 0.010*"civil"
+topic #3 (0.033): 0.008*"in:" + 0.008*"rt." + 0.006*"playing" + 0.005*"do" + 0.005*"de" + 0.005*"les" + 0.005*"-" + 0.005*"temps" + 0.005*"sexy" + 0.004*"pour"
+topic #24 (0.033): 0.014*"rt:" + 0.011*"u2" + 0.008*"do." + 0.005*"sister" + 0.005*"do" + 0.005*"#wikileaks" + 0.005*"????????????????????????????" + 0.005*"2022," + 0.004*"blessed" + 0.004*"requests"
+topic diff=0.588061, rho=0.447214
+PROGRESS: pass 0, at document #12000/26006
+performing inference on a chunk of 2000 documents
+1910/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #10 (0.033): 0.012*"-" + 0.008*"via" + 0.007*"&" + 0.007*"grammy" + 0.006*"by" + 0.006*"this" + 0.005*"party" + 0.005*"tea" + 0.005*"fashion" + 0.005*"uploaded"
+topic #3 (0.033): 0.011*"bom" + 0.008*"rt." + 0.006*"temps" + 0.006*"in:" + 0.006*"todays" + 0.005*"playing" + 0.005*"sexy" + 0.005*"au" + 0.005*"ex" + 0.005*"do"
+topic #23 (0.033): 0.033*"#ff" + 0.010*"&" + 0.009*"other." + 0.009*"-" + 0.008*"nyt:" + 0.007*"hotel" + 0.007*"nicki" + 0.007*"tonight" + 0.006*"#nowplaying" + 0.005*"luv"
+topic #9 (0.033): 0.007*"onto" + 0.006*"with" + 0.006*"minha" + 0.006*"by" + 0.005*"ambassador's" + 0.005*"amazing!" + 0.004*"..." + 0.004*"barbie" + 0.004*"500" + 0.004*"#howdoyouknow"
+topic #12 (0.033): 0.009*"-" + 0.008*"new" + 0.006*"cruise" + 0.005*"miami" + 0.005*"now" + 0.005*"nba" + 0.005*"cell" + 0.004*"#soccer" + 0.004*"an" + 0.004*"orange"
+topic diff=0.479450, rho=0.408248
+PROGRESS: pass 0, at document #14000/26006
+performing inference on a chunk of 2000 documents
+1935/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #21 (0.033): 0.012*"lol." + 0.008*"..." + 0.007*"waste" + 0.006*"-" + 0.005*"gold" + 0.005*"above" + 0.005*"eat" + 0.005*"police" + 0.005*"it" + 0.004*"ugly"
+topic #27 (0.033): 0.025*":" + 0.016*"le" + 0.015*"des" + 0.014*"et" + 0.012*"plus" + 0.011*"-" + 0.011*"pour" + 0.010*"du" + 0.010*"les" + 0.009*"ill"
+topic #2 (0.033): 0.027*"..." + 0.020*"-" + 0.011*"with" + 0.010*"at" + 0.008*"that" + 0.008*"you" + 0.007*"from" + 0.006*"via" + 0.006*"us" + 0.006*"will"
+topic #25 (0.033): 0.028*"-" + 0.026*"video" + 0.025*"--" + 0.015*"youtube" + 0.011*"i" + 0.011*"liked" + 0.009*"traffic" + 0.007*"lil" + 0.007*"due" + 0.006*"at"
+topic #6 (0.033): 0.029*"you" + 0.024*"my" + 0.016*"it" + 0.013*"that" + 0.012*"be" + 0.012*"i" + 0.012*"have" + 0.012*"this" + 0.011*"me" + 0.010*"if"
+topic diff=0.374696, rho=0.377964
+PROGRESS: pass 0, at document #16000/26006
+performing inference on a chunk of 2000 documents
+1945/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #13 (0.033): 0.044*"?" + 0.026*"-" + 0.025*"daily" + 0.019*"today" + 0.018*"stories" + 0.015*"out!" + 0.014*"top" + 0.011*"by" + 0.009*"civil" + 0.008*"unions"
+topic #19 (0.033): 0.107*"????" + 0.104*"???" + 0.101*"??" + 0.087*"?????" + 0.064*"??????" + 0.050*"???????" + 0.025*"?" + 0.023*"????????" + 0.015*"?????????" + 0.009*"??????????"
+topic #21 (0.033): 0.015*"lol." + 0.015*".." + 0.009*"di" + 0.008*"gold" + 0.007*"..." + 0.006*"waste" + 0.006*"-" + 0.005*"above" + 0.005*"walk" + 0.005*"agenda"
+topic #4 (0.033): 0.034*"world" + 0.026*"cup" + 0.020*"2018" + 0.018*"host" + 0.017*"qatar" + 0.016*"2022" + 0.015*"russia" + 0.013*"fifa" + 0.010*"-" + 0.010*"#worldcup"
+topic #20 (0.033): 0.013*"retweet" + 0.011*"!!" + 0.009*"plz" + 0.008*"#cablegate" + 0.006*"@reuters_biz:" + 0.006*"$" + 0.006*"tweets" + 0.006*"$10" + 0.005*"..." + 0.005*"twitter."
+topic diff=0.335207, rho=0.353553
+PROGRESS: pass 0, at document #18000/26006
+performing inference on a chunk of 2000 documents
+1944/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #12 (0.033): 0.008*"-" + 0.007*"cruise" + 0.006*"new" + 0.006*"miami" + 0.005*"«" + 0.005*"(ap)" + 0.005*"agreement" + 0.005*"you'd" + 0.005*"nfl" + 0.005*"cell"
+topic #28 (0.033): 0.013*"..." + 0.009*"-" + 0.008*"that" + 0.008*"this" + 0.008*"tax" + 0.008*"&" + 0.007*"are" + 0.007*"with" + 0.007*"we" + 0.007*"be"
+topic #17 (0.033): 0.008*"-" + 0.008*"sa" + 0.008*"hamas" + 0.007*"marriage" + 0.006*"angels" + 0.006*"students" + 0.006*"court" + 0.005*"gaza" + 0.005*"school" + 0.005*"cultura"
+topic #15 (0.033): 0.015*"at" + 0.010*"closed" + 0.009*"-" + 0.008*"snow" + 0.007*"due" + 0.007*"contributions" + 0.006*"out" + 0.006*"morning," + 0.006*"today)" + 0.006*"newspaper"
+topic #13 (0.033): 0.043*"?" + 0.024*"daily" + 0.023*"-" + 0.019*"today" + 0.018*"stories" + 0.014*"top" + 0.014*"out!" + 0.012*"by" + 0.009*"film" + 0.009*"civil"
+topic diff=0.244448, rho=0.333333
+bound: at document #0
+-15.179 per-word bound, 37090.6 perplexity estimate based on a held-out corpus of 2000 documents with 164863 words
+PROGRESS: pass 0, at document #20000/26006
+performing inference on a chunk of 2000 documents
+1952/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #23 (0.033): 0.082*"#ff" + 0.035*"#nowplaying" + 0.014*"hotel" + 0.013*"!!!" + 0.012*";-)" + 0.010*"bien" + 0.009*"&" + 0.008*"nicki" + 0.007*":-)" + 0.006*"gracias"
+topic #27 (0.033): 0.062*":" + 0.039*"le" + 0.039*"et" + 0.028*"les" + 0.027*"des" + 0.026*"pour" + 0.024*"du" + 0.023*"à" + 0.017*"-" + 0.016*"une"
+topic #4 (0.033): 0.039*"world" + 0.032*"cup" + 0.026*"2018" + 0.021*"host" + 0.021*"2022" + 0.018*"qatar" + 0.018*"russia" + 0.016*"fifa" + 0.011*"#worldcup" + 0.011*"-"
+topic #3 (0.033): 0.017*"par" + 0.015*"france" + 0.013*"#artwiculate" + 0.013*"sexy" + 0.011*"dia!" + 0.011*"au" + 0.011*"ballyhoo" + 0.009*"temps" + 0.009*"rt." + 0.008*"merci"
+topic #25 (0.033): 0.095*"week" + 0.030*"-" + 0.021*"--" + 0.020*"video" + 0.013*"last" + 0.010*"youtube" + 0.008*"was" + 0.008*"@youtube" + 0.007*"traffic" + 0.007*"der"
+topic diff=0.249611, rho=0.316228
+PROGRESS: pass 0, at document #22000/26006
+performing inference on a chunk of 2000 documents
+1964/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #13 (0.033): 0.060*"?" + 0.031*"daily" + 0.024*"stories" + 0.022*"out!" + 0.021*"-" + 0.020*"today" + 0.020*"top" + 0.020*"by" + 0.016*"civil" + 0.010*"illinois"
+topic #8 (0.033): 0.013*"..." + 0.009*"tax" + 0.008*"#tcot" + 0.008*"#p2" + 0.008*"be" + 0.007*"will" + 0.007*"are" + 0.007*"gop" + 0.007*"cuts" + 0.006*"-"
+topic #21 (0.033): 0.083*"#breakingnews" + 0.022*"lol." + 0.022*"di" + 0.018*".." + 0.013*"paulo" + 0.008*"waste" + 0.007*"agenda" + 0.006*"#fb" + 0.006*"gold" + 0.006*"indonesia"
+topic #7 (0.033): 0.011*"." + 0.009*"letting" + 0.008*"#followfriday" + 0.007*"base" + 0.007*"charity" + 0.007*""" + 0.007*"#deficit" + 0.007*"»" + 0.006*"purchase" + 0.006*"tonight:"
+topic #3 (0.033): 0.027*"par" + 0.014*"france" + 0.012*"sexy" + 0.010*"au" + 0.010*"sa" + 0.010*"#artwiculate" + 0.009*"temps" + 0.009*"dia!" + 0.008*"meio" + 0.008*"in:"
+topic diff=0.179389, rho=0.301511
+PROGRESS: pass 0, at document #24000/26006
+performing inference on a chunk of 2000 documents
+1954/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #14 (0.033): 0.106*"de" + 0.037*"la" + 0.032*"en" + 0.030*"que" + 0.028*"el" + 0.025*"no" + 0.022*"do" + 0.018*"para" + 0.016*"da" + 0.015*"..."
+topic #27 (0.033): 0.078*":" + 0.034*"le" + 0.032*"et" + 0.027*"les" + 0.024*"des" + 0.022*"à" + 0.021*"du" + 0.020*"pour" + 0.018*"-" + 0.013*"la"
+topic #0 (0.033): 0.028*"god" + 0.012*"rosa" + 0.011*"parks" + 0.011*"dutch" + 0.010*"&" + 0.007*"55" + 0.007*"yg" + 0.007*"seat" + 0.007*"good" + 0.007*"years"
+topic #26 (0.033): 0.032*"???." + 0.030*"????." + 0.016*"[news]" + 0.016*"morning!" + 0.014*"??????." + 0.012*"lucky" + 0.012*"#cnn" + 0.011*"opened" + 0.009*"wine" + 0.008*"cross"
+topic #24 (0.033): 0.031*"rt:" + 0.023*"crime" + 0.016*"do." + 0.012*"????????????????????????????" + 0.011*"#mashableawards" + 0.010*"thai" + 0.010*"http://mash.to/2imzn" + 0.009*"blessed" + 0.008*"sister" + 0.008*"etc."
+topic diff=0.149649, rho=0.288675
+PROGRESS: pass 0, at document #26000/26006
+performing inference on a chunk of 2000 documents
+1952/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #8 (0.033): 0.014*"..." + 0.010*"tax" + 0.008*"gop" + 0.007*"#p2" + 0.007*"cuts" + 0.007*"will" + 0.007*"are" + 0.007*"be" + 0.007*"#tcot" + 0.005*"from"
+topic #16 (0.033): 0.014*"loss" + 0.011*"cant" + 0.010*"-" + 0.010*"facebook" + 0.007*"lunch" + 0.007*"winning" + 0.006*"across" + 0.005*"christmas" + 0.005*"launched" + 0.005*"lies"
+topic #13 (0.033): 0.115*"?" + 0.037*"daily" + 0.029*"stories" + 0.026*"top" + 0.026*"by" + 0.022*"today" + 0.020*"out!" + 0.018*"-" + 0.013*"civil" + 0.008*"mlm"
+topic #9 (0.033): 0.018*"#howdoyouknow" + 0.013*"@reuters_biz:" + 0.011*"photo:" + 0.011*"radia" + 0.011*"microsoft" + 0.010*"complexo" + 0.008*"xbox" + 0.008*"mão" + 0.008*"minha" + 0.008*"tapes"
+topic #5 (0.033): 0.021*"#news" + 0.010*"ppl" + 0.009*"-" + 0.009*"mr" + 0.009*"#usa" + 0.007*"#freegary" + 0.007*"promote" + 0.006*"sky" + 0.005*"world:" + 0.005*"rich"
+topic diff=0.121811, rho=0.277350
+bound: at document #0
+-16.433 per-word bound, 88451.3 perplexity estimate based on a held-out corpus of 6 documents with 73 words
+PROGRESS: pass 0, at document #26006/26006
+performing inference on a chunk of 6 documents
+6/6 documents converged within 50 iterations
+updating topics
+merging changes from 6 documents into a model of 26006 documents
+topic #19 (0.033): 0.146*"???" + 0.119*"??" + 0.106*"????" + 0.083*"?????" + 0.059*"??????" + 0.053*"?" + 0.045*"???????" + 0.030*"????????" + 0.026*">>>" + 0.023*"?????????"
+topic #17 (0.033): 0.136*"peace" + 0.016*"politicos" + 0.009*"card" + 0.009*"visa" + 0.009*"dennis" + 0.008*"marriage" + 0.007*"angels" + 0.007*"belgium" + 0.006*"students" + 0.005*"minority"
+topic #25 (0.033): 0.035*"week" + 0.033*"-" + 0.026*"--" + 0.022*"video" + 0.017*"@youtube" + 0.015*"via" + 0.013*"der" + 0.012*"youtube" + 0.011*"nasa" + 0.009*"die"
+topic #28 (0.033): 0.019*"was" + 0.017*"on!" + 0.017*"download" + 0.017*"ranking" + 0.016*"last" + 0.012*"..." + 0.007*"&" + 0.007*"that" + 0.007*"-" + 0.006*"not"
+topic #1 (0.033): 0.017*"at" + 0.007*"from" + 0.006*"radio" + 0.005*"with" + 0.005*"festival" + 0.005*"..." + 0.004*"#p2" + 0.004*"gaga" + 0.004*"live" + 0.004*"pm"
+topic diff=0.230802, rho=0.267261
+PROGRESS: pass 1, at document #2000/26006
+performing inference on a chunk of 2000 documents
+1972/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #20 (0.033): 0.018*"!!" + 0.013*"retweet" + 0.012*"plz" + 0.011*"...:" + 0.010*"tweets" + 0.009*"!" + 0.009*"#cablegate" + 0.006*"$" + 0.006*"mess" + 0.006*"twitter."
+topic #16 (0.033): 0.009*"-" + 0.009*"loss" + 0.008*"facebook" + 0.007*"cant" + 0.005*"lunch" + 0.005*"winning" + 0.005*"across" + 0.005*"christmas" + 0.004*"from" + 0.004*"development"
+topic #28 (0.033): 0.017*"was" + 0.013*"download" + 0.013*"last" + 0.013*"on!" + 0.013*"ranking" + 0.010*"..." + 0.007*"that" + 0.007*"-" + 0.006*"&" + 0.006*"this"
+topic #21 (0.033): 0.104*"lol." + 0.030*"#breakingnews" + 0.018*"di" + 0.011*".." + 0.006*"paulo" + 0.006*"gold" + 0.005*"waste" + 0.005*"give" + 0.005*"indonesia" + 0.004*"agenda"
+topic #13 (0.033): 0.085*"?" + 0.032*"daily" + 0.026*"stories" + 0.024*"top" + 0.020*"by" + 0.019*"out!" + 0.019*"today" + 0.018*"-" + 0.013*"civil" + 0.007*"illinois"
+topic diff=0.127423, rho=0.258173
+PROGRESS: pass 1, at document #4000/26006
+performing inference on a chunk of 2000 documents
+1971/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #18 (0.033): 0.015*"..." + 0.014*"by" + 0.011*"wikileaks" + 0.011*"-" + 0.009*"new" + 0.008*"euro" + 0.007*"u.s." + 0.007*"as" + 0.007*"at" + 0.007*"says"
+topic #17 (0.033): 0.081*"peace" + 0.009*"politicos" + 0.008*"card" + 0.007*"students" + 0.006*"visa" + 0.006*"dennis" + 0.006*"marriage" + 0.005*"corrupt" + 0.005*"epic" + 0.005*"lib"
+topic #29 (0.033): 0.032*"aids" + 0.029*"world" + 0.023*"please" + 0.023*"by" + 0.020*"each" + 0.020*"red" + 0.017*"go" + 0.016*"day" + 0.014*"..." + 0.012*"-"
+topic #1 (0.033): 0.018*"at" + 0.008*"from" + 0.006*"with" + 0.005*"radio" + 0.004*":-)" + 0.004*"#p2" + 0.004*"pm" + 0.004*"-" + 0.004*"tonight" + 0.004*"festival"
+topic #22 (0.033): 0.032*"twitter's" + 0.019*"home" + 0.010*"it" + 0.009*"keep" + 0.008*"-" + 0.007*"now" + 0.006*"wikileaks" + 0.005*"address" + 0.004*"behind" + 0.004*"online"
+topic diff=0.104519, rho=0.258173
+PROGRESS: pass 1, at document #6000/26006
+performing inference on a chunk of 2000 documents
+1974/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #3 (0.033): 0.012*"rt." + 0.011*"par" + 0.010*"sa" + 0.010*"janeiro" + 0.009*"france" + 0.009*"temps" + 0.007*"#googlenewsjp" + 0.007*"toronto" + 0.006*"in:" + 0.006*"news]"
+topic #16 (0.033): 0.009*"-" + 0.009*"loss" + 0.007*"facebook" + 0.007*"christmas" + 0.006*"cant" + 0.005*"winning" + 0.005*"photos" + 0.005*"lunch" + 0.005*"media" + 0.004*"across"
+topic #1 (0.033): 0.019*"at" + 0.008*"update" + 0.007*"from" + 0.007*"hourly" + 0.006*"with" + 0.006*"cnn" + 0.005*"news" + 0.005*"pm" + 0.004*"live" + 0.004*"#hcr"
+topic #6 (0.033): 0.029*"you" + 0.021*"my" + 0.017*"it" + 0.014*"that" + 0.012*"your" + 0.011*"me" + 0.011*"have" + 0.011*"be" + 0.011*"we" + 0.010*"this"
+topic #20 (0.033): 0.020*"!!" + 0.015*"retweet" + 0.012*"#cablegate" + 0.010*"tweets" + 0.010*"plz" + 0.007*"!" + 0.006*"...:" + 0.006*"cd" + 0.006*"$" + 0.006*"#wikileaks"
+topic diff=0.068605, rho=0.258173
+PROGRESS: pass 1, at document #8000/26006
+performing inference on a chunk of 2000 documents
+1974/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #14 (0.033): 0.098*"de" + 0.032*"la" + 0.029*"en" + 0.027*"que" + 0.025*"el" + 0.022*"no" + 0.018*"do" + 0.015*"para" + 0.014*"da" + 0.013*"se"
+topic #21 (0.033): 0.057*"lol." + 0.023*"di" + 0.017*"#breakingnews" + 0.013*".." + 0.008*"gold" + 0.008*"#wc2022" + 0.007*"waste" + 0.006*"ini" + 0.005*"indonesia" + 0.005*"agenda"
+topic #11 (0.033): 0.017*"your" + 0.016*"you" + 0.014*"how" + 0.011*"-" + 0.011*"..." + 0.010*"can" + 0.009*"be" + 0.009*"are" + 0.009*"from" + 0.009*"with"
+topic #20 (0.033): 0.018*"!!" + 0.014*"retweet" + 0.012*"#cablegate" + 0.012*"tweets" + 0.008*"plz" + 0.008*"!" + 0.006*"#wikileaks" + 0.006*"twitter." + 0.006*"cd" + 0.005*"$10"
+topic #28 (0.033): 0.015*"was" + 0.010*"last" + 0.008*"..." + 0.007*"download" + 0.007*"&" + 0.007*"that" + 0.007*"-" + 0.007*"ranking" + 0.007*"this" + 0.007*"on!"
+topic diff=0.085006, rho=0.258173
+PROGRESS: pass 1, at document #10000/26006
+performing inference on a chunk of 2000 documents
+1965/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #22 (0.033): 0.016*"twitter's" + 0.013*"home" + 0.008*"it" + 0.006*"-" + 0.006*"keep" + 0.006*"now" + 0.005*"wikileaks" + 0.005*"address" + 0.004*"ibm" + 0.004*"involved"
+topic #3 (0.033): 0.010*"rt." + 0.010*"in:" + 0.008*"france" + 0.008*"par" + 0.008*"temps" + 0.008*"sa" + 0.007*"santo" + 0.006*"janeiro" + 0.006*"sexy" + 0.006*"toronto"
+topic #2 (0.033): 0.032*"..." + 0.027*"-" + 0.010*"at" + 0.010*"from" + 0.010*"with" + 0.007*"will" + 0.007*"this" + 0.007*"wikileaks" + 0.007*"new" + 0.006*"via"
+topic #15 (0.033): 0.020*"snow" + 0.016*"at" + 0.011*"due" + 0.011*"closed" + 0.010*"airport" + 0.008*"-" + 0.008*"#assange" + 0.007*"#football" + 0.007*"weather" + 0.007*"delays"
+topic #0 (0.033): 0.030*"god" + 0.024*"rt!" + 0.015*"rosa" + 0.013*"parks" + 0.013*"indy" + 0.010*"min" + 0.010*"&" + 0.008*"her" + 0.008*"years" + 0.007*"seat"
+topic diff=0.074887, rho=0.258173
+PROGRESS: pass 1, at document #12000/26006
+performing inference on a chunk of 2000 documents
+1979/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #20 (0.033): 0.017*"!" + 0.016*"retweet" + 0.016*"!!" + 0.012*"tweets" + 0.011*"plz" + 0.010*"$" + 0.009*"tested" + 0.008*"#cablegate" + 0.007*"cd" + 0.007*"$10"
+topic #4 (0.033): 0.045*"world" + 0.035*"cup" + 0.024*"2018" + 0.022*"host" + 0.020*"qatar" + 0.020*"russia" + 0.019*"2022" + 0.018*"fifa" + 0.012*"bid" + 0.012*"england"
+topic #19 (0.033): 0.084*"???" + 0.068*"??" + 0.063*"????" + 0.054*"?????" + 0.047*"??????" + 0.034*"???????" + 0.032*"?" + 0.025*"????????" + 0.021*"?????????" + 0.017*"??????????"
+topic #7 (0.033): 0.026*"." + 0.009*"base" + 0.008*""" + 0.008*"letting" + 0.008*"charity" + 0.007*"owners" + 0.007*"purchase" + 0.005*"tonight:" + 0.005*"#followfriday" + 0.004*"gop's"
+topic #12 (0.033): 0.014*"nyt:" + 0.010*"nba" + 0.009*"windows" + 0.008*"cruise" + 0.008*"miami" + 0.006*"cell" + 0.006*"foursquare" + 0.006*"nfl" + 0.005*"appreciate" + 0.005*"new"
+topic diff=0.062330, rho=0.258173
+PROGRESS: pass 1, at document #14000/26006
+performing inference on a chunk of 2000 documents
+1982/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #0 (0.033): 0.033*"god" + 0.018*"rt!" + 0.013*"rosa" + 0.011*"parks" + 0.009*"&" + 0.008*"her" + 0.008*"indy" + 0.007*"min" + 0.007*"years" + 0.007*"seat"
+topic #25 (0.033): 0.036*"--" + 0.035*"-" + 0.034*"video" + 0.020*"youtube" + 0.013*"week" + 0.013*"liked" + 0.012*"via" + 0.011*"nasa" + 0.011*"i" + 0.010*"der"
+topic #12 (0.033): 0.012*"nyt:" + 0.009*"miami" + 0.008*"nba" + 0.007*"windows" + 0.007*"cruise" + 0.007*"you'd" + 0.007*"nfl" + 0.007*"cell" + 0.006*"appreciate" + 0.005*"egg"
+topic #6 (0.033): 0.029*"you" + 0.022*"my" + 0.018*"it" + 0.015*"that" + 0.012*"have" + 0.012*"be" + 0.011*"me" + 0.011*"your" + 0.010*"i" + 0.010*"this"
+topic #26 (0.033): 0.024*"morning!" + 0.018*"#cnn" + 0.013*"[news]" + 0.011*"lucky" + 0.011*"families" + 0.009*"mayor" + 0.009*"tickets" + 0.008*"wine" + 0.008*"ireland" + 0.007*"ford"
+topic diff=0.051178, rho=0.258173
+PROGRESS: pass 1, at document #16000/26006
+performing inference on a chunk of 2000 documents
+1967/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #20 (0.033): 0.019*"!!" + 0.018*"retweet" + 0.016*"!" + 0.013*"plz" + 0.011*"tweets" + 0.009*"$" + 0.008*"twitter." + 0.007*"$10" + 0.007*"sale" + 0.007*"cd"
+topic #4 (0.033): 0.048*"world" + 0.035*"cup" + 0.025*"2018" + 0.024*"host" + 0.022*"qatar" + 0.021*"russia" + 0.020*"2022" + 0.018*"fifa" + 0.012*"bid" + 0.012*"#worldcup"
+topic #12 (0.033): 0.010*"cruise" + 0.009*"nyt:" + 0.009*"miami" + 0.008*"nba" + 0.007*"nfl" + 0.007*"windows" + 0.007*"«" + 0.007*"you'd" + 0.006*"agreement" + 0.006*"cell"
+topic #6 (0.033): 0.030*"you" + 0.022*"my" + 0.017*"it" + 0.016*"that" + 0.012*"have" + 0.012*"be" + 0.011*"me" + 0.010*"i" + 0.010*"this" + 0.010*"your"
+topic #23 (0.033): 0.063*"#ff" + 0.045*"#nowplaying" + 0.017*";-)" + 0.012*"hotel" + 0.012*"nicki" + 0.010*":-)" + 0.010*"#followfriday" + 0.009*"follow" + 0.009*"night." + 0.009*"other."
+topic diff=0.078330, rho=0.258173
+PROGRESS: pass 1, at document #18000/26006
+performing inference on a chunk of 2000 documents
+1974/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #21 (0.033): 0.052*"lol." + 0.043*"di" + 0.019*".." + 0.015*"paulo" + 0.012*"ini" + 0.012*"indonesia" + 0.009*"waste" + 0.009*"gold" + 0.008*"ga" + 0.007*"agenda"
+topic #4 (0.033): 0.050*"world" + 0.037*"cup" + 0.029*"2018" + 0.025*"host" + 0.024*"2022" + 0.022*"qatar" + 0.021*"russia" + 0.019*"fifa" + 0.014*"#worldcup" + 0.013*"bid"
+topic #20 (0.033): 0.025*"!!" + 0.018*"retweet" + 0.014*"!" + 0.012*"tweets" + 0.011*"plz" + 0.009*"twitter." + 0.009*"...:" + 0.008*"cd" + 0.008*"$" + 0.007*"$10"
+topic #18 (0.033): 0.016*"..." + 0.013*"-" + 0.012*"by" + 0.011*"wikileaks" + 0.008*"new" + 0.008*"as" + 0.008*"u.s." + 0.007*"at" + 0.007*"us" + 0.007*"says"
+topic #29 (0.033): 0.047*"aids" + 0.047*"world" + 0.024*"day" + 0.016*"by" + 0.015*"&" + 0.013*"..." + 0.012*"hiv" + 0.011*"-" + 0.011*"with" + 0.010*"today"
+topic diff=0.055332, rho=0.258173
+bound: at document #0
+-15.234 per-word bound, 38548.1 perplexity estimate based on a held-out corpus of 2000 documents with 164863 words
+PROGRESS: pass 1, at document #20000/26006
+performing inference on a chunk of 2000 documents
+1983/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #28 (0.033): 0.052*"was" + 0.051*"last" + 0.046*"ranking" + 0.024*"week" + 0.008*"..." + 0.007*"that" + 0.007*"not" + 0.006*"&" + 0.005*"-" + 0.005*"as"
+topic #29 (0.033): 0.045*"aids" + 0.045*"world" + 0.025*"day" + 0.018*"by" + 0.014*"&" + 0.013*"..." + 0.011*"hiv" + 0.011*"-" + 0.011*"with" + 0.010*"today"
+topic #10 (0.033): 0.018*"grammy" + 0.018*"iphone" + 0.012*"$1" + 0.011*"android" + 0.010*"via" + 0.010*"fashion" + 0.009*"caucus" + 0.008*"-" + 0.008*"nominations" + 0.007*"app"
+topic #15 (0.033): 0.021*"snow" + 0.016*"at" + 0.014*"due" + 0.012*"closed" + 0.011*"#football" + 0.010*"airport" + 0.009*"weather" + 0.008*"today)" + 0.008*"-" + 0.008*"travel"
+topic #21 (0.033): 0.120*"#breakingnews" + 0.039*"di" + 0.035*"lol." + 0.024*".." + 0.012*"paulo" + 0.009*"indonesia" + 0.009*"#fb" + 0.009*"ini" + 0.009*"waste" + 0.008*"gold"
+topic diff=0.117047, rho=0.258173
+PROGRESS: pass 1, at document #22000/26006
+performing inference on a chunk of 2000 documents
+1986/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #4 (0.033): 0.050*"world" + 0.037*"cup" + 0.029*"2018" + 0.024*"host" + 0.023*"2022" + 0.021*"russia" + 0.021*"qatar" + 0.019*"fifa" + 0.014*"england" + 0.013*"#worldcup"
+topic #9 (0.033): 0.018*"@reuters_biz:" + 0.016*"500" + 0.014*"#howdoyouknow" + 0.014*"microsoft" + 0.013*"minha" + 0.011*"xbox" + 0.010*"complexo" + 0.010*"loja" + 0.010*"<" + 0.009*"jornal"
+topic #15 (0.033): 0.026*"snow" + 0.016*"due" + 0.016*"at" + 0.014*"closed" + 0.013*"airport" + 0.011*"flights" + 0.010*"weather" + 0.009*"travel" + 0.008*"-" + 0.008*"#football"
+topic #21 (0.033): 0.095*"#breakingnews" + 0.034*"di" + 0.032*"lol." + 0.022*".." + 0.019*"paulo" + 0.010*"waste" + 0.008*"agenda" + 0.008*"ini" + 0.008*"ga" + 0.008*"indonesia"
+topic #2 (0.033): 0.049*"..." + 0.033*"-" + 0.011*"at" + 0.010*"with" + 0.010*"from" + 0.008*"via" + 0.007*"&" + 0.007*"new" + 0.007*"this" + 0.006*"will"
+topic diff=0.065421, rho=0.258173
+PROGRESS: pass 1, at document #24000/26006
+performing inference on a chunk of 2000 documents
+1980/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #8 (0.033): 0.014*"tax" + 0.011*"..." + 0.011*"gop" + 0.010*"#p2" + 0.009*"cuts" + 0.008*"#tcot" + 0.007*"are" + 0.006*"will" + 0.006*"be" + 0.006*"obama"
+topic #12 (0.033): 0.010*"cruise" + 0.010*"player" + 0.008*"@dalailama:" + 0.008*"appreciate" + 0.008*"cool." + 0.007*"miami" + 0.007*"«" + 0.007*"nfl" + 0.007*"orange" + 0.007*"you'd"
+topic #20 (0.033): 0.099*"!" + 0.027*"!!" + 0.019*"plz" + 0.019*"tweets" + 0.018*"retweet" + 0.010*"mess" + 0.009*"...:" + 0.008*"$" + 0.008*"twitter." + 0.007*"finnish"
+topic #15 (0.033): 0.029*"snow" + 0.017*"wednesday" + 0.016*"due" + 0.015*"at" + 0.013*"airport" + 0.013*"closed" + 0.011*"weather" + 0.010*"travel" + 0.010*"flights" + 0.008*"-"
+topic #21 (0.033): 0.072*"#breakingnews" + 0.040*"di" + 0.032*"lol." + 0.019*".." + 0.017*"paulo" + 0.013*"ga" + 0.011*"ini" + 0.010*"waste" + 0.009*"agenda" + 0.008*"indonesia"
+topic diff=0.074007, rho=0.258173
+PROGRESS: pass 1, at document #26000/26006
+performing inference on a chunk of 2000 documents
+1978/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #11 (0.033): 0.020*"your" + 0.016*"you" + 0.013*"..." + 0.011*"#fb" + 0.010*"-" + 0.010*"how" + 0.010*"with" + 0.009*"are" + 0.009*"can" + 0.009*"this"
+topic #10 (0.033): 0.051*"iphone" + 0.020*"grammy" + 0.013*"android" + 0.012*"nominations" + 0.012*"free" + 0.012*"fashion" + 0.011*"google" + 0.009*"app" + 0.009*"music" + 0.008*"$1"
+topic #20 (0.033): 0.100*"!" + 0.029*"!!" + 0.020*"retweet" + 0.018*"tweets" + 0.018*"plz" + 0.014*"...:" + 0.009*"$" + 0.009*"mess" + 0.008*"twitter." + 0.008*"everything."
+topic #22 (0.033): 0.068*"twitter's" + 0.065*"home" + 0.026*"now" + 0.008*"wat" + 0.008*"dat" + 0.006*"online" + 0.006*"address" + 0.005*"behind" + 0.005*"www.cnn.com" + 0.005*"previous"
+topic #28 (0.033): 0.042*"was" + 0.034*"last" + 0.023*"ranking" + 0.013*"week" + 0.009*"..." + 0.007*"not" + 0.007*"&" + 0.007*"that" + 0.005*"as" + 0.005*"this"
+topic diff=0.053213, rho=0.258173
+bound: at document #0
+-15.899 per-word bound, 61109.8 perplexity estimate based on a held-out corpus of 6 documents with 73 words
+PROGRESS: pass 1, at document #26006/26006
+performing inference on a chunk of 6 documents
+6/6 documents converged within 50 iterations
+updating topics
+merging changes from 6 documents into a model of 26006 documents
+topic #18 (0.033): 0.018*"..." + 0.014*"-" + 0.013*"by" + 0.012*"euro" + 0.011*"wikileaks" + 0.008*"new" + 0.008*"as" + 0.007*"u.s." + 0.007*"us" + 0.007*"says"
+topic #7 (0.033): 0.038*"." + 0.016*"charity" + 0.009*"]" + 0.009*"ang" + 0.008*"letting" + 0.007*"oscar" + 0.007*""" + 0.007*"purchase" + 0.007*"»" + 0.007*"30%"
+topic #11 (0.033): 0.017*"your" + 0.017*"how" + 0.016*"can" + 0.014*"you" + 0.014*"our" + 0.013*"this" + 0.012*"be" + 0.012*"use" + 0.012*"an" + 0.012*"..."
+topic #14 (0.033): 0.111*"de" + 0.037*"la" + 0.033*"que" + 0.032*"en" + 0.029*"el" + 0.026*"no" + 0.019*"do" + 0.017*"para" + 0.015*"..." + 0.014*"como"
+topic #23 (0.033): 0.066*"#ff" + 0.032*"#nowplaying" + 0.016*";-)" + 0.015*"!!!" + 0.014*"follow" + 0.014*"hotel" + 0.012*"(via" + 0.010*"gracias" + 0.010*"luv" + 0.009*"bien"
+topic diff=0.196778, rho=0.258173
+PROGRESS: pass 2, at document #2000/26006
+performing inference on a chunk of 2000 documents
+1977/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #5 (0.033): 0.029*"#news" + 0.010*"#usa" + 0.007*"mr" + 0.007*"ppl" + 0.006*"let" + 0.006*"sky" + 0.006*"—" + 0.006*"#freegary" + 0.005*"promote" + 0.005*"(reuters)"
+topic #28 (0.033): 0.034*"was" + 0.026*"last" + 0.018*"download" + 0.017*"on!" + 0.016*"ranking" + 0.010*"week" + 0.007*"..." + 0.006*"that" + 0.006*"not" + 0.006*"&"
+topic #14 (0.033): 0.108*"de" + 0.036*"la" + 0.031*"en" + 0.031*"que" + 0.029*"el" + 0.024*"no" + 0.017*"do" + 0.016*"para" + 0.013*"..." + 0.013*"por"
+topic #11 (0.033): 0.017*"your" + 0.016*"how" + 0.015*"can" + 0.014*"you" + 0.013*"this" + 0.012*"our" + 0.012*"be" + 0.011*"from" + 0.011*"an" + 0.011*"use"
+topic #1 (0.033): 0.021*"at" + 0.011*"@robink78" + 0.006*"(" + 0.005*"radio" + 0.005*"pm" + 0.005*"with" + 0.005*"from" + 0.005*"festival" + 0.005*"tonight" + 0.004*"ben"
+topic diff=0.080511, rho=0.249977
+PROGRESS: pass 2, at document #4000/26006
+performing inference on a chunk of 2000 documents
+1982/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #22 (0.033): 0.042*"home" + 0.039*"twitter's" + 0.018*"now" + 0.008*"n" + 0.007*"keep" + 0.006*"online" + 0.006*"it" + 0.005*"behind" + 0.005*"address" + 0.005*"dat"
+topic #15 (0.033): 0.025*"snow" + 0.014*"at" + 0.012*"closed" + 0.011*"travel" + 0.010*"due" + 0.010*"airport" + 0.010*"weather" + 0.009*"wednesday" + 0.008*"-" + 0.008*"#uksnow"
+topic #26 (0.033): 0.017*"???." + 0.016*"????." + 0.014*"[news]" + 0.012*"morning!" + 0.012*"#cnn" + 0.011*"#economist" + 0.010*"ford" + 0.009*"mayor" + 0.008*"lucky" + 0.008*"families"
+topic #28 (0.033): 0.031*"was" + 0.023*"last" + 0.015*"download" + 0.014*"on!" + 0.013*"ranking" + 0.009*"week" + 0.007*"..." + 0.006*"that" + 0.006*"&" + 0.006*"not"
+topic #14 (0.033): 0.106*"de" + 0.036*"la" + 0.031*"en" + 0.029*"el" + 0.028*"que" + 0.024*"no" + 0.017*"do" + 0.016*"para" + 0.013*"por" + 0.013*"se"
+topic diff=0.072650, rho=0.249977
+PROGRESS: pass 2, at document #6000/26006
+performing inference on a chunk of 2000 documents
+1983/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #4 (0.033): 0.051*"world" + 0.038*"cup" + 0.023*"2018" + 0.023*"host" + 0.022*"2022" + 0.021*"qatar" + 0.021*"russia" + 0.019*"fifa" + 0.013*"bid" + 0.011*"#worldcup"
+topic #1 (0.033): 0.022*"at" + 0.010*"update" + 0.008*"news" + 0.008*"cnn" + 0.008*"hourly" + 0.007*"pm" + 0.006*"@robink78" + 0.006*"(" + 0.006*"tonight" + 0.005*"am"
+topic #10 (0.033): 0.033*"iphone" + 0.016*"grammy" + 0.014*"google" + 0.014*"android" + 0.013*"app" + 0.010*"@huffingtonpost" + 0.010*"nominations" + 0.010*"apple" + 0.009*"via" + 0.009*"store"
+topic #8 (0.033): 0.016*"tax" + 0.010*"cuts" + 0.010*"#p2" + 0.009*"gop" + 0.008*"#tcot" + 0.008*"..." + 0.007*"are" + 0.007*"obama" + 0.006*"will" + 0.006*"house"
+topic #2 (0.033): 0.042*"..." + 0.029*"-" + 0.011*"from" + 0.011*"at" + 0.010*"with" + 0.009*"new" + 0.008*"wikileaks" + 0.008*"via" + 0.007*"will" + 0.007*"this"
+topic diff=0.035690, rho=0.249977
+PROGRESS: pass 2, at document #8000/26006
+performing inference on a chunk of 2000 documents
+1988/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #28 (0.033): 0.029*"was" + 0.019*"last" + 0.010*"download" + 0.009*"ranking" + 0.009*"on!" + 0.007*"week" + 0.006*"&" + 0.006*"that" + 0.006*"not" + 0.006*"..."
+topic #27 (0.033): 0.055*":" + 0.031*"le" + 0.025*"et" + 0.024*"les" + 0.020*"des" + 0.018*"à" + 0.018*"la" + 0.014*"du" + 0.014*"pour" + 0.010*"il"
+topic #14 (0.033): 0.099*"de" + 0.031*"la" + 0.029*"en" + 0.027*"que" + 0.025*"el" + 0.023*"no" + 0.019*"do" + 0.015*"para" + 0.014*"da" + 0.013*"se"
+topic #3 (0.033): 0.011*"sa" + 0.010*"rt." + 0.010*"france" + 0.010*"par" + 0.009*"temps" + 0.009*"in:" + 0.008*"janeiro" + 0.007*"santo" + 0.007*"toronto" + 0.006*"#googlenewsjp"
+topic #7 (0.033): 0.030*"." + 0.011*"charity" + 0.008*"letting" + 0.008*""" + 0.006*"purchase" + 0.006*"base" + 0.005*"jack" + 0.005*"owners" + 0.005*"magic" + 0.005*"oscar"
+topic diff=0.059943, rho=0.249977
+PROGRESS: pass 2, at document #10000/26006
+performing inference on a chunk of 2000 documents
+1979/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #10 (0.033): 0.024*"iphone" + 0.020*"grammy" + 0.013*"google" + 0.012*"app" + 0.010*"android" + 0.010*"nominations" + 0.010*"caucus" + 0.010*"apple" + 0.009*"@mashable:" + 0.009*"$1"
+topic #0 (0.033): 0.028*"rt!" + 0.025*"god" + 0.020*"rosa" + 0.017*"parks" + 0.015*"indy" + 0.012*"her" + 0.011*"min" + 0.009*"years" + 0.009*"seat" + 0.008*"#england2018"
+topic #19 (0.033): 0.092*"???" + 0.073*"??" + 0.069*"????" + 0.059*"?????" + 0.051*"??????" + 0.037*"???????" + 0.031*"?" + 0.028*"????????" + 0.024*"?????????" + 0.019*"??????????"
+topic #9 (0.033): 0.051*"500" + 0.011*"@reuters_biz:" + 0.009*"xbox" + 0.009*"microsoft" + 0.009*"<" + 0.009*"ambassador's" + 0.009*"photo:" + 0.007*"kinect" + 0.007*"onto" + 0.005*"rewards"
+topic #26 (0.033): 0.026*"#cnn" + 0.020*"morning!" + 0.013*"families" + 0.010*"lucky" + 0.010*"ford" + 0.010*"[news]" + 0.009*"mayor" + 0.008*"ireland" + 0.008*"???." + 0.008*"cross"
+topic diff=0.049600, rho=0.249977
+PROGRESS: pass 2, at document #12000/26006
+performing inference on a chunk of 2000 documents
+1989/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #20 (0.033): 0.063*"!" + 0.017*"!!" + 0.017*"retweet" + 0.014*"tweets" + 0.011*"plz" + 0.011*"$" + 0.009*"tested" + 0.007*"$10" + 0.007*"cd" + 0.007*"sale"
+topic #28 (0.033): 0.026*"was" + 0.017*"last" + 0.008*"download" + 0.007*"&" + 0.006*"..." + 0.006*"that" + 0.006*"not" + 0.006*"week" + 0.006*"by" + 0.005*"on!"
+topic #27 (0.033): 0.057*":" + 0.033*"le" + 0.027*"et" + 0.024*"les" + 0.023*"des" + 0.021*"la" + 0.018*"à" + 0.015*"du" + 0.014*"pour" + 0.011*"au"
+topic #24 (0.033): 0.024*"rt:" + 0.012*"do." + 0.012*"??????????????????????" + 0.010*"u2" + 0.009*"blessed" + 0.009*"thai" + 0.009*"crime" + 0.008*"sister" + 0.007*"#israel" + 0.007*"????????????????????????????"
+topic #12 (0.033): 0.029*"nyt:" + 0.012*"nba" + 0.010*"windows" + 0.009*"miami" + 0.008*"cruise" + 0.007*"foursquare" + 0.007*"cell" + 0.006*"player" + 0.006*"nfl" + 0.006*"yankees"
+topic diff=0.040393, rho=0.249977
+PROGRESS: pass 2, at document #14000/26006
+performing inference on a chunk of 2000 documents
+1990/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #5 (0.033): 0.023*"#news" + 0.009*"dream" + 0.008*"heroes" + 0.008*"(reuters)" + 0.008*"#video" + 0.008*"manhattan" + 0.007*"anniversary" + 0.006*"#ssj" + 0.006*"photography" + 0.006*"mr"
+topic #19 (0.033): 0.083*"???" + 0.068*"??" + 0.064*"????" + 0.059*"?????" + 0.048*"??????" + 0.036*"???????" + 0.029*"????????" + 0.029*"?" + 0.022*"?????????" + 0.016*"??????????"
+topic #10 (0.033): 0.023*"grammy" + 0.022*"iphone" + 0.012*"app" + 0.011*"nominations" + 0.011*"google" + 0.010*"android" + 0.008*"$1" + 0.008*"hosted" + 0.008*"apple" + 0.008*"caucus"
+topic #3 (0.033): 0.016*"sa" + 0.013*"rt." + 0.011*"•" + 0.011*"2012?" + 0.010*"france" + 0.009*"par" + 0.009*"santo" + 0.008*"in:" + 0.007*"ex" + 0.007*"paris"
+topic #20 (0.033): 0.055*"!" + 0.021*"!!" + 0.019*"retweet" + 0.013*"tweets" + 0.012*"plz" + 0.010*"$" + 0.007*"cd" + 0.007*"tested" + 0.006*"twitter." + 0.006*"picked"
+topic diff=0.031488, rho=0.249977
+PROGRESS: pass 2, at document #16000/26006
+performing inference on a chunk of 2000 documents
+1988/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #5 (0.033): 0.024*"#news" + 0.009*"dream" + 0.008*"anniversary" + 0.008*"#humanrights" + 0.007*"heroes" + 0.007*"(reuters)" + 0.007*"#video" + 0.006*"ppl" + 0.006*"mr" + 0.006*"manhattan"
+topic #3 (0.033): 0.019*"france" + 0.018*"sa" + 0.014*"par" + 0.010*"•" + 0.009*"rt." + 0.008*"2012?" + 0.008*"in:" + 0.008*"santo" + 0.007*"temps" + 0.007*"toronto"
+topic #25 (0.033): 0.039*"--" + 0.034*"-" + 0.033*"video" + 0.025*"via" + 0.018*"youtube" + 0.017*"week" + 0.013*"nasa" + 0.012*"die" + 0.012*"liked" + 0.011*"i"
+topic #2 (0.033): 0.045*"..." + 0.030*"-" + 0.013*"at" + 0.011*"with" + 0.011*"from" + 0.009*"new" + 0.009*"via" + 0.008*"&" + 0.007*"will" + 0.007*"this"
+topic #15 (0.033): 0.028*"snow" + 0.019*"due" + 0.016*"at" + 0.014*"weather" + 0.013*"airport" + 0.013*"closed" + 0.011*"travel" + 0.009*"morning," + 0.009*"flights" + 0.008*"london"
+topic diff=0.059815, rho=0.249977
+PROGRESS: pass 2, at document #18000/26006
+performing inference on a chunk of 2000 documents
+1987/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #18 (0.033): 0.014*"-" + 0.014*"..." + 0.012*"by" + 0.011*"wikileaks" + 0.008*"as" + 0.008*"u.s." + 0.008*"us" + 0.007*"new" + 0.007*"says" + 0.007*"at"
+topic #13 (0.033): 0.103*"?" + 0.040*"daily" + 0.029*"top" + 0.028*"stories" + 0.028*"today" + 0.022*"out!" + 0.021*"by" + 0.012*"civil" + 0.010*"unions" + 0.008*"dead."
+topic #27 (0.033): 0.088*":" + 0.040*"le" + 0.038*"et" + 0.034*"les" + 0.034*"la" + 0.028*"des" + 0.025*"à" + 0.022*"du" + 0.020*"pour" + 0.015*"une"
+topic #7 (0.033): 0.056*"." + 0.013*"charity" + 0.009*"]" + 0.008*"letting" + 0.008*"base" + 0.008*"ang" + 0.007*""" + 0.006*"dm" + 0.006*"purchase" + 0.005*"josh"
+topic #24 (0.033): 0.019*"rt:" + 0.013*"do." + 0.011*"??????????????????????" + 0.010*"#israel" + 0.009*"????????????????????????????" + 0.008*"#haiku" + 0.008*"copa" + 0.007*"livro" + 0.007*"thai" + 0.007*"confira"
+topic diff=0.040482, rho=0.249977
+bound: at document #0
+-15.199 per-word bound, 37620.7 perplexity estimate based on a held-out corpus of 2000 documents with 164863 words
+PROGRESS: pass 2, at document #20000/26006
+performing inference on a chunk of 2000 documents
+1990/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #28 (0.033): 0.069*"was" + 0.067*"last" + 0.056*"week" + 0.054*"ranking" + 0.006*"not" + 0.005*"spanish" + 0.005*"jesus" + 0.005*"that" + 0.005*"..." + 0.005*"book"
+topic #22 (0.033): 0.022*"home" + 0.010*"now" + 0.009*"behind" + 0.008*"van" + 0.007*"dat" + 0.007*"online" + 0.007*"op" + 0.007*"twitter's" + 0.006*"involved" + 0.006*"met"
+topic #29 (0.033): 0.052*"world" + 0.051*"aids" + 0.029*"day" + 0.022*"by" + 0.016*"&" + 0.013*"today" + 0.013*"hiv" + 0.011*"red" + 0.010*"with" + 0.010*"please"
+topic #14 (0.033): 0.106*"de" + 0.034*"la" + 0.032*"en" + 0.031*"que" + 0.024*"el" + 0.023*"no" + 0.021*"do" + 0.018*"para" + 0.016*"da" + 0.015*"..."
+topic #27 (0.033): 0.074*":" + 0.046*"le" + 0.044*"et" + 0.043*"la" + 0.034*"les" + 0.034*"à" + 0.029*"des" + 0.025*"pour" + 0.024*"du" + 0.015*"une"
+topic diff=0.105573, rho=0.249977
+PROGRESS: pass 2, at document #22000/26006
+performing inference on a chunk of 2000 documents
+1986/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #14 (0.033): 0.108*"de" + 0.032*"la" + 0.031*"que" + 0.030*"en" + 0.024*"do" + 0.024*"no" + 0.024*"el" + 0.020*"para" + 0.018*"da" + 0.017*"em"
+topic #5 (0.033): 0.029*"#news" + 0.019*"#usa" + 0.015*"sky" + 0.014*"#freegary" + 0.013*"—" + 0.012*"ppl" + 0.012*"mr" + 0.011*"using" + 0.010*"let" + 0.007*"dream"
+topic #25 (0.033): 0.039*"-" + 0.036*"--" + 0.030*"video" + 0.029*"via" + 0.019*"youtube" + 0.013*"@youtube" + 0.013*"nasa" + 0.012*"week" + 0.011*"der" + 0.010*"die"
+topic #23 (0.033): 0.093*"#ff" + 0.032*"#nowplaying" + 0.027*";-)" + 0.018*"(via" + 0.016*"follow" + 0.015*"!!!" + 0.015*"hotel" + 0.015*":-)" + 0.014*"thanks" + 0.014*"@manas1953"
+topic #24 (0.033): 0.044*"rt:" + 0.016*"??????????????????????" + 0.015*"????????????????????????????" + 0.013*"#mashableawards" + 0.013*"thai" + 0.013*"do." + 0.012*"http://mash.to/2imzn" + 0.010*"#israel" + 0.009*"voted" + 0.008*"aprova"
+topic diff=0.055426, rho=0.249977
+PROGRESS: pass 2, at document #24000/26006
+performing inference on a chunk of 2000 documents
+1986/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #16 (0.033): 0.015*"cant" + 0.015*"loss" + 0.010*"lunch" + 0.008*"launched" + 0.008*"christmas" + 0.008*"winning" + 0.007*"roads" + 0.007*"across" + 0.007*"#travel" + 0.007*"majority"
+topic #6 (0.033): 0.030*"you" + 0.020*"my" + 0.017*"it" + 0.016*"that" + 0.014*"your" + 0.013*"have" + 0.012*"be" + 0.011*"not" + 0.010*"are" + 0.010*"if"
+topic #9 (0.033): 0.018*"500" + 0.017*"@reuters_biz:" + 0.016*"microsoft" + 0.014*"radia" + 0.013*"#howdoyouknow" + 0.013*"xbox" + 0.011*"complexo" + 0.010*"photo:" + 0.010*"minha" + 0.009*"tapes"
+topic #2 (0.033): 0.060*"..." + 0.035*"-" + 0.013*"at" + 0.011*"with" + 0.011*"from" + 0.009*"new" + 0.008*"&" + 0.007*"via" + 0.006*"this" + 0.006*"will"
+topic #17 (0.033): 0.028*"politicos" + 0.023*"peace" + 0.016*"visa" + 0.015*"card" + 0.014*"belgium" + 0.011*"ok" + 0.010*"irish" + 0.009*"marriage" + 0.008*"tuition" + 0.008*"corrupt"
+topic diff=0.066918, rho=0.249977
+PROGRESS: pass 2, at document #26000/26006
+performing inference on a chunk of 2000 documents
+1993/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #27 (0.033): 0.088*":" + 0.040*"la" + 0.040*"le" + 0.034*"et" + 0.028*"les" + 0.026*"à" + 0.025*"des" + 0.020*"pour" + 0.020*"du" + 0.014*"il"
+topic #3 (0.033): 0.025*"janeiro" + 0.023*"sa" + 0.017*"par" + 0.014*"france" + 0.012*"toronto" + 0.012*"•" + 0.011*"jyj" + 0.009*"temps" + 0.009*"ex" + 0.008*"dia!"
+topic #15 (0.033): 0.037*"snow" + 0.017*"due" + 0.015*"weather" + 0.015*"at" + 0.014*"wednesday" + 0.014*"travel" + 0.014*"closed" + 0.013*"airport" + 0.010*"london" + 0.009*"flights"
+topic #28 (0.033): 0.057*"was" + 0.046*"last" + 0.034*"week" + 0.028*"ranking" + 0.005*"not" + 0.005*"..." + 0.005*"that" + 0.005*"&" + 0.004*"as" + 0.004*"by"
+topic #23 (0.033): 0.074*"#ff" + 0.036*"#nowplaying" + 0.020*"follow" + 0.020*";-)" + 0.017*"!!!" + 0.016*"(via" + 0.015*"hotel" + 0.013*":-)" + 0.012*"thanks" + 0.012*"gracias"
+topic diff=0.044531, rho=0.249977
+bound: at document #0
+-15.722 per-word bound, 54056.4 perplexity estimate based on a held-out corpus of 6 documents with 73 words
+PROGRESS: pass 2, at document #26006/26006
+performing inference on a chunk of 6 documents
+6/6 documents converged within 50 iterations
+updating topics
+merging changes from 6 documents into a model of 26006 documents
+topic #26 (0.033): 0.026*"???." + 0.026*"????." + 0.019*"morning!" + 0.016*"#cnn" + 0.015*"[news]" + 0.014*"ford" + 0.013*"mayor" + 0.012*"lucky" + 0.010*"opened" + 0.010*"??????."
+topic #7 (0.033): 0.056*"." + 0.017*"charity" + 0.009*"ang" + 0.009*"]" + 0.008*"letting" + 0.007*""" + 0.007*"oscar" + 0.007*"purchase" + 0.007*"30%" + 0.006*"dm"
+topic #22 (0.033): 0.075*"home" + 0.067*"twitter's" + 0.045*"now" + 0.008*"wat" + 0.008*"dat" + 0.006*"online" + 0.005*"address" + 0.005*"previous" + 0.005*"fact" + 0.005*"@businessinsider:"
+topic #20 (0.033): 0.125*"!" + 0.026*"!!" + 0.018*"retweet" + 0.016*"tweets" + 0.016*"plz" + 0.013*"...:" + 0.008*"$" + 0.008*"mess" + 0.007*"twitter." + 0.007*"everything."
+topic #21 (0.033): 0.155*"lol." + 0.044*"#breakingnews" + 0.038*"give" + 0.028*"di" + 0.013*".." + 0.011*"paulo" + 0.009*"ga" + 0.008*"waste" + 0.008*"vs" + 0.007*"ini"
+topic diff=0.182390, rho=0.249977
+PROGRESS: pass 3, at document #2000/26006
+performing inference on a chunk of 2000 documents
+1980/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #14 (0.033): 0.108*"de" + 0.035*"la" + 0.031*"en" + 0.031*"que" + 0.029*"el" + 0.024*"no" + 0.018*"do" + 0.016*"para" + 0.013*"por" + 0.013*"..."
+topic #25 (0.033): 0.038*"-" + 0.035*"via" + 0.031*"--" + 0.026*"video" + 0.017*"nasa" + 0.017*"der" + 0.015*"youtube" + 0.014*"@youtube" + 0.012*"die" + 0.011*"@addthis"
+topic #26 (0.033): 0.021*"???." + 0.020*"????." + 0.015*"morning!" + 0.014*"#cnn" + 0.014*"#economist" + 0.013*"[news]" + 0.011*"ford" + 0.010*"mayor" + 0.009*"lucky" + 0.009*"opened"
+topic #6 (0.033): 0.029*"you" + 0.020*"my" + 0.017*"it" + 0.016*"that" + 0.012*"have" + 0.012*"we" + 0.012*"me" + 0.012*"your" + 0.011*"not" + 0.011*"be"
+topic #7 (0.033): 0.051*"." + 0.014*"charity" + 0.007*"ang" + 0.007*"]" + 0.006*"oscar" + 0.006*"purchase" + 0.006*"letting" + 0.006*""" + 0.005*"base" + 0.005*"»"
+topic diff=0.070510, rho=0.242514
+PROGRESS: pass 3, at document #4000/26006
+performing inference on a chunk of 2000 documents
+1983/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #19 (0.033): 0.123*"???" + 0.099*"??" + 0.091*"????" + 0.072*"?????" + 0.056*"??????" + 0.043*"???????" + 0.040*"?" + 0.030*"????????" + 0.024*"?????????" + 0.021*"??????????"
+topic #0 (0.033): 0.049*"rt!" + 0.034*"indy" + 0.020*"rosa" + 0.018*"parks" + 0.011*"her" + 0.010*"55" + 0.010*"giving" + 0.009*"years" + 0.009*"seat" + 0.008*"ago"
+topic #26 (0.033): 0.018*"???." + 0.016*"????." + 0.015*"[news]" + 0.013*"morning!" + 0.012*"ford" + 0.012*"#cnn" + 0.011*"#economist" + 0.010*"mayor" + 0.009*"lucky" + 0.008*"families"
+topic #21 (0.033): 0.105*"lol." + 0.028*"#breakingnews" + 0.026*"give" + 0.024*"di" + 0.010*".." + 0.007*"paulo" + 0.006*"ga" + 0.006*"vs" + 0.006*"agenda" + 0.006*"waste"
+topic #29 (0.033): 0.043*"world" + 0.042*"aids" + 0.035*"by" + 0.027*"red" + 0.027*"please" + 0.025*"each" + 0.025*"go" + 0.024*"day" + 0.020*"goes" + 0.013*"&"
+topic diff=0.066888, rho=0.242514
+PROGRESS: pass 3, at document #6000/26006
+performing inference on a chunk of 2000 documents
+1981/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #2 (0.033): 0.047*"..." + 0.032*"-" + 0.013*"at" + 0.012*"new" + 0.011*"from" + 0.010*"with" + 0.008*"wikileaks" + 0.008*"&" + 0.008*"via" + 0.007*"our"
+topic #8 (0.033): 0.017*"tax" + 0.010*"cuts" + 0.010*"#p2" + 0.009*"gop" + 0.008*"#tcot" + 0.008*"are" + 0.008*"obama" + 0.007*"..." + 0.007*"house" + 0.006*"senate"
+topic #0 (0.033): 0.045*"rt!" + 0.026*"indy" + 0.020*"rosa" + 0.017*"parks" + 0.011*"min" + 0.010*"her" + 0.009*"seat" + 0.009*"55" + 0.008*"years" + 0.008*"giving"
+topic #7 (0.033): 0.050*"." + 0.012*"charity" + 0.008*""" + 0.008*"letting" + 0.006*"oscar" + 0.006*"jack" + 0.006*"purchase" + 0.005*"base" + 0.005*"owners" + 0.005*"dm"
+topic #16 (0.033): 0.011*"loss" + 0.008*"lunch" + 0.008*"christmas" + 0.007*"cant" + 0.006*"photos" + 0.006*"winning" + 0.006*"launched" + 0.005*"roads" + 0.005*"#travel" + 0.005*"discussion"
+topic diff=0.028969, rho=0.242514
+PROGRESS: pass 3, at document #8000/26006
+performing inference on a chunk of 2000 documents
+1989/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #9 (0.033): 0.064*"500" + 0.014*"@reuters_biz:" + 0.011*"ambassador's" + 0.011*"xbox" + 0.010*"<" + 0.010*"photo:" + 0.009*"microsoft" + 0.008*"kinect" + 0.006*"#howdoyouknow" + 0.006*"@bloombergnow:"
+topic #5 (0.033): 0.036*"#news" + 0.012*"dream" + 0.009*"background" + 0.007*"#humanrights" + 0.007*"(reuters)" + 0.007*"#usa" + 0.007*"ppl" + 0.006*"—" + 0.006*"mr" + 0.006*"using"
+topic #20 (0.033): 0.062*"!" + 0.021*"!!" + 0.015*"retweet" + 0.015*"tweets" + 0.009*"plz" + 0.007*"cd" + 0.006*"twitter." + 0.006*"$10" + 0.006*"$" + 0.006*"...:"
+topic #26 (0.033): 0.025*"#cnn" + 0.016*"morning!" + 0.014*"[news]" + 0.011*"???." + 0.011*"ford" + 0.010*"????." + 0.009*"lucky" + 0.009*"mayor" + 0.009*"families" + 0.008*"ireland"
+topic #15 (0.033): 0.036*"snow" + 0.017*"due" + 0.016*"at" + 0.016*"weather" + 0.013*"closed" + 0.012*"airport" + 0.010*"flights" + 0.010*"travel" + 0.009*"#uksnow" + 0.009*"#football"
+topic diff=0.054276, rho=0.242514
+PROGRESS: pass 3, at document #10000/26006
+performing inference on a chunk of 2000 documents
+1990/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #9 (0.033): 0.053*"500" + 0.012*"@reuters_biz:" + 0.010*"microsoft" + 0.010*"xbox" + 0.010*"<" + 0.009*"ambassador's" + 0.009*"photo:" + 0.008*"kinect" + 0.007*"onto" + 0.005*"rewards"
+topic #25 (0.033): 0.046*"--" + 0.040*"-" + 0.038*"video" + 0.033*"via" + 0.028*"youtube" + 0.019*"liked" + 0.016*"nasa" + 0.014*"i" + 0.010*"die" + 0.010*"der"
+topic #23 (0.033): 0.060*"#ff" + 0.024*":-)" + 0.020*"(via" + 0.018*"other." + 0.017*";-)" + 0.016*"#nowplaying" + 0.014*"follow" + 0.013*"thanks" + 0.012*"night." + 0.010*"meet"
+topic #26 (0.033): 0.026*"#cnn" + 0.021*"morning!" + 0.013*"families" + 0.012*"ford" + 0.011*"[news]" + 0.011*"lucky" + 0.010*"mayor" + 0.009*"ireland" + 0.008*"???." + 0.008*"cross"
+topic #19 (0.033): 0.094*"???" + 0.075*"??" + 0.070*"????" + 0.060*"?????" + 0.052*"??????" + 0.037*"???????" + 0.031*"?" + 0.028*"????????" + 0.024*"?????????" + 0.019*"??????????"
+topic diff=0.043650, rho=0.242514
+PROGRESS: pass 3, at document #12000/26006
+performing inference on a chunk of 2000 documents
+1988/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #9 (0.033): 0.044*"500" + 0.014*"@reuters_biz:" + 0.011*"xbox" + 0.010*"microsoft" + 0.009*"photo:" + 0.008*"<" + 0.008*"minha" + 0.007*"onto" + 0.007*"ambassador's" + 0.007*"kinect"
+topic #10 (0.033): 0.028*"iphone" + 0.023*"grammy" + 0.017*"google" + 0.017*"app" + 0.012*"free" + 0.012*"nominations" + 0.011*"apple" + 0.011*"android" + 0.009*"ipad" + 0.009*"music"
+topic #24 (0.033): 0.025*"rt:" + 0.013*"??????????????????????" + 0.012*"do." + 0.010*"u2" + 0.009*"blessed" + 0.009*"thai" + 0.008*"crime" + 0.008*"sister" + 0.008*"#israel" + 0.007*"????????????????????????????"
+topic #0 (0.033): 0.028*"rt!" + 0.021*"rosa" + 0.017*"parks" + 0.013*"indy" + 0.012*"her" + 0.011*"happy" + 0.010*"min" + 0.009*"seat" + 0.009*"years" + 0.008*"st."
+topic #14 (0.033): 0.094*"de" + 0.030*"la" + 0.028*"en" + 0.026*"que" + 0.023*"el" + 0.022*"no" + 0.020*"do" + 0.016*"da" + 0.015*"para" + 0.013*"se"
+topic diff=0.035317, rho=0.242514
+PROGRESS: pass 3, at document #14000/26006
+performing inference on a chunk of 2000 documents
+1984/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #29 (0.033): 0.052*"world" + 0.051*"aids" + 0.029*"day" + 0.025*"by" + 0.018*"&" + 0.014*"each" + 0.014*"please" + 0.014*"red" + 0.014*"today" + 0.013*"hiv"
+topic #12 (0.033): 0.027*"nyt:" + 0.010*"nba" + 0.008*"miami" + 0.008*"windows" + 0.008*"cruise" + 0.008*"you'd" + 0.007*"cell" + 0.007*"nfl" + 0.007*"appreciate" + 0.006*"@msnbc_health:"
+topic #20 (0.033): 0.070*"!" + 0.021*"!!" + 0.019*"retweet" + 0.015*"tweets" + 0.012*"plz" + 0.010*"$" + 0.007*"cd" + 0.007*"tested" + 0.007*"twitter." + 0.006*"$10"
+topic #0 (0.033): 0.023*"rt!" + 0.020*"rosa" + 0.015*"parks" + 0.012*"her" + 0.010*"happy" + 0.010*"indy" + 0.009*"seat" + 0.009*"min" + 0.009*"years" + 0.008*"55"
+topic #2 (0.033): 0.046*"..." + 0.032*"-" + 0.015*"at" + 0.011*"new" + 0.011*"from" + 0.011*"with" + 0.009*"&" + 0.007*"via" + 0.006*"this" + 0.006*"will"
+topic diff=0.026815, rho=0.242514
+PROGRESS: pass 3, at document #16000/26006
+performing inference on a chunk of 2000 documents
+1986/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #11 (0.033): 0.021*"your" + 0.014*"you" + 0.014*"how" + 0.014*"this" + 0.012*"can" + 0.011*"our" + 0.011*"be" + 0.011*"-" + 0.011*"from" + 0.009*"with"
+topic #8 (0.033): 0.017*"tax" + 0.012*"gop" + 0.011*"#p2" + 0.010*"cuts" + 0.008*"obama" + 0.008*"..." + 0.008*"are" + 0.008*"#tcot" + 0.007*"senate" + 0.006*"house"
+topic #3 (0.033): 0.019*"france" + 0.019*"sa" + 0.014*"par" + 0.013*"•" + 0.009*"rt." + 0.008*"in:" + 0.008*"2012?" + 0.008*"santo" + 0.007*"temps" + 0.007*"toronto"
+topic #16 (0.033): 0.012*"cant" + 0.010*"lunch" + 0.010*"loss" + 0.010*"christmas" + 0.008*"#travel" + 0.008*"winning" + 0.007*"ill" + 0.007*"everyday" + 0.007*"launched" + 0.006*"degrees"
+topic #2 (0.033): 0.049*"..." + 0.032*"-" + 0.014*"at" + 0.011*"with" + 0.011*"new" + 0.011*"from" + 0.009*"&" + 0.008*"via" + 0.006*"this" + 0.006*"will"
+topic diff=0.055665, rho=0.242514
+PROGRESS: pass 3, at document #18000/26006
+performing inference on a chunk of 2000 documents
+1986/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #19 (0.033): 0.108*"???" + 0.100*"????" + 0.098*"??" + 0.083*"?????" + 0.065*"??????" + 0.055*"???????" + 0.030*"?" + 0.030*"????????" + 0.025*"#iranelection" + 0.021*"?????????"
+topic #2 (0.033): 0.051*"..." + 0.033*"-" + 0.015*"at" + 0.011*"with" + 0.011*"from" + 0.011*"new" + 0.009*"&" + 0.008*"via" + 0.006*"will" + 0.006*"this"
+topic #1 (0.033): 0.022*"at" + 0.009*"festival" + 0.008*"radio" + 0.008*"pm" + 0.007*"st" + 0.007*"update" + 0.007*"dj" + 0.006*"positive" + 0.006*"news" + 0.006*"#youcut"
+topic #5 (0.033): 0.030*"#news" + 0.012*"#ssj" + 0.009*"(reuters)" + 0.009*"dream" + 0.007*"mr" + 0.007*"#humanrights" + 0.007*"anniversary" + 0.006*"ppl" + 0.006*"—" + 0.006*"using"
+topic #13 (0.033): 0.114*"?" + 0.041*"daily" + 0.030*"top" + 0.029*"stories" + 0.029*"today" + 0.022*"out!" + 0.022*"by" + 0.011*"civil" + 0.010*"unions" + 0.009*"dead."
+topic diff=0.036772, rho=0.242514
+bound: at document #0
+-15.174 per-word bound, 36964.2 perplexity estimate based on a held-out corpus of 2000 documents with 164863 words
+PROGRESS: pass 3, at document #20000/26006
+performing inference on a chunk of 2000 documents
+1990/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #13 (0.033): 0.142*"?" + 0.043*"daily" + 0.033*"top" + 0.032*"stories" + 0.030*"today" + 0.028*"by" + 0.028*"out!" + 0.013*"civil" + 0.008*"unions" + 0.008*"dead."
+topic #10 (0.033): 0.028*"iphone" + 0.022*"grammy" + 0.018*"google" + 0.017*"android" + 0.017*"app" + 0.014*"apple" + 0.012*"ipad" + 0.011*"music" + 0.010*"free" + 0.010*"$1"
+topic #28 (0.033): 0.081*"was" + 0.079*"last" + 0.069*"week" + 0.062*"ranking" + 0.006*"jesus" + 0.006*"spanish" + 0.006*"french" + 0.006*"book" + 0.005*"birth" + 0.004*"not"
+topic #29 (0.033): 0.056*"world" + 0.054*"aids" + 0.030*"day" + 0.024*"by" + 0.017*"&" + 0.013*"today" + 0.013*"hiv" + 0.012*"red" + 0.011*"please" + 0.011*"day."
+topic #11 (0.033): 0.026*"#fb" + 0.021*"your" + 0.014*"you" + 0.013*"this" + 0.012*"how" + 0.011*"can" + 0.010*"from" + 0.010*"-" + 0.010*"be" + 0.010*"our"
+topic diff=0.102323, rho=0.242514
+PROGRESS: pass 3, at document #22000/26006
+performing inference on a chunk of 2000 documents
+1987/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #27 (0.033): 0.083*":" + 0.047*"la" + 0.044*"le" + 0.042*"et" + 0.035*"les" + 0.031*"à" + 0.029*"des" + 0.023*"pour" + 0.023*"du" + 0.016*"au"
+topic #17 (0.033): 0.030*"irish" + 0.027*"peace" + 0.018*"belgium" + 0.010*"marriage" + 0.008*"disabled" + 0.008*"angels" + 0.008*"waters" + 0.006*"corrupt" + 0.006*"row" + 0.006*"referendum"
+topic #8 (0.033): 0.017*"tax" + 0.013*"#p2" + 0.012*"gop" + 0.010*"cuts" + 0.009*"#tcot" + 0.009*"..." + 0.008*"are" + 0.007*"obama" + 0.007*"senate" + 0.007*"&"
+topic #28 (0.033): 0.075*"was" + 0.071*"last" + 0.059*"week" + 0.052*"ranking" + 0.006*"jesus" + 0.005*"spanish" + 0.005*"book" + 0.005*"french" + 0.004*"birth" + 0.004*"voted"
+topic #29 (0.033): 0.058*"world" + 0.053*"aids" + 0.031*"day" + 0.023*"by" + 0.018*"&" + 0.014*"hiv" + 0.013*"today" + 0.012*"red" + 0.011*"please" + 0.010*"each"
+topic diff=0.052428, rho=0.242514
+PROGRESS: pass 3, at document #24000/26006
+performing inference on a chunk of 2000 documents
+1985/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #9 (0.033): 0.019*"500" + 0.017*"@reuters_biz:" + 0.017*"microsoft" + 0.013*"#howdoyouknow" + 0.013*"radia" + 0.013*"xbox" + 0.010*"minha" + 0.010*"photo:" + 0.009*"tapes" + 0.009*"complexo"
+topic #26 (0.033): 0.035*"???." + 0.033*"????." + 0.020*"[news]" + 0.019*"morning!" + 0.016*"#cnn" + 0.015*"??????." + 0.014*"lucky" + 0.013*"opened" + 0.010*"families" + 0.010*"cross"
+topic #1 (0.033): 0.021*"at" + 0.011*"festival" + 0.009*"(" + 0.007*"radio" + 0.007*"positive" + 0.007*"#buylife" + 0.007*"pm" + 0.006*"nw" + 0.006*"#youcut" + 0.005*"tough"
+topic #14 (0.033): 0.108*"de" + 0.035*"la" + 0.032*"en" + 0.030*"que" + 0.028*"el" + 0.026*"no" + 0.022*"do" + 0.018*"para" + 0.016*"da" + 0.015*"em"
+topic #28 (0.033): 0.070*"was" + 0.064*"last" + 0.051*"week" + 0.042*"ranking" + 0.005*"jesus" + 0.005*"book" + 0.004*"french" + 0.004*"spanish" + 0.004*"ma" + 0.004*"download"
+topic diff=0.064474, rho=0.242514
+PROGRESS: pass 3, at document #26000/26006
+performing inference on a chunk of 2000 documents
+1989/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #29 (0.033): 0.057*"world" + 0.052*"aids" + 0.031*"day" + 0.022*"by" + 0.017*"&" + 0.014*"hiv" + 0.013*"today" + 0.012*">" + 0.011*"red" + 0.010*"with"
+topic #3 (0.033): 0.024*"janeiro" + 0.023*"sa" + 0.017*"par" + 0.015*"france" + 0.013*"•" + 0.012*"toronto" + 0.011*"jyj" + 0.009*"temps" + 0.008*"ex" + 0.008*"dia!"
+topic #19 (0.033): 0.152*"???" + 0.124*"??" + 0.111*"????" + 0.087*"?????" + 0.062*"??????" + 0.050*"?" + 0.048*"???????" + 0.031*"????????" + 0.026*">>>" + 0.024*"?????????"
+topic #20 (0.033): 0.150*"!" + 0.029*"!!" + 0.020*"retweet" + 0.019*"tweets" + 0.017*"plz" + 0.014*"...:" + 0.009*"$" + 0.009*"mess" + 0.008*"twitter." + 0.008*"everything."
+topic #22 (0.033): 0.088*"home" + 0.072*"twitter's" + 0.066*"now" + 0.009*"wat" + 0.008*"dat" + 0.006*"van" + 0.006*"online" + 0.006*"address" + 0.006*"fact" + 0.005*"@cnnbrk:"
+topic diff=0.041713, rho=0.242514
+bound: at document #0
+-15.579 per-word bound, 48954.6 perplexity estimate based on a held-out corpus of 6 documents with 73 words
+PROGRESS: pass 3, at document #26006/26006
+performing inference on a chunk of 6 documents
+6/6 documents converged within 50 iterations
+updating topics
+merging changes from 6 documents into a model of 26006 documents
+topic #26 (0.033): 0.027*"???." + 0.026*"????." + 0.019*"morning!" + 0.016*"#cnn" + 0.016*"[news]" + 0.015*"ford" + 0.013*"mayor" + 0.012*"lucky" + 0.010*"opened" + 0.010*"??????."
+topic #4 (0.033): 0.055*"world" + 0.039*"cup" + 0.029*"2018" + 0.024*"2022" + 0.024*"host" + 0.021*"russia" + 0.021*"fifa" + 0.020*"qatar" + 0.014*"england" + 0.013*"bid"
+topic #0 (0.033): 0.080*"rt!" + 0.058*"indy" + 0.022*"rosa" + 0.021*"giving" + 0.018*"parks" + 0.011*"55" + 0.010*"her" + 0.010*"seat" + 0.009*"happy" + 0.009*"ago"
+topic #17 (0.033): 0.153*"peace" + 0.016*"politicos" + 0.015*"irish" + 0.010*"card" + 0.010*"visa" + 0.009*"dennis" + 0.009*"marriage" + 0.008*"belgium" + 0.008*"angels" + 0.008*"ok"
+topic #6 (0.033): 0.030*"you" + 0.020*"my" + 0.017*"it" + 0.016*"that" + 0.013*"have" + 0.013*"we" + 0.012*"me" + 0.012*"your" + 0.011*"not" + 0.011*"be"
+topic diff=0.177577, rho=0.242514
+PROGRESS: pass 4, at document #2000/26006
+performing inference on a chunk of 2000 documents
+1984/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #28 (0.033): 0.055*"was" + 0.044*"last" + 0.032*"week" + 0.025*"download" + 0.024*"ranking" + 0.023*"on!" + 0.004*"by" + 0.004*"goes" + 0.004*"book" + 0.003*"jesus"
+topic #15 (0.033): 0.034*"snow" + 0.016*"weather" + 0.015*"due" + 0.013*"at" + 0.013*"closed" + 0.012*"travel" + 0.012*"airport" + 0.011*"wednesday" + 0.009*"flights" + 0.008*"london"
+topic #17 (0.033): 0.115*"peace" + 0.013*"politicos" + 0.012*"irish" + 0.010*"card" + 0.009*"visa" + 0.008*"dennis" + 0.007*"marriage" + 0.007*"belgium" + 0.006*"ok" + 0.006*"gaza"
+topic #25 (0.033): 0.048*"via" + 0.042*"-" + 0.031*"--" + 0.026*"video" + 0.018*"nasa" + 0.016*"der" + 0.015*"@addthis" + 0.015*"youtube" + 0.014*"@youtube" + 0.012*"die"
+topic #29 (0.033): 0.045*"world" + 0.042*"aids" + 0.039*"by" + 0.032*"red" + 0.031*"please" + 0.029*"each" + 0.029*"go" + 0.025*"day" + 0.024*"goes" + 0.013*"&"
+topic diff=0.065153, rho=0.235683
+PROGRESS: pass 4, at document #4000/26006
+performing inference on a chunk of 2000 documents
+1988/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #21 (0.033): 0.101*"lol." + 0.071*"give" + 0.028*"#breakingnews" + 0.023*"di" + 0.010*".." + 0.007*"paulo" + 0.006*"ga" + 0.006*"vs" + 0.006*"agenda" + 0.006*"waste"
+topic #8 (0.033): 0.016*"tax" + 0.010*"#p2" + 0.010*"gop" + 0.009*"cuts" + 0.008*"#tcot" + 0.008*"obama" + 0.007*"are" + 0.007*"..." + 0.007*"senate" + 0.007*"house"
+topic #0 (0.033): 0.050*"rt!" + 0.035*"indy" + 0.022*"rosa" + 0.019*"parks" + 0.014*"giving" + 0.011*"her" + 0.011*"55" + 0.009*"years" + 0.009*"seat" + 0.009*"ago"
+topic #15 (0.033): 0.034*"snow" + 0.014*"due" + 0.014*"weather" + 0.014*"at" + 0.013*"closed" + 0.012*"airport" + 0.012*"travel" + 0.010*"wednesday" + 0.009*"gatwick" + 0.008*"flights"
+topic #29 (0.033): 0.046*"world" + 0.044*"aids" + 0.037*"by" + 0.028*"red" + 0.028*"please" + 0.026*"each" + 0.026*"day" + 0.026*"go" + 0.021*"goes" + 0.014*"&"
+topic diff=0.065182, rho=0.235683
+PROGRESS: pass 4, at document #6000/26006
+performing inference on a chunk of 2000 documents
+1987/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #12 (0.033): 0.012*"windows" + 0.009*"player" + 0.009*"foursquare" + 0.007*"gowalla" + 0.006*"cruise" + 0.005*"azure" + 0.005*"derek" + 0.005*"nfl" + 0.005*"cell" + 0.005*"you'd"
+topic #16 (0.033): 0.012*"loss" + 0.009*"lunch" + 0.008*"cant" + 0.007*"christmas" + 0.007*"photos" + 0.006*"winning" + 0.006*"roads" + 0.006*"launched" + 0.006*"#music" + 0.005*"discussion"
+topic #2 (0.033): 0.050*"..." + 0.034*"-" + 0.014*"at" + 0.013*"new" + 0.011*"from" + 0.011*"with" + 0.009*"&" + 0.007*"wikileaks" + 0.007*"our" + 0.007*"out"
+topic #24 (0.033): 0.032*"rt:" + 0.025*"??????????????????????" + 0.013*"thai" + 0.013*"crime" + 0.012*"????????????????????????????" + 0.011*"sister" + 0.010*"do." + 0.009*"voted" + 0.008*"#mashableawards" + 0.008*"#israel"
+topic #23 (0.033): 0.067*"#ff" + 0.026*":-)" + 0.026*"other." + 0.020*";-)" + 0.020*"(via" + 0.019*"#nowplaying" + 0.016*"follow" + 0.012*"meet" + 0.011*"#followfriday" + 0.011*"!!!"
+topic diff=0.026649, rho=0.235683
+PROGRESS: pass 4, at document #8000/26006
+performing inference on a chunk of 2000 documents
+1992/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #16 (0.033): 0.012*"loss" + 0.008*"lunch" + 0.008*"#travel" + 0.007*"christmas" + 0.007*"cant" + 0.007*"launched" + 0.006*"winning" + 0.006*"photos" + 0.005*"roads" + 0.005*"here."
+topic #6 (0.033): 0.030*"you" + 0.020*"my" + 0.019*"it" + 0.017*"that" + 0.012*"have" + 0.011*"are" + 0.011*"be" + 0.011*"not" + 0.011*"your" + 0.011*"we"
+topic #26 (0.033): 0.026*"#cnn" + 0.017*"morning!" + 0.015*"[news]" + 0.012*"ford" + 0.012*"???." + 0.011*"????." + 0.010*"lucky" + 0.009*"mayor" + 0.009*"searching" + 0.009*"families"
+topic #7 (0.033): 0.051*"." + 0.013*"charity" + 0.009*""" + 0.008*"letting" + 0.006*"purchase" + 0.006*"dm" + 0.006*"base" + 0.006*"jack" + 0.006*"magic" + 0.005*"owners"
+topic #25 (0.033): 0.054*"via" + 0.047*"--" + 0.045*"-" + 0.035*"video" + 0.026*"youtube" + 0.018*"nasa" + 0.017*"liked" + 0.014*"i" + 0.011*"der" + 0.011*"@addthis"
+topic diff=0.053124, rho=0.235683
+PROGRESS: pass 4, at document #10000/26006
+performing inference on a chunk of 2000 documents
+1992/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #10 (0.033): 0.029*"iphone" + 0.023*"google" + 0.021*"grammy" + 0.018*"app" + 0.016*"free" + 0.015*"apple" + 0.014*"ipad" + 0.013*"android" + 0.011*"music" + 0.011*"nominations"
+topic #15 (0.033): 0.040*"snow" + 0.019*"due" + 0.016*"weather" + 0.016*"closed" + 0.016*"at" + 0.014*"airport" + 0.010*"flights" + 0.009*"travel" + 0.009*"#uksnow" + 0.009*"london"
+topic #13 (0.033): 0.118*"?" + 0.044*"daily" + 0.038*"top" + 0.036*"stories" + 0.031*"today" + 0.029*"out!" + 0.026*"by" + 0.012*"civil" + 0.012*"unions" + 0.007*"today's"
+topic #18 (0.033): 0.014*"by" + 0.014*"-" + 0.012*"wikileaks" + 0.009*"as" + 0.009*"u.s." + 0.009*"..." + 0.008*"us" + 0.007*"says" + 0.007*"#wikileaks" + 0.006*"new"
+topic #3 (0.033): 0.024*"•" + 0.011*"sa" + 0.010*"france" + 0.010*"rt." + 0.009*"in:" + 0.009*"santo" + 0.009*"par" + 0.008*"temps" + 0.007*"janeiro" + 0.006*"toronto"
+topic diff=0.041176, rho=0.235683
+PROGRESS: pass 4, at document #12000/26006
+performing inference on a chunk of 2000 documents
+1993/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #3 (0.033): 0.020*"•" + 0.016*"sa" + 0.010*"rt." + 0.009*"france" + 0.009*"santo" + 0.009*"par" + 0.008*"temps" + 0.008*"in:" + 0.006*"ex" + 0.006*"todays"
+topic #21 (0.033): 0.056*"lol." + 0.038*"give" + 0.024*"di" + 0.014*"#breakingnews" + 0.010*".." + 0.009*"#wc2022" + 0.008*"waste" + 0.007*"paulo" + 0.006*"vs" + 0.006*"---"
+topic #9 (0.033): 0.045*"500" + 0.014*"@reuters_biz:" + 0.011*"xbox" + 0.010*"microsoft" + 0.009*"photo:" + 0.008*"<" + 0.008*"minha" + 0.007*"onto" + 0.007*"ambassador's" + 0.007*"kinect"
+topic #25 (0.033): 0.047*"via" + 0.042*"-" + 0.040*"--" + 0.036*"video" + 0.025*"youtube" + 0.017*"nasa" + 0.015*"liked" + 0.014*"i" + 0.013*"die" + 0.012*"der"
+topic #5 (0.033): 0.027*"#news" + 0.010*"dream" + 0.010*"manhattan" + 0.009*"heroes" + 0.008*"background" + 0.007*"anniversary" + 0.007*"using" + 0.007*"—" + 0.007*"#usa" + 0.006*"(reuters)"
+topic diff=0.032499, rho=0.235683
+PROGRESS: pass 4, at document #14000/26006
+performing inference on a chunk of 2000 documents
+1988/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #26 (0.033): 0.026*"morning!" + 0.021*"#cnn" + 0.015*"[news]" + 0.013*"lucky" + 0.011*"families" + 0.011*"mayor" + 0.011*"ford" + 0.008*"ireland" + 0.008*"cross" + 0.007*""best"
+topic #0 (0.033): 0.024*"rt!" + 0.022*"rosa" + 0.016*"parks" + 0.012*"happy" + 0.012*"her" + 0.011*"indy" + 0.009*"seat" + 0.009*"min" + 0.009*"years" + 0.009*"55"
+topic #28 (0.033): 0.040*"was" + 0.029*"last" + 0.018*"week" + 0.011*"download" + 0.006*"ranking" + 0.006*"on!" + 0.006*"voted" + 0.005*"#pledge" + 0.004*"by" + 0.004*"his"
+topic #19 (0.033): 0.086*"???" + 0.071*"??" + 0.066*"????" + 0.060*"?????" + 0.049*"??????" + 0.037*"???????" + 0.029*"?" + 0.029*"????????" + 0.023*"?????????" + 0.017*"??????????"
+topic #12 (0.033): 0.027*"nyt:" + 0.011*"nba" + 0.008*"windows" + 0.008*"cruise" + 0.008*"you'd" + 0.007*"@msnbc_health:" + 0.007*"cell" + 0.007*"appreciate" + 0.007*"miami" + 0.007*"nfl"
+topic diff=0.024513, rho=0.235683
+PROGRESS: pass 4, at document #16000/26006
+performing inference on a chunk of 2000 documents
+1989/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #19 (0.033): 0.113*"???" + 0.105*"????" + 0.105*"??" + 0.086*"?????" + 0.065*"??????" + 0.050*"???????" + 0.032*"?" + 0.029*"#iranelection" + 0.026*"????????" + 0.019*"?????????"
+topic #28 (0.033): 0.039*"was" + 0.029*"last" + 0.018*"week" + 0.010*"download" + 0.005*"ranking" + 0.005*"on!" + 0.005*"voted" + 0.005*"by" + 0.004*"his" + 0.004*"#pledge"
+topic #9 (0.033): 0.030*"500" + 0.028*"#howdoyouknow" + 0.018*"@reuters_biz:" + 0.012*"minha" + 0.011*"xbox" + 0.010*"microsoft" + 0.009*"photo:" + 0.008*"roman" + 0.007*"complexo" + 0.006*"<"
+topic #16 (0.033): 0.012*"cant" + 0.010*"lunch" + 0.010*"loss" + 0.009*"christmas" + 0.008*"winning" + 0.008*"#travel" + 0.008*"ill" + 0.007*"here." + 0.007*"#music" + 0.007*"everyday"
+topic #18 (0.033): 0.014*"-" + 0.012*"by" + 0.012*"wikileaks" + 0.011*"..." + 0.009*"as" + 0.009*"us" + 0.008*"u.s." + 0.007*"says" + 0.006*"with" + 0.006*"new"
+topic diff=0.052046, rho=0.235683
+PROGRESS: pass 4, at document #18000/26006
+performing inference on a chunk of 2000 documents
+1995/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #10 (0.033): 0.030*"iphone" + 0.021*"grammy" + 0.019*"google" + 0.017*"app" + 0.015*"free" + 0.015*"android" + 0.015*"apple" + 0.014*"ipad" + 0.011*"music" + 0.010*"nominations"
+topic #5 (0.033): 0.031*"#news" + 0.012*"#ssj" + 0.009*"(reuters)" + 0.008*"dream" + 0.008*"mr" + 0.007*"—" + 0.007*"#humanrights" + 0.007*"ppl" + 0.007*"anniversary" + 0.007*"using"
+topic #8 (0.033): 0.017*"tax" + 0.012*"gop" + 0.010*"#p2" + 0.009*"cuts" + 0.008*"obama" + 0.008*"are" + 0.008*"senate" + 0.008*"#tcot" + 0.008*"..." + 0.007*"&"
+topic #22 (0.033): 0.034*"home" + 0.027*"now" + 0.010*"van" + 0.009*"twitter's" + 0.008*"op" + 0.007*"@businessinsider:" + 0.007*"involved" + 0.007*"dat" + 0.006*"fact" + 0.006*"online"
+topic #1 (0.033): 0.020*"at" + 0.009*"festival" + 0.009*"st" + 0.008*"radio" + 0.007*"dj" + 0.007*"update" + 0.007*"pm" + 0.007*"debut" + 0.007*"news" + 0.006*"positive"
+topic diff=0.033928, rho=0.235683
+bound: at document #0
+-15.163 per-word bound, 36689.6 perplexity estimate based on a held-out corpus of 2000 documents with 164863 words
+PROGRESS: pass 4, at document #20000/26006
+performing inference on a chunk of 2000 documents
+1992/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #3 (0.033): 0.019*"france" + 0.017*"sa" + 0.017*"par" + 0.015*"•" + 0.012*"#artwiculate" + 0.012*"merci" + 0.011*"dia!" + 0.010*"ballyhoo" + 0.010*"temps" + 0.010*"rt."
+topic #21 (0.033): 0.119*"#breakingnews" + 0.043*"di" + 0.039*"lol." + 0.023*".." + 0.020*"#fb" + 0.020*"give" + 0.013*"paulo" + 0.010*"ini" + 0.009*"waste" + 0.009*"indonesia"
+topic #22 (0.033): 0.035*"home" + 0.026*"now" + 0.012*"van" + 0.008*"twitter's" + 0.008*"op" + 0.008*"dat" + 0.007*"behind" + 0.007*"involved" + 0.007*"online" + 0.006*"met"
+topic #4 (0.033): 0.058*"world" + 0.042*"cup" + 0.032*"2018" + 0.028*"host" + 0.026*"2022" + 0.024*"qatar" + 0.024*"russia" + 0.021*"fifa" + 0.015*"england" + 0.014*"bid"
+topic #17 (0.033): 0.039*"irish" + 0.027*"peace" + 0.023*"belgium" + 0.009*"marriage" + 0.007*"disabled" + 0.007*"waters" + 0.007*"angels" + 0.006*"corrupt" + 0.006*"row" + 0.006*"champions"
+topic diff=0.103455, rho=0.235683
+PROGRESS: pass 4, at document #22000/26006
+performing inference on a chunk of 2000 documents
+1993/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #15 (0.033): 0.041*"snow" + 0.022*"due" + 0.017*"weather" + 0.016*"closed" + 0.015*"airport" + 0.014*"at" + 0.012*"flights" + 0.011*"travel" + 0.009*"until" + 0.008*"heavy"
+topic #9 (0.033): 0.020*"@reuters_biz:" + 0.018*"500" + 0.016*"microsoft" + 0.015*"#howdoyouknow" + 0.013*"minha" + 0.011*"xbox" + 0.010*"<" + 0.009*"loja" + 0.009*"jornal" + 0.008*"chega"
+topic #0 (0.033): 0.025*"rosa" + 0.020*"parks" + 0.018*"dutch" + 0.014*"happy" + 0.013*":))" + 0.012*":d" + 0.011*"yg" + 0.010*"her" + 0.010*"55" + 0.010*"years"
+topic #16 (0.033): 0.016*"loss" + 0.014*"cant" + 0.009*"lunch" + 0.009*"winning" + 0.008*"here." + 0.008*"christmas" + 0.008*"launched" + 0.008*"#travel" + 0.007*"discussion" + 0.007*"ill"
+topic #21 (0.033): 0.096*"#breakingnews" + 0.038*"di" + 0.035*"lol." + 0.021*".." + 0.020*"paulo" + 0.017*"give" + 0.017*"#fb" + 0.010*"waste" + 0.009*"agenda" + 0.009*"ini"
+topic diff=0.050866, rho=0.235683
+PROGRESS: pass 4, at document #24000/26006
+performing inference on a chunk of 2000 documents
+1991/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #26 (0.033): 0.035*"???." + 0.033*"????." + 0.020*"[news]" + 0.019*"morning!" + 0.016*"#cnn" + 0.015*"??????." + 0.014*"lucky" + 0.013*"opened" + 0.010*"families" + 0.010*"cross"
+topic #1 (0.033): 0.018*"at" + 0.011*"festival" + 0.009*"(" + 0.007*"radio" + 0.007*"positive" + 0.007*"#buylife" + 0.006*"st" + 0.006*"nw" + 0.006*"#youcut" + 0.006*"tough"
+topic #20 (0.033): 0.160*"!" + 0.027*"!!" + 0.021*"tweets" + 0.019*"plz" + 0.017*"retweet" + 0.010*"mess" + 0.009*"...:" + 0.008*"$10" + 0.008*"$" + 0.008*"twitter."
+topic #13 (0.033): 0.222*"?" + 0.035*"daily" + 0.032*"top" + 0.029*"stories" + 0.028*"today" + 0.028*"by" + 0.026*"out!" + 0.011*"dead." + 0.010*"civil" + 0.007*"unions"
+topic #29 (0.033): 0.059*"world" + 0.055*"aids" + 0.032*"day" + 0.024*"by" + 0.018*"&" + 0.014*"hiv" + 0.013*"today" + 0.011*"red" + 0.011*"please" + 0.011*">"
+topic diff=0.062696, rho=0.235683
+PROGRESS: pass 4, at document #26000/26006
+performing inference on a chunk of 2000 documents
+1990/2000 documents converged within 50 iterations
+updating topics
+merging changes from 2000 documents into a model of 26006 documents
+topic #10 (0.033): 0.052*"iphone" + 0.032*"free" + 0.028*"google" + 0.022*"grammy" + 0.018*"android" + 0.017*"app" + 0.016*"apple" + 0.014*"ipad" + 0.014*"music" + 0.013*"nominations"
+topic #17 (0.033): 0.033*"peace" + 0.021*"politicos" + 0.021*"irish" + 0.013*"card" + 0.012*"visa" + 0.012*"dennis" + 0.012*"marriage" + 0.010*"belgium" + 0.010*"angels" + 0.010*"ok"
+topic #24 (0.033): 0.029*"rt:" + 0.021*"crime" + 0.018*"do." + 0.016*"??????????????????????" + 0.013*"voted" + 0.011*"????????????????????????????" + 0.010*"sister" + 0.009*"blessed" + 0.009*"thai" + 0.009*"#mashableawards"
+topic #26 (0.033): 0.030*"???." + 0.029*"????." + 0.022*"morning!" + 0.018*"#cnn" + 0.018*"[news]" + 0.017*"ford" + 0.015*"mayor" + 0.014*"lucky" + 0.012*"opened" + 0.011*"??????."
+topic #22 (0.033): 0.091*"home" + 0.077*"now" + 0.072*"twitter's" + 0.009*"wat" + 0.009*"dat" + 0.007*"van" + 0.006*"online" + 0.006*"fact" + 0.006*"address" + 0.005*"@cnnbrk:"
+topic diff=0.040473, rho=0.235683
+bound: at document #0
+-15.475 per-word bound, 45530.8 perplexity estimate based on a held-out corpus of 6 documents with 73 words
+PROGRESS: pass 4, at document #26006/26006
+performing inference on a chunk of 6 documents
+6/6 documents converged within 50 iterations
+updating topics
+merging changes from 6 documents into a model of 26006 documents
+topic #25 (0.033): 0.071*"via" + 0.048*"-" + 0.035*"--" + 0.026*"@addthis" + 0.026*"video" + 0.017*"@youtube" + 0.016*"nasa" + 0.015*"youtube" + 0.014*"der" + 0.011*"die"
+topic #8 (0.033): 0.016*"tax" + 0.011*"gop" + 0.011*"#p2" + 0.010*"cuts" + 0.009*"..." + 0.008*"obama" + 0.008*"&" + 0.007*"are" + 0.007*"#tcot" + 0.007*"#dadt"
+topic #19 (0.033): 0.148*"???" + 0.121*"??" + 0.108*"????" + 0.085*"?????" + 0.061*"??????" + 0.048*"?" + 0.047*"???????" + 0.030*"????????" + 0.025*">>>" + 0.024*"?????????"
+topic #17 (0.033): 0.150*"peace" + 0.016*"politicos" + 0.016*"irish" + 0.010*"card" + 0.010*"visa" + 0.009*"dennis" + 0.009*"marriage" + 0.008*"belgium" + 0.008*"angels" + 0.008*"ok"
+topic #16 (0.033): 0.017*"loss" + 0.013*"cant" + 0.011*"lunch" + 0.009*"here." + 0.009*"#music" + 0.008*"winning" + 0.007*"launched" + 0.007*"roads" + 0.006*"ill" + 0.006*"christmas"
+topic diff=0.171031, rho=0.235683
+saving LdaState object under ../output/toy/LDA.DynAERNN/tml/gensim_30topics.model.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy/LDA.DynAERNN/tml/gensim_30topics.model.state'}
+saved ../output/toy/LDA.DynAERNN/tml/gensim_30topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy/LDA.DynAERNN/tml/gensim_30topics.model.id2word'}
+saving LdaModel object under ../output/toy/LDA.DynAERNN/tml/gensim_30topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/toy/LDA.DynAERNN/tml/gensim_30topics.model.expElogbeta.npy
+not storing attribute state
+not storing attribute id2word
+not storing attribute dispatcher
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy/LDA.DynAERNN/tml/gensim_30topics.model'}
+saved ../output/toy/LDA.DynAERNN/tml/gensim_30topics.model
+topic #0 (0.033): 0.079*"rt!" + 0.058*"indy" + 0.029*"giving" + 0.023*"rosa" + 0.018*"parks" + 0.011*"55" + 0.010*"happy" + 0.010*"her" + 0.010*"seat" + 0.010*"ago"
+topic #1 (0.033): 0.016*"at" + 0.010*"festival" + 0.009*"(" + 0.008*"radio" + 0.007*"positive" + 0.006*"#buylife" + 0.006*"st" + 0.006*"tough" + 0.006*"that!" + 0.006*"#qatar"
+topic #2 (0.033): 0.063*"..." + 0.035*"-" + 0.015*"new" + 0.014*"at" + 0.011*"from" + 0.011*"with" + 0.010*"out" + 0.010*"our" + 0.009*"&" + 0.007*"wikileaks"
+topic #3 (0.033): 0.021*"janeiro" + 0.020*"sa" + 0.015*"par" + 0.013*"france" + 0.012*"•" + 0.010*"toronto" + 0.009*"jyj" + 0.008*"temps" + 0.007*"dia!" + 0.007*"ex"
+topic #4 (0.033): 0.056*"world" + 0.040*"cup" + 0.030*"2018" + 0.025*"2022" + 0.024*"host" + 0.022*"russia" + 0.021*"fifa" + 0.020*"qatar" + 0.014*"england" + 0.014*"bid"
+topic #5 (0.033): 0.035*"#news" + 0.013*"#usa" + 0.012*"—" + 0.011*"ppl" + 0.011*"mr" + 0.010*"using" + 0.009*"#freegary" + 0.008*"promote" + 0.008*"sky" + 0.007*"world:"
+topic #6 (0.033): 0.030*"you" + 0.020*"my" + 0.017*"it" + 0.016*"that" + 0.013*"have" + 0.013*"we" + 0.012*"me" + 0.012*"your" + 0.011*"not" + 0.011*"be"
+topic #7 (0.033): 0.069*"." + 0.018*"charity" + 0.009*"dm" + 0.009*"ang" + 0.008*"]" + 0.008*"letting" + 0.007*""" + 0.007*"purchase" + 0.007*"oscar" + 0.006*"30%"
+topic #8 (0.033): 0.016*"tax" + 0.011*"gop" + 0.011*"#p2" + 0.010*"cuts" + 0.009*"..." + 0.008*"obama" + 0.008*"&" + 0.007*"are" + 0.007*"#tcot" + 0.007*"#dadt"
+topic #9 (0.033): 0.148*"500" + 0.015*"@reuters_biz:" + 0.013*"#howdoyouknow" + 0.011*"microsoft" + 0.010*"photo:" + 0.009*"xbox" + 0.008*"radia" + 0.007*"minha" + 0.006*"mão" + 0.006*"tapes"
+topic #10 (0.033): 0.049*"iphone" + 0.030*"free" + 0.026*"google" + 0.021*"grammy" + 0.017*"android" + 0.016*"app" + 0.015*"apple" + 0.013*"ipad" + 0.013*"music" + 0.012*"nominations"
+topic #11 (0.033): 0.019*"this" + 0.019*"your" + 0.019*"how" + 0.018*"can" + 0.017*"from" + 0.016*"be" + 0.016*"an" + 0.016*"our" + 0.015*"we" + 0.015*"will"
+topic #12 (0.033): 0.010*"@dalailama:" + 0.009*"cruise" + 0.009*"player" + 0.008*"appreciate" + 0.008*"cool." + 0.008*"alternative" + 0.008*"«" + 0.007*"nba" + 0.007*"you'd" + 0.007*"nfl"
+topic #13 (0.033): 0.193*"?" + 0.039*"daily" + 0.034*"top" + 0.031*"stories" + 0.030*"by" + 0.025*"today" + 0.023*"out!" + 0.010*"today's" + 0.009*"dead." + 0.008*"civil"
+topic #14 (0.033): 0.112*"de" + 0.036*"la" + 0.033*"que" + 0.032*"en" + 0.029*"el" + 0.026*"no" + 0.019*"do" + 0.017*"para" + 0.015*"..." + 0.014*"como"
+topic #15 (0.033): 0.040*"snow" + 0.018*"due" + 0.016*"weather" + 0.014*"closed" + 0.013*"wednesday" + 0.013*"airport" + 0.013*"travel" + 0.012*"at" + 0.009*"flights" + 0.009*"london"
+topic #16 (0.033): 0.017*"loss" + 0.013*"cant" + 0.011*"lunch" + 0.009*"here." + 0.009*"#music" + 0.008*"winning" + 0.007*"launched" + 0.007*"roads" + 0.006*"ill" + 0.006*"christmas"
+topic #17 (0.033): 0.150*"peace" + 0.016*"politicos" + 0.016*"irish" + 0.010*"card" + 0.010*"visa" + 0.009*"dennis" + 0.009*"marriage" + 0.008*"belgium" + 0.008*"angels" + 0.008*"ok"
+topic #18 (0.033): 0.015*"-" + 0.013*"by" + 0.013*"..." + 0.013*"wikileaks" + 0.010*"euro" + 0.009*"as" + 0.008*"us" + 0.008*"u.s." + 0.007*"#wikileaks" + 0.007*"says"
+topic #19 (0.033): 0.148*"???" + 0.121*"??" + 0.108*"????" + 0.085*"?????" + 0.061*"??????" + 0.048*"?" + 0.047*"???????" + 0.030*"????????" + 0.025*">>>" + 0.024*"?????????"
+topic #20 (0.033): 0.141*"!" + 0.026*"!!" + 0.018*"tweets" + 0.018*"retweet" + 0.016*"plz" + 0.013*"...:" + 0.008*"$" + 0.008*"mess" + 0.007*"$10" + 0.007*"twitter."
+topic #21 (0.033): 0.138*"lol." + 0.116*"give" + 0.042*"#breakingnews" + 0.027*"di" + 0.012*".." + 0.010*"paulo" + 0.009*"ga" + 0.008*"#fb" + 0.007*"waste" + 0.007*"vs"
+topic #22 (0.033): 0.086*"home" + 0.073*"now" + 0.068*"twitter's" + 0.008*"wat" + 0.008*"dat" + 0.006*"van" + 0.006*"online" + 0.006*"fact" + 0.005*"address" + 0.005*"@cnnbrk:"
+topic #23 (0.033): 0.068*"#ff" + 0.033*"#nowplaying" + 0.021*"follow" + 0.019*";-)" + 0.018*":-)" + 0.016*"(via" + 0.016*"!!!" + 0.014*"hotel" + 0.012*"thanks" + 0.010*"night."
+topic #24 (0.033): 0.026*"rt:" + 0.019*"crime" + 0.016*"do." + 0.014*"??????????????????????" + 0.011*"voted" + 0.010*"????????????????????????????" + 0.009*"sister" + 0.008*"blessed" + 0.008*"thai" + 0.008*"#mashableawards"
+topic #25 (0.033): 0.071*"via" + 0.048*"-" + 0.035*"--" + 0.026*"@addthis" + 0.026*"video" + 0.017*"@youtube" + 0.016*"nasa" + 0.015*"youtube" + 0.014*"der" + 0.011*"die"
+topic #26 (0.033): 0.027*"???." + 0.026*"????." + 0.020*"morning!" + 0.016*"#cnn" + 0.016*"[news]" + 0.015*"ford" + 0.013*"mayor" + 0.012*"lucky" + 0.010*"opened" + 0.010*"??????."
+topic #27 (0.033): 0.080*":" + 0.041*"la" + 0.037*"le" + 0.032*"et" + 0.026*"les" + 0.024*"à" + 0.023*"des" + 0.019*"pour" + 0.018*"du" + 0.013*"il"
+topic #28 (0.033): 0.068*"was" + 0.058*"last" + 0.043*"week" + 0.033*"download" + 0.033*"ranking" + 0.031*"on!" + 0.005*"goes" + 0.005*"book" + 0.005*"jesus" + 0.004*"ass"
+topic #29 (0.033): 0.049*"world" + 0.044*"aids" + 0.044*"by" + 0.037*"red" + 0.037*"please" + 0.036*"each" + 0.036*"go" + 0.028*"goes" + 0.026*"day" + 0.014*"&"
+TopicModeling: GENSIM Topic: 0 
+Words: 0.079*"rt!" + 0.058*"indy" + 0.029*"giving" + 0.023*"rosa" + 0.018*"parks" + 0.011*"55" + 0.010*"happy" + 0.010*"her" + 0.010*"seat" + 0.010*"ago"
+TopicModeling: GENSIM Topic: 1 
+Words: 0.016*"at" + 0.010*"festival" + 0.009*"(" + 0.008*"radio" + 0.007*"positive" + 0.006*"#buylife" + 0.006*"st" + 0.006*"tough" + 0.006*"that!" + 0.006*"#qatar"
+TopicModeling: GENSIM Topic: 2 
+Words: 0.063*"..." + 0.035*"-" + 0.015*"new" + 0.014*"at" + 0.011*"from" + 0.011*"with" + 0.010*"out" + 0.010*"our" + 0.009*"&" + 0.007*"wikileaks"
+TopicModeling: GENSIM Topic: 3 
+Words: 0.021*"janeiro" + 0.020*"sa" + 0.015*"par" + 0.013*"france" + 0.012*"•" + 0.010*"toronto" + 0.009*"jyj" + 0.008*"temps" + 0.007*"dia!" + 0.007*"ex"
+TopicModeling: GENSIM Topic: 4 
+Words: 0.056*"world" + 0.040*"cup" + 0.030*"2018" + 0.025*"2022" + 0.024*"host" + 0.022*"russia" + 0.021*"fifa" + 0.020*"qatar" + 0.014*"england" + 0.014*"bid"
+TopicModeling: GENSIM Topic: 5 
+Words: 0.035*"#news" + 0.013*"#usa" + 0.012*"—" + 0.011*"ppl" + 0.011*"mr" + 0.010*"using" + 0.009*"#freegary" + 0.008*"promote" + 0.008*"sky" + 0.007*"world:"
+TopicModeling: GENSIM Topic: 6 
+Words: 0.030*"you" + 0.020*"my" + 0.017*"it" + 0.016*"that" + 0.013*"have" + 0.013*"we" + 0.012*"me" + 0.012*"your" + 0.011*"not" + 0.011*"be"
+TopicModeling: GENSIM Topic: 7 
+Words: 0.069*"." + 0.018*"charity" + 0.009*"dm" + 0.009*"ang" + 0.008*"]" + 0.008*"letting" + 0.007*""" + 0.007*"purchase" + 0.007*"oscar" + 0.006*"30%"
+TopicModeling: GENSIM Topic: 8 
+Words: 0.016*"tax" + 0.011*"gop" + 0.011*"#p2" + 0.010*"cuts" + 0.009*"..." + 0.008*"obama" + 0.008*"&" + 0.007*"are" + 0.007*"#tcot" + 0.007*"#dadt"
+TopicModeling: GENSIM Topic: 9 
+Words: 0.148*"500" + 0.015*"@reuters_biz:" + 0.013*"#howdoyouknow" + 0.011*"microsoft" + 0.010*"photo:" + 0.009*"xbox" + 0.008*"radia" + 0.007*"minha" + 0.006*"mão" + 0.006*"tapes"
+TopicModeling: GENSIM Topic: 10 
+Words: 0.049*"iphone" + 0.030*"free" + 0.026*"google" + 0.021*"grammy" + 0.017*"android" + 0.016*"app" + 0.015*"apple" + 0.013*"ipad" + 0.013*"music" + 0.012*"nominations"
+TopicModeling: GENSIM Topic: 11 
+Words: 0.019*"this" + 0.019*"your" + 0.019*"how" + 0.018*"can" + 0.017*"from" + 0.016*"be" + 0.016*"an" + 0.016*"our" + 0.015*"we" + 0.015*"will"
+TopicModeling: GENSIM Topic: 12 
+Words: 0.010*"@dalailama:" + 0.009*"cruise" + 0.009*"player" + 0.008*"appreciate" + 0.008*"cool." + 0.008*"alternative" + 0.008*"«" + 0.007*"nba" + 0.007*"you'd" + 0.007*"nfl"
+TopicModeling: GENSIM Topic: 13 
+Words: 0.193*"?" + 0.039*"daily" + 0.034*"top" + 0.031*"stories" + 0.030*"by" + 0.025*"today" + 0.023*"out!" + 0.010*"today's" + 0.009*"dead." + 0.008*"civil"
+TopicModeling: GENSIM Topic: 14 
+Words: 0.112*"de" + 0.036*"la" + 0.033*"que" + 0.032*"en" + 0.029*"el" + 0.026*"no" + 0.019*"do" + 0.017*"para" + 0.015*"..." + 0.014*"como"
+TopicModeling: GENSIM Topic: 15 
+Words: 0.040*"snow" + 0.018*"due" + 0.016*"weather" + 0.014*"closed" + 0.013*"wednesday" + 0.013*"airport" + 0.013*"travel" + 0.012*"at" + 0.009*"flights" + 0.009*"london"
+TopicModeling: GENSIM Topic: 16 
+Words: 0.017*"loss" + 0.013*"cant" + 0.011*"lunch" + 0.009*"here." + 0.009*"#music" + 0.008*"winning" + 0.007*"launched" + 0.007*"roads" + 0.006*"ill" + 0.006*"christmas"
+TopicModeling: GENSIM Topic: 17 
+Words: 0.150*"peace" + 0.016*"politicos" + 0.016*"irish" + 0.010*"card" + 0.010*"visa" + 0.009*"dennis" + 0.009*"marriage" + 0.008*"belgium" + 0.008*"angels" + 0.008*"ok"
+TopicModeling: GENSIM Topic: 18 
+Words: 0.015*"-" + 0.013*"by" + 0.013*"..." + 0.013*"wikileaks" + 0.010*"euro" + 0.009*"as" + 0.008*"us" + 0.008*"u.s." + 0.007*"#wikileaks" + 0.007*"says"
+TopicModeling: GENSIM Topic: 19 
+Words: 0.148*"???" + 0.121*"??" + 0.108*"????" + 0.085*"?????" + 0.061*"??????" + 0.048*"?" + 0.047*"???????" + 0.030*"????????" + 0.025*">>>" + 0.024*"?????????"
+TopicModeling: GENSIM Topic: 20 
+Words: 0.141*"!" + 0.026*"!!" + 0.018*"tweets" + 0.018*"retweet" + 0.016*"plz" + 0.013*"...:" + 0.008*"$" + 0.008*"mess" + 0.007*"$10" + 0.007*"twitter."
+TopicModeling: GENSIM Topic: 21 
+Words: 0.138*"lol." + 0.116*"give" + 0.042*"#breakingnews" + 0.027*"di" + 0.012*".." + 0.010*"paulo" + 0.009*"ga" + 0.008*"#fb" + 0.007*"waste" + 0.007*"vs"
+TopicModeling: GENSIM Topic: 22 
+Words: 0.086*"home" + 0.073*"now" + 0.068*"twitter's" + 0.008*"wat" + 0.008*"dat" + 0.006*"van" + 0.006*"online" + 0.006*"fact" + 0.005*"address" + 0.005*"@cnnbrk:"
+TopicModeling: GENSIM Topic: 23 
+Words: 0.068*"#ff" + 0.033*"#nowplaying" + 0.021*"follow" + 0.019*";-)" + 0.018*":-)" + 0.016*"(via" + 0.016*"!!!" + 0.014*"hotel" + 0.012*"thanks" + 0.010*"night."
+TopicModeling: GENSIM Topic: 24 
+Words: 0.026*"rt:" + 0.019*"crime" + 0.016*"do." + 0.014*"??????????????????????" + 0.011*"voted" + 0.010*"????????????????????????????" + 0.009*"sister" + 0.008*"blessed" + 0.008*"thai" + 0.008*"#mashableawards"
+TopicModeling: GENSIM Topic: 25 
+Words: 0.071*"via" + 0.048*"-" + 0.035*"--" + 0.026*"@addthis" + 0.026*"video" + 0.017*"@youtube" + 0.016*"nasa" + 0.015*"youtube" + 0.014*"der" + 0.011*"die"
+TopicModeling: GENSIM Topic: 26 
+Words: 0.027*"???." + 0.026*"????." + 0.020*"morning!" + 0.016*"#cnn" + 0.016*"[news]" + 0.015*"ford" + 0.013*"mayor" + 0.012*"lucky" + 0.010*"opened" + 0.010*"??????."
+TopicModeling: GENSIM Topic: 27 
+Words: 0.080*":" + 0.041*"la" + 0.037*"le" + 0.032*"et" + 0.026*"les" + 0.024*"à" + 0.023*"des" + 0.019*"pour" + 0.018*"du" + 0.013*"il"
+TopicModeling: GENSIM Topic: 28 
+Words: 0.068*"was" + 0.058*"last" + 0.043*"week" + 0.033*"download" + 0.033*"ranking" + 0.031*"on!" + 0.005*"goes" + 0.005*"book" + 0.005*"jesus" + 0.004*"ass"
+TopicModeling: GENSIM Topic: 29 
+Words: 0.049*"world" + 0.044*"aids" + 0.044*"by" + 0.037*"red" + 0.037*"please" + 0.036*"each" + 0.036*"go" + 0.028*"goes" + 0.026*"day" + 0.014*"&"
+TopicModeling: Coherences:
+
+TopicModeling: Calculating model coherence:
+
+Setting topics to those of the model: LdaModel(num_terms=100000, num_topics=30, decay=0.5, chunksize=2000)
+CorpusAccumulator accumulated stats from 1000 documents
+CorpusAccumulator accumulated stats from 2000 documents
+CorpusAccumulator accumulated stats from 3000 documents
+CorpusAccumulator accumulated stats from 4000 documents
+CorpusAccumulator accumulated stats from 5000 documents
+CorpusAccumulator accumulated stats from 6000 documents
+CorpusAccumulator accumulated stats from 7000 documents
+CorpusAccumulator accumulated stats from 8000 documents
+CorpusAccumulator accumulated stats from 9000 documents
+CorpusAccumulator accumulated stats from 10000 documents
+CorpusAccumulator accumulated stats from 11000 documents
+CorpusAccumulator accumulated stats from 12000 documents
+CorpusAccumulator accumulated stats from 13000 documents
+CorpusAccumulator accumulated stats from 14000 documents
+CorpusAccumulator accumulated stats from 15000 documents
+CorpusAccumulator accumulated stats from 16000 documents
+CorpusAccumulator accumulated stats from 17000 documents
+CorpusAccumulator accumulated stats from 18000 documents
+CorpusAccumulator accumulated stats from 19000 documents
+CorpusAccumulator accumulated stats from 20000 documents
+CorpusAccumulator accumulated stats from 21000 documents
+CorpusAccumulator accumulated stats from 22000 documents
+CorpusAccumulator accumulated stats from 23000 documents
+CorpusAccumulator accumulated stats from 24000 documents
+CorpusAccumulator accumulated stats from 25000 documents
+CorpusAccumulator accumulated stats from 26000 documents
+saving Dictionary object under ../output/toy/LDA.DynAERNN/tml/gensim_30topics_TopicModelingDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy/LDA.DynAERNN/tml/gensim_30topics_TopicModelingDictionary.mm'}
+saved ../output/toy/LDA.DynAERNN/tml/gensim_30topics_TopicModelingDictionary.mm
+dictionary.shape: 100000
+3. Temporal Graph Creation ...
+##################################################
+Loading users' graph stream ...
+Loading users' graph stream failed! Generating the stream ...
+UserSimilarity: All users size 26006
+UserSimilarity: All distinct users:19649
+UserSimilarity: users_topic_interests=(19649, 30)
+UserSimilarity: Just one topic? False, Binary topic? False, Threshold: 0.5
+13516 users have twitted in 2010-12-01 00:00:00
+7910 users have twitted in 2010-12-02 00:00:00
+4580 users have twitted in 2010-12-03 00:00:00
+0 users have twitted in 2010-12-04 00:00:00
+UserSimilarity: 0 / 4
+UserSimilarity: UsersTopicInterests.npy is saved for day:0 with shape: (19649, 30)
+UsersGraph: There are 19649 users on 0
+UserSimilarity: A graph is being created for day:0 with 19649 users
+UserSimilarity: 1 / 4
+UserSimilarity: UsersTopicInterests.npy is saved for day:1 with shape: (19649, 30)
+UsersGraph: There are 19649 users on 1
+UserSimilarity: A graph is being created for day:1 with 19649 users
+UserSimilarity: 2 / 4
+UserSimilarity: UsersTopicInterests.npy is saved for day:2 with shape: (19649, 30)
+UsersGraph: There are 19649 users on 2
+UserSimilarity: A graph is being created for day:2 with 19649 users
+UserSimilarity: 3 / 4
+UserSimilarity: UsersTopicInterests.npy is saved for day:3 with shape: (19649, 30)
+UsersGraph: There are 19649 users on 3
+UserSimilarity: A graph is being created for day:3 with 19649 users
+UserSimilarity: Number of users per day: [13516, 7910, 4580, 0]
+UserSimilarity: Graphs are written in "graphs" directory
+4. Temporal Graph Embedding ...
+##################################################
+Loading embeddings ...
+Loading embeddings failed! Training ...
+CACHEDIR=C:\Users\Administrator\.matplotlib
+Using fontManager instance from C:\Users\Administrator\.matplotlib\fontlist-v300.json
+Loaded backend module://backend_interagg version unknown.
+Creating converter from 7 to 5
+Creating converter from 5 to 7
+Creating converter from 7 to 5
+Creating converter from 5 to 7
+5. Community Prediction ...
+##################################################
+Loading user clusters ...
+Loading user clusters failed! Generating user clusters ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+5.3. Future Community Prediction ...
+#Nodes(Users): 19649, #Edges: 3840531
+#Predicted Future Communities (Louvain): 19; (-1) are singleton.
+Communities Size: [7130, 3701, 2593, 1942, 1861, 541, 393, 267, 267, 233, 228, 166, 125, 120, 32, 29, 15, 2, 2, 2]
+Cluster 0 has 7130 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 1 has 3701 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 2 has 2593 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 3 has 1942 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 4 has 1861 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 5 has 541 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 6 has 393 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 7 has 267 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 8 has 267 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 9 has 233 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 10 has 228 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 11 has 166 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 12 has 125 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 13 has 120 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 14 has 32 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 15 has 29 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 16 has 15 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 17 has 2 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 18 has 2 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 19 has 2 users. Topic 0 is the favorite topic for 100.0% of users.
+6. Application: News Recommendation ...
+##################################################
+Traceback (most recent call last):
+  File "C:/Users/Administrator/Github/Fani-Lab/seera/main/src/main.py", line 120, in run
+    main()
+  File "C:/Users/Administrator/Github/Fani-Lab/seera/main/src/main.py", line 105, in main
+    from apl import News
+  File ".\apl\News.py", line 10, in <module>
+    from apl import ModelEvaluation as ME
+  File ".\apl\ModelEvaluation.py", line 8, in <module>
+    from apl import PytrecEvaluation as PyEval
+ImportError: cannot import name 'PytrecEvaluation'
+
+
+
+
+

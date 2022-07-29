@@ -22,7 +22,7 @@ Workflow | Layers
 ### Framework Structure
 Our framework has six major layers: Data Access Layer ([``dal``](./src/dal)), Topic Modeling Layer ([``tml``](./src/tml)), User Modeling Layer ([``uml``](./src/uml)), Graph Embedding Layer ([``gel``](./src/gel)), and Community Prediction Layer ([``cpl``](./src/cpl)). The application layer ([``apl``](./src/apl)), is the last layer, as shown in the above figure.
 
-Each layer process the input data from previous layer and produces new processed data for the next layer as explained below. Sample outputs on [``toy``](./data/toy) data can be seen here [``./output/5``](./output/5):
+Each layer process the input data from previous layer and produces new processed data for the next layer as explained below. Sample outputs on [``toy``](./data/toy) data can be seen here [``./output/toy``](./output/toy):
 
 #### [``tml``](./src/tml)
 ```

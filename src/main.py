@@ -10,9 +10,8 @@ import params
 from cmn import Common as cmn
 
 def main():
-    if not os.path.isdir(f'../output/{params.general["runId"]}'): os.makedirs(f'../output/{params.general["runId"]}')
-    copyfile('params.py', f'../output/{params.general["runId"]}/params.py')
-    cmn.logger = cmn.LogFile(f'../output/{params.general["runId"]}/log.txt')
+    if not os.path.isdir(f'../output/{params.general["baseline"]}'): os.makedirs(f'../output/{params.general["baseline"]}')
+    copyfile('params.py', f'../output/{params.general["baseline"]}/params.py')
 
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
@@ -20,8 +19,8 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading perprocessed files ...')
-        with open(f"../output/{params.general['runId']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
-        processed_docs = np.load(f"../output/{params.general['runId']}/prosdocs.npz", allow_pickle=True)['a']
+        with open(f"../output/{params.general['baseline']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
+        processed_docs = np.load(f"../output/{params.general['baseline']}/prosdocs.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         from dal import DataReader as dr, DataPreparation as dp
         cmn.logger.info(f'Loading perprocessed files failed! Generating files ...')
@@ -112,17 +111,17 @@ def run(tml_baselines, gel_baselines, run_desc):
     for t in tml_baselines:
         for g in gel_baselines:
             try:
-                print(f'Running pipeline for {t} and {g} ....')#cannot use logger as it's initialized for each run of pipeline
-                runid = f'{run_desc}/{t}.{g}'
+                cmn.logger.info(f'Running pipeline for {t} and {g} ....')
+                baseline = f'{run_desc}/{t}.{g}'
                 with open('params_template.py') as f: params_str = f.read()
-                new_params_str = params_str.replace('@runid', runid).replace('@tml_method', t).replace('@gel_method', g)
+                new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace('@gel_method', g)
                 with open('params.py', 'w') as f: f.write(new_params_str)
                 importlib.reload(params)
                 main()
             except:
-                traceback.print_exc()
+                cmn.logger.info(traceback.format_exc())
             finally:
-                print('\n\n\n')
+                cmn.logger.info('\n\n\n')
     #aggregate('../ouptut')
 
 def addargs(parser):
@@ -136,5 +135,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='SEERa')
     addargs(parser)
     args = parser.parse_args()
+    if not os.path.isdir(f'../output/{args.run_desc}'): os.makedirs(f'../output/{args.run_desc}')
+    cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/log.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     # aggregate('../output')

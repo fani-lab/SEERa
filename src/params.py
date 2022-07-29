@@ -1,7 +1,7 @@
 
 general = {
     'comment': '',
-    'runId': 'LDA.DynAERNN.1659021132',
+    'baseline': 'toy/LDA.DynAERNN',
     'cuda': '-1'
 }
 dal = {
@@ -15,7 +15,7 @@ dal = {
     'tagMe': False
 }
 tml = {
-    'path2save': f'../output/{general["runId"]}/tml',
+    'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 30,
     'library': 'gensim',
     'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
@@ -27,16 +27,16 @@ tml = {
 }
 uml = {
     'userSimilarityThreshold': 0.45,
-    'path2save': f'../output/{general["runId"]}/uml'
+    'path2save': f'../output/{general["baseline"]}/uml'
 }
 gel = {
-    'path2save': f'../output/{general["runId"]}/gel',
+    'path2save': f'../output/{general["baseline"]}/gel',
     'embeddingDim': 30,
     'epoch': 1,
     'method': 'DynAERNN' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
-    'path2save': f'../output/{general["runId"]}/cpl',
+    'path2save': f'../output/{general["baseline"]}/cpl',
     'method': 'louvain',
     'minSize': 10
 }
@@ -54,7 +54,7 @@ evl = {
 }
 
 apl = {
-    'path2save': f'../output/{general["runId"]}/apl',
+    'path2save': f'../output/{general["baseline"]}/apl',
     'topK': 20,
     'textTitle': 'Text'
 }
