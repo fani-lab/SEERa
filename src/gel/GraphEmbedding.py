@@ -85,14 +85,22 @@ def main(graphs, method='DynAERNN'):
         embedding_instance = embedding(dim_emb=dim_emb, lookback=lookback, method=method)
         embs = []
         t1 = time()
-        for temp_var in range(lookback + 1, len(graphs) + 1):
-            if method == "AE":
-                emb, _ = embedding_instance.learn_embeddings(graphs[temp_var])
-            else:
-                emb, _ = embedding_instance.learn_embeddings(graphs[:temp_var])
-            embs.append(emb)
-        embs = np.asarray(embs)
-        print('embs shape: ', embs)
+
+        # Using the last graph for AE and all graphs for other baselines (but just one time) #
+
+        # for temp_var in range(lookback + 1, len(graphs) + 1):
+        #     if method == "AE":
+        #         emb, _ = embedding_instance.learn_embeddings(graphs[temp_var])
+        #     else:
+        #         emb, _ = embedding_instance.learn_embeddings(graphs[:temp_var])
+        #     embs.append(emb)
+        # embs = np.asarray(embs)
+
+        if method == "AE":
+            emb, _ = embedding_instance.learn_embeddings(graphs[-1])
+        else:
+            emb, _ = embedding_instance.learn_embeddings(graphs)
+        print('embedding shape: ', embs)
         print(embedding_instance._method_name + ':\n\tTraining time: %f' % (time() - t1))
         # plt.figure()
         # plt.clf()
