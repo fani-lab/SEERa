@@ -1,5 +1,6 @@
 from shutil import copyfile
-import sys, os, glob, pickle, time, argparse, importlib
+import sys, os, glob, pickle, time, argparse, importlib, traceback
+
 import numpy as np
 import pandas as pd
 import gensim
@@ -107,17 +108,19 @@ def main():
     return news_output
 
 
-def run(tml_baselines, gel_baselines):
+def run(tml_baselines, gel_baselines, run_desc):
     for t in tml_baselines:
         for g in gel_baselines:
             try:
                 print(f'Running pipeline for {t} and {g} ....')#cannot use logger as it's initialized for each run of pipeline
-                runid = f'{t}.{g}.{int(time.time())}'
+                runid = f'{run_desc}/{t}.{g}'
                 with open('params_template.py') as f: params_str = f.read()
                 new_params_str = params_str.replace('@runid', runid).replace('@tml_method', t).replace('@gel_method', g)
                 with open('params.py', 'w') as f: f.write(new_params_str)
                 importlib.reload(params)
                 main()
+            except:
+                traceback.print_exc()
             finally:
                 print('\n\n\n')
     #aggregate('../ouptut')
@@ -126,11 +129,12 @@ def addargs(parser):
     baseline = parser.add_argument_group('baseline')
     baseline.add_argument('-tml_methods', '--tml-method-list', nargs='+', default=['LDA'], required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
     baseline.add_argument('-gel_methods', '--gel-method-list', nargs='+', default=['DynAERNN'], required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
+    baseline.add_argument('-run_desc', '--run-desc', default='toy', required=True, help='a unique description for the run (eg. -run_desc test')
 
-# python -u main.py -tml_methods LDA -gel_methods AE DynAE DynRNN DynAERNN
+# python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynRNN DynAERNN
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='SEERa')
     addargs(parser)
     args = parser.parse_args()
-    run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list)
+    run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     # aggregate('../output')
