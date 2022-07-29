@@ -127,7 +127,6 @@ def run(tml_baselines, gel_baselines, run_desc):
 
 def aggregate(output_path='../output/toy'):
     pred_eval_mean_path = sorted(glob.glob(f'{output_path}/*/apl/evl/pred.eval.mean.csv'))
-    print(len(pred_eval_mean_path))
     pred_eval_mean_agg = pd.DataFrame()
     for i, path in enumerate(pred_eval_mean_path):
         pred_eval_mean = pd.read_csv(path)
@@ -135,7 +134,6 @@ def aggregate(output_path='../output/toy'):
         df = pd.DataFrame(pred_eval_mean.score.values.reshape(1, pred_eval_mean.count()['metric']), index=[tml_gel],
                           columns=pred_eval_mean.metric.values)
         pred_eval_mean_agg = pd.concat((df, pred_eval_mean_agg))
-    print(os.getcwd())
     pred_eval_mean_agg.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
     return pred_eval_mean_agg
 
