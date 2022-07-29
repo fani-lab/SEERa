@@ -100,6 +100,8 @@ def main(graphs, method='DynAERNN'):
             emb, _ = embedding_instance.learn_embeddings(graphs[-1])
         else:
             emb, _ = embedding_instance.learn_embeddings(graphs)
+        embs = emb
+        
         print('embedding shape: ', embs)
         print(embedding_instance._method_name + ':\n\tTraining time: %f' % (time() - t1))
         # plt.figure()
