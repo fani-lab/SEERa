@@ -5,21 +5,23 @@ import matplotlib.pyplot as plt
 import os
 import json
 from cmn import Common as cmn
-from apl import PytrecEvaluation as PyEval
 import pickle
 import sklearn.metrics.cluster as CM
 
 import params
 
+
 def pytrec_eval_run(qrel, run):
     evaluator = pytrec_eval.RelevanceEvaluator(
         qrel, params.evl['extrinsicEvaluationMetrics'])
-    output = evaluator.evaluate(run)
-    with open(f'{params.apl["path2save"]}/evl/Pytrec_eval.txt', 'w') as outfile:
-        json.dump(output, outfile)
-    df = pd.DataFrame(output)
-    df.T.to_csv(f'{params.apl["path2save"]}/evl/final_result.csv')
-    return output
+    pred_eval = evaluator.evaluate(run)
+    with open(f'{params.apl["path2save"]}/evl/pred.eval.txt', 'w') as outfile:
+        json.dump(pred_eval, outfile)
+    pred_eval = pd.DataFrame(pred_eval).T
+    pred_eval.to_csv(f'{params.apl["path2save"]}/evl/pred.eval.csv')
+    mean = pred_eval.mean(axis=0, skipna=True)
+    mean.to_csv(f'{params.apl["path2save"]}/evl/pred.eval.mean.csv', index_label="metric", header=["score"])
+    return pred_eval
 
 
 def save_obj(obj, name):
