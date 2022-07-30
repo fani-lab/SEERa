@@ -6,7 +6,7 @@ This is an open-source ``extensible`` ``end-to-end`` python-based [``framework``
 2. [Structure](#2-Structure)
 3. [Setup](#3-Setup)
 4. [Quickstart](#4-Quickstart)
-5. [Result](#5-Result)
+5. [Benchmark Result](#5-Benchmark-Result)
 6. [License](#6-License)
 7. [Citation](#7-Citation)
 
@@ -97,6 +97,7 @@ TopRecommendations.npy          -> TopK recommendations scores of news articles 
 git clone https://github.com/fani-lab/seera.git
 cd seera
 conda env create -f environment.yml
+conda activate seera
 ```
 
 ```bash
@@ -115,8 +116,10 @@ Additionally, you need to install the following libraries from their source:
 - [``MAchine Learning for LanguagE Toolkit (mallet)``](http://mallet.cs.umass.edu/index.php) as a requirement in ``tml``.
 - [``DynamicGem``](https://github.com/palash1992/DynamicGEM) as a requirement in ``gel``:
 ```bash
-git clone https://github.com/palash1992/DynamicGEM
+git clone https://github.com/palash1992/DynamicGEM.git
+cd DynamicGEM
 python setup.py install
+pip install tensorflow==1.11.0 --force-reinstall #may be needed
 ```
 
 ## 4. Quickstart
@@ -127,88 +130,24 @@ We crawled and stored `~2.9M` Twitter posts (tweets) for 2 consecutive months `2
 For quickstart purposes, a `toy` sample of tweets between `2010-12-01` and `2010-12-04` has been provided at [`./data/toy/Tweets.csv`](./data/toy).  
 
 ### Run
-This framework contains six different layers. Each layer is affected by multiple parameters.
-Some of those parameters are fixed in the code via trial and error. However, major parameters such as number of topics can be adjusted by the user.
-They can be modified via [`./src/params.py`](./src/params.py) file in root folder.
+This framework contains six different layers. Each layer is affected by multiple parameters, e.g., number of topics, that can be adjusted by the user via [`./src/params.py`](./src/params.py) in root folder.
 
 You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
 cd src
-python main.py
+python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynAERNN
 ```
-### Examples
-#### **params.py**
-```python
-import random
-import numpy as np
+where the input arguements are:
 
-random.seed(0)
-np.random.seed(0)
-RunID = 1                         
+`-tml_methods`: A list of topic modeling methods, required
 
-general = {
-    'Comment': '', # Any comment to express more information about the configuration.
-}
+`-gel_methods`: A list of graph embedding methods, required
 
-dal = {
-    'start': '2010-12-01', # First date of social posts
-    'end': '2011-02-04', # Last day of social posts
-    'timeInterval': 1, # Time interval (based on number of days) for grouping posts as documents
-    
-    # Following parameters is used to generate corpus from our dataset:
-    'userModeling': True, # Aggregates all tweets of a user as a document
-    'timeModeling': True, # Aggregate all tweets of a specific day as a document
-    'preProcessing': False, # Applying some traditional pre-processing methods on corpus
-    'TagME': False, # Apply Tagme on the raw dataset. Set it to False if tagme-dataset is used
-    'tagme_GCUBE_TOKEN': "--------------" # Tagme GCUBE TOKEN. For more information, visit: [TagmeHelp](https://sobigdata.d4science.org/web/tagme/tagme-help)
-}
+`-run_desc`: A unique description for the run, required
 
-tml = {
-    'num_topics': 25, # Number of topics that should be extracted from our corpus
-    'library': 'gensim', # Used library to extract topics from the corpus. Could be 'gensim' or 'mallet'
-    'mallet_home': '--------------', # mallet_home path
-    'filterExtremes': True, # Filter very common and very rare terms in all documents
-    'JO': False, # (JO:=JustOne) If True, just one topic is chosen for each document
-    'Bin': True, # (Bin:=Binary) If True, all scores above/below a threshold is set to 1/0 for each topic
-    'Threshold': 0.2, # A threshold for topic scores quantization
-    'path2save': f'../output/{RunID}/tml'
-}
+A run will produce an output folder at `./output/{run_desc}` and subfolders for each topic modeling and graph embedding pair as baselines, e.g., `LDA.AE`, `LDA.DynAE`, and `LDA.DynAERNN`. The final evaluation results are aggregated in `./output/{run_desc}/pred.eval.mean.csv`. See an example run on toy dataset at [`./output/toy`](./output/toy). 
 
-uml = {
-    'RunId': RunID, # A unique number to identify the configuration per run
-    'UserSimilarityThreshold': 0.2, # A threshold for filtering low user similarity scores
-    'path2save': f'../output/{RunID}/uml'
-}
-
-gel = {
-    'GraphEmbedding': 'Node2Vec', # Graph embedding method. Available options are ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN']
-    'EmbeddingDim': 40, # Embedding dimension
-    'path2save': f'../output/{RunID}/gel'
-}
-
-cpl = {
-    'ClusteringApproach': 'Indirect', # Available options are ['Direct', 'Indirect']. 'Direct': Applying a non-graph clustering method directly on predicted communities in latent space; 'Indirect': Apply a graph clustering method on generated graph based on the output of predicted communities
-    'ClusteringMethod': 'Louvain', # Specification of the clustering method based on 'ClusteringApproach'. The only available option is 'Louvain' ('ClusteringApproach': 'Indirect') which is a graph clustering method
-    'path2save': f'../output/{RunID}/cpl'
-}
-
-evl = {
-    'RunId': RunID,
-    'EvaluationType': 'Extrinsic', # ['Intrinsic', 'Extrinsic']
-    
-    # If 'EvaluationType' is set to 'Intrinsic', two below parameters should set as well
-    'EvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure',
-                          'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
-    'GoldenStandardPath': '/path2GS', # Path to the golden standard
-    # ----------------------------------------------------------------------------------
-}
-
-application = {
-    'Threshold': 0.2, # A threshold for filtering low news article recommendation scores
-    'TopK': 20 # Number of selected top news article recommendation candidates
-}
-```
-## 5. Result
+## 5. Benchmark Result
 <table style="color:#828282;">
     <tr style=" color:black;" align="center">
         <th style="background-color:#A8A8A8;" rowspan="2">Method</th>
