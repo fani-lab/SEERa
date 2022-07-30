@@ -130,7 +130,7 @@ We crawled and stored `~2.9M` Twitter posts (tweets) for 2 consecutive months `2
 For quickstart purposes, a `toy` sample of tweets between `2010-12-01` and `2010-12-04` has been provided at [`./data/toy/Tweets.csv`](./data/toy).  
 
 ### Run
-This framework contains six different layers. Each layer is affected by multiple parameters, e.g., number of topics, that can be adjusted by the user via [`./src/params.py`](./src/params.py) in root folder.
+This framework contains six different layers. Each layer is affected by multiple parameters, e.g., number of topics, that can be adjusted by the user via [`./src/params_template.py`](./src/params_template.py) in root folder.
 
 You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
