@@ -139,9 +139,9 @@ def aggregate(output_path):
 
 def addargs(parser):
     baseline = parser.add_argument_group('baseline')
-    baseline.add_argument('-tml_methods', '--tml-method-list', nargs='+', default=['LDA'], required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
-    baseline.add_argument('-gel_methods', '--gel-method-list', nargs='+', default=['DynAERNN'], required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
-    baseline.add_argument('-run_desc', '--run-desc', default='toy', required=True, help='a unique description for the run (eg. -run_desc test')
+    baseline.add_argument('-tml_methods', '--tml-method-list', nargs='+', required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
+    baseline.add_argument('-gel_methods', '--gel-method-list', nargs='+', required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
+    baseline.add_argument('-run_desc', '--run-desc', required=True, help='a unique description for the run (eg. -run_desc toy')
 
 # python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynAERNN
 if __name__ == '__main__':
