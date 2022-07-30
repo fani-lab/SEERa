@@ -82,7 +82,9 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading embeddings ...')
-        embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
+        #embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
+        with open(f'{params.gel["path2save"]}/embeddings.pkl', 'rb') as handle:
+            embeddings = pickle.load(handle)
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import GraphEmbedding as GE
@@ -97,7 +99,7 @@ def main():
         Communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
     except:
         cmn.logger.info(f'Loading user clusters failed! Generating user clusters ...')
-        Communities = GC.main(embeddings, params.cpl['path2save'], params.cpl['method'])
+        Communities = GC.main(np.asarray(embeddings), params.cpl['path2save'], params.cpl['method'])
 
     # News Article Recommendation
     cmn.logger.info(f'6. Application: News Recommendation ...')

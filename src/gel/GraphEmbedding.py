@@ -2,6 +2,7 @@ import os
 import matplotlib.pyplot as plt
 from time import time
 import numpy as np
+import pickle
 
 from dynamicgem.embedding.dynAERNN import DynAERNN
 from dynamicgem.embedding.ae_static import AE
@@ -100,13 +101,15 @@ def main(graphs, method='DynAERNN'):
             emb, _ = embedding_instance.learn_embeddings(graphs[-1])
         else:
             emb, _ = embedding_instance.learn_embeddings(graphs)
-        embs = emb
-        
+        embs = [emb]
+
         print('embedding shape: ', embs)
         print(embedding_instance._method_name + ':\n\tTraining time: %f' % (time() - t1))
         # plt.figure()
         # plt.clf()
         # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
-        np.savez_compressed(f'{params.gel["path2save"]}/embeddings.npz', a=embs)
+        #np.savez_compressed(f'{params.gel["path2save"]}/embeddings.npz', a=embs)
+        with open(f'{params.gel["path2save"]}/embeddings.pkl', 'wb') as f:
+            pickle.dump(embs, f)
         # plt.show()
-        return embs
+        return np.asarray(embs)
