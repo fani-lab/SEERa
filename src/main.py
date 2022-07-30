@@ -125,14 +125,13 @@ def run(tml_baselines, gel_baselines, run_desc):
     #aggregate('../ouptut')
 
 
-def aggregate(output_path='../output/toy'):
+def aggregate(output_path):
     pred_eval_mean_path = sorted(glob.glob(f'{output_path}/*/apl/evl/pred.eval.mean.csv'))
     pred_eval_mean_agg = pd.DataFrame()
     for i, path in enumerate(pred_eval_mean_path):
         pred_eval_mean = pd.read_csv(path)
         tml_gel = path.split('\\')[-4]
-        df = pd.DataFrame(pred_eval_mean.score.values.reshape(1, pred_eval_mean.count()['metric']), index=[tml_gel],
-                          columns=pred_eval_mean.metric.values)
+        df = pd.DataFrame(pred_eval_mean.score.values.reshape(1, pred_eval_mean.count()['metric']), index=[tml_gel], columns=pred_eval_mean.metric.values)
         pred_eval_mean_agg = pd.concat((df, pred_eval_mean_agg))
     pred_eval_mean_agg.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
     return pred_eval_mean_agg
@@ -144,7 +143,7 @@ def addargs(parser):
     baseline.add_argument('-gel_methods', '--gel-method-list', nargs='+', default=['DynAERNN'], required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
     baseline.add_argument('-run_desc', '--run-desc', default='toy', required=True, help='a unique description for the run (eg. -run_desc test')
 
-# python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynRNN DynAERNN
+# python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynAERNN
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='SEERa')
     addargs(parser)
@@ -152,4 +151,4 @@ if __name__ == '__main__':
     if not os.path.isdir(f'../output/{args.run_desc}'): os.makedirs(f'../output/{args.run_desc}')
     cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/log.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
-    aggregate('../output/toy')
+    aggregate(f'../output/{args.run_desc}')
