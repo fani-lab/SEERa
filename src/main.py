@@ -138,7 +138,20 @@ def aggregate(output_path):
     pred_eval_mean_agg.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
     return pred_eval_mean_agg
 
-
+def remove_files():
+    try: os.remove('decoder_model_testing.json') # 3 KB
+    except: pass
+    try: os.remove('decoder_weights_testing.hdf5') # 39 MB
+    except: pass
+    try: os.remove('encoder_model_testing.json') # 3 KB
+    except: pass
+    try: os.remove('encoder_weights_testing.hdf5') # 39 MB
+    except: pass
+    try: os.remove('embedding_testing.txt') # 14 MB
+    except: pass
+    try: os.remove('next_pred_testing.txt') # 9 GB
+    except: pass
+    
 def addargs(parser):
     baseline = parser.add_argument_group('baseline')
     baseline.add_argument('-tml_methods', '--tml-method-list', nargs='+', required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
@@ -154,3 +167,4 @@ if __name__ == '__main__':
     cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/log.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     aggregate(f'../output/{args.run_desc}')
+    remove_files()
