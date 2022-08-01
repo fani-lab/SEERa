@@ -154,11 +154,11 @@ def remove_files():
     
 def addargs(parser):
     baseline = parser.add_argument_group('baseline')
-    baseline.add_argument('-tml_methods', '--tml-method-list', nargs='+', required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
-    baseline.add_argument('-gel_methods', '--gel-method-list', nargs='+', required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
-    baseline.add_argument('-run_desc', '--run-desc', required=True, help='a unique description for the run (eg. -run_desc toy')
+    baseline.add_argument('-t', '--tml-method-list', nargs='+', required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
+    baseline.add_argument('-g', '--gel-method-list', nargs='+', required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
+    baseline.add_argument('-r', '--run-desc', required=True, help='a unique description for the run (eg. -run_desc toy')
 
-# python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynAERNN
+# python -u main.py -r toy -t LDA -g AE DynAE DynAERNN
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='SEERa')
     addargs(parser)

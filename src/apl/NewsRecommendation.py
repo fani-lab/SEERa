@@ -57,8 +57,8 @@ def recommend(communities_topic_interests, news, news_ids, topK):
         top_recommendations[r] = np.flip(sorted_array[-topK:])
 
 
-    recommendation_table_analyzer(recommendation_table, 'NRN', 'CommunityPerNewsNumbers')
-    recommendation_table_analyzer(recommendation_table, 'CRN', 'NewsPerCommunityNumbers')
+    # recommendation_table_analyzer(recommendation_table, 'NRN', 'CommunityPerNewsNumbers')
+    # recommendation_table_analyzer(recommendation_table, 'CRN', 'NewsPerCommunityNumbers')
     np.save(f'{params.apl["path2save"]}/TopRecommendationsCluster.npy', top_recommendations)
     np.save(f'{params.apl["path2save"]}/RecommendationTableCluster.npy', recommendation_table)
     return top_recommendations
