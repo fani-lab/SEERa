@@ -255,6 +255,16 @@ In this work, we use [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [`
 
 ## 7. Citation
 ```
+@inproceedings{DBLP:conf/cikm/ZiaeinejadSH22,
+author    = {Soroush Ziaeinejad, Saeed Samet and Hossein Fani},
+title     = {A Framework for Community Prediction},
+booktitle = {{CIKM} '22: The 31st {ACM} International Conference on Information and Knowledge Management, Hybrid Conference, Atlanta, Georgia, USA, October 17-21, 2022},
+publisher = {{ACM}},
+year      = {2022},
+bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
+```
 @inproceedings{DBLP:conf/ecir/FaniBD20,
   author    = {Hossein Fani and Ebrahim Bagheri and Weichang Du},
   title     = {Temporal Latent Space Modeling for Community Prediction},
