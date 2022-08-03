@@ -259,7 +259,7 @@ In this work, we use [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [`
 ```
 @inproceedings{DBLP:conf/cikm/ZiaeinejadSF22,
 author    = {Soroush Ziaeinejad, Saeed Samet and Hossein Fani},
-title     = {A Framework for Community Prediction},
+title     = {SEERa: A Framework for Community Prediction},
 booktitle = {{CIKM} '22: The 31st {ACM} International Conference on Information and Knowledge Management, Hybrid Conference, Atlanta, Georgia, USA, October 17-21, 2022},
 publisher = {{ACM}},
 year      = {2022},
