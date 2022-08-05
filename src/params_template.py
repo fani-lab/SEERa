@@ -5,7 +5,7 @@ general = {
     'cuda': '-1'
 }
 dal = {
-    'path': '../data/toy',
+    'path': '../data/toy.synthetic',
     'userModeling': True,
     'timeModeling': True,
     'start': '2010-12-01',
@@ -16,23 +16,23 @@ dal = {
 }
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
-    'numTopics': 30,
     'library': 'gensim',
+    'numTopics': 3,
     'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
-    'filterExtremes': True,
+    'filterExtremes': False,
     'justOne': False,
     'binary': False,
     'threshold': 0.5,
     'method': '@tml_method' #[LDA]
 }
 uml = {
-    'userSimilarityThreshold': 0.45,
+    'userSimilarityThreshold': 0.01,
     'path2save': f'../output/{general["baseline"]}/uml'
 }
 gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
-    'embeddingDim': 30,
-    'epoch': 1,
+    'embeddingDim': 32,
+    'epoch': 100,
     'method': '@gel_method' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
@@ -41,7 +41,6 @@ cpl = {
     'minSize': 10
 }
 evl = {
-    'topK': 20,
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If Extrinsic evaluation:
     'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100'},
@@ -55,6 +54,6 @@ evl = {
 
 apl = {
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 20,
+    'topK': 10,
     'textTitle': 'Text'
 }
