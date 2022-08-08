@@ -1,7 +1,7 @@
 
 general = {
     'comment': '',
-    'baseline': '@baseline',
+    'baseline': 'toy.synthetic8/LDA.DynAERNN',
     'cuda': '-1'
 }
 dal = {
@@ -16,14 +16,14 @@ dal = {
 }
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
-    'library': 'gensim',
+    'library': 'mallet',
     'numTopics': 3,
     'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
     'filterExtremes': False,
     'justOne': False,
     'binary': False,
     'threshold': 0.5,
-    'method': '@tml_method' #[LDA]
+    'method': 'LDA' #[LDA]
 }
 uml = {
     'userSimilarityThreshold': 0.2,
@@ -33,7 +33,7 @@ gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
     'embeddingDim': 32,
     'epoch': 100,
-    'method': '@gel_method' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    'method': 'DynAERNN' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
     'path2save': f'../output/{general["baseline"]}/cpl',

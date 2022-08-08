@@ -14,9 +14,10 @@ def create_users_graph(day, users_topic_interests, path_2_save):
         return -1
     num_topics = users_topic_interests.shape[1]
     user_similarity_threshold = params.uml['userSimilarityThreshold']
+    users_topic_interests = users_topic_interests.sort_index(axis=1)
     users_topic_interests = sparse.csr_matrix(users_topic_interests)
     # usersSimilarity = cosine_similarity(users_topic_interests_sparse)
-    users_similarity = pairwise_kernels(users_topic_interests, metric='cosine', n_jobs=9)
+    users_similarity = pairwise_kernels(users_topic_interests.T, metric='cosine', n_jobs=9)
     users_similarity[users_similarity < user_similarity_threshold] = 0
     users_similarity = sparse.csr_matrix(users_similarity)
     g = nx.from_scipy_sparse_matrix(users_similarity, parallel_edges=False, create_using=None, edge_attribute='weight')

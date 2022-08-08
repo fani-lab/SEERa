@@ -2,6 +2,7 @@ import os, glob, pickle
 import networkx as nx
 from scipy import sparse
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from collections import Counter
 import sknetwork as skn
@@ -20,7 +21,8 @@ def graph_show(g,day):
 
 def cluster_topic_interest(clusters, user_topic_interests):
     cluster_interests = []
-    for i in range(clusters.max()+1):
+    cluster_topic = {}
+    for i in range(clusters.min(), clusters.max()+1):
         cluster_interests.append([])
     for u in range(len(user_topic_interests)):
         cluster = clusters[u]
@@ -30,6 +32,9 @@ def cluster_topic_interest(clusters, user_topic_interests):
         topic, count = c.most_common()[0]
         count_percentage = (count/len(cluster_interests[ci]))*100
         cmn.logger.info("Cluster "+str(ci)+" has "+str(len(cluster_interests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(count_percentage)+ '% of users.')
+        cluster_topic[ci] = topic
+    cluster_topic = pd.DataFrame(cluster_topic, index=[0])
+    cluster_topic.to_csv(f'{params.cpl["path2save"]}/cluster_topic.csv')
 
 
 def main(embeddings, path2save, method='louvain', temporal=False):
@@ -83,6 +88,6 @@ def main(embeddings, path2save, method='louvain', temporal=False):
 
     last_day_UTI = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))[-1]
     last_UTI = np.load(last_day_UTI)
-    cluster_topic_interest(lbls_louvain, last_UTI)
+    cluster_topic_interest(lbls_louvain, last_UTI.T)
     return lbls_louvain
 

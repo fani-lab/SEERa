@@ -22,7 +22,8 @@ def recommendation_table_analyzer(rt, test, savename):
 def communities_topic_interest(user_clusters, news_topics):
     num_topics = news_topics.shape[1]
     users_topic_interests_list = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))
-    last_UTI = np.load(users_topic_interests_list[-1])
+
+    last_UTI = np.load(users_topic_interests_list[-1]).T
     communities_topic_interests = []
     cluster_numbers = []
     for uc in range(user_clusters.min(), user_clusters.max()+1):

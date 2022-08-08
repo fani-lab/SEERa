@@ -37,7 +37,7 @@ def main(news_table):
     np.save(f'{params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
 
     text = text.values
-    processed_docs = np.asarray([news.split(',') for news in text])
+    processed_docs = np.asarray([news.split() for news in text])
 
     dict_path = glob.glob(f'{params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(dict_path)

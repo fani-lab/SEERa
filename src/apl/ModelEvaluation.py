@@ -4,6 +4,7 @@ import pytrec_eval
 import matplotlib.pyplot as plt
 import os
 import json
+import datetime
 from cmn import Common as cmn
 import pickle
 import sklearn.metrics.cluster as CM
@@ -50,13 +51,16 @@ def dictionary_generation(top_recommendations, mentions):
 def user_mentions():
     users_news = {}
     news = pd.read_csv(f'{params.dal["path"]}/News.csv')
-    for uid in news['UserId']:
-        users_news[uid] = []
+    tweet_entities = pd.read_csv(f'{params.dal["path"]}/TweetEntities.csv')
     tweets = pd.read_csv(f'{params.dal["path"]}/Tweets.csv')
+    print(news)
+    for uid in tweet_entities['UserOrMediaId']:
+        users_news[uid] = []
     for index, row in news.iterrows():
-        row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
-        if row_date == params.dal['end']:
-            users_news[row["UserId"]].append(row["NewsId"])
+        row_date = tweets.loc[tweets['Id'] == tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['TweetId'].values[0]]['CreationTimestamp'].values[0].split()[0]
+        if datetime.datetime.strptime(row_date, '%m/%d/%Y').strftime("%Y-%m-%d") == params.dal['end']: # May need changes for new news dataset
+            uid = tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['UserOrMediaId'].values[0]
+            users_news[uid].append(row["NewsId"])
     return users_news
 
 
@@ -106,5 +110,5 @@ def main():
     pickle.dump(tbl, f)
     f.close()
     r_user, m_user = dictionary_generation(top_recommendation_user, tbl)
-    pytrec_result = pytrec_eval_run(r_user, m_user)
+    pytrec_result = pytrec_eval_run(m_user, r_user)
     return pytrec_result
