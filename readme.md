@@ -137,18 +137,20 @@ This framework contains six different layers. Each layer is affected by multiple
 
 You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
-cd src
-python -u main.py -run_desc toy -tml_methods LDA -gel_methods AE DynAE DynAERNN
+cd ../src
+python -u main.py -r toy -t LDA -g AE DynAE DynAERNN
 ```
 where the input arguements are:
 
-`-tml_methods`: A list of topic modeling methods among {`LDA`}, required.
+`-r`: A unique description for the run, required.
 
-`-gel_methods`: A list of graph embedding methods among {`AE`, `DynAE`, `DynRNN`, `DynAERNN`}, required.
+`-t`: A list of topic modeling methods among {`LDA`}, required.
 
-`-run_desc`: A unique description for the run, required.
+`-g`: A list of graph embedding methods among {`AE`, `DynAE`, `DynRNN`, `DynAERNN`}, required.
 
-A run will produce an output folder at `./output/{run_desc}` and subfolders for each topic modeling and graph embedding pair as baselines, e.g., `LDA.AE`, `LDA.DynAE`, and `LDA.DynAERNN`. The final evaluation results are aggregated in `./output/{run_desc}/pred.eval.mean.csv`. See an example run on toy dataset at [`./output/toy`](./output/toy). 
+
+
+A run will produce an output folder at `./output/{r}` and subfolders for each topic modeling and graph embedding pair as baselines, e.g., `LDA.AE`, `LDA.DynAE`, and `LDA.DynAERNN`. The final evaluation results are aggregated in `./output/{r}/pred.eval.mean.csv`. See an example run on toy dataset at [`./output/toy`](./output/toy). 
 
 ## 5. Benchmark Result
 <table style="color:#828282;">
