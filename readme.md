@@ -35,12 +35,12 @@ gensim[or Mallet]_{#Topics}topics_TopicModelingDictionary.mm    -> LDA dictionar
 #### [``uml``](./src/uml)
 ```
 Day{K}UserIDs.npy               -> User IDs for K-th day [Size: #Users × 1]
-Day{K}UsersTopicInterests.npy   -> Matrix of users to topics [Size: #Users × #Topics]
-users.npy                       -> User IDs [Size: #Users × 1]
+Day{K}UsersTopicInterests.npy   -> Matrix of users to topics [Size: #Topics × #Users]
+Users.npy                       -> User IDs [Size: #Users × 1]
 ```
 #### [``gel``](./src/gel)
 ```
-embeddings.npz -> embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
+Embeddings.npz -> embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
 ```
 #### [``cpl``](./src/cpl)
 ```
