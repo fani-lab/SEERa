@@ -13,7 +13,7 @@ def main():
     if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(f'../output/{Params.general["baseline"]}')
     copyfile('Params.py', f'../output/{Params.general["baseline"]}/Params.py')
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
+    os.environ["CUDA_VISIBLE_DEVICES"] = Params.general['cuda']
 
     cmn.logger.info(f'1. Data Reading & Preparation ...')
     cmn.logger.info('#' * 50)
