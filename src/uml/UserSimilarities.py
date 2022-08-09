@@ -21,7 +21,7 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
     cmn.logger.info(f'UserSimilarity: All users size {len(all_users)}')
     unique_users = pd.core.series.Series(list(set(all_users)))
     cmn.logger.info(f'UserSimilarity: All distinct users:{len(unique_users)}')
-    np.save(f'{path2_save_uml}/users.npy', np.asarray(unique_users))
+    np.save(f'{path2_save_uml}/Users.npy', np.asarray(unique_users))
     users_topic_interests = np.zeros((len(unique_users), num_topics))
     cmn.logger.info(f'UserSimilarity: users_topic_interests={users_topic_interests.shape}')
     cmn.logger.info(f'UserSimilarity: Just one topic? {just_one}, Binary topic? {binary}, Threshold: {threshold}')

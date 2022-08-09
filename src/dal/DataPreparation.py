@@ -38,7 +38,7 @@ def data_preparation(dataset, userModeling, timeModeling, preProcessing, TagME, 
         data_text['index'] = data_text.index
         documents = data_text
 
-    documents.to_csv(f"../output/{Params.general['baseline']}/documents.csv", encoding='utf-8', index=False)
+    documents.to_csv(f"../output/{Params.general['baseline']}/Documents.csv", encoding='utf-8', index=False)
     cmn.logger.info(f'DataPreperation: Length of the dataset after applying groupby: {len(documents)} \n')
 
     if preProcessing: processed_docs = documents['Text'].map(preprocess)
@@ -48,7 +48,7 @@ def data_preparation(dataset, userModeling, timeModeling, preProcessing, TagME, 
         processed_docs = documents['Text'].map(TAGME)
     else: processed_docs = documents['Tokens'].str.split()
     prosdocs = np.asarray(processed_docs)
-    np.savez_compressed(f"../output/{Params.general['baseline']}/prosdocs.npz", a=prosdocs)
+    np.savez_compressed(f"../output/{Params.general['baseline']}/Prosdocs.npz", a=prosdocs)
     cmn.logger.info(f'DataPreparation: Processed docs shape: {prosdocs.shape}')
 
     return prosdocs, documents

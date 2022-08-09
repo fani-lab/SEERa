@@ -34,7 +34,7 @@ def cluster_topic_interest(clusters, user_topic_interests):
         cmn.logger.info("Cluster "+str(ci)+" has "+str(len(cluster_interests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(count_percentage)+ '% of users.')
         cluster_topic[ci] = topic
     cluster_topic = pd.DataFrame(cluster_topic, index=[0])
-    cluster_topic.to_csv(f'{Params.cpl["path2save"]}/cluster_topic.csv')
+    cluster_topic.to_csv(f'{Params.cpl["path2save"]}/ClusterTopic.csv')
 
 
 def main(embeddings, path2save, method='louvain', temporal=False):

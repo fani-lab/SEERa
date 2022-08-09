@@ -45,10 +45,10 @@ def main(news_table):
     # LDA Model Loading
     model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
     gensim_mallet = model_name.split('\\')[-1].split('_')[0]
-    if gensim_mallet == 'gensim':
+    if gensim_mallet == 'Gensim':
         cmn.logger.info(f"Loading LDA model (Gensim) ...")
         lda_model = gensim.models.ldamodel.LdaModel.load(model_name)
-    elif gensim_mallet == 'mallet':
+    elif gensim_mallet == 'Mallet':
         cmn.logger.info(f"Loading LDA model (Mallet) ...")
         lda_model = gensim.models.wrappers.LdaMallet.load(model_name)
         lda_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model)

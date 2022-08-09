@@ -16,12 +16,10 @@ def pytrec_eval_run(qrel, run):
     evaluator = pytrec_eval.RelevanceEvaluator(
         qrel, Params.evl['extrinsicEvaluationMetrics'])
     pred_eval = evaluator.evaluate(run)
-    with open(f'{Params.apl["path2save"]}/evl/pred.eval.txt', 'w') as outfile:
-        json.dump(pred_eval, outfile)
     pred_eval = pd.DataFrame(pred_eval).T
-    pred_eval.to_csv(f'{Params.apl["path2save"]}/evl/pred.eval.csv')
+    pred_eval.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv')
     mean = pred_eval.mean(axis=0, skipna=True)
-    mean.to_csv(f'{Params.apl["path2save"]}/evl/pred.eval.mean.csv', index_label="metric", header=["score"])
+    mean.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.csv', index_label="metric", header=["score"])
     return pred_eval
 
 
@@ -106,7 +104,7 @@ def main():
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
     cmn.logger.info("Selected date for evaluation: "+str(day.date()))
     tbl = user_mentions()
-    f = open(f'{Params.apl["path2save"]}/evl/userMentions.pkl', "wb")
+    f = open(f'{Params.apl["path2save"]}/evl/UserMentions.pkl', "wb")
     pickle.dump(tbl, f)
     f.close()
     r_user, m_user = dictionary_generation(top_recommendation_user, tbl)

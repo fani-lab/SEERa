@@ -9,6 +9,7 @@ import networkx as nx
 import Params
 from cmn import Common as cmn
 
+
 def main():
     if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(f'../output/{Params.general["baseline"]}')
     copyfile('Params.py', f'../output/{Params.general["baseline"]}/Params.py')
@@ -19,8 +20,8 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading perprocessed files ...')
-        with open(f"../output/{Params.general['baseline']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
-        processed_docs = np.load(f"../output/{Params.general['baseline']}/prosdocs.npz", allow_pickle=True)['a']
+        with open(f"../output/{Params.general['baseline']}/Documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
+        processed_docs = np.load(f"../output/{Params.general['baseline']}/Prosdocs.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         from dal import DataReader as dr, DataPreparation as dp
         cmn.logger.info(f'Loading perprocessed files failed! Generating files ...')
@@ -56,7 +57,6 @@ def main():
                                                         filter_extremes=Params.tml['filterExtremes'],
                                                         library=Params.tml['library'],
                                                         path_2_save_tml=Params.tml['path2save'])
-        return lda_model
 
     cmn.logger.info(f'dictionary.shape: {len(dictionary)}')
     
@@ -119,9 +119,9 @@ def run(tml_baselines, gel_baselines, run_desc):
                 baseline = f'{run_desc}/{t}.{g}'
                 with open('ParamsTemplate.py') as f: params_str = f.read()
                 new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace('@gel_method', g)
-                main()
                 with open('Params.py', 'w') as f: f.write(new_params_str)
                 importlib.reload(Params)
+                main()
             except:
                 cmn.logger.info(traceback.format_exc())
             finally:
