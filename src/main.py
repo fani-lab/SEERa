@@ -128,14 +128,14 @@ def run(tml_baselines, gel_baselines, run_desc):
 
 
 def aggregate(output_path):
-    pred_eval_mean_path = sorted(glob.glob(f'{output_path}/*/apl/evl/pred.eval.mean.csv'))
+    pred_eval_mean_path = sorted(glob.glob(f'{output_path}/*/apl/evl/Pred.Eval.Mean.csv'))
     pred_eval_mean_agg = pd.DataFrame()
     for i, path in enumerate(pred_eval_mean_path):
         pred_eval_mean = pd.read_csv(path)
         tml_gel = path.split('\\')[-4]
         df = pd.DataFrame(pred_eval_mean.score.values.reshape(1, pred_eval_mean.count()['metric']), index=[tml_gel], columns=pred_eval_mean.metric.values)
         pred_eval_mean_agg = pd.concat((df, pred_eval_mean_agg))
-    pred_eval_mean_agg.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
+    pred_eval_mean_agg.to_csv(f'{output_path}/Pred.Eval.Mean.Agg.csv')
     return pred_eval_mean_agg
 
 def remove_files():
@@ -154,9 +154,9 @@ def remove_files():
     
 def addargs(parser):
     baseline = parser.add_argument_group('baseline')
-    baseline.add_argument('-t', '--tml-method-list', nargs='+', required=True, help='a list of topic modeling methods (eg. -tml_models LDA)')
-    baseline.add_argument('-g', '--gel-method-list', nargs='+', required=True, help='a list of graph embedding methods (eg. -gel_models DynAERNN)')
-    baseline.add_argument('-r', '--run-desc', required=True, help='a unique description for the run (eg. -run_desc toy')
+    baseline.add_argument('-t', '--tml-method-list', nargs='+', required=True, help='a list of topic modeling methods (eg. -t LDA)')
+    baseline.add_argument('-g', '--gel-method-list', nargs='+', required=True, help='a list of graph embedding methods (eg. -g DynAERNN)')
+    baseline.add_argument('-r', '--run-desc', required=True, help='a unique description for the run (eg. -r toy')
 
 # python -u main.py -r toy -t LDA -g AE DynAE DynAERNN
 if __name__ == '__main__':
