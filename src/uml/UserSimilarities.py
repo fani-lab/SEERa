@@ -6,7 +6,7 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import networkx as nx
 import pandas as pd
 
-import params
+import Params
 from cmn import Common as cmn
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG

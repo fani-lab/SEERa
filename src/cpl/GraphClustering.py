@@ -8,7 +8,7 @@ from collections import Counter
 import sknetwork as skn
 from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
 
-import params
+import Params
 from cmn import Common as cmn
 
 def graph_show(g,day):
@@ -34,13 +34,13 @@ def cluster_topic_interest(clusters, user_topic_interests):
         cmn.logger.info("Cluster "+str(ci)+" has "+str(len(cluster_interests[ci]))+' users. Topic '+str(topic)+' is the favorite topic for '+str(count_percentage)+ '% of users.')
         cluster_topic[ci] = topic
     cluster_topic = pd.DataFrame(cluster_topic, index=[0])
-    cluster_topic.to_csv(f'{params.cpl["path2save"]}/cluster_topic.csv')
+    cluster_topic.to_csv(f'{Params.cpl["path2save"]}/cluster_topic.csv')
 
 
 def main(embeddings, path2save, method='louvain', temporal=False):
-    if not os.path.isdir(params.cpl["path2save"]): os.makedirs(params.cpl["path2save"])
+    if not os.path.isdir(Params.cpl["path2save"]): os.makedirs(Params.cpl["path2save"])
     cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
-    user_similarity_threshold = params.uml['userSimilarityThreshold']
+    user_similarity_threshold = Params.uml['userSimilarityThreshold']
     pred_users_similarity = pairwise_kernels(embeddings[-1, :, :], metric='cosine', n_jobs=9)
     pred_users_similarity[pred_users_similarity < user_similarity_threshold] = 0
     # pred_users_similarity = np.random.random(pred_users_similarity.shape)
@@ -49,8 +49,8 @@ def main(embeddings, path2save, method='louvain', temporal=False):
 
     cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
     g = nx.from_scipy_sparse_matrix(pred_users_similarity, parallel_edges=False, create_using=None, edge_attribute='weight')
-    nx.write_gpickle(g, f'{params.cpl["path2save"]}/Graph.net')
-    with open(f'{params.cpl["path2save"]}/Graph.pkl', 'wb') as f: pickle.dump(g, f)
+    nx.write_gpickle(g, f'{Params.cpl["path2save"]}/Graph.net')
+    with open(f'{Params.cpl["path2save"]}/Graph.pkl', 'wb') as f: pickle.dump(g, f)
 
     cmn.logger.info(f'5.3. Future Community Prediction ...')
     cmn.logger.info(f"#Nodes(Users): {g.number_of_nodes()}, #Edges: {g.number_of_edges()}")
@@ -83,10 +83,10 @@ def main(embeddings, path2save, method='louvain', temporal=False):
 
     cmn.logger.info(f"#Predicted Future Communities (Louvain): {lbls_louvain.max()}; ({lbls_louvain.max() - len(cluster_members)}) are singleton.")
     cmn.logger.info(f'Communities Size: {cluster_members}')
-    np.save(f'{params.cpl["path2save"]}/PredUserClusters.npy', lbls_louvain)
-    np.savetxt(f'{params.cpl["path2save"]}/PredUserClusters.csv', lbls_louvain, fmt='%s')
+    np.save(f'{Params.cpl["path2save"]}/PredUserClusters.npy', lbls_louvain)
+    np.savetxt(f'{Params.cpl["path2save"]}/PredUserClusters.csv', lbls_louvain, fmt='%s')
 
-    last_day_UTI = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))[-1]
+    last_day_UTI = sorted(glob.glob(f'{Params.uml["path2save"]}/Day*UsersTopicInterests.npy'))[-1]
     last_UTI = np.load(last_day_UTI)
     cluster_topic_interest(lbls_louvain, last_UTI.T)
     return lbls_louvain

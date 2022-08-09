@@ -2,7 +2,7 @@ import pandas as pd
 import os.path
 import numpy as np
 
-import params
+import Params
 from cmn import Common as cmn
 from apl import NewsCrawler as NC
 from apl import NewsTopicExtraction as NTE
@@ -11,7 +11,7 @@ from apl import ModelEvaluation as ME
 
 
 def stats(news):
-    file_object = open(f"{params.apl['path2save']}/NewsStat.txt", 'a')
+    file_object = open(f"{Params.apl['path2save']}/NewsStat.txt", 'a')
     #news = pd.read_csv('News.csv')
     texts = news.Text.dropna()
     titles = news.Title.dropna()
@@ -45,10 +45,10 @@ def stats(news):
 
 
 def main():
-    if not os.path.isdir(params.apl["path2save"]): os.makedirs(params.apl["path2save"])
+    if not os.path.isdir(Params.apl["path2save"]): os.makedirs(Params.apl["path2save"])
 
-    news_path = f'{params.dal["path"]}/News.csv'
-    tweet_entities_path = f'{params.dal["path"]}/TweetEntities.csv'
+    news_path = f'{Params.dal["path"]}/News.csv'
+    tweet_entities_path = f'{Params.dal["path"]}/TweetEntities.csv'
     try:
         cmn.logger.info(f"Loading news articles ...")
         news_table = pd.read_csv(news_path)
@@ -60,13 +60,13 @@ def main():
 
     cmn.logger.info(f"Inferring news articles' topics ...")
     try:
-        news_topics = np.load(f'{params.apl["path2save"]}/NewsTopics.npy')
+        news_topics = np.load(f'{Params.apl["path2save"]}/NewsTopics.npy')
     except:
         NTE.main(news_table)
-        news_topics = np.load(f'{params.apl["path2save"]}/NewsTopics.npy')
+        news_topics = np.load(f'{Params.apl["path2save"]}/NewsTopics.npy')
 
     cmn.logger.info(f"Recommending news articles to future communities ...")
-    nrr = NR.main(news_topics, params.apl['topK'])
+    nrr = NR.main(news_topics, Params.apl['topK'])
 
     cmn.logger.info(f"Evaluating recommended news articles ...")
     me = ME.main()

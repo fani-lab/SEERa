@@ -6,7 +6,7 @@ import glob
 import os, sys
 import tagme
 
-import params
+import Params
 from tml import TopicModeling as tm
 from cmn import Common as cmn
 from dal import DataPreparation as DP
@@ -14,7 +14,7 @@ from dal import DataPreparation as DP
 
 def text2tagme(news_table, threshold=0.05):
     for i in range(len(news_table)):
-        text = news_table[params.apl["textTitle"]][i]
+        text = news_table[Params.apl["textTitle"]][i]
         annotations = tagme.annotate(text)
         result = []
         if annotations is not None:
@@ -27,23 +27,23 @@ def text2tagme(news_table, threshold=0.05):
         'NewsId': result[2]
     }
     df = pd.DataFrame(d)
-    df.to_csv(f'{params.apl["path2read"]}/NewsTagmeAnnotated.csv')
+    df.to_csv(f'{Params.apl["path2read"]}/NewsTagmeAnnotated.csv')
     return result
 
 def main(news_table):
-    text = news_table[params.apl["textTitle"]].dropna()
+    text = news_table[Params.apl["textTitle"]].dropna()
     news_ids = text.index
 
-    np.save(f'{params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
+    np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
 
     text = text.values
     processed_docs = np.asarray([news.split() for news in text])
 
-    dict_path = glob.glob(f'{params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')[0]
+    dict_path = glob.glob(f'{Params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(dict_path)
 
     # LDA Model Loading
-    model_name = glob.glob(f'{params.tml["path2save"]}/*.model')[0]
+    model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
     gensim_mallet = model_name.split('\\')[-1].split('_')[0]
     if gensim_mallet == 'gensim':
         cmn.logger.info(f"Loading LDA model (Gensim) ...")
@@ -57,9 +57,9 @@ def main(news_table):
     total_news_topics = []
     for news in range(len(processed_docs)):
         news_bow_corpus = dictionary.doc2bow(processed_docs[news])
-        topics = tm.doc2topics(lda_model, news_bow_corpus, threshold=params.evl['threshold'], just_one=params.tml['justOne'], binary=params.tml['binary'])
+        topics = tm.doc2topics(lda_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
         total_news_topics.append(topics)
 
-    np.save(f'{params.apl["path2save"]}/NewsTopics.npy', np.asarray(total_news_topics))
+    np.save(f'{Params.apl["path2save"]}/NewsTopics.npy', np.asarray(total_news_topics))
 
 

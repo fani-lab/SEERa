@@ -8,7 +8,7 @@ from gensim.models.coherencemodel import CoherenceModel
 #import pyLDAvis.gensim
 
 from cmn import Common as cmn
-import params
+import Params
 
 def topic_modeling(processed_docs, num_topics, filter_extremes, library, path_2_save_tml):
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
@@ -41,8 +41,6 @@ def topic_modeling(processed_docs, num_topics, filter_extremes, library, path_2_
         np.savetxt(f"{path_2_save_tml}/gensim_{num_topics}topics.csv", gensim_save, delimiter=",", fmt='%s')
         total_topics = gensim_topics
     elif library == 'mallet':
-        os.environ['MALLET_HOME'] = params.tml['malletHome']
-        mallet_path = f'{params.tml["malletHome"]}/bin/mallet'
         lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics,
                                                      id2word=dictionary)
         lda_model.save(f"{path_2_save_tml}/mallet_{num_topics}topics.model")
@@ -69,6 +67,8 @@ def topic_modeling(processed_docs, num_topics, filter_extremes, library, path_2_
     else:
         raise ValueError("Wrong library name. select 'gensim' or 'mallet'")
         pass
+            os.environ['MALLET_HOME'] = Params.tml['malletHome']
+            mallet_path = f'{Params.tml["malletHome"]}/bin/mallet'
 
     try:
         cmn.logger.info(f'TopicModeling: Coherences:\n')
@@ -99,7 +99,7 @@ def coherence(dictionary, bow_corpus, topics, lda_model):
     return coherence_value, topic_coherence
 
 
-def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml=params.tml['path2save']):
+def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml=Params.tml['path2save']):
     try:
         visualisation = pyLDAvis.gensim.prepare(lda_model, bow_corpus, dictionary)
         model_name = 'gensim'

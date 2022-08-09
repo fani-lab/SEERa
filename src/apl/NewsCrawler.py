@@ -4,7 +4,7 @@ from newspaper import Article
 from tqdm import tqdm
 import glob
 
-import params
+import Params
 
 def crawl_request(url):
     article = Article(url)
@@ -88,13 +88,13 @@ def news_crawler(tweet_path, tweet_entities_path):
                 'PublicationTime': publish_date}
         news = pd.DataFrame.from_dict(news)
         news.insert(0, "NewsId", list(range(len(news))), True)
-        news.to_csv(f'{params.dal["path"]}/News.csv', index=False)
+        news.to_csv(f'{Params.dal["path"]}/News.csv', index=False)
     else:
-        frame_path = sorted(glob.glob(f'{params.dal["path"]}/News/*_Chunk*.csv'))
+        frame_path = sorted(glob.glob(f'{Params.dal["path"]}/News/*_Chunk*.csv'))
         frames = []
         for f in frame_path:
             frames.append(pd.read_csv(f))
         news = pd.concat(frames, ignore_index=True)
         news.insert(0, "NewsId", list(range(len(news))), True)
-        news.to_csv(f'{params.dal["path"]}/News.csv', index=False)
+        news.to_csv(f'{Params.dal["path"]}/News.csv', index=False)
 

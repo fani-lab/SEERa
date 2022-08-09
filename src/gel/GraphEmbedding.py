@@ -11,7 +11,7 @@ from dynamicgem.embedding.dynRNN import DynRNN
 
 from gel import CppWrapper as N2V
 from cmn import Common as cmn
-import params
+import Params
 
 def embedding(dim_emb, lookback, method='DynAERNN'):
     methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
@@ -22,11 +22,11 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                        nu2=1e-6,
                        K=3,
                        n_units=[500, 300, ],
-                       n_iter=params.gel['epoch'],
+                       n_iter=Params.gel['epoch'],
                        xeta=1e-4,
                        n_batch=100,
-                       modelfile=[f'{params.gel["path2save"]}/enc_model_AE.json', f'{params.gel["path2save"]}/dec_model_AE.json'],
-                       weightfile=[f'{params.gel["path2save"]}/enc_weights_AE.hdf5', f'{params.gel["path2save"]}/dec_weights_AE.hdf5'])
+                       modelfile=[f'{Params.gel["path2save"]}/enc_model_AE.json', f'{Params.gel["path2save"]}/dec_model_AE.json'],
+                       weightfile=[f'{Params.gel["path2save"]}/enc_weights_AE.hdf5', f'{Params.gel["path2save"]}/dec_weights_AE.hdf5'])
     elif method == methods[1]:
         embedding_ = DynAE(d=dim_emb,
                           beta=5,
@@ -35,11 +35,11 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                           nu2=1e-6,
                           n_units=[500, 300, ],
                           rho=0.3,
-                          n_iter=params.gel['epoch'],
+                          n_iter=Params.gel['epoch'],
                           xeta=1e-4,
                           n_batch=100,
-                          modelfile=[f'{params.gel["path2save"]}/enc_model_dynAE.json', f'{params.gel["path2save"]}/dec_model_dynAE.json'],
-                          weightfile=[f'{params.gel["path2save"]}/enc_weights_dynAE.hdf5', f'{params.gel["path2save"]}/dec_weights_dynAE.hdf5'],
+                          modelfile=[f'{Params.gel["path2save"]}/enc_model_dynAE.json', f'{Params.gel["path2save"]}/dec_model_dynAE.json'],
+                          weightfile=[f'{Params.gel["path2save"]}/enc_weights_dynAE.hdf5', f'{Params.gel["path2save"]}/dec_weights_dynAE.hdf5'],
                           savefilesuffix="testing")
     elif method == methods[2]:
         embedding_ = DynRNN(d=dim_emb,
@@ -50,11 +50,11 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                            n_enc_units=[500, 300],
                            n_dec_units=[500, 300],
                            rho=0.3,
-                           n_iter=params.gel['epoch'],
+                           n_iter=Params.gel['epoch'],
                            xeta=1e-3,
                            n_batch=100,
-                           modelfile=[f'{params.gel["path2save"]}/enc_model_dynRNN.json', f'{params.gel["path2save"]}/dec_model_dynRNN.json'],
-                           weightfile=[f'{params.gel["path2save"]}/enc_weights_dynRNN.hdf5', f'{params.gel["path2save"]}/dec_weights_dynRNN.hdf5'],
+                           modelfile=[f'{Params.gel["path2save"]}/enc_model_dynRNN.json', f'{Params.gel["path2save"]}/dec_model_dynRNN.json'],
+                           weightfile=[f'{Params.gel["path2save"]}/enc_weights_dynRNN.hdf5', f'{Params.gel["path2save"]}/dec_weights_dynRNN.hdf5'],
                            savefilesuffix="testing")
     elif method == methods[3]:
         embedding_ = DynAERNN(d=dim_emb,
@@ -65,22 +65,22 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                              n_aeunits=[500, 300],
                              n_lstmunits=[500, dim_emb],
                              rho=0.3,
-                             n_iter=params.gel['epoch'],
+                             n_iter=Params.gel['epoch'],
                              xeta=1e-3,
                              n_batch=100,
-                             modelfile=[f'{params.gel["path2save"]}/enc_model_dynAERNN.json', f'{params.gel["path2save"]}/dec_model_dynAERNN.json'],
-                             weightfile=[f'{params.gel["path2save"]}/enc_weights_dynAERNN.hdf5', f'{params.gel["path2save"]}/dec_weights_dynAERNN.hdf5'],
+                             modelfile=[f'{Params.gel["path2save"]}/enc_model_dynAERNN.json', f'{Params.gel["path2save"]}/dec_model_dynAERNN.json'],
+                             weightfile=[f'{Params.gel["path2save"]}/enc_weights_dynAERNN.hdf5', f'{Params.gel["path2save"]}/dec_weights_dynAERNN.hdf5'],
                              savefilesuffix="testing")
     return embedding_
 def main(graphs, method='DynAERNN'):
     # parameters for the dynamic embedding
     # dimension of the embedding
-    dim_emb = params.gel['embeddingDim']
+    dim_emb = Params.gel['embeddingDim']
     # methods: ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
-    if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
+    if not os.path.isdir(Params.gel["path2save"]): os.makedirs(Params.gel["path2save"])
     if method == 'Node2Vec':
         # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
-        N2V.main(params.uml['path2save']+'/graphs', params.gel['path2save'], params.gel['embeddingDim'])
+        N2V.main(Params.uml['path2save']+'/graphs', Params.gel['path2save'], Params.gel['embeddingDim'])
     else:
         lookback = 2
         embedding_instance = embedding(dim_emb=dim_emb, lookback=lookback, method=method)
@@ -108,8 +108,8 @@ def main(graphs, method='DynAERNN'):
         # plt.figure()
         # plt.clf()
         # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
-        #np.savez_compressed(f'{params.gel["path2save"]}/embeddings.npz', a=embs)
-        with open(f'{params.gel["path2save"]}/embeddings.pkl', 'wb') as f:
+        #np.savez_compressed(f'{Params.gel["path2save"]}/embeddings.npz', a=embs)
+        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'wb') as f:
             pickle.dump(embs, f)
         # plt.show()
         return np.asarray(embs)

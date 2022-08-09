@@ -9,19 +9,19 @@ from cmn import Common as cmn
 import pickle
 import sklearn.metrics.cluster as CM
 
-import params
+import Params
 
 
 def pytrec_eval_run(qrel, run):
     evaluator = pytrec_eval.RelevanceEvaluator(
-        qrel, params.evl['extrinsicEvaluationMetrics'])
+        qrel, Params.evl['extrinsicEvaluationMetrics'])
     pred_eval = evaluator.evaluate(run)
-    with open(f'{params.apl["path2save"]}/evl/pred.eval.txt', 'w') as outfile:
+    with open(f'{Params.apl["path2save"]}/evl/pred.eval.txt', 'w') as outfile:
         json.dump(pred_eval, outfile)
     pred_eval = pd.DataFrame(pred_eval).T
-    pred_eval.to_csv(f'{params.apl["path2save"]}/evl/pred.eval.csv')
+    pred_eval.to_csv(f'{Params.apl["path2save"]}/evl/pred.eval.csv')
     mean = pred_eval.mean(axis=0, skipna=True)
-    mean.to_csv(f'{params.apl["path2save"]}/evl/pred.eval.mean.csv', index_label="metric", header=["score"])
+    mean.to_csv(f'{Params.apl["path2save"]}/evl/pred.eval.mean.csv', index_label="metric", header=["score"])
     return pred_eval
 
 
@@ -50,21 +50,21 @@ def dictionary_generation(top_recommendations, mentions):
 
 def user_mentions():
     users_news = {}
-    news = pd.read_csv(f'{params.dal["path"]}/News.csv')
-    tweet_entities = pd.read_csv(f'{params.dal["path"]}/TweetEntities.csv')
-    tweets = pd.read_csv(f'{params.dal["path"]}/Tweets.csv')
+    news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
+    tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
+    tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
     print(news)
     for uid in tweet_entities['UserOrMediaId']:
         users_news[uid] = []
     for index, row in news.iterrows():
         row_date = tweets.loc[tweets['Id'] == tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['TweetId'].values[0]]['CreationTimestamp'].values[0].split()[0]
-        if datetime.datetime.strptime(row_date, '%m/%d/%Y').strftime("%Y-%m-%d") == params.dal['end']: # May need changes for new news dataset
+        if datetime.datetime.strptime(row_date, '%m/%d/%Y').strftime("%Y-%m-%d") == Params.dal['end']: # May need changes for new news dataset
             uid = tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['UserOrMediaId'].values[0]
             users_news[uid].append(row["NewsId"])
     return users_news
 
 
-def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=params.evl['intrinsicEvaluationMetrics']):
+def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicEvaluationMetrics']):
     results = []
     for m in evaluation_metrics:
         if m == 'adjusted_rand':
@@ -92,21 +92,21 @@ def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=params
 
 
 def main():
-    if not os.path.isdir(f'{params.apl["path2save"]}/evl'): os.makedirs(f'{params.apl["path2save"]}/evl')
-    if params.evl['evaluationType'] == "Intrinsic":
-        user_communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
-        golden_standard = np.load(f'{params.dal["path"]}/GoldenStandard.npy')
+    if not os.path.isdir(f'{Params.apl["path2save"]}/evl'): os.makedirs(f'{Params.apl["path2save"]}/evl')
+    if Params.evl['evaluationType'] == "Intrinsic":
+        user_communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
+        golden_standard = np.load(f'{Params.dal["path"]}/GoldenStandard.npy')
         scores = np.asarray(intrinsic_evaluation(user_communities, golden_standard))
-        np.save(f'{params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
+        np.save(f'{Params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
         return scores
-    with open(f'{params.apl["path2save"]}/TopRecommendationsUser.pkl', 'rb') as handle:
+    with open(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl', 'rb') as handle:
         top_recommendation_user = pickle.load(handle)
-    end_date = pd.Timestamp(str(params.dal['end']))
+    end_date = pd.Timestamp(str(Params.dal['end']))
     day_before = 0
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
     cmn.logger.info("Selected date for evaluation: "+str(day.date()))
     tbl = user_mentions()
-    f = open(f'{params.apl["path2save"]}/evl/userMentions.pkl', "wb")
+    f = open(f'{Params.apl["path2save"]}/evl/userMentions.pkl', "wb")
     pickle.dump(tbl, f)
     f.close()
     r_user, m_user = dictionary_generation(top_recommendation_user, tbl)

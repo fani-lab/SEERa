@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 
-import params
+import Params
 from cmn import Common as cmn
 
 def recommendation_table_analyzer(rt, test, savename):
@@ -14,28 +14,28 @@ def recommendation_table_analyzer(rt, test, savename):
     for com in rt: comm_news.append(com.sum())
     if test == 'NRN': comm_news.sort()
     plt.plot(range(len(comm_news)), comm_news)
-    plt.savefig(f'{params.apl["path2save"]}/{savename}.png')
+    plt.savefig(f'{Params.apl["path2save"]}/{savename}.png')
     plt.close()
     return comm_news
 
 
 def communities_topic_interest(user_clusters, news_topics):
     num_topics = news_topics.shape[1]
-    users_topic_interests_list = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))
+    users_topic_interests_list = sorted(glob.glob(f'{Params.uml["path2save"]}/Day*UsersTopicInterests.npy'))
 
     last_UTI = np.load(users_topic_interests_list[-1]).T
     communities_topic_interests = []
     cluster_numbers = []
     for uc in range(user_clusters.min(), user_clusters.max()+1):
         users_in_cluster = np.where(user_clusters == uc)[0]
-        if len(users_in_cluster) < params.cpl["minSize"]: break
+        if len(users_in_cluster) < Params.cpl["minSize"]: break
         topic_interest_sum = np.zeros(num_topics)
         for user in users_in_cluster: topic_interest_sum += last_UTI[user]
         communities_topic_interests.append(topic_interest_sum)
         cluster_numbers.append(uc)
     communities_topic_interests = np.asarray(communities_topic_interests)
-    np.save(f'{params.apl["path2save"]}/CommunitiesTopicInterests.npy', communities_topic_interests)
-    np.save(f'{params.apl["path2save"]}/ClusterNumbers.npy', cluster_numbers)
+    np.save(f'{Params.apl["path2save"]}/CommunitiesTopicInterests.npy', communities_topic_interests)
+    np.save(f'{Params.apl["path2save"]}/ClusterNumbers.npy', cluster_numbers)
     news = np.zeros((len(news_topics), num_topics))
     for nt in range(len(news_topics)):
         news_vector = np.asarray(news_topics[nt])
@@ -60,12 +60,12 @@ def recommend(communities_topic_interests, news, news_ids, topK):
 
     # recommendation_table_analyzer(recommendation_table, 'NRN', 'CommunityPerNewsNumbers')
     # recommendation_table_analyzer(recommendation_table, 'CRN', 'NewsPerCommunityNumbers')
-    np.save(f'{params.apl["path2save"]}/TopRecommendationsCluster.npy', top_recommendations)
-    np.save(f'{params.apl["path2save"]}/RecommendationTableCluster.npy', recommendation_table)
+    np.save(f'{Params.apl["path2save"]}/TopRecommendationsCluster.npy', top_recommendations)
+    np.save(f'{Params.apl["path2save"]}/RecommendationTableCluster.npy', recommendation_table)
     return top_recommendations
 
 def user_recommend(pred_user_clusters, top_recommendations):
-    users = np.load(f'{params.uml["path2save"]}/users.npy')
+    users = np.load(f'{Params.uml["path2save"]}/users.npy')
     user_recommendation = {}
     for u in range(len(users)):
         cluster = pred_user_clusters[u]
@@ -73,7 +73,7 @@ def user_recommend(pred_user_clusters, top_recommendations):
             user_recommendation[users[u]] = list(top_recommendations[cluster])
         except:
             continue
-    f = open(f'{params.apl["path2save"]}/TopRecommendationsUser.pkl', "wb")
+    f = open(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl', "wb")
     pickle.dump(user_recommendation, f)
     f.close()
     return user_recommendation
@@ -96,9 +96,9 @@ def internal_test(top_recommendations):
 
 
 def main(news_topics, top_k=10):
-    news = pd.read_csv(f'{params.dal["path"]}/News.csv')
+    news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
     news_ids = news["NewsId"]
-    user_clusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
+    user_clusters = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
     communities_topic_interests = communities_topic_interest(user_clusters, news_topics)
     top_recommendations = recommend(communities_topic_interests, news_topics, news_ids, top_k)
     return user_recommend(user_clusters, top_recommendations)

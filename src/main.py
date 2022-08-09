@@ -6,12 +6,12 @@ import pandas as pd
 import gensim
 import networkx as nx
 
-import params
+import Params
 from cmn import Common as cmn
 
 def main():
-    if not os.path.isdir(f'../output/{params.general["baseline"]}'): os.makedirs(f'../output/{params.general["baseline"]}')
-    copyfile('params.py', f'../output/{params.general["baseline"]}/params.py')
+    if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(f'../output/{Params.general["baseline"]}')
+    copyfile('Params.py', f'../output/{Params.general["baseline"]}/Params.py')
 
     os.environ["CUDA_VISIBLE_DEVICES"] = params.general['cuda']
 
@@ -19,24 +19,24 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading perprocessed files ...')
-        with open(f"../output/{params.general['baseline']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
-        processed_docs = np.load(f"../output/{params.general['baseline']}/prosdocs.npz", allow_pickle=True)['a']
+        with open(f"../output/{Params.general['baseline']}/documents.csv", 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
+        processed_docs = np.load(f"../output/{Params.general['baseline']}/prosdocs.npz", allow_pickle=True)['a']
     except (FileNotFoundError, EOFError) as e:
         from dal import DataReader as dr, DataPreparation as dp
         cmn.logger.info(f'Loading perprocessed files failed! Generating files ...')
-        dataset = dr.load_tweets(f'{params.dal["path"]}/Tweets.csv', params.dal['start'], params.dal['end'], stopwords=['www', 'RT', 'com', 'http'])
+        dataset = dr.load_tweets(f'{Params.dal["path"]}/Tweets.csv', Params.dal['start'], Params.dal['end'], stopwords=['www', 'RT', 'com', 'http'])
         cmn.logger.info(f'dataset.shape: {dataset.shape}')
         cmn.logger.info(f'dataset.keys: {dataset.keys()}')
         dataset = np.asarray(dataset)
 
         cmn.logger.info(f'Data Preparation ...')
         processed_docs, documents = dp.data_preparation(dataset,
-                                                        userModeling=params.dal['userModeling'],
-                                                        timeModeling=params.dal['timeModeling'],
-                                                        preProcessing=params.dal['preProcessing'],
-                                                        TagME=params.dal['tagMe'],
-                                                        startDate=params.dal['start'],
-                                                        timeInterval=params.dal['timeInterval'])
+                                                        userModeling=Params.dal['userModeling'],
+                                                        timeModeling=Params.dal['timeModeling'],
+                                                        preProcessing=Params.dal['preProcessing'],
+                                                        TagME=Params.dal['tagMe'],
+                                                        startDate=Params.dal['start'],
+                                                        timeInterval=Params.dal['timeInterval'])
 
     cmn.logger.info(f'processed_docs.shape: {processed_docs.shape}')
     cmn.logger.info(f'documents.shape: {documents.shape}')
@@ -45,16 +45,18 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading LDA model ...')
-        dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
-        lda_model = gensim.models.LdaModel.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics.model")
+        dictionary = gensim.corpora.Dictionary.load(f"{Params.tml['path2save']}/{Params.tml['library']}_{Params.tml['numTopics']}topics_TopicModelingDictionary.mm")
+        lda_model = gensim.models.LdaModel.load(f"{Params.tml['path2save']}/{Params.tml['library']}_{Params.tml['numTopics']}topics.model")
     except (FileNotFoundError, EOFError) as e:
         from tml import TopicModeling as tm
         cmn.logger.info(f'Loading LDA model failed! Training LDA model ...')
         dictionary, _, _, lda_model = tm.topic_modeling(processed_docs,
-                                                        num_topics=params.tml['numTopics'],
-                                                        filter_extremes=params.tml['filterExtremes'],
-                                                        library=params.tml['library'],
-                                                        path_2_save_tml=params.tml['path2save'])
+                                                        method=Params.tml['method'],
+                                                        num_topics=Params.tml['numTopics'],
+                                                        filter_extremes=Params.tml['filterExtremes'],
+                                                        library=Params.tml['library'],
+                                                        path_2_save_tml=Params.tml['path2save'])
+        return lda_model
 
     cmn.logger.info(f'dictionary.shape: {len(dictionary)}')
     
@@ -63,32 +65,32 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f"Loading users' graph stream ...")
-        with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'rb') as g: graphs = pickle.load(g)
+        with open(f'{Params.uml["path2save"]}/graphs/graphs.pkl', 'rb') as g: graphs = pickle.load(g)
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"Loading users' graph stream failed! Generating the stream ...")
         US.main(documents, dictionary, lda_model,
-                num_topics=params.tml['numTopics'],
-                path2_save_uml=params.uml['path2save'],
-                just_one=params.tml['justOne'], binary=params.tml['binary'], threshold=params.tml['threshold'])
+                num_topics=Params.tml['numTopics'],
+                path2_save_uml=Params.uml['path2save'],
+                just_one=Params.tml['justOne'], binary=Params.tml['binary'], threshold=Params.tml['threshold'])
 
-        graphs_path = glob.glob(f'{params.uml["path2save"]}/graphs/*.net')
+        graphs_path = glob.glob(f'{Params.uml["path2save"]}/graphs/*.net')
         graphs = []
         for gp in graphs_path: graphs.append(nx.read_gpickle(gp))
-        with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'wb') as g: pickle.dump(graphs, g)
+        with open(f'{Params.uml["path2save"]}/graphs/graphs.pkl', 'wb') as g: pickle.dump(graphs, g)
 
     # Graph Embedding
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading embeddings ...')
-        #embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
-        with open(f'{params.gel["path2save"]}/embeddings.pkl', 'rb') as handle:
+        #embeddings = np.load(f"{Params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
+        with open(f'{Params.gel["path2save"]}/embeddings.pkl', 'rb') as handle:
             embeddings = pickle.load(handle)
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import GraphEmbedding as GE
-        embeddings = GE.main(graphs, method=params.gel['method'])
+        embeddings = GE.main(graphs, method=Params.gel['method'])
 
     # Community Extraction
     cmn.logger.info(f'5. Community Prediction ...')
@@ -96,10 +98,10 @@ def main():
     from cpl import GraphClustering as GC
     try:
         cmn.logger.info(f'Loading user clusters ...')
-        Communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
+        Communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
     except:
         cmn.logger.info(f'Loading user clusters failed! Generating user clusters ...')
-        Communities = GC.main(np.asarray(embeddings), params.cpl['path2save'], params.cpl['method'])
+        Communities = GC.main(np.asarray(embeddings), Params.cpl['path2save'], Params.cpl['method'])
 
     # News Article Recommendation
     cmn.logger.info(f'6. Application: News Recommendation ...')
@@ -115,11 +117,11 @@ def run(tml_baselines, gel_baselines, run_desc):
             try:
                 cmn.logger.info(f'Running pipeline for {t} and {g} ....')
                 baseline = f'{run_desc}/{t}.{g}'
-                with open('params_template.py') as f: params_str = f.read()
+                with open('ParamsTemplate.py') as f: params_str = f.read()
                 new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace('@gel_method', g)
-                with open('params.py', 'w') as f: f.write(new_params_str)
-                importlib.reload(params)
                 main()
+                with open('Params.py', 'w') as f: f.write(new_params_str)
+                importlib.reload(Params)
             except:
                 cmn.logger.info(traceback.format_exc())
             finally:
