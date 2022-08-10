@@ -1,7 +1,7 @@
 
 general = {
     'comment': '',
-    'baseline': 'toy.synthetic8/LDA.DynAERNN',
+    'baseline': 'toy.syntheticgsdmm11/LDA.DynAERNN',
     'cuda': '-1'
 }
 dal = {
@@ -16,7 +16,7 @@ dal = {
 }
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
-    'library': 'mallet',
+    'library': 'gensim',
     'numTopics': 3,
     'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
     'filterExtremes': False,
@@ -56,4 +56,17 @@ apl = {
     'path2save': f'../output/{general["baseline"]}/apl',
     'topK': 20,
     'textTitle': 'Text'
+}
+
+gsdmm = {
+    "dataset": "News", # selected dataset from data folder
+    "timefil": "timefil",
+    "MaxBatch": 5,  # The number of saved batches + 1
+    "AllBatchNum": 1,  # The number of batches you want to divide the dataset to
+    "alpha": 0.03,  # document-topic density
+    "beta": 0.03,  # topic-word density
+    "iterNum": 5,  # number of iterations
+    "sampleNum": 1,
+    "wordsInTopicNum": 10,
+    "K": 0
 }

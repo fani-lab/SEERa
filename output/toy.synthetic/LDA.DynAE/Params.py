@@ -1,7 +1,7 @@
 
 general = {
     'comment': '',
-    'baseline': 'toy.synthetictoy3/LDA.DynAE',
+    'baseline': 'toy.syntheticgsdmm11/LDA.DynAE',
     'cuda': '-1'
 }
 dal = {

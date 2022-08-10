@@ -1,50 +1,554 @@
-Running pipeline for LDA and DynAERNN ....
+Running pipeline for LDA and DynAE ....
 1. Data Reading & Preparation ...
 ##################################################
 Loading perprocessed files ...
+Loading perprocessed files failed! Generating files ...
+dataset.shape: (540, 6)
+dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
+       'Tokens'],
+      dtype='object')
+Data Preparation ...
+DataPreperation: userModeling=True, timeModeling=True, preProcessing=False, TagME=False
+DataPreperation: Length of the dataset after applying groupby: 180 
+
+DataPreparation: Processed docs shape: (180,)
 processed_docs.shape: (180,)
 documents.shape: (180, 3)
 2. Topic modeling ...
 ##################################################
 Loading LDA model ...
-loading Dictionary object from ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics_TopicModelingDictionary.mm
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics_TopicModelingDictionary.mm'}
-loaded ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics_TopicModelingDictionary.mm
-loading LdaModel object from ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model'}
-loading id2word recursively from ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model.id2word.* with mmap=None
-loaded ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model
-random_state not set so using default value
-dtype was not set in saved LdaMallet file ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model, assuming np.float64
-loading LdaState object from ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model.state'}
-failed to load state from ../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model.state: [Errno 2] No such file or directory: '../output/toy.synthetic8/LDA.DynAERNN/tml/mallet_3topics.model.state'
+loading Dictionary object from ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm'}
+Loading LDA model failed! Training LDA model ...
+TopicModeling: num_topics=3,  filterExtremes=False, library=gensim
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(52 unique tokens: ['apple', 'computer', 'dell', 'digital', 'http://a']...) from 180 documents (total 6034 corpus positions)
+using symmetric alpha at 0.3333333333333333
+using symmetric eta at 0.3333333333333333
+using serial LDA version on this node
+running online (multi-pass) LDA training, 3 topics, 5 passes over the supplied corpus of 180 documents, updating model once every 180 documents, evaluating perplexity every 180 documents, iterating 50x with a convergence threshold of 0.001000
+too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
+bound: at document #0
+-4.459 per-word bound, 22.0 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 0, at document #180/180
+performing inference on a chunk of 180 documents
+0/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.098*"microsoft" + 0.098*"monitor" + 0.098*"computer" + 0.098*"keyboard" + 0.098*"samsung" + 0.097*"mouse" + 0.097*"digital"
+topic #1 (0.333): 0.092*"volleyball" + 0.089*"baseball" + 0.088*"basketball" + 0.086*"football" + 0.082*"swimming" + 0.072*"climbing" + 0.072*"biking" + 0.070*"running" + 0.070*"hiking" + 0.067*"boxing"
+topic #2 (0.333): 0.074*"tiktok" + 0.073*"linkedin" + 0.072*"snapchat" + 0.072*"facebook" + 0.070*"zoom" + 0.069*"whatsapp" + 0.069*"discord" + 0.067*"instagram" + 0.065*"skype" + 0.062*"twitter"
+topic diff=3.421239, rho=1.000000
+bound: at document #0
+-2.732 per-word bound, 6.6 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 1, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.099*"microsoft" + 0.099*"monitor" + 0.098*"computer" + 0.098*"keyboard" + 0.098*"samsung" + 0.098*"mouse" + 0.098*"digital"
+topic #1 (0.333): 0.095*"volleyball" + 0.094*"baseball" + 0.093*"basketball" + 0.092*"football" + 0.090*"swimming" + 0.087*"climbing" + 0.085*"biking" + 0.085*"boxing" + 0.084*"running" + 0.084*"hiking"
+topic #2 (0.333): 0.074*"tiktok" + 0.074*"linkedin" + 0.074*"snapchat" + 0.074*"facebook" + 0.073*"zoom" + 0.072*"whatsapp" + 0.072*"discord" + 0.072*"instagram" + 0.071*"skype" + 0.070*"twitter"
+topic diff=0.406274, rho=0.577350
+bound: at document #0
+-2.675 per-word bound, 6.4 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 2, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.099*"microsoft" + 0.099*"monitor" + 0.099*"computer" + 0.099*"keyboard" + 0.099*"samsung" + 0.098*"mouse" + 0.098*"digital"
+topic #1 (0.333): 0.097*"volleyball" + 0.096*"baseball" + 0.096*"basketball" + 0.095*"football" + 0.094*"swimming" + 0.094*"climbing" + 0.093*"boxing" + 0.091*"biking" + 0.091*"running" + 0.091*"hiking"
+topic #2 (0.333): 0.074*"tiktok" + 0.074*"linkedin" + 0.074*"snapchat" + 0.074*"facebook" + 0.074*"zoom" + 0.073*"whatsapp" + 0.073*"discord" + 0.073*"instagram" + 0.073*"skype" + 0.072*"twitter"
+topic diff=0.267963, rho=0.500000
+bound: at document #0
+-2.654 per-word bound, 6.3 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 3, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.099*"microsoft" + 0.099*"monitor" + 0.099*"computer" + 0.099*"keyboard" + 0.099*"samsung" + 0.099*"mouse" + 0.099*"digital"
+topic #1 (0.333): 0.097*"volleyball" + 0.097*"climbing" + 0.097*"baseball" + 0.097*"basketball" + 0.096*"boxing" + 0.096*"football" + 0.096*"swimming" + 0.094*"biking" + 0.094*"running" + 0.094*"hiking"
+topic #2 (0.333): 0.074*"tiktok" + 0.074*"linkedin" + 0.074*"snapchat" + 0.074*"facebook" + 0.074*"zoom" + 0.074*"whatsapp" + 0.074*"discord" + 0.074*"instagram" + 0.074*"skype" + 0.073*"twitter"
+topic diff=0.190993, rho=0.447214
+bound: at document #0
+-2.645 per-word bound, 6.3 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 4, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.099*"microsoft" + 0.099*"monitor" + 0.099*"computer" + 0.099*"keyboard" + 0.099*"samsung" + 0.099*"mouse" + 0.099*"digital"
+topic #1 (0.333): 0.099*"climbing" + 0.098*"boxing" + 0.098*"volleyball" + 0.097*"baseball" + 0.097*"basketball" + 0.097*"football" + 0.097*"swimming" + 0.096*"biking" + 0.096*"running" + 0.096*"hiking"
+topic #2 (0.333): 0.074*"tiktok" + 0.074*"linkedin" + 0.074*"snapchat" + 0.074*"facebook" + 0.074*"zoom" + 0.074*"whatsapp" + 0.074*"discord" + 0.074*"instagram" + 0.074*"skype" + 0.074*"twitter"
+topic diff=0.143970, rho=0.408248
+saving LdaState object under ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model.state'}
+saved ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model.id2word'}
+saving LdaModel object under ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model.expElogbeta.npy
+not storing attribute dispatcher
+not storing attribute id2word
+not storing attribute state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model'}
+saved ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/Gensim_3Topics.model
+topic #0 (0.333): 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.099*"microsoft" + 0.099*"monitor" + 0.099*"computer" + 0.099*"keyboard" + 0.099*"samsung" + 0.099*"mouse" + 0.099*"digital"
+topic #1 (0.333): 0.099*"climbing" + 0.098*"boxing" + 0.098*"volleyball" + 0.097*"baseball" + 0.097*"basketball" + 0.097*"football" + 0.097*"swimming" + 0.096*"biking" + 0.096*"running" + 0.096*"hiking"
+topic #2 (0.333): 0.074*"tiktok" + 0.074*"linkedin" + 0.074*"snapchat" + 0.074*"facebook" + 0.074*"zoom" + 0.074*"whatsapp" + 0.074*"discord" + 0.074*"instagram" + 0.074*"skype" + 0.074*"twitter"
+TopicModeling: GENSIM Topic: 0 
+Words: 0.099*"dell" + 0.099*"sony" + 0.099*"apple" + 0.099*"microsoft" + 0.099*"monitor" + 0.099*"computer" + 0.099*"keyboard" + 0.099*"samsung" + 0.099*"mouse" + 0.099*"digital"
+TopicModeling: GENSIM Topic: 1 
+Words: 0.099*"climbing" + 0.098*"boxing" + 0.098*"volleyball" + 0.097*"baseball" + 0.097*"basketball" + 0.097*"football" + 0.097*"swimming" + 0.096*"biking" + 0.096*"running" + 0.096*"hiking"
+TopicModeling: GENSIM Topic: 2 
+Words: 0.074*"tiktok" + 0.074*"linkedin" + 0.074*"snapchat" + 0.074*"facebook" + 0.074*"zoom" + 0.074*"whatsapp" + 0.074*"discord" + 0.074*"instagram" + 0.074*"skype" + 0.074*"twitter"
+TopicModeling: Coherences:
+
+TopicModeling: Calculating model coherence:
+
+Setting topics to those of the model: LdaModel(num_terms=52, num_topics=3, decay=0.5, chunksize=2000)
+TopicModeling: Coherence value is: -8.359187338538709
+TopicModeling: Topic coherences are: [3.0000446571375978e-12, -0.17027520791926362, 3.0000446571375978e-12]
+saving Dictionary object under ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm'}
+saved ../output/toy.syntheticgsdmm11/LDA.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm
 dictionary.shape: 52
 3. Temporal Graph Creation ...
 ##################################################
 Loading users' graph stream ...
+Loading users' graph stream failed! Generating the stream ...
+UserSimilarity: All users size 180
+UserSimilarity: All distinct users:60
+UserSimilarity: users_topic_interests=(60, 3)
+UserSimilarity: Just one topic? False, Binary topic? False, Threshold: 0.5
+60 users have twitted in 2010-12-01 00:00:00
+UserSimilarity: 2010-12-01 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-01 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-01 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-02 00:00:00
+UserSimilarity: 2010-12-02 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-02 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-02 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-03 00:00:00
+UserSimilarity: 2010-12-03 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-03 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-03 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
 4. Temporal Graph Embedding ...
 ##################################################
 Loading embeddings ...
-5. Community Prediction ...
-##################################################
+Loading embeddings failed! Training ...
 CACHEDIR=C:\Users\Soroush\.matplotlib
 Using fontManager instance from C:\Users\Soroush\.matplotlib\fontlist-v300.json
 Loaded backend module://backend_interagg version unknown.
+Creating converter from 7 to 5
+Creating converter from 5 to 7
+Creating converter from 7 to 5
+Creating converter from 5 to 7
+Creating converter from 5 to 3
+5. Community Prediction ...
+##################################################
 Loading user clusters ...
+Loading user clusters failed! Generating user clusters ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+5.3. Future Community Prediction ...
+#Nodes(Users): 60, #Edges: 1830
+#Predicted Future Communities (Louvain): 1; (-1) are singleton.
+Communities Size: [40, 20]
+Cluster 0 has 40 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 1 has 20 users. Topic 1 is the favorite topic for 100.0% of users.
 6. Application: News Recommendation ...
 ##################################################
 Loading news articles ...
 Inferring news articles' topics ...
-loading Dictionary object from ../output/toy.synthetic8/LDA.DynAERNN/tml\mallet_3topics_TopicModelingDictionary.mm
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic8/LDA.DynAERNN/tml\\mallet_3topics_TopicModelingDictionary.mm'}
-loaded ../output/toy.synthetic8/LDA.DynAERNN/tml\mallet_3topics_TopicModelingDictionary.mm
-Loading LDA model (Mallet) ...
-loading LdaMallet object from ../output/toy.synthetic8/LDA.DynAERNN/tml\mallet_3topics.model
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic8/LDA.DynAERNN/tml\\mallet_3topics.model'}
-loading id2word recursively from ../output/toy.synthetic8/LDA.DynAERNN/tml\mallet_3topics.model.id2word.* with mmap=None
-loaded ../output/toy.synthetic8/LDA.DynAERNN/tml\mallet_3topics.model
+loading Dictionary object from ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml\\gensim_3topics_TopicModelingDictionary.mm'}
+loaded ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\gensim_3topics_TopicModelingDictionary.mm
+Loading LDA model (Gensim) ...
+loading LdaModel object from ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\Gensim_3Topics.model
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml\\Gensim_3Topics.model'}
+loading expElogbeta from ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\Gensim_3Topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute dispatcher to None
+setting ignored attribute id2word to None
+setting ignored attribute state to None
+loaded ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\Gensim_3Topics.model
+loading LdaState object from ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\Gensim_3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml\\Gensim_3Topics.model.state'}
+loaded ../output/toy.syntheticgsdmm11/LDA.DynAE/tml\Gensim_3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAE/tml\\Gensim_3Topics.model.id2word'}
+Recommending news articles to future communities ...
+Evaluating recommended news articles ...
+Selected date for evaluation: 2010-12-04
+
+
+
+
+Running pipeline for LDA and DynAERNN ....
+1. Data Reading & Preparation ...
+##################################################
+Loading perprocessed files ...
+Loading perprocessed files failed! Generating files ...
+dataset.shape: (540, 6)
+dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
+       'Tokens'],
+      dtype='object')
+Data Preparation ...
+DataPreperation: userModeling=True, timeModeling=True, preProcessing=False, TagME=False
+DataPreperation: Length of the dataset after applying groupby: 180 
+
+DataPreparation: Processed docs shape: (180,)
+processed_docs.shape: (180,)
+documents.shape: (180, 3)
+2. Topic modeling ...
+##################################################
+Loading LDA model ...
+loading Dictionary object from ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm'}
+Loading LDA model failed! Training LDA model ...
+TopicModeling: num_topics=3,  filterExtremes=False, library=gensim
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(52 unique tokens: ['apple', 'computer', 'dell', 'digital', 'http://a']...) from 180 documents (total 6034 corpus positions)
+using symmetric alpha at 0.3333333333333333
+using symmetric eta at 0.3333333333333333
 using serial LDA version on this node
+running online (multi-pass) LDA training, 3 topics, 5 passes over the supplied corpus of 180 documents, updating model once every 180 documents, evaluating perplexity every 180 documents, iterating 50x with a convergence threshold of 0.001000
+too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
+bound: at document #0
+-4.441 per-word bound, 21.7 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 0, at document #180/180
+performing inference on a chunk of 180 documents
+72/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.090*"linkedin" + 0.084*"zoom" + 0.084*"skype" + 0.082*"tiktok" + 0.080*"whatsapp" + 0.080*"facebook" + 0.079*"discord" + 0.077*"snapchat" + 0.076*"twitter" + 0.075*"instagram"
+topic #1 (0.333): 0.052*"baseball" + 0.052*"football" + 0.052*"volleyball" + 0.049*"basketball" + 0.048*"swimming" + 0.045*"apple" + 0.045*"microsoft" + 0.045*"computer" + 0.045*"mouse" + 0.045*"keyboard"
+topic #2 (0.333): 0.102*"swimming" + 0.097*"basketball" + 0.078*"baseball" + 0.062*"football" + 0.059*"volleyball" + 0.050*"instagram" + 0.045*"twitter" + 0.044*"tiktok" + 0.043*"discord" + 0.043*"snapchat"
+topic diff=3.094214, rho=1.000000
+bound: at document #0
+-3.095 per-word bound, 8.5 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 1, at document #180/180
+performing inference on a chunk of 180 documents
+80/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.082*"linkedin" + 0.080*"zoom" + 0.080*"skype" + 0.079*"tiktok" + 0.079*"whatsapp" + 0.079*"facebook" + 0.078*"discord" + 0.078*"snapchat" + 0.077*"twitter" + 0.076*"instagram"
+topic #1 (0.333): 0.064*"apple" + 0.064*"microsoft" + 0.064*"computer" + 0.064*"mouse" + 0.064*"keyboard" + 0.064*"samsung" + 0.064*"monitor" + 0.064*"dell" + 0.064*"digital" + 0.064*"sony"
+topic #2 (0.333): 0.107*"swimming" + 0.105*"basketball" + 0.099*"baseball" + 0.092*"football" + 0.091*"volleyball" + 0.080*"biking" + 0.079*"running" + 0.078*"boxing" + 0.078*"climbing" + 0.076*"hiking"
+topic diff=0.637241, rho=0.577350
+bound: at document #0
+-2.806 per-word bound, 7.0 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 2, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.078*"linkedin" + 0.077*"zoom" + 0.077*"skype" + 0.077*"tiktok" + 0.076*"whatsapp" + 0.076*"facebook" + 0.076*"discord" + 0.076*"snapchat" + 0.076*"twitter" + 0.075*"instagram"
+topic #1 (0.333): 0.078*"apple" + 0.078*"microsoft" + 0.078*"computer" + 0.078*"mouse" + 0.078*"keyboard" + 0.078*"samsung" + 0.078*"monitor" + 0.078*"dell" + 0.078*"digital" + 0.077*"sony"
+topic #2 (0.333): 0.102*"swimming" + 0.101*"basketball" + 0.099*"baseball" + 0.096*"football" + 0.095*"volleyball" + 0.091*"boxing" + 0.091*"climbing" + 0.090*"biking" + 0.090*"running" + 0.089*"hiking"
+topic diff=0.349923, rho=0.500000
+bound: at document #0
+-2.722 per-word bound, 6.6 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 3, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.076*"linkedin" + 0.076*"zoom" + 0.076*"skype" + 0.076*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"discord" + 0.075*"snapchat" + 0.075*"twitter" + 0.075*"instagram"
+topic #1 (0.333): 0.086*"apple" + 0.086*"microsoft" + 0.086*"computer" + 0.086*"mouse" + 0.086*"keyboard" + 0.086*"samsung" + 0.086*"monitor" + 0.086*"dell" + 0.086*"digital" + 0.086*"sony"
+topic #2 (0.333): 0.100*"swimming" + 0.100*"basketball" + 0.098*"baseball" + 0.097*"football" + 0.097*"volleyball" + 0.096*"boxing" + 0.096*"climbing" + 0.094*"biking" + 0.094*"running" + 0.093*"hiking"
+topic diff=0.229455, rho=0.447214
+bound: at document #0
+-2.684 per-word bound, 6.4 perplexity estimate based on a held-out corpus of 180 documents with 6034 words
+PROGRESS: pass 4, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.075*"linkedin" + 0.075*"zoom" + 0.075*"skype" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"discord" + 0.075*"snapchat" + 0.075*"twitter" + 0.075*"instagram"
+topic #1 (0.333): 0.091*"apple" + 0.091*"microsoft" + 0.091*"computer" + 0.091*"mouse" + 0.091*"keyboard" + 0.091*"samsung" + 0.091*"monitor" + 0.091*"dell" + 0.091*"digital" + 0.091*"sony"
+topic #2 (0.333): 0.099*"swimming" + 0.099*"basketball" + 0.098*"boxing" + 0.098*"baseball" + 0.098*"climbing" + 0.097*"football" + 0.097*"volleyball" + 0.096*"biking" + 0.096*"running" + 0.095*"hiking"
+topic diff=0.169268, rho=0.408248
+saving LdaState object under ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model.state'}
+saved ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model.id2word'}
+saving LdaModel object under ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model.expElogbeta.npy
+not storing attribute dispatcher
+not storing attribute id2word
+not storing attribute state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model'}
+saved ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/Gensim_3Topics.model
+topic #0 (0.333): 0.075*"linkedin" + 0.075*"zoom" + 0.075*"skype" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"discord" + 0.075*"snapchat" + 0.075*"twitter" + 0.075*"instagram"
+topic #1 (0.333): 0.091*"apple" + 0.091*"microsoft" + 0.091*"computer" + 0.091*"mouse" + 0.091*"keyboard" + 0.091*"samsung" + 0.091*"monitor" + 0.091*"dell" + 0.091*"digital" + 0.091*"sony"
+topic #2 (0.333): 0.099*"swimming" + 0.099*"basketball" + 0.098*"boxing" + 0.098*"baseball" + 0.098*"climbing" + 0.097*"football" + 0.097*"volleyball" + 0.096*"biking" + 0.096*"running" + 0.095*"hiking"
+TopicModeling: GENSIM Topic: 0 
+Words: 0.075*"linkedin" + 0.075*"zoom" + 0.075*"skype" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"discord" + 0.075*"snapchat" + 0.075*"twitter" + 0.075*"instagram"
+TopicModeling: GENSIM Topic: 1 
+Words: 0.091*"apple" + 0.091*"microsoft" + 0.091*"computer" + 0.091*"mouse" + 0.091*"keyboard" + 0.091*"samsung" + 0.091*"monitor" + 0.091*"dell" + 0.091*"digital" + 0.091*"sony"
+TopicModeling: GENSIM Topic: 2 
+Words: 0.099*"swimming" + 0.099*"basketball" + 0.098*"boxing" + 0.098*"baseball" + 0.098*"climbing" + 0.097*"football" + 0.097*"volleyball" + 0.096*"biking" + 0.096*"running" + 0.095*"hiking"
+TopicModeling: Coherences:
+
+TopicModeling: Calculating model coherence:
+
+Setting topics to those of the model: LdaModel(num_terms=52, num_topics=3, decay=0.5, chunksize=2000)
+TopicModeling: Coherence value is: -8.683744488653504
+TopicModeling: Topic coherences are: [3.0000446571375978e-12, 3.0000446571375978e-12, -0.22703361055992927]
+saving Dictionary object under ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm'}
+saved ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm
+dictionary.shape: 52
+3. Temporal Graph Creation ...
+##################################################
+Loading users' graph stream ...
+Loading users' graph stream failed! Generating the stream ...
+UserSimilarity: All users size 180
+UserSimilarity: All distinct users:60
+UserSimilarity: users_topic_interests=(60, 3)
+UserSimilarity: Just one topic? False, Binary topic? False, Threshold: 0.5
+60 users have twitted in 2010-12-01 00:00:00
+UserSimilarity: 2010-12-01 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-01 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-01 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-02 00:00:00
+UserSimilarity: 2010-12-02 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-02 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-02 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-03 00:00:00
+UserSimilarity: 2010-12-03 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-03 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-03 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+4. Temporal Graph Embedding ...
+##################################################
+Loading embeddings ...
+Loading embeddings failed! Training ...
+5. Community Prediction ...
+##################################################
+Loading user clusters ...
+Loading user clusters failed! Generating user clusters ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+5.3. Future Community Prediction ...
+#Nodes(Users): 60, #Edges: 1830
+#Predicted Future Communities (Louvain): 2; (-1) are singleton.
+Communities Size: [20, 20, 20]
+Cluster 0 has 20 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 1 has 20 users. Topic 2 is the favorite topic for 100.0% of users.
+Cluster 2 has 20 users. Topic 1 is the favorite topic for 100.0% of users.
+6. Application: News Recommendation ...
+##################################################
+Loading news articles ...
+Inferring news articles' topics ...
+loading Dictionary object from ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\\gensim_3topics_TopicModelingDictionary.mm'}
+loaded ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\gensim_3topics_TopicModelingDictionary.mm
+Loading LDA model (Gensim) ...
+loading LdaModel object from ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\Gensim_3Topics.model
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\\Gensim_3Topics.model'}
+loading expElogbeta from ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\Gensim_3Topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute dispatcher to None
+setting ignored attribute id2word to None
+setting ignored attribute state to None
+loaded ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\Gensim_3Topics.model
+loading LdaState object from ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\Gensim_3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\\Gensim_3Topics.model.state'}
+loaded ../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\Gensim_3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/LDA.DynAERNN/tml\\Gensim_3Topics.model.id2word'}
+Recommending news articles to future communities ...
+Evaluating recommended news articles ...
+Selected date for evaluation: 2010-12-04
+
+
+
+
+Running pipeline for gsdmm and DynAE ....
+1. Data Reading & Preparation ...
+##################################################
+Loading perprocessed files ...
+Loading perprocessed files failed! Generating files ...
+dataset.shape: (540, 6)
+dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
+       'Tokens'],
+      dtype='object')
+Data Preparation ...
+DataPreperation: userModeling=True, timeModeling=True, preProcessing=False, TagME=False
+DataPreperation: Length of the dataset after applying groupby: 180 
+
+DataPreparation: Processed docs shape: (180,)
+processed_docs.shape: (180,)
+documents.shape: (180, 3)
+2. Topic modeling ...
+##################################################
+Loading LDA model ...
+loading Dictionary object from ../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm'}
+Loading LDA model failed! Training LDA model ...
+TopicModeling: num_topics=3,  filterExtremes=False, library=gensim
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(52 unique tokens: ['apple', 'computer', 'dell', 'digital', 'http://a']...) from 180 documents (total 6034 corpus positions)
+TopicModeling: Coherences:
+
+TopicModeling: Calculating model coherence:
+
+saving Dictionary object under ../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm'}
+saved ../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml/gensim_3topics_TopicModelingDictionary.mm
+dictionary.shape: 52
+3. Temporal Graph Creation ...
+##################################################
+Loading users' graph stream ...
+Loading users' graph stream failed! Generating the stream ...
+UserSimilarity: All users size 180
+UserSimilarity: All distinct users:60
+UserSimilarity: users_topic_interests=(60, 3)
+UserSimilarity: Just one topic? False, Binary topic? False, Threshold: 0.5
+60 users have twitted in 2010-12-01 00:00:00
+UserSimilarity: 2010-12-01 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-01 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-01 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-02 00:00:00
+UserSimilarity: 2010-12-02 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-02 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-02 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-03 00:00:00
+UserSimilarity: 2010-12-03 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-03 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-03 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+4. Temporal Graph Embedding ...
+##################################################
+Loading embeddings ...
+Loading embeddings failed! Training ...
+5. Community Prediction ...
+##################################################
+Loading user clusters ...
+Loading user clusters failed! Generating user clusters ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+5.3. Future Community Prediction ...
+#Nodes(Users): 60, #Edges: 1830
+#Predicted Future Communities (Louvain): 1; (-1) are singleton.
+Communities Size: [40, 20]
+Cluster 0 has 40 users. Topic 2 is the favorite topic for 50.0% of users.
+Cluster 1 has 20 users. Topic 1 is the favorite topic for 100.0% of users.
+6. Application: News Recommendation ...
+##################################################
+Loading news articles ...
+Inferring news articles' topics ...
+loading Dictionary object from ../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml\gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml\\gensim_3topics_TopicModelingDictionary.mm'}
+loaded ../output/toy.syntheticgsdmm11/gsdmm.DynAE/tml\gensim_3topics_TopicModelingDictionary.mm
+Recommending news articles to future communities ...
+Evaluating recommended news articles ...
+Selected date for evaluation: 2010-12-04
+
+
+
+
+Running pipeline for gsdmm and DynAERNN ....
+1. Data Reading & Preparation ...
+##################################################
+Loading perprocessed files ...
+Loading perprocessed files failed! Generating files ...
+dataset.shape: (540, 6)
+dataset.keys: Index(['TweetId', 'Text', 'CreationDate', 'UserId', 'ModificationTimestamp',
+       'Tokens'],
+      dtype='object')
+Data Preparation ...
+DataPreperation: userModeling=True, timeModeling=True, preProcessing=False, TagME=False
+DataPreperation: Length of the dataset after applying groupby: 180 
+
+DataPreparation: Processed docs shape: (180,)
+processed_docs.shape: (180,)
+documents.shape: (180, 3)
+2. Topic modeling ...
+##################################################
+Loading LDA model ...
+loading Dictionary object from ../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm'}
+Loading LDA model failed! Training LDA model ...
+TopicModeling: num_topics=3,  filterExtremes=False, library=gensim
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(52 unique tokens: ['apple', 'computer', 'dell', 'digital', 'http://a']...) from 180 documents (total 6034 corpus positions)
+TopicModeling: Coherences:
+
+TopicModeling: Calculating model coherence:
+
+saving Dictionary object under ../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm'}
+saved ../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml/gensim_3topics_TopicModelingDictionary.mm
+dictionary.shape: 52
+3. Temporal Graph Creation ...
+##################################################
+Loading users' graph stream ...
+Loading users' graph stream failed! Generating the stream ...
+UserSimilarity: All users size 180
+UserSimilarity: All distinct users:60
+UserSimilarity: users_topic_interests=(60, 3)
+UserSimilarity: Just one topic? False, Binary topic? False, Threshold: 0.5
+60 users have twitted in 2010-12-01 00:00:00
+UserSimilarity: 2010-12-01 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-01 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-01 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-02 00:00:00
+UserSimilarity: 2010-12-02 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-02 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-02 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+60 users have twitted in 2010-12-03 00:00:00
+UserSimilarity: 2010-12-03 00:00:00 / 0
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 00:00:00 with shape: (3, 60)
+UsersGraph: There are 3 users on 2010-12-03 00:00:00
+UserSimilarity: A graph is being created for day:2010-12-03 00:00:00 with 3 users
+UserSimilarity: Number of users per day: [60, 60, 60]
+UserSimilarity: Graphs are written in "graphs" directory
+4. Temporal Graph Embedding ...
+##################################################
+Loading embeddings ...
+Loading embeddings failed! Training ...
+5. Community Prediction ...
+##################################################
+Loading user clusters ...
+Loading user clusters failed! Generating user clusters ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+5.3. Future Community Prediction ...
+#Nodes(Users): 60, #Edges: 1830
+#Predicted Future Communities (Louvain): 2; (-1) are singleton.
+Communities Size: [20, 20, 20]
+Cluster 0 has 20 users. Topic 1 is the favorite topic for 100.0% of users.
+Cluster 1 has 20 users. Topic 0 is the favorite topic for 100.0% of users.
+Cluster 2 has 20 users. Topic 2 is the favorite topic for 100.0% of users.
+6. Application: News Recommendation ...
+##################################################
+Loading news articles ...
+Inferring news articles' topics ...
+loading Dictionary object from ../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml\gensim_3topics_TopicModelingDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml\\gensim_3topics_TopicModelingDictionary.mm'}
+loaded ../output/toy.syntheticgsdmm11/gsdmm.DynAERNN/tml\gensim_3topics_TopicModelingDictionary.mm
 Recommending news articles to future communities ...
 Evaluating recommended news articles ...
 Selected date for evaluation: 2010-12-04
