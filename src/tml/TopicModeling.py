@@ -12,7 +12,6 @@ from gsdmm import MovieGroupProcess
 
 from cmn import Common as cmn
 import Params
-from src.gsdmm import Functions as gibbsampling
 
 
 def topic_modeling(processed_docs, method, num_topics, filter_extremes, library, path_2_save_tml):
