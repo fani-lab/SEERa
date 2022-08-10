@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import gensim
 import glob
+import pickle
 import os, sys
 import tagme
 
@@ -33,31 +34,33 @@ def text2tagme(news_table, threshold=0.05):
 def main(news_table):
     text = news_table[Params.apl["textTitle"]].dropna()
     news_ids = text.index
-
     np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
-
     text = text.values
     processed_docs = np.asarray([news.split() for news in text])
-
     dict_path = glob.glob(f'{Params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(dict_path)
 
     # LDA Model Loading
-    model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
-    gensim_mallet = model_name.split('\\')[-1].split('_')[0]
-    if gensim_mallet == 'Gensim':
-        cmn.logger.info(f"Loading LDA model (Gensim) ...")
-        lda_model = gensim.models.ldamodel.LdaModel.load(model_name)
-    elif gensim_mallet == 'Mallet':
-        cmn.logger.info(f"Loading LDA model (Mallet) ...")
-        lda_model = gensim.models.wrappers.LdaMallet.load(model_name)
-        lda_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model)
+    if Params.tml['method'] == 'gsdmm':
+        model_name = glob.glob(f'{Params.tml["path2save"]}/Gensim_*Topics.pkl')[0]
+        print(model_name)
+        with open(model_name, 'rb') as g: tm_model = pickle.load(g)
+    else:
+        model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
+        gensim_mallet = model_name.split('\\')[-1].split('_')[0]
+        if gensim_mallet == 'Gensim':
+            cmn.logger.info(f"Loading LDA model (Gensim) ...")
+            tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
+        elif gensim_mallet == 'Mallet':
+            cmn.logger.info(f"Loading LDA model (Mallet) ...")
+            tm_model = gensim.models.wrappers.LdaMallet.load(model_name)
+            tm_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(tm_model)
 
     # topics = ldaModel.get_document_topics(bow_corpus)
     total_news_topics = []
     for news in range(len(processed_docs)):
         news_bow_corpus = dictionary.doc2bow(processed_docs[news])
-        topics = tm.doc2topics(lda_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
+        topics = tm.doc2topics(tm_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
         total_news_topics.append(topics)
 
     np.save(f'{Params.apl["path2save"]}/NewsTopics.npy', np.asarray(total_news_topics))
