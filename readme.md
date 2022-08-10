@@ -117,6 +117,13 @@ This command installs compatible versions of the following libraries:
 
 Additionally, you need to install the following libraries from their source:
 - [``MAchine Learning for LanguagE Toolkit (mallet)``](http://mallet.cs.umass.edu/index.php) as a requirement in ``tml``.
+- [``Gibbs Sampling algorithm for a Dirichlet Mixture Model (GSDMM)``](https://github.com/rwalk/gsdmm) as a requirement in ``tml``:
+```bash
+git clone https://github.com/rwalk/gsdmm.git
+cd gsdmm
+python setup.py install
+cd ..
+```
 - [``DynamicGem``](https://github.com/palash1992/DynamicGEM) as a requirement in ``gel``:
 ```bash
 git clone https://github.com/palash1992/DynamicGEM.git
