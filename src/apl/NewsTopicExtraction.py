@@ -43,7 +43,6 @@ def main(news_table):
     # LDA Model Loading
     if Params.tml['method'] == 'gsdmm':
         model_name = glob.glob(f'{Params.tml["path2save"]}/Gensim_*Topics.pkl')[0]
-        print(model_name)
         with open(model_name, 'rb') as g: tm_model = pickle.load(g)
     else:
         model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]

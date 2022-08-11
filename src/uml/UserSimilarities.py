@@ -38,15 +38,12 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
             user = row['userId']
             user_bow_corpus = dictionary.doc2bow(doc.split())
             d2t = tm.doc2topics(lda_model, user_bow_corpus, threshold=threshold, just_one=just_one, binary=binary)
-            print(doc)
-            print(d2t)
             users_topic_interests[user] = d2t
         for users in unique_users:
             if users not in users_topic_interests:
                 users_topic_interests[users] = np.zeros(d2t.shape)
         cmn.logger.info(f'UserSimilarity: {day} / {len(total_users_topic_interests)}')
         day_str = str(day.date())
-        print("SALAAAM",users_topic_interests)
         np.save(f'{path2_save_uml}/Day{day_str}UsersTopicInterests.npy', users_topic_interests)
         users_topic_interests.to_pickle(f'{path2_save_uml}/Day{day_str}UsersTopicInterests.pkl')
         users_topic_interests.to_csv(f'{path2_save_uml}/Day{day_str}UsersTopicInterests.csv')

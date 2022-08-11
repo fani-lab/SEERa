@@ -51,7 +51,6 @@ def user_mentions():
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
     tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
     tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
-    print(news)
     for uid in tweet_entities['UserOrMediaId']:
         users_news[uid] = []
     for index, row in news.iterrows():
