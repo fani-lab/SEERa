@@ -21,7 +21,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, library,
     if filter_extremes: dictionary.filter_extremes(no_below=1, no_above=0.20, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
     if method == "gsdmm":
-        tm_model = MovieGroupProcess(K=3, alpha=0.1, beta=0.1, n_iters=30)
+        tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.05, beta=0.05, n_iters=30)
         output = tm_model.fit(bow_corpus, len(dictionary))
         total_topics = tm_model.cluster_word_distribution
         with open(f"{path_2_save_tml}/Gensim_{tm_model.K}Topics.pkl", 'wb') as g: pickle.dump(tm_model, g)
