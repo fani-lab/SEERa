@@ -85,7 +85,7 @@ def main():
     try:
         cmn.logger.info(f'Loading embeddings ...')
         #embeddings = np.load(f"{Params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
-        with open(f'{Params.gel["path2save"]}/embeddings.pkl', 'rb') as handle:
+        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'rb') as handle:
             embeddings = pickle.load(handle)
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')

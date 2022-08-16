@@ -65,7 +65,7 @@ def recommend(communities_topic_interests, news, news_ids, topK):
     return top_recommendations
 
 def user_recommend(pred_user_clusters, top_recommendations):
-    users = np.load(f'{Params.uml["path2save"]}/users.npy')
+    users = np.load(f'{Params.uml["path2save"]}/Users.npy')
     user_recommendation = {}
     for u in range(len(users)):
         cluster = pred_user_clusters[u]
