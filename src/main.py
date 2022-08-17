@@ -193,7 +193,7 @@ if __name__ == '__main__':
     addargs(parser)
     args = parser.parse_args()
     if not os.path.isdir(f'../output/{args.run_desc}'): os.makedirs(f'../output/{args.run_desc}')
-    cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/log.txt')
+    cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/Log.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     aggregate(f'../output/{args.run_desc}')
     remove_files()
