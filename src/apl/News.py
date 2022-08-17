@@ -50,25 +50,28 @@ def main():
     news_path = f'{Params.dal["path"]}/News.csv'
     tweet_entities_path = f'{Params.dal["path"]}/TweetEntities.csv'
     try:
-        cmn.logger.info(f"Loading news articles ...")
+        cmn.logger.info(f"6.1 Loading news articles ...")
         news_table = pd.read_csv(news_path)
     except:
-        cmn.logger.info(f"News articles do not exist! Crawling news articles ...")
+        cmn.logger.info(f"6.1 News articles do not exist! Crawling news articles ...")
         NC.news_crawler(news_path, tweet_entities_path)
         stats(news_table)
         news_table = pd.read_csv(news_path)
 
-    cmn.logger.info(f"Inferring news articles' topics ...")
+    cmn.logger.info(f"6.2 Inferring news articles' topics ...")
     try:
         news_topics = np.load(f'{Params.apl["path2save"]}/NewsTopics.npy')
     except:
         NTE.main(news_table)
         news_topics = np.load(f'{Params.apl["path2save"]}/NewsTopics.npy')
 
-    cmn.logger.info(f"Recommending news articles to future communities ...")
+    cmn.logger.info(f"6.3 Recommending news articles to future communities ...")
     nrr = NR.main(news_topics, Params.apl['topK'])
 
-    cmn.logger.info(f"Evaluating recommended news articles ...")
+    end_date = pd.Timestamp(str(Params.dal['end']))
+    day_before = 0
+    day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
+    cmn.logger.info(f"6.4 Evaluating recommended news articles on future time interval {str(day.date())}...")
     me = ME.main()
 
 

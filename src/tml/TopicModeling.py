@@ -14,78 +14,72 @@ from cmn import Common as cmn
 import Params
 
 
-def topic_modeling(processed_docs, method, num_topics, filter_extremes, library, path_2_save_tml):
+def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_save_tml):
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
-    cmn.logger.info(f'TopicModeling: num_topics={num_topics},  filterExtremes={filter_extremes}, library={library}')
     dictionary = gensim.corpora.Dictionary(processed_docs)
     if filter_extremes: dictionary.filter_extremes(no_below=1, no_above=0.20, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
-    if method == "gsdmm":
+
+    if method.lower() == "gsdmm":
         tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.05, beta=0.05, n_iters=30)
         output = tm_model.fit(bow_corpus, len(dictionary))
         total_topics = tm_model.cluster_word_distribution
-        with open(f"{path_2_save_tml}/Gensim_{tm_model.K}Topics.pkl", 'wb') as g: pickle.dump(tm_model, g)
-    if method == "LDA":
-        if library == 'gensim':
-            tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
-            tm_model.save(f"{path_2_save_tml}/Gensim_{num_topics}Topics.model")
-            gensim_topics = []
-            gensim_percentages = []
-            gensim_topics_percentages = []
-            for idx, topic in tm_model.print_topics(-1):
-                cmn.logger.info(f'TopicModeling: GENSIM Topic: {idx} \nWords: {topic}')
-                splitted = topic.split('+')
-                gensim_topics_percentages.append([])
-                gensim_topics.append([])
-                gensim_percentages.append([])
-                for word in splitted:
-                    gensim_topics[-1].append(word.split('*')[1].split('"')[1])
-                    gensim_percentages[-1].append(word.split('*')[0])
-                    gensim_topics_percentages[-1].append(word.split('*')[0])
-                    gensim_topics_percentages[-1].append(word.split('*')[1].split('"')[1])
-            gensim_save = []
-            for i in range(len(gensim_topics)):
-                gensim_save.append(gensim_topics[i])
-                gensim_save.append(gensim_percentages[i])
-            np.savetxt(f"{path_2_save_tml}/Gensim{num_topics}Topics.csv", gensim_save, delimiter=",", fmt='%s')
-            total_topics = gensim_topics
-        elif library == 'mallet':
-            os.environ['MALLET_HOME'] = Params.tml['malletHome']
-            mallet_path = f'{Params.tml["malletHome"]}/bin/mallet'
-            tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics,
-                                                         id2word=dictionary)
-            tm_model.save(f"{path_2_save_tml}/Mallet{num_topics}Topics.model")
-            mallet_topics = []
-            mallet_percentages = []
-            mallet_topics_percentages = []
-            for idx, topic in tm_model.print_topics(-1):
-                cmn.logger.info(f'TopicModeling: MALLET Topic: {idx} \nWords: {topic}')
-                splitted = topic.split('+')
-                mallet_topics_percentages.append([])
-                mallet_topics.append([])
-                mallet_percentages.append([])
-                for word in splitted:
-                    mallet_topics[-1].append(word.split('*')[1].split('"')[1])
-                    mallet_percentages[-1].append(word.split('*')[0])
-                    mallet_topics_percentages[-1].append(word.split('*')[0])
-                    mallet_topics_percentages[-1].append(word.split('*')[1].split('"')[1])
-            mallet_save = []
-            for i in range(len(mallet_topics)):
-                mallet_save.append(mallet_topics[i])
-                mallet_save.append(mallet_percentages[i])
-            np.savetxt(f"{path_2_save_tml}/Mallet{num_topics}Topics.csv", mallet_save, delimiter=",", fmt='%s', encoding="utf-8")
-            total_topics = mallet_topics
-        else:
-            raise ValueError("Wrong library name. select 'gensim' or 'mallet'")
-            pass
+        with open(f"{path_2_save_tml}/{tm_model.K}Topics.pkl", 'wb') as g: pickle.dump(tm_model, g)
 
-    try:
-        cmn.logger.info(f'TopicModeling: Coherences:\n')
-        c, cv = coherence(dictionary, bow_corpus, total_topics, tm_model)
-        cmn.logger.info(f'TopicModeling: Coherence value is: {c}')
-        cmn.logger.info(f'TopicModeling: Topic coherences are: {cv}')
-    except:
-        pass
+    elif method.lower() == "lda.gensim":
+        tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
+        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
+        gensim_topics = []
+        gensim_percentages = []
+        gensim_topics_percentages = []
+        for idx, topic in tm_model.print_topics(-1):
+            cmn.logger.info(f'GENSIM Topic: {idx} \nWords: {topic}')
+            splitted = topic.split('+')
+            gensim_topics_percentages.append([])
+            gensim_topics.append([])
+            gensim_percentages.append([])
+            for word in splitted:
+                gensim_topics[-1].append(word.split('*')[1].split('"')[1])
+                gensim_percentages[-1].append(word.split('*')[0])
+                gensim_topics_percentages[-1].append(word.split('*')[0])
+                gensim_topics_percentages[-1].append(word.split('*')[1].split('"')[1])
+        gensim_save = []
+        for i in range(len(gensim_topics)):
+            gensim_save.append(gensim_topics[i])
+            gensim_save.append(gensim_percentages[i])
+        np.savetxt(f"{path_2_save_tml}/{num_topics}Topics.csv", gensim_save, delimiter=",", fmt='%s')
+        total_topics = gensim_topics
+
+    elif method.lower() == "lda.mallet":
+        os.environ['MALLET_HOME'] = Params.tml['malletHome']
+        mallet_path = f'{Params.tml["malletHome"]}/bin/mallet'
+        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary)
+        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
+        mallet_topics = []
+        mallet_percentages = []
+        mallet_topics_percentages = []
+        for idx, topic in tm_model.print_topics(-1):
+            cmn.logger.info(f'MALLET Topic: {idx} \nWords: {topic}')
+            splitted = topic.split('+')
+            mallet_topics_percentages.append([])
+            mallet_topics.append([])
+            mallet_percentages.append([])
+            for word in splitted:
+                mallet_topics[-1].append(word.split('*')[1].split('"')[1])
+                mallet_percentages[-1].append(word.split('*')[0])
+                mallet_topics_percentages[-1].append(word.split('*')[0])
+                mallet_topics_percentages[-1].append(word.split('*')[1].split('"')[1])
+        mallet_save = []
+        for i in range(len(mallet_topics)):
+            mallet_save.append(mallet_topics[i])
+            mallet_save.append(mallet_percentages[i])
+        np.savetxt(f"{path_2_save_tml}/{num_topics}Topics.csv", mallet_save, delimiter=",", fmt='%s', encoding="utf-8")
+        total_topics = mallet_topics
+    else:
+        raise ValueError("Invalid topic modeling!")
+
+    try: c, cv = coherence(dictionary, bow_corpus, total_topics, tm_model)
+    except:pass
 
     # try:
     #     print('Visualization:\n')
@@ -94,19 +88,15 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, library,
     # except:
     #     pass
 
-    dictionary.save(f'{path_2_save_tml}/{library}_{num_topics}topics_TopicModelingDictionary.mm')
-
-    return dictionary, bow_corpus, total_topics, tm_model
-
+    dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
+    return dictionary, bow_corpus, total_topics, tm_model, c, cv
 
 def coherence(dictionary, bow_corpus, topics, lda_model):
-    cmn.logger.info(f'TopicModeling: Calculating model coherence:\n')
     cm = CoherenceModel(model=lda_model, corpus=bow_corpus, coherence='u_mass')
     coherence_value = cm.get_coherence()
     cm = CoherenceModel(topics=topics, dictionary=dictionary, corpus=bow_corpus, coherence='u_mass')
     topic_coherence = cm.get_coherence_per_topic()
     return coherence_value, topic_coherence
-
 
 def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml=Params.tml['path2save']):
     try:
@@ -124,32 +114,27 @@ def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml
 
 
 def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
-    if Params.tml['method'] == "gsdmm":
+    if Params.tml['method'].lower() == "gsdmm":
         doc_topic_vector = np.zeros((lda_model.K))
         d2t_vector = lda_model.score(doc)
-    elif Params.tml['method'] == "LDA":
+    elif Params.tml['method'][:3].lower() == "lda":
         doc_topic_vector = np.zeros((lda_model.num_topics))
-        try:
-            d2t_vector = lda_model.get_document_topics(doc)
+        try: d2t_vector = lda_model.get_document_topics(doc)
         except:
             gen_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model)
             d2t_vector = gen_model.get_document_topics(doc)
     else:
-        raise ValueError
+        raise ValueError("Invalid topic modeling!")
     d2t_vector = np.asarray(d2t_vector)
-    if len(d2t_vector) == 0:
-        return np.zeros(lda_model.num_topics)
-    if just_one:
-        doc_topic_vector[d2t_vector[:, 1].argmax()] = 1
+    if len(d2t_vector) == 0: return np.zeros(lda_model.num_topics)
+    if just_one: doc_topic_vector[d2t_vector[:, 1].argmax()] = 1
     else:
         for idx, t in enumerate(d2t_vector):
-            if Params.tml['method'] == "gsdmm": t_temp = t
-            elif Params.tml['method'] == "LDA": t_temp = t[1]
+            if Params.tml['method'].lower() == "gsdmm": t_temp = t
+            elif Params.tml['method'][:3].lower() == "lda": t_temp = t[1]
             if t_temp >= threshold:
-                if binary:
-                    doc_topic_vector[idx] = 1
-                else:
-                    doc_topic_vector[idx] = t_temp
+                if binary: doc_topic_vector[idx] = 1
+                else: doc_topic_vector[idx] = t_temp
     doc_topic_vector = np.asarray(doc_topic_vector)
     return doc_topic_vector
 

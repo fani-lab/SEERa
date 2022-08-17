@@ -14,8 +14,8 @@ from cmn import Common as cmn
 import Params
 
 def embedding(dim_emb, lookback, method='DynAERNN'):
-    methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
-    if method == methods[0]:
+    # methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    if method.lower() == 'ae':
         embedding_ = AE(d=dim_emb,
                        beta=5,
                        nu1=1e-6,
@@ -27,7 +27,7 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                        n_batch=100,
                        modelfile=[f'{Params.gel["path2save"]}/enc_model_AE.json', f'{Params.gel["path2save"]}/dec_model_AE.json'],
                        weightfile=[f'{Params.gel["path2save"]}/enc_weights_AE.hdf5', f'{Params.gel["path2save"]}/dec_weights_AE.hdf5'])
-    elif method == methods[1]:
+    elif method.lower() == 'dynae':
         embedding_ = DynAE(d=dim_emb,
                           beta=5,
                           n_prev_graphs=lookback,
@@ -41,7 +41,7 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                           modelfile=[f'{Params.gel["path2save"]}/enc_model_dynAE.json', f'{Params.gel["path2save"]}/dec_model_dynAE.json'],
                           weightfile=[f'{Params.gel["path2save"]}/enc_weights_dynAE.hdf5', f'{Params.gel["path2save"]}/dec_weights_dynAE.hdf5'],
                           savefilesuffix="testing")
-    elif method == methods[2]:
+    elif method.lower() == 'dynrnn':
         embedding_ = DynRNN(d=dim_emb,
                            beta=5,
                            n_prev_graphs=lookback,
@@ -56,7 +56,7 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                            modelfile=[f'{Params.gel["path2save"]}/enc_model_dynRNN.json', f'{Params.gel["path2save"]}/dec_model_dynRNN.json'],
                            weightfile=[f'{Params.gel["path2save"]}/enc_weights_dynRNN.hdf5', f'{Params.gel["path2save"]}/dec_weights_dynRNN.hdf5'],
                            savefilesuffix="testing")
-    elif method == methods[3]:
+    elif method.lower() == 'dynaernn':
         embedding_ = DynAERNN(d=dim_emb,
                              beta=5,
                              n_prev_graphs=lookback,
@@ -71,6 +71,8 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                              modelfile=[f'{Params.gel["path2save"]}/enc_model_dynAERNN.json', f'{Params.gel["path2save"]}/dec_model_dynAERNN.json'],
                              weightfile=[f'{Params.gel["path2save"]}/enc_weights_dynAERNN.hdf5', f'{Params.gel["path2save"]}/dec_weights_dynAERNN.hdf5'],
                              savefilesuffix="testing")
+    else:
+        raise ValueError('Incorrect graph embedding method!')
     return embedding_
 def main(graphs, method='DynAERNN'):
     # parameters for the dynamic embedding
@@ -85,7 +87,6 @@ def main(graphs, method='DynAERNN'):
         lookback = 2
         embedding_instance = embedding(dim_emb=dim_emb, lookback=lookback, method=method)
         embs = []
-        t1 = time()
 
         # Using the last graph for AE and all graphs for other baselines (but just one time) #
 
@@ -97,19 +98,14 @@ def main(graphs, method='DynAERNN'):
         #     embs.append(emb)
         # embs = np.asarray(embs)
 
-        if method == "AE":
-            emb, _ = embedding_instance.learn_embeddings(graphs[-1])
-        else:
-            emb, _ = embedding_instance.learn_embeddings(graphs)
+        if method == "AE": emb, _ = embedding_instance.learn_embeddings(graphs[-1])
+        else: emb, _ = embedding_instance.learn_embeddings(graphs)
         embs = [emb]
 
-        print('embedding shape: ', embs)
-        print(embedding_instance._method_name + ':\n\tTraining time: %f' % (time() - t1))
         # plt.figure()
         # plt.clf()
         # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
         #np.savez_compressed(f'{Params.gel["path2save"]}/embeddings.npz', a=embs)
-        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'wb') as f:
-            pickle.dump(embs, f)
+        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'wb') as f: pickle.dump(embs, f)
         # plt.show()
         return np.asarray(embs)

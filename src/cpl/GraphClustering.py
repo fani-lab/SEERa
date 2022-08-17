@@ -51,9 +51,9 @@ def main(embeddings, path2save, method='louvain', temporal=False):
     g = nx.from_scipy_sparse_matrix(pred_users_similarity, parallel_edges=False, create_using=None, edge_attribute='weight')
     nx.write_gpickle(g, f'{Params.cpl["path2save"]}/Graph.net')
     with open(f'{Params.cpl["path2save"]}/Graph.pkl', 'wb') as f: pickle.dump(g, f)
+    cmn.logger.info(f"(#Nodes/Users, #Edges): ({g.number_of_nodes()}, {g.number_of_edges()})")
 
     cmn.logger.info(f'5.3. Future Community Prediction ...')
-    cmn.logger.info(f"#Nodes(Users): {g.number_of_nodes()}, #Edges: {g.number_of_edges()}")
     # if method == 'louvain':
     louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=1)
     adj = nx.adjacency_matrix(g)
@@ -81,8 +81,7 @@ def main(embeddings, path2save, method='louvain', temporal=False):
         if len(Users_in_cluster) == 1: break
         else: cluster_members.append(len(Users_in_cluster))
 
-    cmn.logger.info(f"#Predicted Future Communities (Louvain): {lbls_louvain.max()}; ({lbls_louvain.max() - len(cluster_members)}) are singleton.")
-    cmn.logger.info(f'Communities Size: {cluster_members}')
+    cmn.logger.info(f"(#Future Communities, Communities Sizes) : ({lbls_louvain.max()}, {cluster_members}) ({lbls_louvain.max() - len(cluster_members)}) are singleton.")
     np.save(f'{Params.cpl["path2save"]}/PredUserClusters.npy', lbls_louvain)
     np.savetxt(f'{Params.cpl["path2save"]}/PredUserClusters.csv', lbls_louvain, fmt='%s')
 

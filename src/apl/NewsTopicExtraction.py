@@ -37,21 +37,20 @@ def main(news_table):
     np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
     text = text.values
     processed_docs = np.asarray([news.split() for news in text])
-    dict_path = glob.glob(f'{Params.tml["path2save"]}/*topics_TopicModelingDictionary.mm')[0]
+    dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(dict_path)
 
     # LDA Model Loading
-    if Params.tml['method'] == 'gsdmm':
-        model_name = glob.glob(f'{Params.tml["path2save"]}/Gensim_*Topics.pkl')[0]
+    if Params.tml['method'].lower() == 'gsdmm':
+        model_name = glob.glob(f'{Params.tml["path2save"]}/*Topics.pkl')[0]
         with open(model_name, 'rb') as g: tm_model = pickle.load(g)
     else:
+        method = Params.tml["method"].split('.')[-1]
         model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
-        gensim_mallet = model_name.split('\\')[-1].split('_')[0]
-        if gensim_mallet == 'Gensim':
-            cmn.logger.info(f"Loading LDA model (Gensim) ...")
+        cmn.logger.info(f'Loading {Params.tml["method"]} model ...')
+        if method.lower() == 'gensim':
             tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
-        elif gensim_mallet == 'Mallet':
-            cmn.logger.info(f"Loading LDA model (Mallet) ...")
+        elif method.lower == 'mallet':
             tm_model = gensim.models.wrappers.LdaMallet.load(model_name)
             tm_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(tm_model)
 

@@ -98,10 +98,7 @@ def main():
         return scores
     with open(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl', 'rb') as handle:
         top_recommendation_user = pickle.load(handle)
-    end_date = pd.Timestamp(str(Params.dal['end']))
-    day_before = 0
-    day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
-    cmn.logger.info("Selected date for evaluation: "+str(day.date()))
+
     tbl = user_mentions()
     f = open(f'{Params.apl["path2save"]}/evl/UserMentions.pkl', "wb")
     pickle.dump(tbl, f)
