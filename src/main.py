@@ -161,7 +161,8 @@ def aggregate(output_path):
     pred_eval_mean_agg = pd.DataFrame()
     for i, path in enumerate(pred_eval_mean_path):
         pred_eval_mean = pd.read_csv(path)
-        tml_gel = path.split('\\')[-4]
+        try: tml_gel = path.split('\\')[-4]
+        except: tml_gel = path.split('/')[-4]
         df = pd.DataFrame(pred_eval_mean.score.values.reshape(1, pred_eval_mean.count()['metric']), index=[tml_gel], columns=pred_eval_mean.metric.values)
         pred_eval_mean_agg = pd.concat((df, pred_eval_mean_agg))
     pred_eval_mean_agg.to_csv(f'{output_path}/Pred.Eval.Mean.Agg.csv')

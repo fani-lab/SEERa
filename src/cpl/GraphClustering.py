@@ -55,7 +55,10 @@ def main(embeddings, path2save, method='louvain', temporal=False):
 
     cmn.logger.info(f'5.3. Future Community Prediction ...')
     # if method == 'louvain':
-    louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=1)
+    try:
+        louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=1)
+    except:
+        louvain = skn.clustering.Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
     adj = nx.adjacency_matrix(g)
     lbls_louvain = louvain.fit_transform(adj)
     lbls_louvain = np.asarray(lbls_louvain)
