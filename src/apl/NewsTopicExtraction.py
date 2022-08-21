@@ -6,11 +6,12 @@ import glob
 import pickle
 import os, sys
 import tagme
+from tqdm import tqdm
 
 import Params
 from tml import TopicModeling as tm
 from cmn import Common as cmn
-from dal import DataPreparation as DP
+from dal import DataPreparation as dp
 
 
 def text2tagme(news_table, threshold=0.05):
@@ -35,8 +36,13 @@ def main(news_table):
     text = news_table[Params.apl["textTitle"]].dropna()
     news_ids = text.index
     np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
-    text = text.values
-    processed_docs = np.asarray([news.split() for news in text])
+    if Params.dal['tagMe']:
+        tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
+        for doc in tqdm(news_table.itertuples(), total=news_table.shape[0]):
+            news_table.at[doc.Index, Params.apl["textTitle"]] = dp.tagme_annotator(doc.Text).split()
+        processed_docs = news_table[Params.apl["textTitle"]]
+    else:
+        processed_docs = np.asarray([news.split() for news in text])
     dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(dict_path)
 

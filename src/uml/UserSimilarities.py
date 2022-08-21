@@ -10,6 +10,7 @@ import Params
 from cmn import Common as cmn
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
+from dal import DataPreparation as dp
 
 
 def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one, binary, threshold):
@@ -30,7 +31,12 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
         cmn.logger.info(f'{len(c)} users have twitted in {day}')
         len_users.append(len(c['UserId']))
         for index, row in c.iterrows():
-            doc = row['Text']
+            if Params.dal['tagMe']:
+                import tagme
+                tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
+                doc = dp.tagme_annotator(row['Text'])
+            else:
+                doc = row['Text']
             user = row['UserId']
             user_bow_corpus = dictionary.doc2bow(doc.split())
             d2t = tm.doc2topics(lda_model, user_bow_corpus, threshold=threshold, just_one=just_one, binary=binary)

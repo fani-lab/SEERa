@@ -81,7 +81,7 @@ def main(embeddings, path2save, method='louvain', temporal=False):
     cluster_members = []
     for UC in range(lbls_louvain.min(), lbls_louvain.max() + 1):
         Users_in_cluster = np.where(lbls_louvain == UC)[0]
-        if len(Users_in_cluster) == 1: break
+        if len(Users_in_cluster) < Params.cpl['minSize']: break
         else: cluster_members.append(len(Users_in_cluster))
 
     cmn.logger.info(f"(#Future Communities, Communities Sizes) : ({lbls_louvain.max()}, {cluster_members}) ({lbls_louvain.max() - len(cluster_members)}) are singleton.")

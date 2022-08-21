@@ -79,7 +79,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         raise ValueError("Invalid topic modeling!")
 
     try: c, cv = coherence(dictionary, bow_corpus, total_topics, tm_model)
-    except:pass
+    except: c, cv = None, None
 
     # try:
     #     print('Visualization:\n')
@@ -130,11 +130,12 @@ def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
     if just_one: doc_topic_vector[d2t_vector[:, 1].argmax()] = 1
     else:
         for idx, t in enumerate(d2t_vector):
-            if Params.tml['method'].lower() == "gsdmm": t_temp = t
-            elif Params.tml['method'][:3].lower() == "lda": t_temp = t[1]
+            if Params.tml['method'].lower() == "gsdmm": topic_id, t_temp = idx, t
+            elif Params.tml['method'][:3].lower() == "lda": topic_id, t_temp = t
+            else: raise ValueError("Invalid topic modeling!")
             if t_temp >= threshold:
-                if binary: doc_topic_vector[idx] = 1
-                else: doc_topic_vector[idx] = t_temp
+                if binary: doc_topic_vector[int(topic_id)] = 1
+                else: doc_topic_vector[int(topic_id)] = t_temp
     doc_topic_vector = np.asarray(doc_topic_vector)
     return doc_topic_vector
 

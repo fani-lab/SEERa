@@ -4,6 +4,7 @@ import pandas as pd
 import gensim
 import numpy as np
 from tqdm import tqdm
+import tagme
 import os, sys, re
 from gensim.parsing.preprocessing import STOPWORDS
 # from nltk.stem import WordNetLemmatizer, SnowballStemmer
@@ -26,20 +27,25 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
 
     n_users = len(posts['UserId'].unique())
     n_timeintervals = len(posts['CreationDate'].unique())
-    assert (not userModeling or timeModeling) #if usermodeling then timemodeling
+    #assert (not userModeling or timeModeling) #if usermodeling then timemodeling
     if userModeling and timeModeling: documents = posts.groupby(['UserId', 'CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
-    #elif userModeling: documents = data.groupby(['UserId'])['Tokens'].apply(lambda x: ' '.join(x)).reset_index()
-    elif timeModeling: documents = posts.groupby(['CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
+    elif userModeling:
+        documents = posts.groupby(['UserId'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
+        dates = posts['CreationDate']
+        dates[dates != Params.dal['end']] = datetime.datetime.strptime(startDate, '%Y-%m-%d')
+        documents.insert(1, 'CreationDate', dates)
+    elif timeModeling:
+        documents = posts.groupby(['CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
+        documents.insert(0, 'UserId', np.ones(len(documents)))
     else:
         documents = posts[['UserId', 'Text', 'CreationDate']]
-    documents.to_csv(f"../output/{Params.general['baseline']}/Documents.csv", encoding='utf-8', index=False)
 
     if TagME: #cannot be sooner because TagMe needs context, the more the better
         import tagme
         tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
         for doc in tqdm(documents.itertuples(), total=documents.shape[0]):
-            doc.Text = TAGME(doc.Text)
-
+            documents.at[doc.Index, 'Text'] = tagme_annotator(doc.Text)
+    documents.to_csv(f"../output/{Params.general['baseline']}/Documents.csv", encoding='utf-8', index=False)
     prosdocs = np.asarray(documents['Text'].str.split())
     np.savez_compressed(f"../output/{Params.general['baseline']}/Prosdocs.npz", a=prosdocs)
 
@@ -57,13 +63,13 @@ def preprocess(text):
 
     return result
 
-def TAGME(text, threshold=0.05):
+def tagme_annotator(text, threshold=0.05):
     annotations = tagme.annotate(text)
     result = []
     if annotations is not None:
         for keyword in annotations.get_annotations(threshold):
             result.append(keyword.entity_title)
-    return result
+    return ' '.join(result)
 
 ## test
 # dataset = dr.load_tweets(Tagme=True, start='2011-01-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'])
