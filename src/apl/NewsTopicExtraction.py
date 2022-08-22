@@ -33,8 +33,8 @@ def text2tagme(news_table, threshold=0.05):
     return result
 
 def main(news_table):
-    text = news_table[Params.apl["textTitle"]].dropna()
-    news_ids = text.index
+    news_table = news_table[news_table[Params.apl["textTitle"]].notna()]
+    news_ids = news_table.NewsId
     np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
     if Params.dal['tagMe']:
         tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
@@ -42,7 +42,7 @@ def main(news_table):
             news_table.at[doc.Index, Params.apl["textTitle"]] = dp.tagme_annotator(doc.Text).split()
         processed_docs = news_table[Params.apl["textTitle"]]
     else:
-        processed_docs = np.asarray([news.split() for news in text])
+        processed_docs = np.asarray([dp.preprocess(news).split() for news in news_table[Params.apl["textTitle"]]])
     dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
     dictionary = gensim.corpora.Dictionary.load(dict_path)
 

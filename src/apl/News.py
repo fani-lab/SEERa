@@ -55,8 +55,8 @@ def main():
     except:
         cmn.logger.info(f"6.1 News articles do not exist! Crawling news articles ...")
         NC.news_crawler(news_path, tweet_entities_path)
-        stats(news_table)
         news_table = pd.read_csv(news_path)
+        stats(news_table)
 
     cmn.logger.info(f"6.2 Inferring news articles' topics ...")
     try:
