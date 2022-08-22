@@ -55,7 +55,7 @@ def user_mentions():
         users_news[uid] = []
     for index, row in news.iterrows():
         row_date = tweets.loc[tweets['Id'] == tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['TweetId'].values[0]]['CreationTimestamp'].values[0].split()[0]
-        if datetime.datetime.strptime(row_date, '%m/%d/%Y').strftime("%Y-%m-%d") == Params.dal['end']: # May need changes for new news dataset
+        if (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date, '%m/%d/%Y')).days <= Params.dal['timeInterval']: # May need changes for new news dataset
             uid = tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['UserOrMediaId'].values[0]
             users_news[uid].append(row["NewsId"])
     return users_news

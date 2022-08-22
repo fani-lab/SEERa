@@ -16,15 +16,16 @@ from cmn import Common as cmn
 import Params
 
 def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeInterval, stopwords=['www', 'RT', 'com', 'http']):
-
     date_time_obj = datetime.datetime.strptime(startDate, '%Y-%m-%d').date()
     startDateOrdinal = date_time_obj.toordinal()
+    posts_temp = []
     for post in tqdm(posts.itertuples(), total=posts.shape[0]):
         date = post.CreationDate.toordinal() - startDateOrdinal
         exeededdays = date % timeInterval
-        post._replace(CreationDate=(post.CreationDate - datetime.timedelta(exeededdays)).date())
-        post._replace(Text=preprocess(post.Text))
-
+        post = post._replace(CreationDate=(post.CreationDate - datetime.timedelta(exeededdays)).date())
+        post = post._replace(Text=preprocess(post.Text))
+        posts_temp.append(post)
+    posts = pd.DataFrame(posts_temp)
     n_users = len(posts['UserId'].unique())
     n_timeintervals = len(posts['CreationDate'].unique())
     #assert (not userModeling or timeModeling) #if usermodeling then timemodeling
@@ -61,7 +62,7 @@ def preprocess(text):
     text = text.lower()
     result = [token for token in gensim.utils.simple_preprocess(text) if token not in STOPWORDS and len(token) > 2]
 
-    return result
+    return ' '.join(result)
 
 def tagme_annotator(text, threshold=0.05):
     annotations = tagme.annotate(text)
