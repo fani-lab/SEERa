@@ -7,6 +7,7 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import gensim
 from gensim.models.coherencemodel import CoherenceModel
 from gsdmm import MovieGroupProcess
+import csv
 #import pyLDAvis
 #import pyLDAvis.gensim
 
@@ -17,13 +18,31 @@ import Params
 def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_save_tml):
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
     dictionary = gensim.corpora.Dictionary(processed_docs)
+    dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
     if filter_extremes: dictionary.filter_extremes(no_below=1, no_above=0.20, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
     if method.lower() == "gsdmm":
-        tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.05, beta=0.05, n_iters=30)
+        tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=30)
         output = tm_model.fit(bow_corpus, len(dictionary))
+        d = gensim.corpora.Dictionary.load(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
         total_topics = tm_model.cluster_word_distribution
+        gsdmm_save = []
+        gsdmm_topic = []
+        gsdmm_percentage = []
+        for topic_index, topic in enumerate(total_topics):
+            gsdmm_topic.append([])
+            gsdmm_percentage.append([])
+            for word in topic:
+                gsdmm_topic[-1].append(d[word[0]])
+                gsdmm_percentage[-1].append(topic[word]/tm_model.cluster_word_count[topic_index])
+        for i in range(len(gsdmm_topic)):
+            gsdmm_save.append(gsdmm_topic[i])
+            gsdmm_save.append(gsdmm_percentage[i])
+
+        with open(f"{path_2_save_tml}/{num_topics}Topics.csv", "w+", newline='') as my_csv:
+            csvWriter = csv.writer(my_csv, delimiter=',')
+            csvWriter.writerows(gsdmm_save)
         with open(f"{path_2_save_tml}/{tm_model.K}Topics.pkl", 'wb') as g: pickle.dump(tm_model, g)
 
     elif method.lower() == "lda.gensim":
@@ -88,7 +107,6 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     # except:
     #     pass
 
-    dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
     return dictionary, bow_corpus, total_topics, tm_model, c, cv
 
 def coherence(dictionary, bow_corpus, topics, lda_model):
