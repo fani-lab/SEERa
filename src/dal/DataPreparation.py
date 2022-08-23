@@ -59,6 +59,7 @@ def preprocess(text):
     # stemmer = SnowballStemmer('english')
     text = re.sub('RT @\w +: ', ' ', text)
     text = re.sub('(@[A-Za-z0–9]+) | ([0-9A-Za-z \t]) | (\w+:\ / \ / \S+)', ' ', text)
+    text = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ' ', text)
     text = text.lower()
     result = [token for token in gensim.utils.simple_preprocess(text) if token not in STOPWORDS and len(token) > 2]
 

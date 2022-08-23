@@ -28,7 +28,7 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
     while day <= end_date:
         users_topic_interests = pd.DataFrame()
         c = documents[(documents['CreationDate'].dt.date == day.date())]
-        cmn.logger.info(f'{len(c)} users have twitted in {day}')
+        cmn.logger.info(f'{len(c)} users have twitted in {day.date()}')
         len_users.append(len(c['UserId']))
         for index, row in c.iterrows():
             if Params.dal['tagMe']:
@@ -47,14 +47,13 @@ def main(documents, dictionary, lda_model, num_topics, path2_save_uml, just_one,
             if user not in users_topic_interests:
                 users_topic_interests[user] = np.zeros(d2t.shape)
 
-        day_str = str(day.date())
-        np.save(f'{path2_save_uml}/Day{day_str}UsersTopicInterests.npy', users_topic_interests)
-        np.save(f'{path2_save_uml}/Day{day_str}UserIDs.npy', c['UserId'].values)
-        cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npy is saved for day:{day} with shape: {users_topic_interests.T.shape}')
+        np.save(f'{path2_save_uml}/Day{day.date()}UsersTopicInterests.npy', users_topic_interests)
+        np.save(f'{path2_save_uml}/Day{day.date()}UserIDs.npy', c['UserId'].values)
+        cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npy is saved for day:{day.date()} with shape: {users_topic_interests.T.shape}')
 
         graph = UG.create_users_graph(day, users_topic_interests, f'{path2_save_uml}/graphs/pajek')
-        nx.write_gpickle(graph, f'{path2_save_uml}/graphs/{day_str}.net')
-        cmn.logger.info(f'UserSimilarity: A graph is being created for day:{day} with {len(users_topic_interests.T)} users')
+        nx.write_gpickle(graph, f'{path2_save_uml}/graphs/{day.date()}.net')
+        cmn.logger.info(f'UserSimilarity: A graph is being created for day: {day.date()} with {len(users_topic_interests.T)} users')
         cmn.logger.info(f'UserSimilarity: Number of users per day: {len_users}')
         cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
         day = day + pd._libs.tslibs.timestamps.Timedelta(days=Params.dal['timeInterval'])

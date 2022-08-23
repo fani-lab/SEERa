@@ -17,7 +17,7 @@ tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
     'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
-    'filterExtremes': False,
+    'filterExtremes': True,
     'justOne': False,
     'binary': False,
     'threshold': 0.5,
@@ -29,8 +29,8 @@ uml = {
 }
 gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
-    'embeddingDim': 32,
-    'epoch': 100,
+    'embeddingDim': 64,
+    'epoch': 10,
     'method': '@gel_method' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {

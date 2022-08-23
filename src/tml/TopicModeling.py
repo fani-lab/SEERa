@@ -19,7 +19,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
     dictionary = gensim.corpora.Dictionary(processed_docs)
     dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
-    if filter_extremes: dictionary.filter_extremes(no_below=1, no_above=0.20, keep_n=100000)
+    if filter_extremes: dictionary.filter_extremes(no_below=2, no_above=0.50, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
     if method.lower() == "gsdmm":
