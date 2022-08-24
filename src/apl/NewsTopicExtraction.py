@@ -56,7 +56,7 @@ def main(news_table):
         cmn.logger.info(f'Loading {Params.tml["method"]} model ...')
         if method.lower() == 'gensim':
             tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
-        elif method.lower == 'mallet':
+        elif method.lower() == 'mallet':
             tm_model = gensim.models.wrappers.LdaMallet.load(model_name)
             tm_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(tm_model)
 
