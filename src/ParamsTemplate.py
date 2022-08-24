@@ -20,11 +20,11 @@ tml = {
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
-    'threshold': 0.5,
+    'threshold': 0.3,
     'method': '@tml_method' #['lda.gensim', 'lda.mallet', 'gsdmm']
 }
 uml = {
-    'userSimilarityThreshold': 0.2,
+    'userSimilarityThreshold': 0.8,
     'path2save': f'../output/{general["baseline"]}/uml'
 }
 gel = {

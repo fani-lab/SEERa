@@ -19,7 +19,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
     dictionary = gensim.corpora.Dictionary(processed_docs)
     dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
-    if filter_extremes: dictionary.filter_extremes(no_below=2, no_above=0.50, keep_n=100000)
+    if filter_extremes: dictionary.filter_extremes(no_below=2, no_above=0.60, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
     if method.lower() == "gsdmm":
@@ -135,12 +135,15 @@ def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
     if Params.tml['method'].lower() == "gsdmm":
         doc_topic_vector = np.zeros((lda_model.K))
         d2t_vector = lda_model.score(doc)
-    elif Params.tml['method'][:3].lower() == "lda":
+    elif Params.tml["method"].split('.')[0].lower() == 'lda':
         doc_topic_vector = np.zeros((lda_model.num_topics))
-        try: d2t_vector = lda_model.get_document_topics(doc)
-        except:
+        if Params.tml["method"].split('.')[-1].lower() == 'gensim':
+            d2t_vector = lda_model.get_document_topics(doc)
+        elif Params.tml["method"].split('.')[-1].lower() == 'mallet':
             gen_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model)
             d2t_vector = gen_model.get_document_topics(doc)
+        else: raise ValueError("Invalid topic modeling!")
+
     else:
         raise ValueError("Invalid topic modeling!")
     d2t_vector = np.asarray(d2t_vector)

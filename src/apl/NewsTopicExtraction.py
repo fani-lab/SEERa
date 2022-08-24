@@ -51,14 +51,11 @@ def main(news_table):
         model_name = glob.glob(f'{Params.tml["path2save"]}/*Topics.pkl')[0]
         with open(model_name, 'rb') as g: tm_model = pickle.load(g)
     else:
-        method = Params.tml["method"].split('.')[-1]
+        method = Params.tml["method"].split('.')
         model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
         cmn.logger.info(f'Loading {Params.tml["method"]} model ...')
-        if method.lower() == 'gensim':
+        if method[0].lower() == 'lda':
             tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
-        elif method.lower() == 'mallet':
-            tm_model = gensim.models.wrappers.LdaMallet.load(model_name)
-            tm_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(tm_model)
 
     # topics = ldaModel.get_document_topics(bow_corpus)
     total_news_topics = []
