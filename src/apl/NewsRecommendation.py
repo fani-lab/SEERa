@@ -99,8 +99,14 @@ def main(news_topics, top_k=10):
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
     news_ids = news["NewsId"]
     user_clusters = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
-    communities_topic_interests = communities_topic_interest(user_clusters, news_topics)
-    top_recommendations = recommend(communities_topic_interests, news_topics, news_ids, top_k)
+    try:
+        communities_topic_interests = np.load(f'{Params.apl["path2save"]}/CommunitiesTopicInterests.npy')
+    except:
+        communities_topic_interests = communities_topic_interest(user_clusters, news_topics)
+    try:
+        top_recommendations = np.load(f'{Params.apl["path2save"]}/TopRecommendationsCluster.npy')
+    except:
+        top_recommendations = recommend(communities_topic_interests, news_topics, news_ids, top_k)
     return user_recommend(user_clusters, top_recommendations)
 
 

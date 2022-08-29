@@ -47,17 +47,22 @@ def dictionary_generation(top_recommendations, mentions):
 
 
 def user_mentions():
-    users_news = {}
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
     tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
     tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
-    for uid in tweet_entities['UserOrMediaId']:
-        users_news[uid] = []
-    for index, row in news.iterrows():
-        row_date = tweets.loc[tweets['Id'] == tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['TweetId'].values[0]]['CreationTimestamp'].values[0].split()[0]
-        if (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date, '%m/%d/%Y')).days <= Params.dal['timeInterval']: # May need changes for new news dataset
-            uid = tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['UserOrMediaId'].values[0]
-            users_news[uid].append(row["NewsId"])
+    tweet_entities_with_tweetid = tweet_entities[tweet_entities['TweetId'].notna()]
+    tweet_entities_with_tweetid_and_url = tweet_entities_with_tweetid[tweet_entities_with_tweetid['ExpandedUrl'].notna()]
+    users_news = {}
+    for index, row in tweet_entities_with_tweetid_and_url.iterrows():
+        row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
+        is_last = (datetime.datetime.strptime('2010-12-04', '%Y-%m-%d') - datetime.datetime.strptime(row_date,'%Y-%m-%d')).days < 1  # May need changes for new news dataset
+        uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
+        if pd.notna(uid) and is_last:
+            try:
+                news_id = news[news['ExpandedUrl'] == row['ExpandedUrl']]['NewsId'].values[0]
+                users_news.setdefault(uid, []).append(news_id)
+            except:
+                pass
     return users_news
 
 
@@ -96,13 +101,10 @@ def main():
         scores = np.asarray(intrinsic_evaluation(user_communities, golden_standard))
         np.save(f'{Params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
         return scores
-    with open(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl', 'rb') as handle:
-        top_recommendation_user = pickle.load(handle)
-
-    tbl = user_mentions()
-    f = open(f'{Params.apl["path2save"]}/evl/UserMentions.pkl', "wb")
-    pickle.dump(tbl, f)
-    f.close()
-    r_user, m_user = dictionary_generation(top_recommendation_user, tbl)
-    pytrec_result = pytrec_eval_run(m_user, r_user)
-    return pytrec_result
+    if Params.evl['evaluationType'] == "Extrinsic":
+        tbl = user_mentions()
+        pd.to_pickle(tbl, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
+        top_recommendation_user = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
+        r_user, m_user = dictionary_generation(top_recommendation_user, tbl)
+        pytrec_result = pytrec_eval_run(m_user, r_user)
+        return pytrec_result

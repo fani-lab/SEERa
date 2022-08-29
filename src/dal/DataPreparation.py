@@ -23,8 +23,9 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
         date = post.CreationDate.toordinal() - startDateOrdinal
         exeededdays = date % timeInterval
         post = post._replace(CreationDate=(post.CreationDate - datetime.timedelta(exeededdays)).date())
-        post = post._replace(Text=preprocess(post.Text))
-        posts_temp.append(post)
+        preprocessed_text = preprocess(post.Text, stopwords=True)
+        if len(preprocessed_text)>0:
+            posts_temp.append(post._replace(Text=preprocessed_text))
     posts = pd.DataFrame(posts_temp)
     n_users = len(posts['UserId'].unique())
     n_timeintervals = len(posts['CreationDate'].unique())

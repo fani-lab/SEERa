@@ -18,8 +18,9 @@ import Params
 def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_save_tml):
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
     dictionary = gensim.corpora.Dictionary(processed_docs)
-    dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
+
     if filter_extremes: dictionary.filter_extremes(no_below=2, no_above=0.60, keep_n=100000)
+    dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
     if method.lower() == "gsdmm":
@@ -33,7 +34,8 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         for topic_index, topic in enumerate(total_topics):
             gsdmm_topic.append([])
             gsdmm_percentage.append([])
-            for word in topic:
+            for word_count, word in enumerate(topic):
+                if word_count == 10: break
                 gsdmm_topic[-1].append(d[word[0]])
                 gsdmm_percentage[-1].append(topic[word]/tm_model.cluster_word_count[topic_index])
         for i in range(len(gsdmm_topic)):
@@ -72,7 +74,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     elif method.lower() == "lda.mallet":
         os.environ['MALLET_HOME'] = Params.tml['malletHome']
         mallet_path = f'{Params.tml["malletHome"]}/bin/mallet'
-        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary)
+        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=8)
         tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
         mallet_topics = []
         mallet_percentages = []

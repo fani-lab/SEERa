@@ -8,7 +8,7 @@ import Params
 from cmn import Common as cmn
 
 def create_users_graph(day, users_topic_interests, path_2_save):
-    num_users = len(users_topic_interests)
+    num_users = len(users_topic_interests.T)
     cmn.logger.info(f'UsersGraph: There are {num_users} users on {day.date()}')
     if num_users < 1:
         return -1
