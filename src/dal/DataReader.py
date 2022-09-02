@@ -13,6 +13,7 @@ def load_posts(path, start_date, end_date):
     posts.rename(columns={'Id': 'TweetId', 'CreationTimestamp': 'CreationDate'}, inplace=True)
     posts = posts[posts.TweetId != -1]  # remove rows with tweet ids -1 value
     posts = posts[posts.UserId != -1]  # remove rows with user ids with -1 value
+    posts.dropna(subset=['Text'], inplace=True)
     posts = posts.loc[(posts['CreationDate'].dt.date >= start.date()) & (posts['CreationDate'].dt.date <= end.date())]
     # posts['ModificationTimestamp'] = pd.to_datetime(tweets['ModificationTimestamp'])
     posts['CreationDate'] = pd.to_datetime(posts['CreationDate'])  # declare that creationdate and modification timestamp is a datetime value

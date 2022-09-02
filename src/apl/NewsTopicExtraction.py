@@ -34,7 +34,7 @@ def text2tagme(news_table, threshold=0.05):
 
 def main(news_table):
     news_table = news_table[news_table[Params.apl["textTitle"]].notna()]
-    news_ids = news_table.NewsId
+    news_ids = news_table['NewsId']
     np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
     if Params.dal['tagMe']:
         tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"

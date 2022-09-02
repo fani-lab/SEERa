@@ -25,8 +25,9 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
 
     if method.lower() == "gsdmm":
         tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=30)
-        output = tm_model.fit(bow_corpus, len(dictionary))
-        d = gensim.corpora.Dictionary.load(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
+        #output = tm_model.fit(bow_corpus, len(dictionary))
+        tm_model.fit(bow_corpus, len(dictionary))
+        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
         total_topics = tm_model.cluster_word_distribution
         gsdmm_save = []
         gsdmm_topic = []
@@ -36,7 +37,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
             gsdmm_percentage.append([])
             for word_count, word in enumerate(topic):
                 if word_count == 10: break
-                gsdmm_topic[-1].append(d[word[0]])
+                gsdmm_topic[-1].append(dictionary[word[0]])
                 gsdmm_percentage[-1].append(topic[word]/tm_model.cluster_word_count[topic_index])
         for i in range(len(gsdmm_topic)):
             gsdmm_save.append(gsdmm_topic[i])
@@ -137,6 +138,8 @@ def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
     if Params.tml['method'].lower() == "gsdmm":
         doc_topic_vector = np.zeros((lda_model.K))
         d2t_vector = lda_model.score(doc)
+        c = np.reshape(range(len(d2t_vector)), (-1, 1))
+        d2t_vector = np.concatenate([c, np.reshape(d2t_vector, (-1, 1))], axis=1)
     elif Params.tml["method"].split('.')[0].lower() == 'lda':
         doc_topic_vector = np.zeros((lda_model.num_topics))
         if Params.tml["method"].split('.')[-1].lower() == 'gensim':
