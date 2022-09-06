@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytrec_eval
-import matplotlib.pyplot as plt
 import os
-import json
 import datetime
 from cmn import Common as cmn
 import pickle
@@ -48,6 +46,7 @@ def dictionary_generation(top_recommendations, mentions):
 
 def user_mentions():
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
+    news = news[news[Params.apl["textTitle"]].notna()]
     tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
     tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
     tweet_entities_with_tweetid = tweet_entities[tweet_entities['TweetId'].notna()]
@@ -102,9 +101,16 @@ def main():
         np.save(f'{Params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
         return scores
     if Params.evl['evaluationType'] == "Extrinsic":
-        tbl = user_mentions()
-        pd.to_pickle(tbl, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
+        try:
+            users_mentions = pd.read_pickle(f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
+        except:
+            users_mentions = user_mentions()
+            pd.to_pickle(users_mentions, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
         top_recommendation_user = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
-        r_user, m_user = dictionary_generation(top_recommendation_user, tbl)
+        user_intersection = np.intersect1d(np.asarray(list(top_recommendation_user.keys())), np.asarray(list(users_mentions.keys())))
+        top_recommendation_mentioned_user = {muser: top_recommendation_user[muser] for muser in user_intersection}
+        users_mentions_mentioned_user = {muser: users_mentions[muser] for muser in user_intersection}
+        r_user, m_user = dictionary_generation(top_recommendation_mentioned_user, users_mentions_mentioned_user)
         pytrec_result = pytrec_eval_run(m_user, r_user)
         return pytrec_result
+    

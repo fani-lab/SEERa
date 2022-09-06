@@ -5,7 +5,7 @@ general = {
     'cuda': '-1'
 }
 dal = {
-    'path': '../data/toy.synthetic',
+    'path': '../data/toy',
     'userModeling': True,#if true, timeModeling must be true also
     'timeModeling': True,
     'start': '2010-12-01',

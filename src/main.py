@@ -47,8 +47,7 @@ def main():
                                                         timeModeling=Params.dal['timeModeling'],
                                                         TagME=Params.dal['tagMe'],
                                                         startDate=Params.dal['start'],
-                                                        timeInterval=Params.dal['timeInterval'],
-                                                        stopwords=['www', 'RT', 'com', 'http'])
+                                                        timeInterval=Params.dal['timeInterval'])
 
     cmn.logger.info(f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
@@ -58,16 +57,21 @@ def main():
     try:
         t_s = time()
         path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
-        path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
+        if Params.tml['method'].split('.')[0]=='lda':
+            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
+            tml_model = gensim.models.LdaModel.load(path_mdl)
+        elif Params.tml['method']=='gsdmm':
+            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
+            tml_model = pd.read_pickle(path_mdl)
+        else: raise ValueError('TML method is not found!')
         cmn.logger.info(f'2.1. Loading saved topic model of {Params.tml["method"]} from {path_dict} and {path_mdl} ...')
         dictionary = gensim.corpora.Dictionary.load(path_dict)
-        lda_model = gensim.models.LdaModel.load(path_mdl)
+
     except (FileNotFoundError, EOFError) as e:
         from tml import TopicModeling as tm
         cmn.logger.info(f'2.1. Loading saved topic model failed! Training a model ...')
         cmn.logger.info(f'(#Topics, Model): ({Params.tml["numTopics"]}, {Params.tml["method"]})')
-
-        dictionary, _, _, lda_model, c, cv = tm.topic_modeling(processed_docs,
+        dictionary, _, _, tml_model, c, cv = tm.topic_modeling(processed_docs,
                                                         method=Params.tml['method'],
                                                         num_topics=Params.tml['numTopics'],
                                                         filter_extremes=Params.tml['filterExtremes'],
@@ -85,20 +89,23 @@ def main():
         t_s = time()
         path = f'{Params.uml["path2save"]}/graphs/graphs.pkl'
         cmn.logger.info(f"3.1. Loading users' graph stream from {path} ...")
-        with open(path, 'rb') as g: graphs = pickle.load(g)
+        graphs = pd.read_pickle(path)
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"3.1. Loading users' graph stream failed! Generating the graph stream ...")
 
-        US.main(documents, dictionary, lda_model,
-                num_topics=Params.tml['numTopics'],
+        US.main(documents, dictionary, tml_model,
                 path2_save_uml=Params.uml['path2save'],
                 just_one=Params.tml['justOne'], binary=Params.tml['binary'], threshold=Params.tml['threshold'])
 
-        graphs_path = glob.glob(f'{Params.uml["path2save"]}/graphs/*.net')
+        graphs_path = glob.glob(f'{Params.uml["path2save"]}/graphs/*.npz')
         graphs = []
-        for gp in graphs_path: graphs.append(nx.read_gpickle(gp))
-        with open(f'{Params.uml["path2save"]}/graphs/graphs.pkl', 'wb') as g: pickle.dump(graphs, g)
+        for gp in graphs_path:
+            graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
+            graphs.append(graph)
+        pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
+        np.savez(f'{Params.uml["path2save"]}/graphs/graphs.pkl', graphs)
+        #sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
     cmn.logger.info(f'(#Graphs): ({len(graphs)})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
@@ -108,25 +115,26 @@ def main():
     try:
         t_s = time()
         cmn.logger.info(f'4.1. Loading embeddings ...')
-        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'rb') as handle: embeddings = pickle.load(handle)
+        embeddings = pd.read_pickle(f'{Params.gel["path2save"]}/Embeddings.pkl')
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'4.1. Loading embeddings failed! Training {Params.gel["method"]} ...')
         from gel import GraphEmbedding as GE
         embeddings = GE.main(graphs, method=Params.gel['method'])
-    cmn.logger.info(f'(#Embeddings, #Dimension) : ({embeddings[0].shape})')
+    cmn.logger.info(f'(#Embeddings, #Dimension) : ({len(embeddings)}, {len(embeddings[list(embeddings.keys())[0]])})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     # Community Extraction
     cmn.logger.info(f'\n5. Community Prediction ...')
     cmn.logger.info('#' * 50)
+    t_s = time()
     try:
-        t_s = time()
         cmn.logger.info(f'5.1. Loading future user communities ...')
-        communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
+        np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
+        pd.read_csv(f'{Params.cpl["path2save"]}/ClusterTopic.csv')
     except:
         cmn.logger.info(f'Loading future user communities failed! Predicting future user communities ...')
         from cpl import GraphClustering as GC
-        communities = GC.main(np.asarray(embeddings), Params.cpl['path2save'], Params.cpl['method'])
+        GC.main(embeddings, Params.cpl['method'])
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     # News Article Recommendation
@@ -135,8 +143,8 @@ def main():
     t_s = time()
     from apl import News
     news_output = News.main()
-    return news_output
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
+    return news_output
 
 
 def run(tml_baselines, gel_baselines, run_desc):

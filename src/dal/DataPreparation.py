@@ -5,17 +5,15 @@ import gensim
 import numpy as np
 from tqdm import tqdm
 import tagme
-import os, sys, re
+import re
 from gensim.parsing.preprocessing import STOPWORDS
-# from nltk.stem import WordNetLemmatizer, SnowballStemmer
 global TagmeCounter
 global DataLen
 import datetime
 
-from cmn import Common as cmn
 import Params
 
-def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeInterval, stopwords=['www', 'RT', 'com', 'http']):
+def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeInterval):
     date_time_obj = datetime.datetime.strptime(startDate, '%Y-%m-%d').date()
     startDateOrdinal = date_time_obj.toordinal()
     posts_temp = []
@@ -29,7 +27,7 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
     posts = pd.DataFrame(posts_temp)
     n_users = len(posts['UserId'].unique())
     n_timeintervals = len(posts['CreationDate'].unique())
-    #assert (not userModeling or timeModeling) #if usermodeling then timemodeling
+    posts.to_csv(f"../output/{Params.general['baseline']}/Posts.csv", encoding='utf-8', index=False)
     if userModeling and timeModeling: documents = posts.groupby(['UserId', 'CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
     elif userModeling:
         documents = posts.groupby(['UserId'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
@@ -53,17 +51,13 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
 
     return prosdocs, documents, n_users, n_timeintervals
 
-def lemmatize_stemming(text, stemmer):
-    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
-
-def preprocess(text):
-    # stemmer = SnowballStemmer('english')
+def preprocess(text, stopwords=True):
+    if stopwords: text = gensim.parsing.preprocessing.remove_stopwords(text)
     text = re.sub('RT @\w +: ', ' ', text)
     text = re.sub('(@[A-Za-z0–9]+) | ([0-9A-Za-z \t]) | (\w+:\ / \ / \S+)', ' ', text)
     text = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ' ', text)
     text = text.lower()
     result = [token for token in gensim.utils.simple_preprocess(text) if token not in STOPWORDS and len(token) > 2]
-
     return ' '.join(result)
 
 def tagme_annotator(text, threshold=0.05):
@@ -73,7 +67,3 @@ def tagme_annotator(text, threshold=0.05):
         for keyword in annotations.get_annotations(threshold):
             result.append(keyword.entity_title)
     return ' '.join(result)
-
-## test
-# dataset = dr.load_tweets(Tagme=True, start='2011-01-01', end='2011-01-01', stopwords=['www', 'RT', 'com', 'http'])
-# data_preparation(dataset, userModeling=True, timeModeling=True,  preProcessing=False, TagME=False, lastRowsNumber=-1000)

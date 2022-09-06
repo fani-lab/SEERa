@@ -74,7 +74,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
 
     elif method.lower() == "lda.mallet":
         os.environ['MALLET_HOME'] = Params.tml['malletHome']
-        mallet_path = f'{Params.tml["malletHome"]}/bin/mallet'
+        mallet_path = f'{Params.tml["malletHome"]}/bin/mallet.bat'
         tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=8)
         tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
         mallet_topics = []
