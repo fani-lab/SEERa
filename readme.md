@@ -149,7 +149,7 @@ python -u main.py -r toy -t lda.mallet gsdmm -g AE DynAE DynAERNN
 ```
 where the input arguements are:
 
-`-r`: A unique description for the run, required.
+`-r`: A unique description for the run, for example `test1`, required.
 
 `-t`: A list of topic modeling methods among {`lda.gensim`, `lda.mallet`, `gsdmm`}, required.
 
