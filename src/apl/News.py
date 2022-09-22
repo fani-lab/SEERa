@@ -65,13 +65,14 @@ def main():
 
     cmn.logger.info(f"6.3 Recommending news articles to future communities ...")
     if not exists(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl'):
-        NR.main(news_topics, Params.apl['topK'])
-
+        final_recommendation = NR.main(news_topics, Params.apl['topK'])
+    else:
+        final_recommendation = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
     end_date = pd.Timestamp(str(Params.dal['end']))
     day_before = 0
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
     cmn.logger.info(f"6.4 Evaluating recommended news articles on future time interval {str(day.date())}...")
-    me = ME.main()
+    me = ME.main(final_recommendation)
 
 
 

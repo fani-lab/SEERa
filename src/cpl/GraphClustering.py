@@ -2,6 +2,7 @@ import os, glob, pickle
 from os.path import exists
 import networkx as nx
 import numpy as np
+from scipy.special import softmax
 import pandas as pd
 from collections import Counter
 import sknetwork as skn
@@ -18,7 +19,7 @@ def user_cluster_relation(lbls):
     user_ids = np.load(f"{Params.uml['path2save']}/Users.npy")
     user2cluster = {}
     cluster2user = {}
-    for i in range(min(limit, len(lbls))):
+    for i in range(len(lbls)):
         user2cluster[user_ids[i]] = lbls[i]
         cluster2user.setdefault(lbls[i], []).append(user_ids[i])
     pd.to_pickle(user2cluster, f'{Params.cpl["path2save"]}/user2cluster.pkl')
@@ -37,7 +38,8 @@ def cluster_topic_interest(clusters, user_topic_interests):
         cc = Counter(cluster_topics[c])
         topic, count = cc.most_common()[0]
         count_percentage = (count/len(cluster_topics[c]))*100
-        cmn.logger.info(f"Cluster {c} has {len(cluster_members)} users. Topic {topic} is the favorite topic for {count_percentage}% of users.")
+        cmn.logger.info(f"Cluster {c} has {len(cluster_members)} users. Topic {cluster_topics[c].argmax()+1} is the favorite topic for {count_percentage}% of users.")
+        cluster_topics[c] = softmax(cluster_topics[c])
     cluster_topics = pd.DataFrame(cluster_topics).T
     cluster_topics.to_csv(f'{Params.cpl["path2save"]}/ClusterTopic.csv')
     pd.to_pickle(cluster_topics, f'{Params.cpl["path2save"]}/ClusterTopic.pkl')
@@ -49,12 +51,12 @@ def main(embeddings, method):
     except:
         if not os.path.isdir(Params.cpl["path2save"]): os.makedirs(Params.cpl["path2save"])
         cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
-        user_ids = np.load(f"{Params.uml['path2save']}/Users.npy")[:limit]
+        user_ids = np.load(f"{Params.uml['path2save']}/Users.npy")
         embedding_array = []
         for u in user_ids:
             embedding_array.append(embeddings[u])
         pred_users_similarity = pairwise_kernels(embedding_array, metric='cosine', n_jobs=9)
-        pred_users_similarity = pred_users_similarity[:limit, :limit]
+        pred_users_similarity = pred_users_similarity
         pred_users_similarity[pred_users_similarity < Params.uml['userSimilarityThreshold']] = 0
         pred_users_similarity = pd.DataFrame(pred_users_similarity)
         # pred_users_similarity = np.random.random(pred_users_similarity.shape)

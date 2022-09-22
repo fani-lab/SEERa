@@ -11,8 +11,13 @@ import Params
 
 
 def pytrec_eval_run(qrel, run):
+    metrics = set()
+    K = 1
+    while K<=len(run[list(run.keys())[0]]):
+        metrics.add(f'success_{K}')
+        K += 1
     evaluator = pytrec_eval.RelevanceEvaluator(
-        qrel, Params.evl['extrinsicEvaluationMetrics'])
+        qrel, metrics)#Params.evl['extrinsicEvaluationMetrics'])
     pred_eval = evaluator.evaluate(run)
     pred_eval = pd.DataFrame(pred_eval).T
     pred_eval.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv')
@@ -54,7 +59,7 @@ def user_mentions():
     users_news = {}
     for index, row in tweet_entities_with_tweetid_and_url.iterrows():
         row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
-        is_last = (datetime.datetime.strptime('2010-12-04', '%Y-%m-%d') - datetime.datetime.strptime(row_date,'%Y-%m-%d')).days < 1  # May need changes for new news dataset
+        is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,'%m/%d/%Y')).days < 1  # May need changes for new news dataset
         uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
         if pd.notna(uid) and is_last:
             try:
@@ -92,7 +97,7 @@ def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params
     return results
 
 
-def main():
+def main(top_recommendation_user):
     if not os.path.isdir(f'{Params.apl["path2save"]}/evl'): os.makedirs(f'{Params.apl["path2save"]}/evl')
     if Params.evl['evaluationType'] == "Intrinsic":
         user_communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
@@ -106,11 +111,11 @@ def main():
         except:
             users_mentions = user_mentions()
             pd.to_pickle(users_mentions, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
-        top_recommendation_user = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
         user_intersection = np.intersect1d(np.asarray(list(top_recommendation_user.keys())), np.asarray(list(users_mentions.keys())))
-        top_recommendation_mentioned_user = {muser: top_recommendation_user[muser] for muser in user_intersection}
-        users_mentions_mentioned_user = {muser: users_mentions[muser] for muser in user_intersection}
-        r_user, m_user = dictionary_generation(top_recommendation_mentioned_user, users_mentions_mentioned_user)
+        top_recommendation_mentioner_user = {muser: top_recommendation_user[muser] for muser in user_intersection}
+        pd.to_pickle(top_recommendation_mentioner_user, f'{Params.apl["path2save"]}/topRecommendationMentionerUser.pkl')
+        users_mentions_mentioner_user = {muser: users_mentions[muser] for muser in user_intersection}
+        pd.to_pickle(users_mentions_mentioner_user, f'{Params.apl["path2save"]}/users_mentions_mentioned_user.pkl')
+        r_user, m_user = dictionary_generation(top_recommendation_mentioner_user, users_mentions_mentioner_user)
         pytrec_result = pytrec_eval_run(m_user, r_user)
         return pytrec_result
-    

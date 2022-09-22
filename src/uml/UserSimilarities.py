@@ -43,7 +43,7 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
         cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npy is saved for day:{day.date()} with shape: {users_topic_interests.T.shape}')
 
         cmn.logger.info(f'UserSimilarity: A graph is being created for day: {day.date()} with {len(users_topic_interests.T)} users')
-        cmn.logger.info(f'UserSimilarity: Number of users per day: {len_users}')
+        cmn.logger.info(f'UserSimilarity: Number of users per day: {len(c)}')
         cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
         UG.create_users_graph(day, users_topic_interests, path2_save_uml)
         day = day + pd._libs.tslibs.timestamps.Timedelta(days=Params.dal['timeInterval'])

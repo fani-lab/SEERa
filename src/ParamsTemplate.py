@@ -5,7 +5,7 @@ general = {
     'cuda': '-1'
 }
 dal = {
-    'path': '../data/toy',
+    'path': '../data/toy.synthetic',
     'userModeling': True,#if true, timeModeling must be true also
     'timeModeling': True,
     'start': '2010-12-01',
@@ -16,7 +16,7 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
+    'malletHome': 'C:/Users/Soroush/Downloads/Mallet-202108-bin/Mallet-202108',
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
@@ -51,7 +51,8 @@ evl = {
 }
 
 apl = {
+    'communityBased': False,
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 20,
+    'topK': 2000000,
     'textTitle': 'Text'
 }

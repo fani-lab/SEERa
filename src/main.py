@@ -13,7 +13,8 @@ from cmn import Common as cmn
 
 
 def main():
-    if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(f'../output/{Params.general["baseline"]}')
+    if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(
+        f'../output/{Params.general["baseline"]}')
     copyfile('Params.py', f'../output/{Params.general["baseline"]}/Params.py')
 
     os.environ["CUDA_VISIBLE_DEVICES"] = Params.general['cuda']
@@ -23,15 +24,20 @@ def main():
     try:
         t_s = time()
         configstr = ''
-        if Params.dal["userModeling"] and Params.dal["timeModeling"]: configstr = f'\n(User, Time) a document is concat of user\'s posts in each {Params.dal["timeInterval"]} day(s)'
-        elif Params.dal["userModeling"]: configstr = f'\n(User) a document is concat of user\'s posts'
-        elif Params.dal["timeModeling"]: configstr = f'\n(Time) a document is concat of all posts in each {Params.dal["timeInterval"]} day(s)'
-        else:configstr = '\n(Default) a document is a post'
+        if Params.dal["userModeling"] and Params.dal["timeModeling"]:
+            configstr = f'\n(User, Time) a document is concat of user\'s posts in each {Params.dal["timeInterval"]} day(s)'
+        elif Params.dal["userModeling"]:
+            configstr = f'\n(User) a document is concat of user\'s posts'
+        elif Params.dal["timeModeling"]:
+            configstr = f'\n(Time) a document is concat of all posts in each {Params.dal["timeInterval"]} day(s)'
+        else:
+            configstr = '\n(Default) a document is a post'
         if Params.dal['tagMe']: '\n(TagMe) elements are TagMe (Wikipedia) concepts'
 
         path = f"../output/{Params.general['baseline']}/Documents.csv"
         cmn.logger.info(f'1.1. Loading saved temporal documents from  {path} in which {configstr}...')
-        with open(path, 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
+        with open(path, 'rb') as infile:
+            documents = pd.read_csv(infile, parse_dates=['CreationDate'])
         n_users = len(documents['UserId'].unique()) if 'UserId' in documents.columns else 'N/A'
         n_timeintervals = len(documents['CreationDate'].unique())
         processed_docs = np.load(f"../output/{Params.general['baseline']}/Prosdocs.npz", allow_pickle=True)['a']
@@ -43,13 +49,17 @@ def main():
         cmn.logger.info(f'(#Posts): ({len(posts)})')
         cmn.logger.info(f'1.3. Creating temporal documents in which {configstr}')
         processed_docs, documents, n_users, n_timeintervals = dp.data_preparation(posts,
-                                                        userModeling=Params.dal['userModeling'],
-                                                        timeModeling=Params.dal['timeModeling'],
-                                                        TagME=Params.dal['tagMe'],
-                                                        startDate=Params.dal['start'],
-                                                        timeInterval=Params.dal['timeInterval'])
+                                                                                  userModeling=Params.dal[
+                                                                                      'userModeling'],
+                                                                                  timeModeling=Params.dal[
+                                                                                      'timeModeling'],
+                                                                                  TagME=Params.dal['tagMe'],
+                                                                                  startDate=Params.dal['start'],
+                                                                                  timeInterval=Params.dal[
+                                                                                      'timeInterval'])
 
-    cmn.logger.info(f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
+    cmn.logger.info(
+        f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     cmn.logger.info(f'\n2. TML: Topic Modeling ...')
@@ -57,13 +67,14 @@ def main():
     try:
         t_s = time()
         path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
-        if Params.tml['method'].split('.')[0]=='lda':
+        if Params.tml['method'].split('.')[0] == 'lda':
             path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
             tml_model = gensim.models.LdaModel.load(path_mdl)
-        elif Params.tml['method']=='gsdmm':
+        elif Params.tml['method'] == 'gsdmm':
             path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
             tml_model = pd.read_pickle(path_mdl)
-        else: raise ValueError('TML method is not found!')
+        else:
+            raise ValueError('TML method is not found!')
         cmn.logger.info(f'2.1. Loading saved topic model of {Params.tml["method"]} from {path_dict} and {path_mdl} ...')
         dictionary = gensim.corpora.Dictionary.load(path_dict)
 
@@ -72,10 +83,10 @@ def main():
         cmn.logger.info(f'2.1. Loading saved topic model failed! Training a model ...')
         cmn.logger.info(f'(#Topics, Model): ({Params.tml["numTopics"]}, {Params.tml["method"]})')
         dictionary, _, _, tml_model, c, cv = tm.topic_modeling(processed_docs,
-                                                        method=Params.tml['method'],
-                                                        num_topics=Params.tml['numTopics'],
-                                                        filter_extremes=Params.tml['filterExtremes'],
-                                                        path_2_save_tml=Params.tml['path2save'])
+                                                               method=Params.tml['method'],
+                                                               num_topics=Params.tml['numTopics'],
+                                                               filter_extremes=Params.tml['filterExtremes'],
+                                                               path_2_save_tml=Params.tml['path2save'])
 
         cmn.logger.info(f'2.2. Quality of topics ...')
         cmn.logger.info(f'(MeanCoherence): ({c})')
@@ -98,14 +109,14 @@ def main():
                 path2_save_uml=Params.uml['path2save'],
                 just_one=Params.tml['justOne'], binary=Params.tml['binary'], threshold=Params.tml['threshold'])
 
-        graphs_path = glob.glob(f'{Params.uml["path2save"]}/graphs/*.npz')
+        graphs_path = sorted(glob.glob(f'{Params.uml["path2save"]}/graphs/*.npz'))
         graphs = []
         for gp in graphs_path:
             graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
             graphs.append(graph)
         pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
-        np.savez(f'{Params.uml["path2save"]}/graphs/graphs.pkl', graphs)
-        #sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
+        np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
+        # sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
     cmn.logger.info(f'(#Graphs): ({len(graphs)})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
@@ -153,16 +164,19 @@ def run(tml_baselines, gel_baselines, run_desc):
             try:
                 cmn.logger.info(f'Running pipeline for {t} and {g} ....')
                 baseline = f'{run_desc}/{t}.{g}'
-                with open('ParamsTemplate.py') as f: params_str = f.read()
-                new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace('@gel_method', g)
-                with open('Params.py', 'w') as f: f.write(new_params_str)
+                with open('ParamsTemplate.py') as f:
+                    params_str = f.read()
+                new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace(
+                    '@gel_method', g)
+                with open('Params.py', 'w') as f:
+                    f.write(new_params_str)
                 importlib.reload(Params)
                 main()
             except:
                 cmn.logger.info(traceback.format_exc())
             finally:
                 cmn.logger.info('\n\n\n')
-    #aggregate('../ouptut')
+    # aggregate('../ouptut')
 
 
 def aggregate(output_path):
