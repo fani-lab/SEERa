@@ -53,8 +53,7 @@ def main(news_table):
         method = Params.tml["method"].split('.')
         model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
         cmn.logger.info(f'Loading {Params.tml["method"]} model ...')
-        if method[0].lower() == 'lda':
-            tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
+        if method[0].lower() == 'lda': tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
     total_news_topics = {}
     for index, row in processed_docs.iterrows():
         news_bow_corpus = dictionary.doc2bow(row[t_t])

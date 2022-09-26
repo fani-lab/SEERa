@@ -46,8 +46,7 @@ def cluster_topic_interest(clusters, user_topic_interests):
 
 
 def main(embeddings, method):
-    try:
-        pred_users_similarity = sparse.load_npz(f'{Params.cpl["path2save"]}/pred_users_similarity.npz')
+    try: pred_users_similarity = sparse.load_npz(f'{Params.cpl["path2save"]}/pred_users_similarity.npz')
     except:
         if not os.path.isdir(Params.cpl["path2save"]): os.makedirs(Params.cpl["path2save"])
         cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
@@ -64,20 +63,15 @@ def main(embeddings, method):
         pred_users_similarity = sparse.csr_matrix(pred_users_similarity)
         sparse.save_npz(f'{Params.cpl["path2save"]}/pred_users_similarity.npz', pred_users_similarity)
     cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
-    try:
-        g = nx.read_adjlist(f'{Params.cpl["path2save"]}/Graph.adjlist')
+    try: g = nx.read_adjlist(f'{Params.cpl["path2save"]}/Graph.adjlist')
     except:
         g = nx.from_scipy_sparse_matrix(pred_users_similarity)
         nx.write_adjlist(g, f'{Params.cpl["path2save"]}/Graph.adjlist')
     cmn.logger.info(f"(#Nodes/Users, #Edges): ({g.number_of_nodes()}, {g.number_of_edges()})")
     cmn.logger.info(f'5.3. Future Community Prediction ...')
-    try:
-        louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=True)
-    except:
-        louvain = skn.clustering.Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
-    try:
-        lbls_louvain = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
-
+    try: louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=True)
+    except: louvain = skn.clustering.Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
+    try: lbls_louvain = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
     except:
         adj = nx.adjacency_matrix(g)
         lbls_louvain = np.asarray(louvain.fit_transform(adj))

@@ -13,25 +13,18 @@ from cmn import Common as cmn
 
 
 def main():
-    if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(
-        f'../output/{Params.general["baseline"]}')
+    if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(f'../output/{Params.general["baseline"]}')
     copyfile('Params.py', f'../output/{Params.general["baseline"]}/Params.py')
-
     os.environ["CUDA_VISIBLE_DEVICES"] = Params.general['cuda']
-
     cmn.logger.info(f'\n1. DAL: Temporal Document Creation from Social Posts ...')
     cmn.logger.info('#' * 50)
     try:
         t_s = time()
         configstr = ''
-        if Params.dal["userModeling"] and Params.dal["timeModeling"]:
-            configstr = f'\n(User, Time) a document is concat of user\'s posts in each {Params.dal["timeInterval"]} day(s)'
-        elif Params.dal["userModeling"]:
-            configstr = f'\n(User) a document is concat of user\'s posts'
-        elif Params.dal["timeModeling"]:
-            configstr = f'\n(Time) a document is concat of all posts in each {Params.dal["timeInterval"]} day(s)'
-        else:
-            configstr = '\n(Default) a document is a post'
+        if Params.dal["userModeling"] and Params.dal["timeModeling"]: configstr = f'\n(User, Time) a document is concat of user\'s posts in each {Params.dal["timeInterval"]} day(s)'
+        elif Params.dal["userModeling"]: configstr = f'\n(User) a document is concat of user\'s posts'
+        elif Params.dal["timeModeling"]: configstr = f'\n(Time) a document is concat of all posts in each {Params.dal["timeInterval"]} day(s)'
+        else: configstr = '\n(Default) a document is a post'
         if Params.dal['tagMe']: '\n(TagMe) elements are TagMe (Wikipedia) concepts'
 
         path = f"../output/{Params.general['baseline']}/Documents.csv"
