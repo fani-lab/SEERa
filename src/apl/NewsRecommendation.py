@@ -44,10 +44,8 @@ def user_recommend(pred_user_clusters, top_recommendations):
     user_recommendation = {}
     for u in range(len(users)):
         cluster = pred_user_clusters[u]
-        try:
-            user_recommendation[users[u]] = list(top_recommendations[cluster])
-        except:
-            continue
+        try: user_recommendation[users[u]] = list(top_recommendations[cluster])
+        except: continue
     pd.to_pickle(user_recommendation,f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
     return user_recommendation
 
@@ -55,19 +53,13 @@ def main(news_topics, top_k=10):
     if Params.apl['communityBased']:
         user_clusters = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
         communities_topic_interests = pd.read_pickle(f'{Params.cpl["path2save"]}/ClusterTopic.pkl')
-        try:
-            top_recommendations = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsCluster.pkl')
-        except:
-            top_recommendations = recommend(communities_topic_interests, news_topics, top_k)
-        try:
-            return pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
-        except:
-            return user_recommend(user_clusters, top_recommendations)
+        try: top_recommendations = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsCluster.pkl')
+        except: top_recommendations = recommend(communities_topic_interests, news_topics, top_k)
+        try: return pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
+        except: return user_recommend(user_clusters, top_recommendations)
 
     else:
         last_UTI = pd.read_pickle(sorted(glob.glob(f'{Params.uml["path2save"]}/Day*UsersTopicInterests.pkl'))[-1])
-        try:
-            return pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
-        except:
-            return recommend(last_UTI.T, news_topics, top_k)
+        try: return pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
+        except: return recommend(last_UTI.T, news_topics, top_k)
 

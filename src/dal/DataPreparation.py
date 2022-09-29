@@ -22,8 +22,7 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
         exeededdays = date % timeInterval
         post = post._replace(CreationDate=(post.CreationDate - datetime.timedelta(exeededdays)).date())
         preprocessed_text = preprocess(post.Text, stopwords=True)
-        if len(preprocessed_text)>0:
-            posts_temp.append(post._replace(Text=preprocessed_text))
+        if len(preprocessed_text) > 0: posts_temp.append(post._replace(Text=preprocessed_text))
     posts = pd.DataFrame(posts_temp)
     n_users = len(posts['UserId'].unique())
     n_timeintervals = len(posts['CreationDate'].unique())
@@ -37,8 +36,7 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
     elif timeModeling:
         documents = posts.groupby(['CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
         documents.insert(0, 'UserId', np.ones(len(documents)))
-    else:
-        documents = posts[['UserId', 'Text', 'CreationDate']]
+    else: documents = posts[['UserId', 'Text', 'CreationDate']]
 
     if TagME: #cannot be sooner because TagMe needs context, the more the better
         import tagme
