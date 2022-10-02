@@ -16,7 +16,7 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': 'C:\Mallet-202108',
+    'malletHome': 'C:\mallet',
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
