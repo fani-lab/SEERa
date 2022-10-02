@@ -16,12 +16,12 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': 'C:/Users/Soroush/Downloads/Mallet-202108-bin/Mallet-202108',
+    'malletHome': '/Users/sharjeelmustafa/Documents/02 Work/01 Research/Y3-2022-F/SEERa/seera/src/tml/Mallet-202108',
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
     'threshold': 0.3,
-    'method': '@tml_method' #['lda.gensim', 'lda.mallet', 'gsdmm']
+    'method': 'lda.gensim' #['lda.gensim', 'lda.mallet', 'gsdmm']
 }
 uml = {
     'userSimilarityThreshold': 0.8,
@@ -51,8 +51,7 @@ evl = {
 }
 
 apl = {
-    'communityBased': False,
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 2000000,
+    'topK': 20,
     'textTitle': 'Text'
 }

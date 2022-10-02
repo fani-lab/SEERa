@@ -1,6 +1,6 @@
 import pandas as pd
 import os.path
-from os.path import exists
+import numpy as np
 
 import Params
 from cmn import Common as cmn
@@ -12,6 +12,7 @@ from apl import ModelEvaluation as ME
 
 def stats(news):
     file_object = open(f"{Params.apl['path2save']}/NewsStat.txt", 'a')
+    #news = pd.read_csv('News.csv')
     texts = news.Text.dropna()
     titles = news.Title.dropna()
     desc = news.Description.dropna()
@@ -59,20 +60,19 @@ def main():
 
     cmn.logger.info(f"6.2 Inferring news articles' topics ...")
     try:
-        news_topics = pd.read_pickle(f'{Params.apl["path2save"]}/NewsTopics.pkl')
+        news_topics = np.load(f'{Params.apl["path2save"]}/NewsTopics.npy')
     except:
-        news_topics = NTE.main(news_table)
+        NTE.main(news_table)
+        news_topics = np.load(f'{Params.apl["path2save"]}/NewsTopics.npy')
 
     cmn.logger.info(f"6.3 Recommending news articles to future communities ...")
-    if not exists(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl'):
-        final_recommendation = NR.main(news_topics, Params.apl['topK'])
-    else:
-        final_recommendation = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
+    nrr = NR.main(news_topics, Params.apl['topK'])
+
     end_date = pd.Timestamp(str(Params.dal['end']))
     day_before = 0
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
     cmn.logger.info(f"6.4 Evaluating recommended news articles on future time interval {str(day.date())}...")
-    me = ME.main(final_recommendation)
+    me = ME.main()
 
 
 

@@ -3,6 +3,17 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# SEERa Project Related
+output/
+DynamicGEM/
+gsdmm/
+Mallet-202108/
+intel_power_gadget_log.csv
+emissions.csv
+.DS_Store
+run.sh
+
+
 # C extensions
 *.so
 

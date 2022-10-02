@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 import pytrec_eval
+import matplotlib.pyplot as plt
 import os
+import json
 import datetime
 from cmn import Common as cmn
 import pickle
@@ -11,13 +13,8 @@ import Params
 
 
 def pytrec_eval_run(qrel, run):
-    metrics = set()
-    K = 1
-    while K<=len(run[list(run.keys())[0]]):
-        metrics.add(f'success_{K}')
-        K += 1
     evaluator = pytrec_eval.RelevanceEvaluator(
-        qrel, metrics)#Params.evl['extrinsicEvaluationMetrics'])
+        qrel, Params.evl['extrinsicEvaluationMetrics'])
     pred_eval = evaluator.evaluate(run)
     pred_eval = pd.DataFrame(pred_eval).T
     pred_eval.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv')
@@ -50,43 +47,48 @@ def dictionary_generation(top_recommendations, mentions):
 
 
 def user_mentions():
+    users_news = {}
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
-    news = news[news[Params.apl["textTitle"]].notna()]
     tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
     tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
-    tweet_entities_with_tweetid = tweet_entities[tweet_entities['TweetId'].notna()]
-    tweet_entities_with_tweetid_and_url = tweet_entities_with_tweetid[tweet_entities_with_tweetid['ExpandedUrl'].notna()]
-    users_news = {}
-    for index, row in tweet_entities_with_tweetid_and_url.iterrows():
-        row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
-        is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,'%m/%d/%Y')).days < 1  # May need changes for new news dataset
-        uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
-        if pd.notna(uid) and is_last:
-            try:
-                news_id = news[news['ExpandedUrl'] == row['ExpandedUrl']]['NewsId'].values[0]
-                users_news.setdefault(uid, []).append(news_id)
-            except:
-                pass
+    for uid in tweet_entities['UserOrMediaId']:
+        users_news[uid] = []
+    for index, row in news.iterrows():
+        row_date = tweets.loc[tweets['Id'] == tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['TweetId'].values[0]]['CreationTimestamp'].values[0].split()[0]
+        if (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date, '%m/%d/%Y')).days <= Params.dal['timeInterval']: # May need changes for new news dataset
+            uid = tweet_entities[tweet_entities['ExpandedUrl'] == row['ExpandedUrl']]['UserOrMediaId'].values[0]
+            users_news[uid].append(row["NewsId"])
     return users_news
 
 
 def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicEvaluationMetrics']):
     results = []
     for m in evaluation_metrics:
-        if m == 'adjusted_rand': results.append(('adjusted_rand_score', CM.adjusted_rand_score(golden_standard, communities)))
-        elif m == 'completeness': results.append(('completeness_score', CM.completeness_score(golden_standard, communities)))
-        elif m == 'homogeneity': results.append(('homogeneity_score', CM.homogeneity_score(golden_standard, communities)))
-        elif m == 'rand': results.append(('rand_score', CM.rand_score(golden_standard, communities)))
-        elif m == 'v_measure': results.append(('v_measure_score', CM.v_measure_score(golden_standard, communities)))
-        elif m == 'normalized_mutual_info' or m == 'NMI': results.append(('normalized_mutual_info_score', CM.normalized_mutual_info_score(golden_standard, communities)))
-        elif m == 'adjusted_mutual_info' or m == 'AMI': results.append(('adjusted_mutual_info_score', CM.adjusted_mutual_info_score(golden_standard, communities)))
-        elif m == 'mutual_info' or m == 'MI': results.append(('mutual_info_score', CM.mutual_info_score(golden_standard, communities)))
-        elif m == 'fowlkes_mallows' or m == 'FMI': results.append(('fowlkes_mallows_score', CM.fowlkes_mallows_score(golden_standard, communities)))
-        else: continue
+        if m == 'adjusted_rand':
+            results.append(('adjusted_rand_score', CM.adjusted_rand_score(golden_standard, communities)))
+        elif m == 'completeness':
+            results.append(('completeness_score', CM.completeness_score(golden_standard, communities)))
+        elif m == 'homogeneity':
+            results.append(('homogeneity_score', CM.homogeneity_score(golden_standard, communities)))
+        elif m == 'rand':
+            results.append(('rand_score', CM.rand_score(golden_standard, communities)))
+        elif m == 'v_measure':
+            results.append(('v_measure_score', CM.v_measure_score(golden_standard, communities)))
+        elif m == 'normalized_mutual_info' or m == 'NMI':
+            results.append(('normalized_mutual_info_score', CM.normalized_mutual_info_score(golden_standard, communities)))
+        elif m == 'adjusted_mutual_info' or m == 'AMI':
+            results.append(('adjusted_mutual_info_score', CM.adjusted_mutual_info_score(golden_standard, communities)))
+        elif m == 'mutual_info' or m == 'MI':
+            results.append(('mutual_info_score', CM.mutual_info_score(golden_standard, communities)))
+        elif m == 'fowlkes_mallows' or m == 'FMI':
+            results.append(('fowlkes_mallows_score', CM.fowlkes_mallows_score(golden_standard, communities)))
+        else:
+            print('Wrong Clustering Metric!')
+            continue
     return results
 
 
-def main(top_recommendation_user):
+def main():
     if not os.path.isdir(f'{Params.apl["path2save"]}/evl'): os.makedirs(f'{Params.apl["path2save"]}/evl')
     if Params.evl['evaluationType'] == "Intrinsic":
         user_communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
@@ -94,17 +96,13 @@ def main(top_recommendation_user):
         scores = np.asarray(intrinsic_evaluation(user_communities, golden_standard))
         np.save(f'{Params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
         return scores
-    if Params.evl['evaluationType'] == "Extrinsic":
-        try:
-            users_mentions = pd.read_pickle(f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
-        except:
-            users_mentions = user_mentions()
-            pd.to_pickle(users_mentions, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
-        user_intersection = np.intersect1d(np.asarray(list(top_recommendation_user.keys())), np.asarray(list(users_mentions.keys())))
-        top_recommendation_mentioner_user = {muser: top_recommendation_user[muser] for muser in user_intersection}
-        pd.to_pickle(top_recommendation_mentioner_user, f'{Params.apl["path2save"]}/topRecommendationMentionerUser.pkl')
-        users_mentions_mentioner_user = {muser: users_mentions[muser] for muser in user_intersection}
-        pd.to_pickle(users_mentions_mentioner_user, f'{Params.apl["path2save"]}/users_mentions_mentioned_user.pkl')
-        r_user, m_user = dictionary_generation(top_recommendation_mentioner_user, users_mentions_mentioner_user)
-        pytrec_result = pytrec_eval_run(m_user, r_user)
-        return pytrec_result
+    with open(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl', 'rb') as handle:
+        top_recommendation_user = pickle.load(handle)
+
+    tbl = user_mentions()
+    f = open(f'{Params.apl["path2save"]}/evl/UserMentions.pkl', "wb")
+    pickle.dump(tbl, f)
+    f.close()
+    r_user, m_user = dictionary_generation(top_recommendation_user, tbl)
+    pytrec_result = pytrec_eval_run(m_user, r_user)
+    return pytrec_result

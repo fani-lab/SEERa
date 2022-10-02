@@ -1,11 +1,10 @@
 from shutil import copyfile
-import os, glob, pickle, argparse, importlib, traceback
+import sys, os, glob, pickle, argparse, importlib, traceback
 from time import time
 
 import numpy as np
 import pandas as pd
 import gensim
-from scipy import sparse
 import networkx as nx
 
 import Params
@@ -15,7 +14,9 @@ from cmn import Common as cmn
 def main():
     if not os.path.isdir(f'../output/{Params.general["baseline"]}'): os.makedirs(f'../output/{Params.general["baseline"]}')
     copyfile('Params.py', f'../output/{Params.general["baseline"]}/Params.py')
+
     os.environ["CUDA_VISIBLE_DEVICES"] = Params.general['cuda']
+
     cmn.logger.info(f'\n1. DAL: Temporal Document Creation from Social Posts ...')
     cmn.logger.info('#' * 50)
     try:
@@ -24,13 +25,12 @@ def main():
         if Params.dal["userModeling"] and Params.dal["timeModeling"]: configstr = f'\n(User, Time) a document is concat of user\'s posts in each {Params.dal["timeInterval"]} day(s)'
         elif Params.dal["userModeling"]: configstr = f'\n(User) a document is concat of user\'s posts'
         elif Params.dal["timeModeling"]: configstr = f'\n(Time) a document is concat of all posts in each {Params.dal["timeInterval"]} day(s)'
-        else: configstr = '\n(Default) a document is a post'
+        else:configstr = '\n(Default) a document is a post'
         if Params.dal['tagMe']: '\n(TagMe) elements are TagMe (Wikipedia) concepts'
 
         path = f"../output/{Params.general['baseline']}/Documents.csv"
         cmn.logger.info(f'1.1. Loading saved temporal documents from  {path} in which {configstr}...')
-        with open(path, 'rb') as infile:
-            documents = pd.read_csv(infile, parse_dates=['CreationDate'])
+        with open(path, 'rb') as infile: documents = pd.read_csv(infile, parse_dates=['CreationDate'])
         n_users = len(documents['UserId'].unique()) if 'UserId' in documents.columns else 'N/A'
         n_timeintervals = len(documents['CreationDate'].unique())
         processed_docs = np.load(f"../output/{Params.general['baseline']}/Prosdocs.npz", allow_pickle=True)['a']
@@ -42,17 +42,14 @@ def main():
         cmn.logger.info(f'(#Posts): ({len(posts)})')
         cmn.logger.info(f'1.3. Creating temporal documents in which {configstr}')
         processed_docs, documents, n_users, n_timeintervals = dp.data_preparation(posts,
-                                                                                  userModeling=Params.dal[
-                                                                                      'userModeling'],
-                                                                                  timeModeling=Params.dal[
-                                                                                      'timeModeling'],
-                                                                                  TagME=Params.dal['tagMe'],
-                                                                                  startDate=Params.dal['start'],
-                                                                                  timeInterval=Params.dal[
-                                                                                      'timeInterval'])
+                                                        userModeling=Params.dal['userModeling'],
+                                                        timeModeling=Params.dal['timeModeling'],
+                                                        TagME=Params.dal['tagMe'],
+                                                        startDate=Params.dal['start'],
+                                                        timeInterval=Params.dal['timeInterval'],
+                                                        stopwords=['www', 'RT', 'com', 'http'])
 
-    cmn.logger.info(
-        f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
+    cmn.logger.info(f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     cmn.logger.info(f'\n2. TML: Topic Modeling ...')
@@ -60,26 +57,22 @@ def main():
     try:
         t_s = time()
         path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
-        if Params.tml['method'].split('.')[0] == 'lda':
-            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
-            tml_model = gensim.models.LdaModel.load(path_mdl)
-        elif Params.tml['method'] == 'gsdmm':
-            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
-            tml_model = pd.read_pickle(path_mdl)
-        else:
-            raise ValueError('TML method is not found!')
+        path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
         cmn.logger.info(f'2.1. Loading saved topic model of {Params.tml["method"]} from {path_dict} and {path_mdl} ...')
-        dictionary = gensim.corpora.Dictionary.load(path_dict)
 
+        dictionary = gensim.corpora.Dictionary.load(path_dict)
+        # This is not loading the model... why?
+        lda_model = gensim.models.LdaModel.load(path_mdl)
     except (FileNotFoundError, EOFError) as e:
         from tml import TopicModeling as tm
         cmn.logger.info(f'2.1. Loading saved topic model failed! Training a model ...')
         cmn.logger.info(f'(#Topics, Model): ({Params.tml["numTopics"]}, {Params.tml["method"]})')
-        dictionary, _, _, tml_model, c, cv = tm.topic_modeling(processed_docs,
-                                                               method=Params.tml['method'],
-                                                               num_topics=Params.tml['numTopics'],
-                                                               filter_extremes=Params.tml['filterExtremes'],
-                                                               path_2_save_tml=Params.tml['path2save'])
+
+        dictionary, _, _, lda_model, c, cv = tm.topic_modeling(processed_docs,
+                                                        method=Params.tml['method'],
+                                                        num_topics=Params.tml['numTopics'],
+                                                        filter_extremes=Params.tml['filterExtremes'],
+                                                        path_2_save_tml=Params.tml['path2save'])
 
         cmn.logger.info(f'2.2. Quality of topics ...')
         cmn.logger.info(f'(MeanCoherence): ({c})')
@@ -93,23 +86,20 @@ def main():
         t_s = time()
         path = f'{Params.uml["path2save"]}/graphs/graphs.pkl'
         cmn.logger.info(f"3.1. Loading users' graph stream from {path} ...")
-        graphs = pd.read_pickle(path)
+        with open(path, 'rb') as g: graphs = pickle.load(g)
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"3.1. Loading users' graph stream failed! Generating the graph stream ...")
 
-        US.main(documents, dictionary, tml_model,
+        US.main(documents, dictionary, lda_model,
+                num_topics=Params.tml['numTopics'],
                 path2_save_uml=Params.uml['path2save'],
                 just_one=Params.tml['justOne'], binary=Params.tml['binary'], threshold=Params.tml['threshold'])
 
-        graphs_path = sorted(glob.glob(f'{Params.uml["path2save"]}/graphs/*.npz'))
+        graphs_path = glob.glob(f'{Params.uml["path2save"]}/graphs/*.net')
         graphs = []
-        for gp in graphs_path:
-            graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
-            graphs.append(graph)
-        pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
-        np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
-        # sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
+        for gp in graphs_path: graphs.append(nx.read_gpickle(gp))
+        with open(f'{Params.uml["path2save"]}/graphs/graphs.pkl', 'wb') as g: pickle.dump(graphs, g)
     cmn.logger.info(f'(#Graphs): ({len(graphs)})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
@@ -119,26 +109,25 @@ def main():
     try:
         t_s = time()
         cmn.logger.info(f'4.1. Loading embeddings ...')
-        embeddings = pd.read_pickle(f'{Params.gel["path2save"]}/Embeddings.pkl')
+        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'rb') as handle: embeddings = pickle.load(handle)
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'4.1. Loading embeddings failed! Training {Params.gel["method"]} ...')
         from gel import GraphEmbedding as GE
         embeddings = GE.main(graphs, method=Params.gel['method'])
-    cmn.logger.info(f'(#Embeddings, #Dimension) : ({len(embeddings)}, {len(embeddings[list(embeddings.keys())[0]])})')
+    cmn.logger.info(f'(#Embeddings, #Dimension) : ({embeddings[0].shape})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     # Community Extraction
     cmn.logger.info(f'\n5. Community Prediction ...')
     cmn.logger.info('#' * 50)
-    t_s = time()
     try:
+        t_s = time()
         cmn.logger.info(f'5.1. Loading future user communities ...')
-        np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
-        pd.read_csv(f'{Params.cpl["path2save"]}/ClusterTopic.csv')
+        communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
     except:
         cmn.logger.info(f'Loading future user communities failed! Predicting future user communities ...')
         from cpl import GraphClustering as GC
-        GC.main(embeddings, Params.cpl['method'])
+        communities = GC.main(np.asarray(embeddings), Params.cpl['path2save'], Params.cpl['method'])
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     # News Article Recommendation
@@ -147,8 +136,8 @@ def main():
     t_s = time()
     from apl import News
     news_output = News.main()
-    cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
     return news_output
+    cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
 
 def run(tml_baselines, gel_baselines, run_desc):
@@ -157,19 +146,16 @@ def run(tml_baselines, gel_baselines, run_desc):
             try:
                 cmn.logger.info(f'Running pipeline for {t} and {g} ....')
                 baseline = f'{run_desc}/{t}.{g}'
-                with open('ParamsTemplate.py') as f:
-                    params_str = f.read()
-                new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace(
-                    '@gel_method', g)
-                with open('Params.py', 'w') as f:
-                    f.write(new_params_str)
+                with open('ParamsTemplate.py') as f: params_str = f.read()
+                new_params_str = params_str.replace('@baseline', baseline).replace('@tml_method', t).replace('@gel_method', g)
+                with open('Params.py', 'w') as f: f.write(new_params_str)
                 importlib.reload(Params)
                 main()
             except:
                 cmn.logger.info(traceback.format_exc())
             finally:
                 cmn.logger.info('\n\n\n')
-    # aggregate('../ouptut')
+    #aggregate('../ouptut')
 
 
 def aggregate(output_path):

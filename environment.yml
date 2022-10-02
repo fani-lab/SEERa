@@ -10,7 +10,7 @@ dependencies:
     - Cython>=0.29
     - Keras==2.2.4
     - matplotlib==3.0.1
-    - tensorflow-gpu==1.11.0
+    - tensorflow==1.11.0
     - gensim==3.8.3
     - networkx==2.5.1
     - nltk==3.6.2

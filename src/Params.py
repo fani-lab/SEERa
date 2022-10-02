@@ -1,7 +1,7 @@
 
 general = {
     'comment': '',
-    'baseline': 'toy.synthesis/lda.gensim.dynae',
+    'baseline': 'toy/gsdmm.dynaernn',
     'cuda': '-1'
 }
 dal = {
@@ -16,22 +16,22 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': 'C:/Users/Soroush/Desktop/mallet-2.0.8/mallet-2.0.8',
-    'filterExtremes': False,
+    'malletHome': '/Users/sharjeelmustafa/Documents/02 Work/01 Research/Y3-2022-F/SEERa/seera/src/tml/Mallet-202108',
+    'filterExtremes': True,
     'justOne': False,
     'binary': False,
-    'threshold': 0.5,
+    'threshold': 0.3,
     'method': 'lda.gensim' #['lda.gensim', 'lda.mallet', 'gsdmm']
 }
 uml = {
-    'userSimilarityThreshold': 0.2,
+    'userSimilarityThreshold': 0.8,
     'path2save': f'../output/{general["baseline"]}/uml'
 }
 gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
-    'embeddingDim': 32,
-    'epoch': 100,
-    'method': 'dynae' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    'embeddingDim': 64,
+    'epoch': 10,
+    'method': 'dynaernn' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
     'path2save': f'../output/{general["baseline"]}/cpl',

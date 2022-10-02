@@ -14,20 +14,26 @@ import csv
 from cmn import Common as cmn
 import Params
 
+from codecarbon import EmissionsTracker
+
+
+YELLOW_TEXT = '\033[1;34m\n'
+WHITE_TEXT = '\n\033[0;0m'
+
 
 def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_save_tml):
     if not os.path.isdir(path_2_save_tml): os.makedirs(path_2_save_tml)
     dictionary = gensim.corpora.Dictionary(processed_docs)
-
-    if filter_extremes: dictionary.filter_extremes(no_below=2, no_above=0.60, keep_n=100000)
     dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
+    if filter_extremes: dictionary.filter_extremes(no_below=2, no_above=0.60, keep_n=100000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
+    tracker = EmissionsTracker()
 
     if method.lower() == "gsdmm":
+        tracker.start()
         tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=30)
-        #output = tm_model.fit(bow_corpus, len(dictionary))
-        tm_model.fit(bow_corpus, len(dictionary))
-        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
+        output = tm_model.fit(bow_corpus, len(dictionary))
+        d = gensim.corpora.Dictionary.load(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
         total_topics = tm_model.cluster_word_distribution
         gsdmm_save = []
         gsdmm_topic = []
@@ -35,9 +41,8 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         for topic_index, topic in enumerate(total_topics):
             gsdmm_topic.append([])
             gsdmm_percentage.append([])
-            for word_count, word in enumerate(topic):
-                if word_count == 10: break
-                gsdmm_topic[-1].append(dictionary[word[0]])
+            for word in topic:
+                gsdmm_topic[-1].append(d[word[0]])
                 gsdmm_percentage[-1].append(topic[word]/tm_model.cluster_word_count[topic_index])
         for i in range(len(gsdmm_topic)):
             gsdmm_save.append(gsdmm_topic[i])
@@ -47,8 +52,12 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
             csvWriter = csv.writer(my_csv, delimiter=',')
             csvWriter.writerows(gsdmm_save)
         with open(f"{path_2_save_tml}/{tm_model.K}Topics.pkl", 'wb') as g: pickle.dump(tm_model, g)
+        emissions: float = tracker.stop()
+        cmn.logger.info(f'{YELLOW_TEXT}gsdmm Emissions: {emissions}{WHITE_TEXT}')
+
 
     elif method.lower() == "lda.gensim":
+        tracker.start()
         tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
         tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
         gensim_topics = []
@@ -71,11 +80,14 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
             gensim_save.append(gensim_percentages[i])
         np.savetxt(f"{path_2_save_tml}/{num_topics}Topics.csv", gensim_save, delimiter=",", fmt='%s')
         total_topics = gensim_topics
+        emissions: float = tracker.stop()
+        cmn.logger.info(f'{YELLOW_TEXT}lda.gensim Emissions: {emissions}{WHITE_TEXT}')
 
     elif method.lower() == "lda.mallet":
+        tracker.start()
         os.environ['MALLET_HOME'] = Params.tml['malletHome']
-        mallet_path = f'{Params.tml["malletHome"]}/bin/mallet.bat'
-        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=8)
+        mallet_path = f'{Params.tml["malletHome"]}/bin/mallet'
+        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary)
         tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
         mallet_topics = []
         mallet_percentages = []
@@ -97,6 +109,8 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
             mallet_save.append(mallet_percentages[i])
         np.savetxt(f"{path_2_save_tml}/{num_topics}Topics.csv", mallet_save, delimiter=",", fmt='%s', encoding="utf-8")
         total_topics = mallet_topics
+        emissions: float = tracker.stop()
+        cmn.logger.info(f'{YELLOW_TEXT}lda.mallet Emissions: {emissions}{WHITE_TEXT}')
     else:
         raise ValueError("Invalid topic modeling!")
 
@@ -138,8 +152,6 @@ def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
     if Params.tml['method'].lower() == "gsdmm":
         doc_topic_vector = np.zeros((lda_model.K))
         d2t_vector = lda_model.score(doc)
-        c = np.reshape(range(len(d2t_vector)), (-1, 1))
-        d2t_vector = np.concatenate([c, np.reshape(d2t_vector, (-1, 1))], axis=1)
     elif Params.tml["method"].split('.')[0].lower() == 'lda':
         doc_topic_vector = np.zeros((lda_model.num_topics))
         if Params.tml["method"].split('.')[-1].lower() == 'gensim':
