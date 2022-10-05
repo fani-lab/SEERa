@@ -120,22 +120,21 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         biterms = btm.get_biterms(docs_vec)
 
         # INITIALIZING AND RUNNING MODEL
+        # M (int = 20) – Number of top words for coherence calculation
         model = btm.BTM(
-            xx, vocabulary, seed=12321, T=3, M=10, alpha=50 / 8, beta=0.01)
+            xx, vocabulary, seed=12321, T=num_topics, M=10, alpha=50 / num_topics, beta=0.01)
         model.fit(biterms, iterations=20)
         pd.to_pickle(model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
         p_zd = model.transform(docs_vec)
 
         # METRICS
-        perplexity = btm.perplexity(model.matrix_topics_words_, p_zd, xx, 3)
+        perplexity = btm.perplexity(model.matrix_topics_words_, p_zd, xx, num_topics)
         coherence = btm.coherence(model.matrix_topics_words_, xx, M=10)
-        # or
-        perplexity = model.perplexity_
-        coherence = model.coherence_
+        # # or
+        # perplexity = model.perplexity_
+        # coherence = model.coherence_
 
         # LABELS
-        import tmplot as tmp
-        # tmp.report(model=model, docs=texts)
         # total_topics = model.matrix_topics_words_
         tm_model = model
         # print(model.df_words_topics_)
