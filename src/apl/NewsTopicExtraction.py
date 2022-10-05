@@ -4,6 +4,7 @@ import gensim
 import glob
 import tagme
 from tqdm import tqdm
+import bitermplus as btm
 
 import Params
 from tml import TopicModeling as tm
@@ -43,10 +44,15 @@ def main(news_table):
         processed_docs = pd.DataFrame()
         processed_docs['NewsId'] = news_table['NewsId']
         processed_docs[t_t] = np.asarray(processed_docs_)
-    dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
-    dictionary = gensim.corpora.Dictionary.load(dict_path)
+
+    if not Params.tml['method'].lower() == 'btm':
+        dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
+        dictionary = gensim.corpora.Dictionary.load(dict_path)
+    else:
+        dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.pkl')[0]
+        dictionary = pd.read_pickle(dict_path)
     # LDA Model Loading
-    if Params.tml['method'].lower() == 'gsdmm':
+    if Params.tml['method'].lower() in ['gsdmm', 'btm']:
         model_name = glob.glob(f'{Params.tml["path2save"]}/*Topics.pkl')[0]
         tm_model = pd.read_pickle(model_name)
     else:
@@ -57,8 +63,11 @@ def main(news_table):
             tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
     total_news_topics = {}
     for index, row in processed_docs.iterrows():
-        news_bow_corpus = dictionary.doc2bow(row[t_t])
-        topics = tm.doc2topics(tm_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
+
+        if Params.tml['method'].lower() == 'btm': topics = tm.doc2topics(tm_model, btm.get_vectorized_docs([' '.join(row[t_t])], dictionary), threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
+        else:
+            news_bow_corpus = dictionary.doc2bow(row[t_t])
+            topics = tm.doc2topics(tm_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
         total_news_topics[row['NewsId']] = topics.tolist()
     pd.to_pickle(total_news_topics, f'{Params.apl["path2save"]}/NewsTopics.pkl')
     return pd.DataFrame(total_news_topics)
