@@ -23,6 +23,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     if not method.lower() == "btm": dictionary.save(f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
 
+    c, cv = None, None
     if method.lower() == "gsdmm":
         tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=30)
         #output = tm_model.fit(bow_corpus, len(dictionary))
@@ -99,55 +100,49 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         total_topics = mallet_topics
 
     elif method.lower() == "btm":
-
+        # https://pypi.org/project/bitermplus/
         import bitermplus as btm
-        # IMPORTING DATA
-        texts = processed_docs
-        # PREPROCESSING
         # Obtaining terms frequency in a sparse matrix and corpus vocabulary
-        t = []
-        for text in texts:
-            t.append(' '.join(text))
-        texts = t
-        xx, vocabulary, vocab_dict = btm.get_words_freqs(texts)
-        dictionary = vocabulary
+        processed_docs = [' '.join(text) for text in processed_docs]
+        xx, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
         pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.pkl')
         tf = np.array(xx.sum(axis=0)).ravel()
+        
         # Vectorizing documents
-        docs_vec = btm.get_vectorized_docs(texts, vocabulary)
+        docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
         # docs_lens = list(map(len, docs_vec))
         # Generating biterms
         biterms = btm.get_biterms(docs_vec)
 
-        # INITIALIZING AND RUNNING MODEL
         # M (int = 20) – Number of top words for coherence calculation
-        model = btm.BTM(
-            xx, vocabulary, seed=12321, T=num_topics, M=10, alpha=50 / num_topics, beta=0.01)
-        model.fit(biterms, iterations=20)
-        pd.to_pickle(model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
-        p_zd = model.transform(docs_vec)
+        tm_model = btm.BTM(xx, dictionary, seed=0, T=num_topics, M=10, alpha=50 / num_topics, beta=0.01)
+        tm_model.fit(biterms, iterations=20)
+        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
+        p_zd = tm_model.transform(docs_vec)
 
         # METRICS
-        perplexity = btm.perplexity(model.matrix_topics_words_, p_zd, xx, num_topics)
-        coherence = btm.coherence(model.matrix_topics_words_, xx, M=10)
+        # perplexity = btm.perplexity(tm_model.matrix_topics_words_, p_zd, xx, num_topics)
+        # coherence = btm.coherence(tm_model.matrix_topics_words_, xx, M=10)
         # # or
         # perplexity = model.perplexity_
-        # coherence = model.coherence_
+        c = coherence = model.coherence_
+        cv = None
 
         # LABELS
         # total_topics = model.matrix_topics_words_
-        tm_model = model
         # print(model.df_words_topics_)
-        model.df_words_topics_.to_csv('wordstopic.csv')
+        tm_model.df_words_topics_.to_csv('wordstopic.csv')#shouldn't be f"{path_2_save_tml}/{num_topics}Topics.csv like others?
         # print(model.matrix_topics_words_)
         # print(model.matrix_docs_topics_)
-        total_topics = [[]]
+        # total_topics = [[]] #what's this??
         pass
     else:
         raise ValueError("Invalid topic modeling!")
 
-    try: c, cv = coherence(dictionary, bow_corpus, total_topics, tm_model)
-    except: c, cv = None, None
+    if method.lower() in ['lda.gensim', 'lda.mallet']:
+        cm = CoherenceModel(model=lda_model, corpus=bow_corpus, topics=topics, dictionary=dictionary, coherence='u_mass')
+        c = cm.get_coherence() 
+        cv = cm.get_coherence_per_topic() 
 
     # try:
     #     print('Visualization:\n')
@@ -157,13 +152,6 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     #     pass
 
     return dictionary, bow_corpus, total_topics, tm_model, c, cv
-
-def coherence(dictionary, bow_corpus, topics, lda_model):
-    cm = CoherenceModel(model=lda_model, corpus=bow_corpus, coherence='u_mass')
-    coherence_value = cm.get_coherence()
-    cm = CoherenceModel(topics=topics, dictionary=dictionary, corpus=bow_corpus, coherence='u_mass')
-    topic_coherence = cm.get_coherence_per_topic()
-    return coherence_value, topic_coherence
 
 def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml=Params.tml['path2save']):
     try:
