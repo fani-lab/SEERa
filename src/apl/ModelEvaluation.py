@@ -59,7 +59,8 @@ def user_mentions():
     users_news = {}
     for index, row in tweet_entities_with_tweetid_and_url.iterrows():
         row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
-        is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,'%m/%d/%Y')).days < 1  # May need changes for new news dataset
+
+        is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,f'%m{row_date[2]}%d{row_date[2]}%Y')).days < 1  # May need changes for new news dataset
         uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
         if pd.notna(uid) and is_last:
             try:
@@ -73,27 +74,16 @@ def user_mentions():
 def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicEvaluationMetrics']):
     results = []
     for m in evaluation_metrics:
-        if m == 'adjusted_rand':
-            results.append(('adjusted_rand_score', CM.adjusted_rand_score(golden_standard, communities)))
-        elif m == 'completeness':
-            results.append(('completeness_score', CM.completeness_score(golden_standard, communities)))
-        elif m == 'homogeneity':
-            results.append(('homogeneity_score', CM.homogeneity_score(golden_standard, communities)))
-        elif m == 'rand':
-            results.append(('rand_score', CM.rand_score(golden_standard, communities)))
-        elif m == 'v_measure':
-            results.append(('v_measure_score', CM.v_measure_score(golden_standard, communities)))
-        elif m == 'normalized_mutual_info' or m == 'NMI':
-            results.append(('normalized_mutual_info_score', CM.normalized_mutual_info_score(golden_standard, communities)))
-        elif m == 'adjusted_mutual_info' or m == 'AMI':
-            results.append(('adjusted_mutual_info_score', CM.adjusted_mutual_info_score(golden_standard, communities)))
-        elif m == 'mutual_info' or m == 'MI':
-            results.append(('mutual_info_score', CM.mutual_info_score(golden_standard, communities)))
-        elif m == 'fowlkes_mallows' or m == 'FMI':
-            results.append(('fowlkes_mallows_score', CM.fowlkes_mallows_score(golden_standard, communities)))
-        else:
-            print('Wrong Clustering Metric!')
-            continue
+        if m == 'adjusted_rand': results.append(('adjusted_rand_score', CM.adjusted_rand_score(golden_standard, communities)))
+        elif m == 'completeness': results.append(('completeness_score', CM.completeness_score(golden_standard, communities)))
+        elif m == 'homogeneity': results.append(('homogeneity_score', CM.homogeneity_score(golden_standard, communities)))
+        elif m == 'rand': results.append(('rand_score', CM.rand_score(golden_standard, communities)))
+        elif m == 'v_measure': results.append(('v_measure_score', CM.v_measure_score(golden_standard, communities)))
+        elif m == 'normalized_mutual_info' or m == 'NMI': results.append(('normalized_mutual_info_score', CM.normalized_mutual_info_score(golden_standard, communities)))
+        elif m == 'adjusted_mutual_info' or m == 'AMI': results.append(('adjusted_mutual_info_score', CM.adjusted_mutual_info_score(golden_standard, communities)))
+        elif m == 'mutual_info' or m == 'MI': results.append(('mutual_info_score', CM.mutual_info_score(golden_standard, communities)))
+        elif m == 'fowlkes_mallows' or m == 'FMI': results.append(('fowlkes_mallows_score', CM.fowlkes_mallows_score(golden_standard, communities)))
+        else: continue
     return results
 
 
