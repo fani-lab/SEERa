@@ -11,7 +11,7 @@ from gel import CppWrapper as N2V
 from cmn import Common as cmn
 import Params
 
-def embedding(dim_emb, lookback, method='DynAERNN'):
+def embedding(dim_emb, lookback, method='DynAERNN', n_users=100):
     # methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
     if method.lower() == 'ae':
         embedding_ = AE(d=dim_emb,
@@ -22,7 +22,7 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                        n_units=[500, 300, ],
                        n_iter=Params.gel['epoch'],
                        xeta=1e-4,
-                       n_batch=100,
+                       n_batch=min(n_users,10),
                        modelfile=[f'{Params.gel["path2save"]}/enc_model_AE.json', f'{Params.gel["path2save"]}/dec_model_AE.json'],
                        weightfile=[f'{Params.gel["path2save"]}/enc_weights_AE.hdf5', f'{Params.gel["path2save"]}/dec_weights_AE.hdf5'])
     elif method.lower() == 'dynae':
@@ -75,12 +75,12 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
 def main(graphs, method='DynAERNN'):
     users = np.load(f"{Params.uml['path2save']}/Users.npy")
     if not os.path.isdir(Params.gel["path2save"]): os.makedirs(Params.gel["path2save"])
-    if method == 'Node2Vec':
+    if method.lower() == 'node2vec':
         N2V.main(Params.uml['path2save']+'/graphs', Params.gel['path2save'], Params.gel['embeddingDim'])
     else:
         lookback = 2
-        embedding_instance = embedding(dim_emb=Params.gel['embeddingDim'], lookback=lookback, method=method)
-        if method == "AE": emb, _ = embedding_instance.learn_embeddings(graphs[-1])
+        embedding_instance = embedding(dim_emb=Params.gel['embeddingDim'], lookback=lookback, method=method, n_users=len(users))
+        if method.lower() == "ae": emb, _ = embedding_instance.learn_embeddings(graphs[-1])
         else: emb, _ = embedding_instance.learn_embeddings(graphs)
 
         embeddings = {}

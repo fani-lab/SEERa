@@ -145,13 +145,13 @@ This framework contains six different layers. Each layer is affected by multiple
 You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
 cd ../src
-python -u main.py -r toy -t lda.mallet gsdmm -g AE DynAE DynAERNN
+python -u main.py -r toy -t lda.mallet gsdmm btm -g AE DynAE DynAERNN
 ```
 where the input arguements are:
 
 `-r`: A unique description for the run, for example `test1`, required.
 
-`-t`: A list of topic modeling methods among {`lda.gensim`, `lda.mallet`, `gsdmm`}, required.
+`-t`: A list of topic modeling methods among {`lda.gensim`, `lda.mallet`, `gsdmm`, `btm`}, required.
 
 `-g`: A list of graph embedding methods among {`AE`, `DynAE`, `DynRNN`, `DynAERNN`}, required.
 
