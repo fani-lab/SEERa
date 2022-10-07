@@ -104,43 +104,42 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         import bitermplus as btm
         # Obtaining terms frequency in a sparse matrix and corpus vocabulary
         processed_docs = [' '.join(text) for text in processed_docs]
-        xx, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
+        doc_word_frequency, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
         pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.pkl')
-        tf = np.array(xx.sum(axis=0)).ravel()
-        
+
         # Vectorizing documents
         docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
-        # docs_lens = list(map(len, docs_vec))
+
         # Generating biterms
         biterms = btm.get_biterms(docs_vec)
 
         # M (int = 20) – Number of top words for coherence calculation
-        tm_model = btm.BTM(xx, dictionary, seed=0, T=num_topics, M=10, alpha=50 / num_topics, beta=0.01)
-        tm_model.fit(biterms, iterations=20)
+        tm_model = btm.BTM(doc_word_frequency, dictionary, seed=0, T=num_topics, M=10, alpha=5000 / num_topics, beta=7.01)
+        tm_model.fit(biterms, iterations=1)
         pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
-        p_zd = tm_model.transform(docs_vec)
+        # documents_topics_probability = tm_model.transform(docs_vec)
 
         # METRICS
-        # perplexity = btm.perplexity(tm_model.matrix_topics_words_, p_zd, xx, num_topics)
-        # coherence = btm.coherence(tm_model.matrix_topics_words_, xx, M=10)
-        # # or
-        # perplexity = model.perplexity_
-        c = coherence = model.coherence_
+        c = coherence = tm_model.coherence_
         cv = None
 
-        # LABELS
         # total_topics = model.matrix_topics_words_
-        # print(model.df_words_topics_)
-        tm_model.df_words_topics_.to_csv('wordstopic.csv')#shouldn't be f"{path_2_save_tml}/{num_topics}Topics.csv like others?
-        # print(model.matrix_topics_words_)
-        # print(model.matrix_docs_topics_)
-        # total_topics = [[]] #what's this??
+        tm_model.df_words_topics_.to_csv('wordstopic.csv')  # shouldn't be f"{path_2_save_tml}/{num_topics}Topics.csv like others?
+        # making topic-word csv
+        topic_range_idx = list(range(0, num_topics))
+        top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
+        print(top_words)
+
+        # for word in dictionary:
+        #     print(max(df.loc[[word]].values[0]))
+
+        total_topics = [[]]  # what's this??
         pass
     else:
         raise ValueError("Invalid topic modeling!")
 
     if method.lower() in ['lda.gensim', 'lda.mallet']:
-        cm = CoherenceModel(model=lda_model, corpus=bow_corpus, topics=topics, dictionary=dictionary, coherence='u_mass')
+        cm = CoherenceModel(model=tm_model, corpus=bow_corpus, topics=total_topics, dictionary=dictionary, coherence='u_mass')
         c = cm.get_coherence() 
         cv = cm.get_coherence_per_topic() 
 
@@ -193,7 +192,7 @@ def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
     if just_one: doc_topic_vector[d2t_vector[:, 1].argmax()] = 1
     else:
         for idx, t in enumerate(d2t_vector):
-            if Params.tml['method'].lower() == "gsdmm" or Params.tml['method'].lower() == "btm": topic_id, t_temp = idx, t
+            if Params.tml['method'].lower() in ["gsdmm", "btm"]: topic_id, t_temp = idx, t
             elif Params.tml['method'][:3].lower() == "lda": topic_id, t_temp = t
             else: raise ValueError("Invalid topic modeling!")
             if t_temp >= threshold:
