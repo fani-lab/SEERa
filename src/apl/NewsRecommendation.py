@@ -20,10 +20,10 @@ def recommendation_table_analyzer(rt, test, savename):
 
 
 def recommend(topic_interests, news_topics, topK):
-    topK = min(topK, len(news_topics))
-    news_ids = np.asarray(list(news_topics.keys()))
     news_topics = pd.DataFrame(news_topics)
+    news_ids = np.asarray(list(news_topics.keys()))
     news_topics = news_topics.T
+    topK = min(topK, len(news_topics))
     topic_interests.reset_index(drop=True, inplace=True)
     news_topics.reset_index(drop=True, inplace=True)
     recommendation_table = topic_interests.dot(news_topics.T)

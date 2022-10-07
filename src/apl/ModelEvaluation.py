@@ -59,7 +59,9 @@ def user_mentions():
     users_news = {}
     for index, row in tweet_entities_with_tweetid_and_url.iterrows():
         row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
-        is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,'%m/%d/%Y')).days < 1  # May need changes for new news dataset
+
+        try: is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,f'%Y-%m-%d')).days < 1  # May need changes for new news dataset
+        except: is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,f'%m/%d/%Y')).days < 1
         uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
         if pd.notna(uid) and is_last:
             try:

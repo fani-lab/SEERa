@@ -3,6 +3,7 @@ import numpy as np
 import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import pandas as pd
+import bitermplus as btm
 
 import Params
 from cmn import Common as cmn
@@ -30,7 +31,8 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
                 doc = dp.tagme_annotator(row['Text'])
             else:
                 doc = row['Text']
-            d2t = tm.doc2topics(lda_model, dictionary.doc2bow(doc.split()), threshold=threshold, just_one=just_one, binary=binary)
+            if Params.tml['method'].lower() == 'btm': d2t = tm.doc2topics(lda_model, btm.get_vectorized_docs([doc], dictionary), threshold=threshold, just_one=just_one, binary=binary)
+            else: d2t = tm.doc2topics(lda_model, dictionary.doc2bow(doc.split()), threshold=threshold, just_one=just_one, binary=binary)
             users_topic_interests[row['UserId']] = d2t
 
         #for those with no document, zero padding

@@ -59,17 +59,26 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         t_s = time()
-        path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
+
         if Params.tml['method'].split('.')[0] == 'lda':
+            path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
             path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
             tml_model = gensim.models.LdaModel.load(path_mdl)
+            dictionary = gensim.corpora.Dictionary.load(path_dict)
         elif Params.tml['method'] == 'gsdmm':
+            path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
             path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
             tml_model = pd.read_pickle(path_mdl)
+            dictionary = gensim.corpora.Dictionary.load(path_dict)
+        elif Params.tml['method'] == 'btm':
+            path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.pkl"
+            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
+            tml_model = pd.read_pickle(path_mdl)
+            dictionary = pd.read_pickle(path_dict)
         else:
             raise ValueError('TML method is not found!')
         cmn.logger.info(f'2.1. Loading saved topic model of {Params.tml["method"]} from {path_dict} and {path_mdl} ...')
-        dictionary = gensim.corpora.Dictionary.load(path_dict)
+
 
     except (FileNotFoundError, EOFError) as e:
         from tml import TopicModeling as tm
