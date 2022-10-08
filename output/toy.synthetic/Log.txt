@@ -1,0 +1,557 @@
+Running pipeline for lda.gensim and dynaernn ....
+
+1. DAL: Temporal Document Creation from Social Posts ...
+##################################################
+1.1. Loading saved temporal documents from  ../output/test/lda.gensim.dynaernn/Documents.csv in which 
+(User, Time) a document is concat of user's posts in each 1 day(s)...
+1.1. Loading temporal documents failed! Creating temporal documents ...
+1.2. Loading social posts ...
+(#Posts): (540)
+1.3. Creating temporal documents in which 
+(User, Time) a document is concat of user's posts in each 1 day(s)
+(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): (180,180,60,3)
+Time Elapsed: 0.07280516624450684
+
+2. TML: Topic Modeling ...
+##################################################
+loading LdaModel object from ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl'}
+2.1. Loading saved topic model failed! Training a model ...
+(#Topics, Model): (3, lda.gensim)
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...) from 180 documents (total 5832 corpus positions)
+discarding 0 tokens: []...
+keeping 29 tokens which were in no less than 2 and no more than 108 (=60.0%) documents
+rebuilding dictionary, shrinking gaps
+resulting dictionary: Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...)
+saving Dictionary object under ../output/test/lda.gensim.dynaernn/tml/3TopicsDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3TopicsDictionary.mm'}
+saved ../output/test/lda.gensim.dynaernn/tml/3TopicsDictionary.mm
+using symmetric alpha at 0.3333333333333333
+using symmetric eta at 0.3333333333333333
+using serial LDA version on this node
+running online (multi-pass) LDA training, 3 topics, 5 passes over the supplied corpus of 180 documents, updating model once every 180 documents, evaluating perplexity every 180 documents, iterating 50x with a convergence threshold of 0.001000
+too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
+bound: at document #0
+-3.862 per-word bound, 14.5 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 0, at document #180/180
+performing inference on a chunk of 180 documents
+18/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.063*"apple" + 0.062*"dell" + 0.060*"mouse" + 0.060*"microsoft" + 0.060*"sony" + 0.060*"digital" + 0.059*"monitor" + 0.058*"samsung" + 0.056*"keyboard" + 0.054*"football"
+topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.074*"tiktok" + 0.074*"whatsapp" + 0.074*"facebook" + 0.074*"instagram"
+topic #2 (0.333): 0.086*"boxing" + 0.081*"hiking" + 0.078*"climbing" + 0.077*"biking" + 0.076*"volleyball" + 0.063*"swimming" + 0.061*"basketball" + 0.058*"baseball" + 0.054*"running" + 0.050*"football"
+topic diff=1.947550, rho=1.000000
+bound: at document #0
+-2.869 per-word bound, 7.3 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 1, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.086*"apple" + 0.085*"dell" + 0.084*"mouse" + 0.084*"microsoft" + 0.084*"sony" + 0.084*"digital" + 0.084*"monitor" + 0.083*"samsung" + 0.082*"keyboard" + 0.028*"football"
+topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.074*"whatsapp" + 0.074*"facebook" + 0.074*"instagram"
+topic #2 (0.333): 0.097*"boxing" + 0.095*"climbing" + 0.093*"hiking" + 0.092*"biking" + 0.092*"volleyball" + 0.088*"swimming" + 0.087*"basketball" + 0.086*"baseball" + 0.085*"running" + 0.084*"football"
+topic diff=0.635568, rho=0.577350
+bound: at document #0
+-2.680 per-word bound, 6.4 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 2, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.097*"apple" + 0.097*"dell" + 0.096*"mouse" + 0.096*"microsoft" + 0.096*"sony" + 0.096*"digital" + 0.096*"monitor" + 0.096*"samsung" + 0.095*"keyboard" + 0.016*"football"
+topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
+topic #2 (0.333): 0.100*"boxing" + 0.099*"climbing" + 0.096*"hiking" + 0.096*"volleyball" + 0.096*"biking" + 0.094*"swimming" + 0.094*"basketball" + 0.093*"baseball" + 0.093*"running" + 0.092*"football"
+topic diff=0.431170, rho=0.500000
+bound: at document #0
+-2.624 per-word bound, 6.2 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 3, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.103*"apple" + 0.103*"dell" + 0.102*"mouse" + 0.102*"microsoft" + 0.102*"sony" + 0.102*"digital" + 0.102*"monitor" + 0.102*"samsung" + 0.102*"keyboard" + 0.009*"football"
+topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
+topic #2 (0.333): 0.101*"boxing" + 0.100*"climbing" + 0.098*"hiking" + 0.097*"volleyball" + 0.097*"biking" + 0.096*"swimming" + 0.096*"basketball" + 0.096*"baseball" + 0.096*"running" + 0.095*"football"
+topic diff=0.325673, rho=0.447214
+bound: at document #0
+-2.600 per-word bound, 6.1 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 4, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.106*"apple" + 0.106*"dell" + 0.106*"mouse" + 0.106*"microsoft" + 0.106*"sony" + 0.106*"digital" + 0.105*"monitor" + 0.105*"samsung" + 0.105*"keyboard" + 0.006*"football"
+topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
+topic #2 (0.333): 0.102*"boxing" + 0.101*"climbing" + 0.098*"hiking" + 0.098*"volleyball" + 0.098*"biking" + 0.097*"swimming" + 0.097*"basketball" + 0.097*"baseball" + 0.097*"running" + 0.097*"football"
+topic diff=0.254346, rho=0.408248
+saving LdaState object under ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.state'}
+saved ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.id2word'}
+saving LdaModel object under ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.expElogbeta.npy
+not storing attribute id2word
+not storing attribute dispatcher
+not storing attribute state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl'}
+saved ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl
+topic #0 (0.333): 0.106*"apple" + 0.106*"dell" + 0.106*"mouse" + 0.106*"microsoft" + 0.106*"sony" + 0.106*"digital" + 0.105*"monitor" + 0.105*"samsung" + 0.105*"keyboard" + 0.006*"football"
+topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
+topic #2 (0.333): 0.102*"boxing" + 0.101*"climbing" + 0.098*"hiking" + 0.098*"volleyball" + 0.098*"biking" + 0.097*"swimming" + 0.097*"basketball" + 0.097*"baseball" + 0.097*"running" + 0.097*"football"
+GENSIM Topic: 0 
+Words: 0.106*"apple" + 0.106*"dell" + 0.106*"mouse" + 0.106*"microsoft" + 0.106*"sony" + 0.106*"digital" + 0.105*"monitor" + 0.105*"samsung" + 0.105*"keyboard" + 0.006*"football"
+GENSIM Topic: 1 
+Words: 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
+GENSIM Topic: 2 
+Words: 0.102*"boxing" + 0.101*"climbing" + 0.098*"hiking" + 0.098*"volleyball" + 0.098*"biking" + 0.097*"swimming" + 0.097*"basketball" + 0.097*"baseball" + 0.097*"running" + 0.097*"football"
+The currently set model 'LdaModel(num_terms=29, num_topics=3, decay=0.5, chunksize=2000)' may be inconsistent with the newly set topics
+2.2. Quality of topics ...
+(MeanCoherence): (-1.7877467226948733)
+(#Topic, Topic Coherences): (3, [-5.306481765449688, 3.0000446571375978e-12, -0.05675840263793232])
+Time Elapsed: 0.45877552032470703
+
+3. UML: Temporal Graph Creation ...
+##################################################
+3.1. Loading users' graph stream from ../output/test/lda.gensim.dynaernn/uml/graphs/graphs.pkl ...
+3.1. Loading users' graph stream failed! Generating the graph stream ...
+60 users have twitted in 2010-12-01
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-01 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-01
+60 users have twitted in 2010-12-02
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-02 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-02
+60 users have twitted in 2010-12-03
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-03 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-03
+(#Graphs): (3)
+Time Elapsed: 0.6103711128234863
+
+4. GEL: Temporal Graph Embedding ...
+##################################################
+4.1. Loading embeddings ...
+4.1. Loading embeddings failed! Training dynaernn ...
+CACHEDIR=C:\Users\Administrator\.matplotlib
+Using fontManager instance from C:\Users\Administrator\.matplotlib\fontlist-v300.json
+Loaded backend module://backend_interagg version unknown.
+Creating converter from 7 to 5
+Creating converter from 5 to 7
+Creating converter from 7 to 5
+Creating converter from 5 to 7
+(#Embeddings, #Dimension) : (60, 64)
+Time Elapsed: 6.331100225448608
+
+5. Community Prediction ...
+##################################################
+5.1. Loading future user communities ...
+Loading future user communities failed! Predicting future user communities ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+(#Nodes/Users, #Edges): (60, 630)
+5.3. Future Community Prediction ...
+(#Future Communities, Communities Sizes) : (3, [20, 20, 20])
+(#Future Communities with less then 10 members) : (0)
+Cluster 0 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
+Cluster 2 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
+Cluster 1 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
+Time Elapsed: 0.1845076084136963
+
+6. Application: News Recommendation ...
+##################################################
+6.1 Loading news articles ...
+6.2 Inferring news articles' topics ...
+loading Dictionary object from ../output/test/lda.gensim.dynaernn/tml\3TopicsDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3TopicsDictionary.mm'}
+loaded ../output/test/lda.gensim.dynaernn/tml\3TopicsDictionary.mm
+Loading lda.gensim model ...
+loading LdaModel object from ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3Topics.pkl'}
+loading expElogbeta from ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl.expElogbeta.npy with mmap=None
+setting ignored attribute id2word to None
+setting ignored attribute dispatcher to None
+setting ignored attribute state to None
+loaded ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl
+loading LdaState object from ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3Topics.pkl.state'}
+loaded ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3Topics.pkl.id2word'}
+6.3 Recommending news articles to future communities ...
+6.4 Evaluating recommended news articles on future time interval 2010-12-04...
+Time Elapsed: 0.2812492847442627
+
+
+
+
+Running pipeline for lda.gensim and ae ....
+
+1. DAL: Temporal Document Creation from Social Posts ...
+##################################################
+1.1. Loading saved temporal documents from  ../output/test/lda.gensim.ae/Documents.csv in which 
+(User, Time) a document is concat of user's posts in each 1 day(s)...
+1.1. Loading temporal documents failed! Creating temporal documents ...
+1.2. Loading social posts ...
+(#Posts): (540)
+1.3. Creating temporal documents in which 
+(User, Time) a document is concat of user's posts in each 1 day(s)
+(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): (180,180,60,3)
+Time Elapsed: 0.055850982666015625
+
+2. TML: Topic Modeling ...
+##################################################
+loading LdaModel object from ../output/test/lda.gensim.ae/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl'}
+2.1. Loading saved topic model failed! Training a model ...
+(#Topics, Model): (3, lda.gensim)
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...) from 180 documents (total 5832 corpus positions)
+discarding 0 tokens: []...
+keeping 29 tokens which were in no less than 2 and no more than 108 (=60.0%) documents
+rebuilding dictionary, shrinking gaps
+resulting dictionary: Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...)
+saving Dictionary object under ../output/test/lda.gensim.ae/tml/3TopicsDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3TopicsDictionary.mm'}
+saved ../output/test/lda.gensim.ae/tml/3TopicsDictionary.mm
+using symmetric alpha at 0.3333333333333333
+using symmetric eta at 0.3333333333333333
+using serial LDA version on this node
+running online (multi-pass) LDA training, 3 topics, 5 passes over the supplied corpus of 180 documents, updating model once every 180 documents, evaluating perplexity every 180 documents, iterating 50x with a convergence threshold of 0.001000
+too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
+bound: at document #0
+-3.892 per-word bound, 14.8 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 0, at document #180/180
+performing inference on a chunk of 180 documents
+0/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.082*"volleyball" + 0.075*"swimming" + 0.069*"baseball" + 0.067*"football" + 0.065*"basketball" + 0.054*"snapchat" + 0.053*"skype" + 0.052*"tiktok" + 0.051*"linkedin" + 0.048*"instagram"
+topic #1 (0.333): 0.084*"twitter" + 0.077*"whatsapp" + 0.076*"discord" + 0.074*"facebook" + 0.071*"zoom" + 0.071*"instagram" + 0.067*"linkedin" + 0.062*"skype" + 0.060*"tiktok" + 0.057*"snapchat"
+topic #2 (0.333): 0.057*"samsung" + 0.056*"keyboard" + 0.056*"apple" + 0.055*"dell" + 0.055*"monitor" + 0.054*"mouse" + 0.054*"digital" + 0.054*"microsoft" + 0.054*"sony" + 0.052*"basketball"
+topic diff=1.180792, rho=1.000000
+bound: at document #0
+-3.067 per-word bound, 8.4 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 1, at document #180/180
+performing inference on a chunk of 180 documents
+80/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.092*"volleyball" + 0.089*"swimming" + 0.086*"baseball" + 0.084*"football" + 0.083*"basketball" + 0.049*"boxing" + 0.046*"biking" + 0.045*"climbing" + 0.045*"hiking" + 0.040*"running"
+topic #1 (0.333): 0.095*"twitter" + 0.089*"discord" + 0.089*"whatsapp" + 0.086*"zoom" + 0.086*"facebook" + 0.084*"instagram" + 0.081*"linkedin" + 0.077*"skype" + 0.076*"tiktok" + 0.074*"snapchat"
+topic #2 (0.333): 0.075*"samsung" + 0.074*"keyboard" + 0.074*"apple" + 0.074*"dell" + 0.073*"monitor" + 0.073*"mouse" + 0.073*"digital" + 0.073*"microsoft" + 0.073*"sony" + 0.036*"running"
+topic diff=0.528540, rho=0.577350
+bound: at document #0
+-2.869 per-word bound, 7.3 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 2, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.100*"volleyball" + 0.099*"swimming" + 0.097*"baseball" + 0.096*"football" + 0.095*"basketball" + 0.061*"boxing" + 0.059*"climbing" + 0.059*"biking" + 0.058*"hiking" + 0.056*"running"
+topic #1 (0.333): 0.095*"twitter" + 0.092*"discord" + 0.092*"whatsapp" + 0.090*"zoom" + 0.090*"facebook" + 0.089*"instagram" + 0.087*"linkedin" + 0.085*"skype" + 0.084*"tiktok" + 0.083*"snapchat"
+topic #2 (0.333): 0.089*"samsung" + 0.089*"keyboard" + 0.089*"apple" + 0.089*"dell" + 0.089*"monitor" + 0.089*"mouse" + 0.089*"digital" + 0.089*"microsoft" + 0.088*"sony" + 0.021*"running"
+topic diff=0.455117, rho=0.500000
+bound: at document #0
+-2.746 per-word bound, 6.7 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 3, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.106*"volleyball" + 0.105*"swimming" + 0.104*"baseball" + 0.103*"football" + 0.102*"basketball" + 0.069*"boxing" + 0.068*"climbing" + 0.066*"biking" + 0.066*"hiking" + 0.064*"running"
+topic #1 (0.333): 0.094*"twitter" + 0.092*"discord" + 0.092*"whatsapp" + 0.091*"zoom" + 0.090*"facebook" + 0.090*"instagram" + 0.089*"linkedin" + 0.088*"skype" + 0.087*"tiktok" + 0.086*"snapchat"
+topic #2 (0.333): 0.098*"samsung" + 0.098*"keyboard" + 0.098*"apple" + 0.098*"dell" + 0.098*"monitor" + 0.097*"mouse" + 0.097*"digital" + 0.097*"microsoft" + 0.097*"sony" + 0.013*"running"
+topic diff=0.364461, rho=0.447214
+bound: at document #0
+-2.685 per-word bound, 6.4 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 4, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.110*"swimming" + 0.109*"volleyball" + 0.108*"baseball" + 0.107*"football" + 0.106*"basketball" + 0.074*"boxing" + 0.073*"climbing" + 0.071*"biking" + 0.071*"hiking" + 0.070*"running"
+topic #1 (0.333): 0.092*"twitter" + 0.091*"discord" + 0.091*"whatsapp" + 0.091*"zoom" + 0.090*"facebook" + 0.090*"instagram" + 0.089*"linkedin" + 0.089*"skype" + 0.088*"tiktok" + 0.088*"snapchat"
+topic #2 (0.333): 0.103*"samsung" + 0.103*"keyboard" + 0.103*"apple" + 0.103*"dell" + 0.103*"monitor" + 0.102*"mouse" + 0.102*"digital" + 0.102*"microsoft" + 0.102*"sony" + 0.008*"running"
+topic diff=0.305283, rho=0.408248
+saving LdaState object under ../output/test/lda.gensim.ae/tml/3Topics.pkl.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl.state'}
+saved ../output/test/lda.gensim.ae/tml/3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl.id2word'}
+saving LdaModel object under ../output/test/lda.gensim.ae/tml/3Topics.pkl, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/test/lda.gensim.ae/tml/3Topics.pkl.expElogbeta.npy
+not storing attribute id2word
+not storing attribute dispatcher
+not storing attribute state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl'}
+saved ../output/test/lda.gensim.ae/tml/3Topics.pkl
+topic #0 (0.333): 0.110*"swimming" + 0.109*"volleyball" + 0.108*"baseball" + 0.107*"football" + 0.106*"basketball" + 0.074*"boxing" + 0.073*"climbing" + 0.071*"biking" + 0.071*"hiking" + 0.070*"running"
+topic #1 (0.333): 0.092*"twitter" + 0.091*"discord" + 0.091*"whatsapp" + 0.091*"zoom" + 0.090*"facebook" + 0.090*"instagram" + 0.089*"linkedin" + 0.089*"skype" + 0.088*"tiktok" + 0.088*"snapchat"
+topic #2 (0.333): 0.103*"samsung" + 0.103*"keyboard" + 0.103*"apple" + 0.103*"dell" + 0.103*"monitor" + 0.102*"mouse" + 0.102*"digital" + 0.102*"microsoft" + 0.102*"sony" + 0.008*"running"
+GENSIM Topic: 0 
+Words: 0.110*"swimming" + 0.109*"volleyball" + 0.108*"baseball" + 0.107*"football" + 0.106*"basketball" + 0.074*"boxing" + 0.073*"climbing" + 0.071*"biking" + 0.071*"hiking" + 0.070*"running"
+GENSIM Topic: 1 
+Words: 0.092*"twitter" + 0.091*"discord" + 0.091*"whatsapp" + 0.091*"zoom" + 0.090*"facebook" + 0.090*"instagram" + 0.089*"linkedin" + 0.089*"skype" + 0.088*"tiktok" + 0.088*"snapchat"
+GENSIM Topic: 2 
+Words: 0.103*"samsung" + 0.103*"keyboard" + 0.103*"apple" + 0.103*"dell" + 0.103*"monitor" + 0.102*"mouse" + 0.102*"digital" + 0.102*"microsoft" + 0.102*"sony" + 0.008*"running"
+The currently set model 'LdaModel(num_terms=29, num_topics=3, decay=0.5, chunksize=2000)' may be inconsistent with the newly set topics
+2.2. Quality of topics ...
+(MeanCoherence): (-1.8634245928824278)
+(#Topic, Topic Coherences): (3, [-0.28379201320059494, 3.0000446571375978e-12, -5.306481765449688])
+Time Elapsed: 0.5694797039031982
+
+3. UML: Temporal Graph Creation ...
+##################################################
+3.1. Loading users' graph stream from ../output/test/lda.gensim.ae/uml/graphs/graphs.pkl ...
+3.1. Loading users' graph stream failed! Generating the graph stream ...
+60 users have twitted in 2010-12-01
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-01 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-01
+60 users have twitted in 2010-12-02
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-02 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-02
+60 users have twitted in 2010-12-03
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-03 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-03
+(#Graphs): (3)
+Time Elapsed: 0.47074294090270996
+
+4. GEL: Temporal Graph Embedding ...
+##################################################
+4.1. Loading embeddings ...
+4.1. Loading embeddings failed! Training ae ...
+Creating converter from 5 to 3
+(#Embeddings, #Dimension) : (60, 64)
+Time Elapsed: 1.3553826808929443
+
+5. Community Prediction ...
+##################################################
+5.1. Loading future user communities ...
+Loading future user communities failed! Predicting future user communities ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+(#Nodes/Users, #Edges): (60, 630)
+5.3. Future Community Prediction ...
+(#Future Communities, Communities Sizes) : (3, [20, 20, 20])
+(#Future Communities with less then 10 members) : (0)
+Cluster 1 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
+Cluster 2 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
+Cluster 0 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
+Time Elapsed: 0.13663482666015625
+
+6. Application: News Recommendation ...
+##################################################
+6.1 Loading news articles ...
+6.2 Inferring news articles' topics ...
+loading Dictionary object from ../output/test/lda.gensim.ae/tml\3TopicsDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3TopicsDictionary.mm'}
+loaded ../output/test/lda.gensim.ae/tml\3TopicsDictionary.mm
+Loading lda.gensim model ...
+loading LdaModel object from ../output/test/lda.gensim.ae/tml\3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3Topics.pkl'}
+loading expElogbeta from ../output/test/lda.gensim.ae/tml\3Topics.pkl.expElogbeta.npy with mmap=None
+setting ignored attribute id2word to None
+setting ignored attribute dispatcher to None
+setting ignored attribute state to None
+loaded ../output/test/lda.gensim.ae/tml\3Topics.pkl
+loading LdaState object from ../output/test/lda.gensim.ae/tml\3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3Topics.pkl.state'}
+loaded ../output/test/lda.gensim.ae/tml\3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3Topics.pkl.id2word'}
+6.3 Recommending news articles to future communities ...
+6.4 Evaluating recommended news articles on future time interval 2010-12-04...
+Time Elapsed: 0.14760589599609375
+
+
+
+
+Running pipeline for lda.gensim and dynae ....
+
+1. DAL: Temporal Document Creation from Social Posts ...
+##################################################
+1.1. Loading saved temporal documents from  ../output/test/lda.gensim.dynae/Documents.csv in which 
+(User, Time) a document is concat of user's posts in each 1 day(s)...
+1.1. Loading temporal documents failed! Creating temporal documents ...
+1.2. Loading social posts ...
+(#Posts): (540)
+1.3. Creating temporal documents in which 
+(User, Time) a document is concat of user's posts in each 1 day(s)
+(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): (180,180,60,3)
+Time Elapsed: 0.054853200912475586
+
+2. TML: Topic Modeling ...
+##################################################
+loading LdaModel object from ../output/test/lda.gensim.dynae/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl'}
+2.1. Loading saved topic model failed! Training a model ...
+(#Topics, Model): (3, lda.gensim)
+adding document #0 to Dictionary(0 unique tokens: [])
+built Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...) from 180 documents (total 5832 corpus positions)
+discarding 0 tokens: []...
+keeping 29 tokens which were in no less than 2 and no more than 108 (=60.0%) documents
+rebuilding dictionary, shrinking gaps
+resulting dictionary: Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...)
+saving Dictionary object under ../output/test/lda.gensim.dynae/tml/3TopicsDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3TopicsDictionary.mm'}
+saved ../output/test/lda.gensim.dynae/tml/3TopicsDictionary.mm
+using symmetric alpha at 0.3333333333333333
+using symmetric eta at 0.3333333333333333
+using serial LDA version on this node
+running online (multi-pass) LDA training, 3 topics, 5 passes over the supplied corpus of 180 documents, updating model once every 180 documents, evaluating perplexity every 180 documents, iterating 50x with a convergence threshold of 0.001000
+too few updates, training might not converge; consider increasing the number of passes or iterations to improve accuracy
+bound: at document #0
+-3.883 per-word bound, 14.8 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 0, at document #180/180
+performing inference on a chunk of 180 documents
+0/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.106*"basketball" + 0.103*"running" + 0.102*"biking" + 0.102*"swimming" + 0.101*"baseball" + 0.096*"hiking" + 0.094*"boxing" + 0.093*"climbing" + 0.092*"volleyball" + 0.088*"football"
+topic #1 (0.333): 0.060*"mouse" + 0.060*"monitor" + 0.060*"football" + 0.054*"volleyball" + 0.054*"microsoft" + 0.050*"digital" + 0.050*"sony" + 0.050*"dell" + 0.049*"keyboard" + 0.046*"apple"
+topic #2 (0.333): 0.053*"snapchat" + 0.053*"skype" + 0.052*"zoom" + 0.052*"whatsapp" + 0.052*"linkedin" + 0.051*"facebook" + 0.051*"instagram" + 0.051*"tiktok" + 0.050*"twitter" + 0.050*"discord"
+topic diff=1.607137, rho=1.000000
+bound: at document #0
+-2.948 per-word bound, 7.7 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 1, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.102*"basketball" + 0.100*"running" + 0.100*"swimming" + 0.100*"biking" + 0.100*"baseball" + 0.099*"boxing" + 0.099*"climbing" + 0.098*"hiking" + 0.097*"volleyball" + 0.095*"football"
+topic #1 (0.333): 0.092*"mouse" + 0.092*"monitor" + 0.090*"microsoft" + 0.088*"digital" + 0.088*"sony" + 0.088*"dell" + 0.088*"keyboard" + 0.087*"apple" + 0.087*"samsung" + 0.022*"football"
+topic #2 (0.333): 0.064*"snapchat" + 0.064*"skype" + 0.064*"zoom" + 0.064*"whatsapp" + 0.063*"linkedin" + 0.063*"facebook" + 0.063*"instagram" + 0.063*"tiktok" + 0.063*"twitter" + 0.063*"discord"
+topic diff=0.679049, rho=0.577350
+bound: at document #0
+-2.705 per-word bound, 6.5 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 2, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.101*"boxing" + 0.101*"climbing" + 0.100*"basketball" + 0.100*"running" + 0.100*"swimming" + 0.099*"baseball" + 0.099*"biking" + 0.098*"hiking" + 0.098*"volleyball" + 0.097*"football"
+topic #1 (0.333): 0.102*"mouse" + 0.102*"monitor" + 0.101*"microsoft" + 0.100*"digital" + 0.100*"sony" + 0.100*"dell" + 0.100*"keyboard" + 0.099*"apple" + 0.099*"samsung" + 0.011*"football"
+topic #2 (0.333): 0.069*"snapchat" + 0.069*"skype" + 0.069*"zoom" + 0.069*"whatsapp" + 0.069*"linkedin" + 0.069*"facebook" + 0.069*"instagram" + 0.069*"tiktok" + 0.068*"twitter" + 0.068*"discord"
+topic diff=0.452508, rho=0.500000
+bound: at document #0
+-2.636 per-word bound, 6.2 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 3, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.101*"boxing" + 0.101*"climbing" + 0.100*"basketball" + 0.099*"swimming" + 0.099*"baseball" + 0.099*"running" + 0.099*"biking" + 0.099*"hiking" + 0.098*"volleyball" + 0.098*"football"
+topic #1 (0.333): 0.106*"mouse" + 0.106*"monitor" + 0.105*"microsoft" + 0.105*"digital" + 0.105*"sony" + 0.105*"dell" + 0.105*"keyboard" + 0.104*"apple" + 0.104*"samsung" + 0.006*"football"
+topic #2 (0.333): 0.072*"snapchat" + 0.072*"skype" + 0.071*"zoom" + 0.071*"whatsapp" + 0.071*"linkedin" + 0.071*"facebook" + 0.071*"instagram" + 0.071*"tiktok" + 0.071*"twitter" + 0.071*"discord"
+topic diff=0.343154, rho=0.447214
+bound: at document #0
+-2.606 per-word bound, 6.1 perplexity estimate based on a held-out corpus of 180 documents with 5832 words
+PROGRESS: pass 4, at document #180/180
+performing inference on a chunk of 180 documents
+180/180 documents converged within 50 iterations
+updating topics
+topic #0 (0.333): 0.102*"boxing" + 0.102*"climbing" + 0.099*"basketball" + 0.099*"swimming" + 0.099*"baseball" + 0.099*"running" + 0.099*"biking" + 0.099*"hiking" + 0.099*"volleyball" + 0.099*"football"
+topic #1 (0.333): 0.108*"mouse" + 0.108*"monitor" + 0.107*"microsoft" + 0.107*"digital" + 0.107*"sony" + 0.107*"dell" + 0.107*"keyboard" + 0.107*"apple" + 0.107*"samsung" + 0.004*"football"
+topic #2 (0.333): 0.073*"snapchat" + 0.073*"skype" + 0.073*"zoom" + 0.073*"whatsapp" + 0.073*"linkedin" + 0.073*"facebook" + 0.073*"instagram" + 0.073*"tiktok" + 0.073*"twitter" + 0.073*"discord"
+topic diff=0.273972, rho=0.408248
+saving LdaState object under ../output/test/lda.gensim.dynae/tml/3Topics.pkl.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl.state'}
+saved ../output/test/lda.gensim.dynae/tml/3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl.id2word'}
+saving LdaModel object under ../output/test/lda.gensim.dynae/tml/3Topics.pkl, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/test/lda.gensim.dynae/tml/3Topics.pkl.expElogbeta.npy
+not storing attribute id2word
+not storing attribute dispatcher
+not storing attribute state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl'}
+saved ../output/test/lda.gensim.dynae/tml/3Topics.pkl
+topic #0 (0.333): 0.102*"boxing" + 0.102*"climbing" + 0.099*"basketball" + 0.099*"swimming" + 0.099*"baseball" + 0.099*"running" + 0.099*"biking" + 0.099*"hiking" + 0.099*"volleyball" + 0.099*"football"
+topic #1 (0.333): 0.108*"mouse" + 0.108*"monitor" + 0.107*"microsoft" + 0.107*"digital" + 0.107*"sony" + 0.107*"dell" + 0.107*"keyboard" + 0.107*"apple" + 0.107*"samsung" + 0.004*"football"
+topic #2 (0.333): 0.073*"snapchat" + 0.073*"skype" + 0.073*"zoom" + 0.073*"whatsapp" + 0.073*"linkedin" + 0.073*"facebook" + 0.073*"instagram" + 0.073*"tiktok" + 0.073*"twitter" + 0.073*"discord"
+GENSIM Topic: 0 
+Words: 0.102*"boxing" + 0.102*"climbing" + 0.099*"basketball" + 0.099*"swimming" + 0.099*"baseball" + 0.099*"running" + 0.099*"biking" + 0.099*"hiking" + 0.099*"volleyball" + 0.099*"football"
+GENSIM Topic: 1 
+Words: 0.108*"mouse" + 0.108*"monitor" + 0.107*"microsoft" + 0.107*"digital" + 0.107*"sony" + 0.107*"dell" + 0.107*"keyboard" + 0.107*"apple" + 0.107*"samsung" + 0.004*"football"
+GENSIM Topic: 2 
+Words: 0.073*"snapchat" + 0.073*"skype" + 0.073*"zoom" + 0.073*"whatsapp" + 0.073*"linkedin" + 0.073*"facebook" + 0.073*"instagram" + 0.073*"tiktok" + 0.073*"twitter" + 0.073*"discord"
+The currently set model 'LdaModel(num_terms=29, num_topics=3, decay=0.5, chunksize=2000)' may be inconsistent with the newly set topics
+2.2. Quality of topics ...
+(MeanCoherence): (-1.802882296732384)
+(#Topic, Topic Coherences): (3, [-0.10216512475046484, -5.306481765449688, 3.0000446571375978e-12])
+Time Elapsed: 0.48370862007141113
+
+3. UML: Temporal Graph Creation ...
+##################################################
+3.1. Loading users' graph stream from ../output/test/lda.gensim.dynae/uml/graphs/graphs.pkl ...
+3.1. Loading users' graph stream failed! Generating the graph stream ...
+60 users have twitted in 2010-12-01
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-01 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-01
+60 users have twitted in 2010-12-02
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-02 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-02 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-02
+60 users have twitted in 2010-12-03
+UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-03 with shape: (60, 3)
+UserSimilarity: A graph is being created for day: 2010-12-03 with 60 users
+UserSimilarity: Number of users per day: 60
+UserSimilarity: Graphs are written in "graphs" directory
+UsersGraph: There are 60 users on 2010-12-03
+(#Graphs): (3)
+Time Elapsed: 0.4886958599090576
+
+4. GEL: Temporal Graph Embedding ...
+##################################################
+4.1. Loading embeddings ...
+4.1. Loading embeddings failed! Training dynae ...
+(#Embeddings, #Dimension) : (60, 64)
+Time Elapsed: 1.3015258312225342
+
+5. Community Prediction ...
+##################################################
+5.1. Loading future user communities ...
+Loading future user communities failed! Predicting future user communities ...
+5.1. Inter-User Similarity Prediction ...
+5.2. Future Graph Prediction ...
+(#Nodes/Users, #Edges): (60, 630)
+5.3. Future Community Prediction ...
+(#Future Communities, Communities Sizes) : (3, [20, 20, 20])
+(#Future Communities with less then 10 members) : (0)
+Cluster 2 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
+Cluster 0 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
+Cluster 1 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
+Time Elapsed: 0.13563776016235352
+
+6. Application: News Recommendation ...
+##################################################
+6.1 Loading news articles ...
+6.2 Inferring news articles' topics ...
+loading Dictionary object from ../output/test/lda.gensim.dynae/tml\3TopicsDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3TopicsDictionary.mm'}
+loaded ../output/test/lda.gensim.dynae/tml\3TopicsDictionary.mm
+Loading lda.gensim model ...
+loading LdaModel object from ../output/test/lda.gensim.dynae/tml\3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3Topics.pkl'}
+loading expElogbeta from ../output/test/lda.gensim.dynae/tml\3Topics.pkl.expElogbeta.npy with mmap=None
+setting ignored attribute id2word to None
+setting ignored attribute dispatcher to None
+setting ignored attribute state to None
+loaded ../output/test/lda.gensim.dynae/tml\3Topics.pkl
+loading LdaState object from ../output/test/lda.gensim.dynae/tml\3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3Topics.pkl.state'}
+loaded ../output/test/lda.gensim.dynae/tml\3Topics.pkl.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3Topics.pkl.id2word'}
+6.3 Recommending news articles to future communities ...
+6.4 Evaluating recommended news articles on future time interval 2010-12-04...
+Time Elapsed: 0.15658211708068848
+
+
+
+
