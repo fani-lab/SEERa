@@ -44,27 +44,22 @@ def main(news_table):
         processed_docs['NewsId'] = news_table['NewsId']
         processed_docs[t_t] = np.asarray(processed_docs_)
 
-    if not Params.tml['method'].lower() == 'btm':
-        dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
-        dictionary = gensim.corpora.Dictionary.load(dict_path)
-    else:
-        dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.pkl')[0]
-        dictionary = pd.read_pickle(dict_path)
+    dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
+    if not Params.tml['method'].lower() == 'btm': dictionary = gensim.corpora.Dictionary.load(dict_path)
+    else: dictionary = pd.read_pickle(dict_path)
+
     # LDA Model Loading
     if Params.tml['method'].lower() in ['gsdmm', 'btm']:
         model_name = glob.glob(f'{Params.tml["path2save"]}/*Topics.pkl')[0]
         tm_model = pd.read_pickle(model_name)
     else:
         method = Params.tml["method"].split('.')
-        model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
+        model_name = glob.glob(f'{Params.tml["path2save"]}/*.pkl')[0]
         cmn.logger.info(f'Loading {Params.tml["method"]} model ...')
         if method[0].lower() == 'lda': tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
     total_news_topics = {}
     for index, row in processed_docs.iterrows():
-
-        if Params.tml['method'].lower() == 'btm': 
-            import bitermplus as btm
-            topics = tm.doc2topics(tm_model, btm.get_vectorized_docs([' '.join(row[t_t])], dictionary), threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
+        if Params.tml['method'].lower() == 'btm': topics = tm.doc2topics(tm_model, ' '.join(row[t_t]), threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])
         else:
             news_bow_corpus = dictionary.doc2bow(row[t_t])
             topics = tm.doc2topics(tm_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])

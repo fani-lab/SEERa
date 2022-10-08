@@ -51,8 +51,7 @@ def main():
                                                                                   timeInterval=Params.dal[
                                                                                       'timeInterval'])
 
-    cmn.logger.info(
-        f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
+    cmn.logger.info(f'(#ProcessedDocuments, #Documents, #Users, #TimeIntervals): ({len(processed_docs)},{len(documents)},{n_users},{n_timeintervals})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     cmn.logger.info(f'\n2. TML: Topic Modeling ...')
@@ -62,16 +61,16 @@ def main():
 
         if Params.tml['method'].split('.')[0] == 'lda':
             path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
-            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
+            path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
             tml_model = gensim.models.LdaModel.load(path_mdl)
             dictionary = gensim.corpora.Dictionary.load(path_dict)
-        elif Params.tml['method'] == 'gsdmm':
+        elif Params.tml['method'] in ['gsdmm', 'btm']:
             path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
             path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
             tml_model = pd.read_pickle(path_mdl)
             dictionary = gensim.corpora.Dictionary.load(path_dict)
         elif Params.tml['method'] == 'btm':
-            path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.pkl"
+            path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
             path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.pkl"
             tml_model = pd.read_pickle(path_mdl)
             dictionary = pd.read_pickle(path_dict)
@@ -144,7 +143,7 @@ def main():
         cmn.logger.info(f'5.1. Loading future user communities ...')
         np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
         pd.read_csv(f'{Params.cpl["path2save"]}/ClusterTopic.csv')
-    except:
+    except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading future user communities failed! Predicting future user communities ...')
         from cpl import GraphClustering as GC
         GC.main(embeddings, Params.cpl['method'])

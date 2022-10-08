@@ -5,15 +5,12 @@ import numpy as np
 from scipy.special import softmax
 import pandas as pd
 from collections import Counter
-import sknetwork as skn
+import sknetwork as skn #cannot be debugged (in debug mode, raise error)
 from sklearn.metrics.pairwise import pairwise_kernels
 from scipy import sparse
 
 import Params
 from cmn import Common as cmn
-
-
-
 
 def user_cluster_relation(lbls):
     user_ids = np.load(f"{Params.uml['path2save']}/Users.npy")

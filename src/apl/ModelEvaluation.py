@@ -10,12 +10,6 @@ import sklearn.metrics.cluster as CM
 import Params
 
 
-def pytrec_eval_run(qrel, run, metric):
-    evaluator = pytrec_eval.RelevanceEvaluator(qrel, metric)#Params.evl['extrinsicEvaluationMetrics'])
-    pred_eval = evaluator.evaluate(run)
-    return pred_eval
-
-
 def save_obj(obj, name):
     with open(name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
@@ -87,36 +81,34 @@ def main(top_recommendation_user):
         np.save(f'{Params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
         return scores
     if Params.evl['evaluationType'] == "Extrinsic":
-        try:
-            users_mentions = pd.read_pickle(f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
-        except:
+        try: users_mentions = pd.read_pickle(f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
+        except (FileNotFoundError, EOFError) as e:
             users_mentions = user_mentions()
             pd.to_pickle(users_mentions, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
+
+
         user_intersection = np.intersect1d(np.asarray(list(top_recommendation_user.keys())), np.asarray(list(users_mentions.keys())))
         top_recommendation_mentioner_user = {muser: top_recommendation_user[muser] for muser in user_intersection}
         pd.to_pickle(top_recommendation_mentioner_user, f'{Params.apl["path2save"]}/topRecommendationMentionerUser.pkl')
         users_mentions_mentioner_user = {muser: users_mentions[muser] for muser in user_intersection}
         pd.to_pickle(users_mentions_mentioner_user, f'{Params.apl["path2save"]}/users_mentions_mentioned_user.pkl')
+
+        #users_mentions_mentioner_user {1: [4], 2: [5], ...}
+        #new_top_recommendation_mentioner_user {1: array[3,17], 2: array[3,17], ...}
+
         pytrec_result_total = []
-        K = 1
-        while K <= Params.apl['topK']:
-            metric = [f'success_{K}']
-            K += 1
-            new_top_recommendation_mentioner_user = {}
-            for x, y in top_recommendation_mentioner_user.items():
-                new_top_recommendation_mentioner_user[x] = y[:K]
-            r_user, m_user = dictionary_generation(new_top_recommendation_mentioner_user, users_mentions_mentioner_user)
-            pytrec_result = pytrec_eval_run(m_user, r_user, metric)
-            pytrec_result_total.append(pytrec_result)
-        pred_eval = pd.DataFrame(pytrec_result_total).T
-        for index, row in pred_eval.iterrows():
-            for i in range(0, pred_eval.shape[1]):
-                [(k, v)] = dict(row[i]).items()
-                pred_eval.at[index, i] = v
-        column_headers = list(pred_eval.columns.values)
-        pred_eval.columns = [str(int(i) + 1) for i in column_headers]
-        pred_eval = pred_eval.add_prefix('success_')
-        pred_eval.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv')
-        mean = pred_eval.mean(axis=0, skipna=True)
-        mean.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.csv', index_label="metric", header=["score"])
+        metrics = f"success_{','.join([str(i) for i in range(1,60, 1)])}"
+
+        qrel = {}; run={}
+        for i, (y, y_) in enumerate(zip(users_mentions_mentioner_user, top_recommendation_mentioner_user)):
+            qrel['u' + str(y)] = {'n' + str(idx): 1 for idx in users_mentions_mentioner_user[y]}
+            run['u' + str(y)] = {'n' + str(idx): (len(top_recommendation_mentioner_user[y_])-j) for j, idx in enumerate(top_recommendation_mentioner_user[y_])}
+
+        print(f'Calling pytrec_eval for {len(metrics)} metrics ...')
+        df = pd.DataFrame.from_dict(pytrec_eval.RelevanceEvaluator(qrel, {metrics}).evaluate(run)).T
+        df.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv', float_format='%.15f')
+
+        print(f'Averaging ...')
+        df_mean = df.mean(axis=0).to_frame('mean')
+        df_mean.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.csv', index_label="metric", header=["score"])
         return pytrec_result_total

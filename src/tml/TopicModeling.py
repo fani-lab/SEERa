@@ -51,7 +51,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
 
     elif method.lower() == "lda.gensim":
         tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
-        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
+        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.pkl")
         gensim_topics = []
         gensim_percentages = []
         gensim_topics_percentages = []
@@ -77,7 +77,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         os.environ['MALLET_HOME'] = Params.tml['malletHome']
         mallet_path = f'{Params.tml["malletHome"]}/bin/mallet.bat'
         tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=8)
-        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
+        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.pkl")
         mallet_topics = []
         mallet_percentages = []
         mallet_topics_percentages = []
@@ -105,7 +105,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         # Obtaining terms frequency in a sparse matrix and corpus vocabulary
         processed_docs = [' '.join(text) for text in processed_docs]
         doc_word_frequency, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
-        pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.pkl')
+        pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
 
         # Vectorizing documents
         docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
@@ -124,7 +124,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         cv = None
 
         # total_topics = model.matrix_topics_words_
-        tm_model.df_words_topics_.to_csv('wordstopic.csv')  # shouldn't be f"{path_2_save_tml}/{num_topics}Topics.csv like others?
+        tm_model.df_words_topics_.to_csv(f'{path_2_save_tml}/{num_topics}Topics.csv')
         # making topic-word csv
         topic_range_idx = list(range(0, num_topics))
         top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
@@ -167,21 +167,22 @@ def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml
     return 'Visualization is finished'
 
 
-def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True):
+def doc2topics(tm_model, doc, threshold=0.2, just_one=True, binary=True, dict=None):
     if Params.tml['method'].lower() == "btm":
-        doc_topic_vector = np.zeros((lda_model.topics_num_))
+        doc = btm.get_vectorized_docs([doc], dictionary)
+        doc_topic_vector = np.zeros((tm_model.topics_num_))
         d2t_vector = lda_model.transform(doc)[0]
     elif Params.tml['method'].lower() == "gsdmm":
-        doc_topic_vector = np.zeros((lda_model.K))
-        d2t_vector = lda_model.score(doc)
+        doc_topic_vector = np.zeros((tm_model.K))
+        d2t_vector = tm_model.score(doc)
         c = np.reshape(range(len(d2t_vector)), (-1, 1))
         d2t_vector = np.concatenate([c, np.reshape(d2t_vector, (-1, 1))], axis=1)
     elif Params.tml["method"].split('.')[0].lower() == 'lda':
-        doc_topic_vector = np.zeros((lda_model.num_topics))
+        doc_topic_vector = np.zeros((tm_model.num_topics))
         if Params.tml["method"].split('.')[-1].lower() == 'gensim':
-            d2t_vector = lda_model.get_document_topics(doc)
+            d2t_vector = tm_model.get_document_topics(doc)
         elif Params.tml["method"].split('.')[-1].lower() == 'mallet':
-            gen_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model)
+            gen_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(tm_model)
             d2t_vector = gen_model.get_document_topics(doc)
         else: raise ValueError("Invalid topic modeling!")
 
