@@ -9,30 +9,6 @@ import sklearn.metrics.cluster as CM
 
 import Params
 
-
-def save_obj(obj, name):
-    with open(name + '.pkl', 'wb') as f:
-        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
-
-
-def dictionary_generation(top_recommendations, mentions):
-    recommendation = {}
-    for user in top_recommendations:
-        recoms = top_recommendations[user]
-        recommendation[str(user)] = {}
-        for n in range(len(recoms)):
-            recommendation[str(user)][str(int(recoms[n]))] = 1
-
-    mention = {}
-    for user in mentions:
-        recoms = mentions[user]
-        mention[str(user)] = {}
-        for n in range(len(recoms)):
-            mention[str(user)][str(int(recoms[n]))] = 1
-
-    return recommendation, mention
-
-
 def user_mentions():
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
     news = news[news[Params.apl["textTitle"]].notna()]
@@ -51,10 +27,8 @@ def user_mentions():
             try:
                 news_id = news[news['ExpandedUrl'] == row['ExpandedUrl']]['NewsId'].values[0]
                 users_news.setdefault(uid, []).append(news_id)
-            except:
-                pass
+            except: pass
     return users_news
-
 
 def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicEvaluationMetrics']):
     results = []
@@ -85,7 +59,6 @@ def main(top_recommendation_user):
         except (FileNotFoundError, EOFError) as e:
             users_mentions = user_mentions()
             pd.to_pickle(users_mentions, f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
-
 
         user_intersection = np.intersect1d(np.asarray(list(top_recommendation_user.keys())), np.asarray(list(users_mentions.keys())))
         top_recommendation_mentioner_user = {muser: top_recommendation_user[muser] for muser in user_intersection}
