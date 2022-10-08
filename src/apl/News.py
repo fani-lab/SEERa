@@ -58,16 +58,13 @@ def main():
         stats(news_table)
 
     cmn.logger.info(f"6.2 Inferring news articles' topics ...")
-    try:
-        news_topics = pd.read_pickle(f'{Params.apl["path2save"]}/NewsTopics.pkl')
-    except:
-        news_topics = NTE.main(news_table)
+    try: news_topics = pd.read_pickle(f'{Params.apl["path2save"]}/NewsTopics.pkl')
+    except (FileNotFoundError, EOFError) as e: news_topics = NTE.main(news_table)
 
     cmn.logger.info(f"6.3 Recommending news articles to future communities ...")
-    if not exists(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl'):
-        final_recommendation = NR.main(news_topics, Params.apl['topK'])
-    else:
-        final_recommendation = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
+    try: final_recommendation = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
+    except (FileNotFoundError, EOFError) as e: final_recommendation = NR.main(news_topics, Params.apl['topK'])
+
     end_date = pd.Timestamp(str(Params.dal['end']))
     day_before = 0
     day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
