@@ -77,7 +77,7 @@ def main(top_recommendation_user):
             qrel['u' + str(y)] = {'n' + str(idx): 1 for idx in users_mentions_mentioner_user[y]}
             run['u' + str(y)] = {'n' + str(idx): (len(top_recommendation_mentioner_user[y_])-j) for j, idx in enumerate(top_recommendation_mentioner_user[y_])}
 
-        cmn.logger.info(f'Calling pytrec_eval for {Params.evl["extrinsicMetrics"]} at different cutoffs ...')
+        cmn.logger.info(f'Calling pytrec_eval for {Params.evl["extrinsicMetrics"]} at [1:1:{Params.apl["topK"]}] cutoffs ...')
         df = pd.DataFrame.from_dict(pytrec_eval.RelevanceEvaluator(qrel, metrics).evaluate(run)).T
         df.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv', float_format='%.15f')
 
