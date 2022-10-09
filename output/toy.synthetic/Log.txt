@@ -2,7 +2,7 @@ Running pipeline for lda.gensim and dynaernn ....
 
 1. DAL: Temporal Document Creation from Social Posts ...
 ##################################################
-1.1. Loading saved temporal documents from  ../output/test/lda.gensim.dynaernn/Documents.csv in which 
+1.1. Loading saved temporal documents from  ../output/toy.synthetic/lda.gensim.dynaernn/Documents.csv in which 
 (User, Time) a document is concat of user's posts in each 1 day(s)...
 1.1. Loading temporal documents failed! Creating temporal documents ...
 1.2. Loading social posts ...
@@ -10,12 +10,12 @@ Running pipeline for lda.gensim and dynaernn ....
 1.3. Creating temporal documents in which 
 (User, Time) a document is concat of user's posts in each 1 day(s)
 (#ProcessedDocuments, #Documents, #Users, #TimeIntervals): (180,180,60,3)
-Time Elapsed: 0.07280516624450684
+Time Elapsed: 0.07779288291931152
 
 2. TML: Topic Modeling ...
 ##################################################
-loading LdaModel object from ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl'}
+loading LdaModel object from ../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.pkl'}
 2.1. Loading saved topic model failed! Training a model ...
 (#Topics, Model): (3, lda.gensim)
 adding document #0 to Dictionary(0 unique tokens: [])
@@ -24,9 +24,9 @@ discarding 0 tokens: []...
 keeping 29 tokens which were in no less than 2 and no more than 108 (=60.0%) documents
 rebuilding dictionary, shrinking gaps
 resulting dictionary: Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...)
-saving Dictionary object under ../output/test/lda.gensim.dynaernn/tml/3TopicsDictionary.mm, separately None
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3TopicsDictionary.mm'}
-saved ../output/test/lda.gensim.dynaernn/tml/3TopicsDictionary.mm
+saving Dictionary object under ../output/toy.synthetic/lda.gensim.dynaernn/tml/3TopicsDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml/3TopicsDictionary.mm'}
+saved ../output/toy.synthetic/lda.gensim.dynaernn/tml/3TopicsDictionary.mm
 using symmetric alpha at 0.3333333333333333
 using symmetric eta at 0.3333333333333333
 using serial LDA version on this node
@@ -82,17 +82,17 @@ topic #0 (0.333): 0.106*"apple" + 0.106*"dell" + 0.106*"mouse" + 0.106*"microsof
 topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
 topic #2 (0.333): 0.102*"boxing" + 0.101*"climbing" + 0.098*"hiking" + 0.098*"volleyball" + 0.098*"biking" + 0.097*"swimming" + 0.097*"basketball" + 0.097*"baseball" + 0.097*"running" + 0.097*"football"
 topic diff=0.254346, rho=0.408248
-saving LdaState object under ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.state, separately None
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.state'}
-saved ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.id2word'}
-saving LdaModel object under ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl, separately ['expElogbeta', 'sstats']
-storing np array 'expElogbeta' to ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl.expElogbeta.npy
+saving LdaState object under ../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model.state'}
+saved ../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model.id2word'}
+saving LdaModel object under ../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model.expElogbeta.npy
+not storing attribute state
 not storing attribute id2word
 not storing attribute dispatcher
-not storing attribute state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynaernn/tml/3Topics.pkl'}
-saved ../output/test/lda.gensim.dynaernn/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model'}
+saved ../output/toy.synthetic/lda.gensim.dynaernn/tml/3Topics.model
 topic #0 (0.333): 0.106*"apple" + 0.106*"dell" + 0.106*"mouse" + 0.106*"microsoft" + 0.106*"sony" + 0.106*"digital" + 0.105*"monitor" + 0.105*"samsung" + 0.105*"keyboard" + 0.006*"football"
 topic #1 (0.333): 0.075*"discord" + 0.075*"linkedin" + 0.075*"zoom" + 0.075*"twitter" + 0.075*"skype" + 0.075*"snapchat" + 0.075*"tiktok" + 0.075*"whatsapp" + 0.075*"facebook" + 0.075*"instagram"
 topic #2 (0.333): 0.102*"boxing" + 0.101*"climbing" + 0.098*"hiking" + 0.098*"volleyball" + 0.098*"biking" + 0.097*"swimming" + 0.097*"basketball" + 0.097*"baseball" + 0.097*"running" + 0.097*"football"
@@ -106,11 +106,11 @@ The currently set model 'LdaModel(num_terms=29, num_topics=3, decay=0.5, chunksi
 2.2. Quality of topics ...
 (MeanCoherence): (-1.7877467226948733)
 (#Topic, Topic Coherences): (3, [-5.306481765449688, 3.0000446571375978e-12, -0.05675840263793232])
-Time Elapsed: 0.45877552032470703
+Time Elapsed: 0.4388277530670166
 
 3. UML: Temporal Graph Creation ...
 ##################################################
-3.1. Loading users' graph stream from ../output/test/lda.gensim.dynaernn/uml/graphs/graphs.pkl ...
+3.1. Loading users' graph stream from ../output/toy.synthetic/lda.gensim.dynaernn/uml/graphs/graphs.pkl ...
 3.1. Loading users' graph stream failed! Generating the graph stream ...
 60 users have twitted in 2010-12-01
 UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 with shape: (60, 3)
@@ -131,7 +131,7 @@ UserSimilarity: Number of users per day: 60
 UserSimilarity: Graphs are written in "graphs" directory
 UsersGraph: There are 60 users on 2010-12-03
 (#Graphs): (3)
-Time Elapsed: 0.6103711128234863
+Time Elapsed: 0.6243340969085693
 
 4. GEL: Temporal Graph Embedding ...
 ##################################################
@@ -145,7 +145,7 @@ Creating converter from 5 to 7
 Creating converter from 7 to 5
 Creating converter from 5 to 7
 (#Embeddings, #Dimension) : (60, 64)
-Time Elapsed: 6.331100225448608
+Time Elapsed: 6.078784227371216
 
 5. Community Prediction ...
 ##################################################
@@ -160,30 +160,32 @@ Loading future user communities failed! Predicting future user communities ...
 Cluster 0 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
 Cluster 2 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
 Cluster 1 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
-Time Elapsed: 0.1845076084136963
+Time Elapsed: 0.19048023223876953
 
 6. Application: News Recommendation ...
 ##################################################
 6.1 Loading news articles ...
 6.2 Inferring news articles' topics ...
-loading Dictionary object from ../output/test/lda.gensim.dynaernn/tml\3TopicsDictionary.mm
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3TopicsDictionary.mm'}
-loaded ../output/test/lda.gensim.dynaernn/tml\3TopicsDictionary.mm
+loading Dictionary object from ../output/toy.synthetic/lda.gensim.dynaernn/tml\3TopicsDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml\\3TopicsDictionary.mm'}
+loaded ../output/toy.synthetic/lda.gensim.dynaernn/tml\3TopicsDictionary.mm
 Loading lda.gensim model ...
-loading LdaModel object from ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3Topics.pkl'}
-loading expElogbeta from ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl.expElogbeta.npy with mmap=None
+loading LdaModel object from ../output/toy.synthetic/lda.gensim.dynaernn/tml\3Topics.model
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml\\3Topics.model'}
+loading expElogbeta from ../output/toy.synthetic/lda.gensim.dynaernn/tml\3Topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute state to None
 setting ignored attribute id2word to None
 setting ignored attribute dispatcher to None
-setting ignored attribute state to None
-loaded ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl
-loading LdaState object from ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3Topics.pkl.state'}
-loaded ../output/test/lda.gensim.dynaernn/tml\3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynaernn/tml\\3Topics.pkl.id2word'}
+loaded ../output/toy.synthetic/lda.gensim.dynaernn/tml\3Topics.model
+loading LdaState object from ../output/toy.synthetic/lda.gensim.dynaernn/tml\3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml\\3Topics.model.state'}
+loaded ../output/toy.synthetic/lda.gensim.dynaernn/tml\3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynaernn/tml\\3Topics.model.id2word'}
 6.3 Recommending news articles to future communities ...
 6.4 Evaluating recommended news articles on future time interval 2010-12-04...
-Time Elapsed: 0.2812492847442627
+Calling pytrec_eval for {'map_cut', 'ndcg_cut', 'success'} at different cutoffs ...
+Averaging ...
+Time Elapsed: 0.33011841773986816
 
 
 
@@ -192,7 +194,7 @@ Running pipeline for lda.gensim and ae ....
 
 1. DAL: Temporal Document Creation from Social Posts ...
 ##################################################
-1.1. Loading saved temporal documents from  ../output/test/lda.gensim.ae/Documents.csv in which 
+1.1. Loading saved temporal documents from  ../output/toy.synthetic/lda.gensim.ae/Documents.csv in which 
 (User, Time) a document is concat of user's posts in each 1 day(s)...
 1.1. Loading temporal documents failed! Creating temporal documents ...
 1.2. Loading social posts ...
@@ -200,12 +202,12 @@ Running pipeline for lda.gensim and ae ....
 1.3. Creating temporal documents in which 
 (User, Time) a document is concat of user's posts in each 1 day(s)
 (#ProcessedDocuments, #Documents, #Users, #TimeIntervals): (180,180,60,3)
-Time Elapsed: 0.055850982666015625
+Time Elapsed: 0.049866676330566406
 
 2. TML: Topic Modeling ...
 ##################################################
-loading LdaModel object from ../output/test/lda.gensim.ae/tml/3Topics.pkl
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl'}
+loading LdaModel object from ../output/toy.synthetic/lda.gensim.ae/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml/3Topics.pkl'}
 2.1. Loading saved topic model failed! Training a model ...
 (#Topics, Model): (3, lda.gensim)
 adding document #0 to Dictionary(0 unique tokens: [])
@@ -214,9 +216,9 @@ discarding 0 tokens: []...
 keeping 29 tokens which were in no less than 2 and no more than 108 (=60.0%) documents
 rebuilding dictionary, shrinking gaps
 resulting dictionary: Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...)
-saving Dictionary object under ../output/test/lda.gensim.ae/tml/3TopicsDictionary.mm, separately None
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3TopicsDictionary.mm'}
-saved ../output/test/lda.gensim.ae/tml/3TopicsDictionary.mm
+saving Dictionary object under ../output/toy.synthetic/lda.gensim.ae/tml/3TopicsDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml/3TopicsDictionary.mm'}
+saved ../output/toy.synthetic/lda.gensim.ae/tml/3TopicsDictionary.mm
 using symmetric alpha at 0.3333333333333333
 using symmetric eta at 0.3333333333333333
 using serial LDA version on this node
@@ -272,17 +274,17 @@ topic #0 (0.333): 0.110*"swimming" + 0.109*"volleyball" + 0.108*"baseball" + 0.1
 topic #1 (0.333): 0.092*"twitter" + 0.091*"discord" + 0.091*"whatsapp" + 0.091*"zoom" + 0.090*"facebook" + 0.090*"instagram" + 0.089*"linkedin" + 0.089*"skype" + 0.088*"tiktok" + 0.088*"snapchat"
 topic #2 (0.333): 0.103*"samsung" + 0.103*"keyboard" + 0.103*"apple" + 0.103*"dell" + 0.103*"monitor" + 0.102*"mouse" + 0.102*"digital" + 0.102*"microsoft" + 0.102*"sony" + 0.008*"running"
 topic diff=0.305283, rho=0.408248
-saving LdaState object under ../output/test/lda.gensim.ae/tml/3Topics.pkl.state, separately None
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl.state'}
-saved ../output/test/lda.gensim.ae/tml/3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl.id2word'}
-saving LdaModel object under ../output/test/lda.gensim.ae/tml/3Topics.pkl, separately ['expElogbeta', 'sstats']
-storing np array 'expElogbeta' to ../output/test/lda.gensim.ae/tml/3Topics.pkl.expElogbeta.npy
+saving LdaState object under ../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model.state'}
+saved ../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model.id2word'}
+saving LdaModel object under ../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model.expElogbeta.npy
+not storing attribute state
 not storing attribute id2word
 not storing attribute dispatcher
-not storing attribute state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.ae/tml/3Topics.pkl'}
-saved ../output/test/lda.gensim.ae/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model'}
+saved ../output/toy.synthetic/lda.gensim.ae/tml/3Topics.model
 topic #0 (0.333): 0.110*"swimming" + 0.109*"volleyball" + 0.108*"baseball" + 0.107*"football" + 0.106*"basketball" + 0.074*"boxing" + 0.073*"climbing" + 0.071*"biking" + 0.071*"hiking" + 0.070*"running"
 topic #1 (0.333): 0.092*"twitter" + 0.091*"discord" + 0.091*"whatsapp" + 0.091*"zoom" + 0.090*"facebook" + 0.090*"instagram" + 0.089*"linkedin" + 0.089*"skype" + 0.088*"tiktok" + 0.088*"snapchat"
 topic #2 (0.333): 0.103*"samsung" + 0.103*"keyboard" + 0.103*"apple" + 0.103*"dell" + 0.103*"monitor" + 0.102*"mouse" + 0.102*"digital" + 0.102*"microsoft" + 0.102*"sony" + 0.008*"running"
@@ -296,11 +298,11 @@ The currently set model 'LdaModel(num_terms=29, num_topics=3, decay=0.5, chunksi
 2.2. Quality of topics ...
 (MeanCoherence): (-1.8634245928824278)
 (#Topic, Topic Coherences): (3, [-0.28379201320059494, 3.0000446571375978e-12, -5.306481765449688])
-Time Elapsed: 0.5694797039031982
+Time Elapsed: 0.5355703830718994
 
 3. UML: Temporal Graph Creation ...
 ##################################################
-3.1. Loading users' graph stream from ../output/test/lda.gensim.ae/uml/graphs/graphs.pkl ...
+3.1. Loading users' graph stream from ../output/toy.synthetic/lda.gensim.ae/uml/graphs/graphs.pkl ...
 3.1. Loading users' graph stream failed! Generating the graph stream ...
 60 users have twitted in 2010-12-01
 UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 with shape: (60, 3)
@@ -321,7 +323,7 @@ UserSimilarity: Number of users per day: 60
 UserSimilarity: Graphs are written in "graphs" directory
 UsersGraph: There are 60 users on 2010-12-03
 (#Graphs): (3)
-Time Elapsed: 0.47074294090270996
+Time Elapsed: 0.4547863006591797
 
 4. GEL: Temporal Graph Embedding ...
 ##################################################
@@ -329,7 +331,7 @@ Time Elapsed: 0.47074294090270996
 4.1. Loading embeddings failed! Training ae ...
 Creating converter from 5 to 3
 (#Embeddings, #Dimension) : (60, 64)
-Time Elapsed: 1.3553826808929443
+Time Elapsed: 1.3204751014709473
 
 5. Community Prediction ...
 ##################################################
@@ -341,33 +343,35 @@ Loading future user communities failed! Predicting future user communities ...
 5.3. Future Community Prediction ...
 (#Future Communities, Communities Sizes) : (3, [20, 20, 20])
 (#Future Communities with less then 10 members) : (0)
-Cluster 1 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
-Cluster 2 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
-Cluster 0 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
-Time Elapsed: 0.13663482666015625
+Cluster 2 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
+Cluster 0 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
+Cluster 1 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
+Time Elapsed: 0.13962721824645996
 
 6. Application: News Recommendation ...
 ##################################################
 6.1 Loading news articles ...
 6.2 Inferring news articles' topics ...
-loading Dictionary object from ../output/test/lda.gensim.ae/tml\3TopicsDictionary.mm
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3TopicsDictionary.mm'}
-loaded ../output/test/lda.gensim.ae/tml\3TopicsDictionary.mm
+loading Dictionary object from ../output/toy.synthetic/lda.gensim.ae/tml\3TopicsDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml\\3TopicsDictionary.mm'}
+loaded ../output/toy.synthetic/lda.gensim.ae/tml\3TopicsDictionary.mm
 Loading lda.gensim model ...
-loading LdaModel object from ../output/test/lda.gensim.ae/tml\3Topics.pkl
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3Topics.pkl'}
-loading expElogbeta from ../output/test/lda.gensim.ae/tml\3Topics.pkl.expElogbeta.npy with mmap=None
+loading LdaModel object from ../output/toy.synthetic/lda.gensim.ae/tml\3Topics.model
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml\\3Topics.model'}
+loading expElogbeta from ../output/toy.synthetic/lda.gensim.ae/tml\3Topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute state to None
 setting ignored attribute id2word to None
 setting ignored attribute dispatcher to None
-setting ignored attribute state to None
-loaded ../output/test/lda.gensim.ae/tml\3Topics.pkl
-loading LdaState object from ../output/test/lda.gensim.ae/tml\3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3Topics.pkl.state'}
-loaded ../output/test/lda.gensim.ae/tml\3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.ae/tml\\3Topics.pkl.id2word'}
+loaded ../output/toy.synthetic/lda.gensim.ae/tml\3Topics.model
+loading LdaState object from ../output/toy.synthetic/lda.gensim.ae/tml\3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml\\3Topics.model.state'}
+loaded ../output/toy.synthetic/lda.gensim.ae/tml\3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.ae/tml\\3Topics.model.id2word'}
 6.3 Recommending news articles to future communities ...
 6.4 Evaluating recommended news articles on future time interval 2010-12-04...
-Time Elapsed: 0.14760589599609375
+Calling pytrec_eval for {'map_cut', 'ndcg_cut', 'success'} at different cutoffs ...
+Averaging ...
+Time Elapsed: 0.17253994941711426
 
 
 
@@ -376,7 +380,7 @@ Running pipeline for lda.gensim and dynae ....
 
 1. DAL: Temporal Document Creation from Social Posts ...
 ##################################################
-1.1. Loading saved temporal documents from  ../output/test/lda.gensim.dynae/Documents.csv in which 
+1.1. Loading saved temporal documents from  ../output/toy.synthetic/lda.gensim.dynae/Documents.csv in which 
 (User, Time) a document is concat of user's posts in each 1 day(s)...
 1.1. Loading temporal documents failed! Creating temporal documents ...
 1.2. Loading social posts ...
@@ -384,12 +388,12 @@ Running pipeline for lda.gensim and dynae ....
 1.3. Creating temporal documents in which 
 (User, Time) a document is concat of user's posts in each 1 day(s)
 (#ProcessedDocuments, #Documents, #Users, #TimeIntervals): (180,180,60,3)
-Time Elapsed: 0.054853200912475586
+Time Elapsed: 0.0468745231628418
 
 2. TML: Topic Modeling ...
 ##################################################
-loading LdaModel object from ../output/test/lda.gensim.dynae/tml/3Topics.pkl
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl'}
+loading LdaModel object from ../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.pkl'}
 2.1. Loading saved topic model failed! Training a model ...
 (#Topics, Model): (3, lda.gensim)
 adding document #0 to Dictionary(0 unique tokens: [])
@@ -398,9 +402,9 @@ discarding 0 tokens: []...
 keeping 29 tokens which were in no less than 2 and no more than 108 (=60.0%) documents
 rebuilding dictionary, shrinking gaps
 resulting dictionary: Dictionary(29 unique tokens: ['apple', 'dell', 'digital', 'keyboard', 'microsoft']...)
-saving Dictionary object under ../output/test/lda.gensim.dynae/tml/3TopicsDictionary.mm, separately None
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3TopicsDictionary.mm'}
-saved ../output/test/lda.gensim.dynae/tml/3TopicsDictionary.mm
+saving Dictionary object under ../output/toy.synthetic/lda.gensim.dynae/tml/3TopicsDictionary.mm, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml/3TopicsDictionary.mm'}
+saved ../output/toy.synthetic/lda.gensim.dynae/tml/3TopicsDictionary.mm
 using symmetric alpha at 0.3333333333333333
 using symmetric eta at 0.3333333333333333
 using serial LDA version on this node
@@ -456,17 +460,17 @@ topic #0 (0.333): 0.102*"boxing" + 0.102*"climbing" + 0.099*"basketball" + 0.099
 topic #1 (0.333): 0.108*"mouse" + 0.108*"monitor" + 0.107*"microsoft" + 0.107*"digital" + 0.107*"sony" + 0.107*"dell" + 0.107*"keyboard" + 0.107*"apple" + 0.107*"samsung" + 0.004*"football"
 topic #2 (0.333): 0.073*"snapchat" + 0.073*"skype" + 0.073*"zoom" + 0.073*"whatsapp" + 0.073*"linkedin" + 0.073*"facebook" + 0.073*"instagram" + 0.073*"tiktok" + 0.073*"twitter" + 0.073*"discord"
 topic diff=0.273972, rho=0.408248
-saving LdaState object under ../output/test/lda.gensim.dynae/tml/3Topics.pkl.state, separately None
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl.state'}
-saved ../output/test/lda.gensim.dynae/tml/3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl.id2word'}
-saving LdaModel object under ../output/test/lda.gensim.dynae/tml/3Topics.pkl, separately ['expElogbeta', 'sstats']
-storing np array 'expElogbeta' to ../output/test/lda.gensim.dynae/tml/3Topics.pkl.expElogbeta.npy
+saving LdaState object under ../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model.state, separately None
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model.state'}
+saved ../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model.id2word'}
+saving LdaModel object under ../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model, separately ['expElogbeta', 'sstats']
+storing np array 'expElogbeta' to ../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model.expElogbeta.npy
+not storing attribute state
 not storing attribute id2word
 not storing attribute dispatcher
-not storing attribute state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/test/lda.gensim.dynae/tml/3Topics.pkl'}
-saved ../output/test/lda.gensim.dynae/tml/3Topics.pkl
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'wb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model'}
+saved ../output/toy.synthetic/lda.gensim.dynae/tml/3Topics.model
 topic #0 (0.333): 0.102*"boxing" + 0.102*"climbing" + 0.099*"basketball" + 0.099*"swimming" + 0.099*"baseball" + 0.099*"running" + 0.099*"biking" + 0.099*"hiking" + 0.099*"volleyball" + 0.099*"football"
 topic #1 (0.333): 0.108*"mouse" + 0.108*"monitor" + 0.107*"microsoft" + 0.107*"digital" + 0.107*"sony" + 0.107*"dell" + 0.107*"keyboard" + 0.107*"apple" + 0.107*"samsung" + 0.004*"football"
 topic #2 (0.333): 0.073*"snapchat" + 0.073*"skype" + 0.073*"zoom" + 0.073*"whatsapp" + 0.073*"linkedin" + 0.073*"facebook" + 0.073*"instagram" + 0.073*"tiktok" + 0.073*"twitter" + 0.073*"discord"
@@ -480,11 +484,11 @@ The currently set model 'LdaModel(num_terms=29, num_topics=3, decay=0.5, chunksi
 2.2. Quality of topics ...
 (MeanCoherence): (-1.802882296732384)
 (#Topic, Topic Coherences): (3, [-0.10216512475046484, -5.306481765449688, 3.0000446571375978e-12])
-Time Elapsed: 0.48370862007141113
+Time Elapsed: 0.4737422466278076
 
 3. UML: Temporal Graph Creation ...
 ##################################################
-3.1. Loading users' graph stream from ../output/test/lda.gensim.dynae/uml/graphs/graphs.pkl ...
+3.1. Loading users' graph stream from ../output/toy.synthetic/lda.gensim.dynae/uml/graphs/graphs.pkl ...
 3.1. Loading users' graph stream failed! Generating the graph stream ...
 60 users have twitted in 2010-12-01
 UserSimilarity: UsersTopicInterests.npy is saved for day:2010-12-01 with shape: (60, 3)
@@ -505,14 +509,14 @@ UserSimilarity: Number of users per day: 60
 UserSimilarity: Graphs are written in "graphs" directory
 UsersGraph: There are 60 users on 2010-12-03
 (#Graphs): (3)
-Time Elapsed: 0.4886958599090576
+Time Elapsed: 0.4557766914367676
 
 4. GEL: Temporal Graph Embedding ...
 ##################################################
 4.1. Loading embeddings ...
 4.1. Loading embeddings failed! Training dynae ...
 (#Embeddings, #Dimension) : (60, 64)
-Time Elapsed: 1.3015258312225342
+Time Elapsed: 1.2755951881408691
 
 5. Community Prediction ...
 ##################################################
@@ -527,30 +531,32 @@ Loading future user communities failed! Predicting future user communities ...
 Cluster 2 has 20 users. Topic 2 is the favorite topic for 66.66666666666666% of users.
 Cluster 0 has 20 users. Topic 1 is the favorite topic for 66.66666666666666% of users.
 Cluster 1 has 20 users. Topic 3 is the favorite topic for 66.66666666666666% of users.
-Time Elapsed: 0.13563776016235352
+Time Elapsed: 0.13663601875305176
 
 6. Application: News Recommendation ...
 ##################################################
 6.1 Loading news articles ...
 6.2 Inferring news articles' topics ...
-loading Dictionary object from ../output/test/lda.gensim.dynae/tml\3TopicsDictionary.mm
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3TopicsDictionary.mm'}
-loaded ../output/test/lda.gensim.dynae/tml\3TopicsDictionary.mm
+loading Dictionary object from ../output/toy.synthetic/lda.gensim.dynae/tml\3TopicsDictionary.mm
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml\\3TopicsDictionary.mm'}
+loaded ../output/toy.synthetic/lda.gensim.dynae/tml\3TopicsDictionary.mm
 Loading lda.gensim model ...
-loading LdaModel object from ../output/test/lda.gensim.dynae/tml\3Topics.pkl
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3Topics.pkl'}
-loading expElogbeta from ../output/test/lda.gensim.dynae/tml\3Topics.pkl.expElogbeta.npy with mmap=None
+loading LdaModel object from ../output/toy.synthetic/lda.gensim.dynae/tml\3Topics.model
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml\\3Topics.model'}
+loading expElogbeta from ../output/toy.synthetic/lda.gensim.dynae/tml\3Topics.model.expElogbeta.npy with mmap=None
+setting ignored attribute state to None
 setting ignored attribute id2word to None
 setting ignored attribute dispatcher to None
-setting ignored attribute state to None
-loaded ../output/test/lda.gensim.dynae/tml\3Topics.pkl
-loading LdaState object from ../output/test/lda.gensim.dynae/tml\3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3Topics.pkl.state'}
-loaded ../output/test/lda.gensim.dynae/tml\3Topics.pkl.state
-{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/test/lda.gensim.dynae/tml\\3Topics.pkl.id2word'}
+loaded ../output/toy.synthetic/lda.gensim.dynae/tml\3Topics.model
+loading LdaState object from ../output/toy.synthetic/lda.gensim.dynae/tml\3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml\\3Topics.model.state'}
+loaded ../output/toy.synthetic/lda.gensim.dynae/tml\3Topics.model.state
+{'transport_params': None, 'compression': 'infer_from_extension', 'opener': None, 'closefd': True, 'newline': None, 'errors': None, 'encoding': None, 'buffering': -1, 'mode': 'rb', 'uri': '../output/toy.synthetic/lda.gensim.dynae/tml\\3Topics.model.id2word'}
 6.3 Recommending news articles to future communities ...
 6.4 Evaluating recommended news articles on future time interval 2010-12-04...
-Time Elapsed: 0.15658211708068848
+Calling pytrec_eval for {'map_cut', 'ndcg_cut', 'success'} at different cutoffs ...
+Averaging ...
+Time Elapsed: 0.17852234840393066
 
 
 

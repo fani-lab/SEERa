@@ -3,11 +3,11 @@ import pandas as pd
 import pytrec_eval
 import os
 import datetime
-from cmn import Common as cmn
 import pickle
 import sklearn.metrics.cluster as CM
 
 import Params
+from cmn import Common as cmn
 
 def user_mentions():
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
@@ -30,7 +30,7 @@ def user_mentions():
             except: pass
     return users_news
 
-def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicEvaluationMetrics']):
+def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicMetrics']):
     results = []
     for m in evaluation_metrics:
         if m == 'adjusted_rand': results.append(('adjusted_rand_score', CM.adjusted_rand_score(golden_standard, communities)))
@@ -48,13 +48,13 @@ def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params
 
 def main(top_recommendation_user):
     if not os.path.isdir(f'{Params.apl["path2save"]}/evl'): os.makedirs(f'{Params.apl["path2save"]}/evl')
-    if Params.evl['evaluationType'] == "Intrinsic":
+    if Params.evl['evaluationType'].lower() == "intrinsic":
         user_communities = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
         golden_standard = np.load(f'{Params.dal["path"]}/GoldenStandard.npy')
         scores = np.asarray(intrinsic_evaluation(user_communities, golden_standard))
         np.save(f'{Params.apl["path2save"]}/evl/IntrinsicEvaluationResult.npy', scores)
         return scores
-    if Params.evl['evaluationType'] == "Extrinsic":
+    if Params.evl['evaluationType'].lower() == "extrinsic":
         try: users_mentions = pd.read_pickle(f'{Params.apl["path2save"]}/evl/UserMentions.pkl')
         except (FileNotFoundError, EOFError) as e:
             users_mentions = user_mentions()
@@ -69,19 +69,18 @@ def main(top_recommendation_user):
         #users_mentions_mentioner_user {1: [4], 2: [5], ...}
         #new_top_recommendation_mentioner_user {1: array[3,17], 2: array[3,17], ...}
 
-        pytrec_result_total = []
-        metrics = f"success_{','.join([str(i) for i in range(1,60, 1)])}"
+        metrics = set()
+        for metric in Params.evl['extrinsicMetrics']: metrics.add(f"{metric}_{','.join([str(i) for i in range(1, Params.apl['topK'] + 1, 1)])}")
 
         qrel = {}; run={}
         for i, (y, y_) in enumerate(zip(users_mentions_mentioner_user, top_recommendation_mentioner_user)):
             qrel['u' + str(y)] = {'n' + str(idx): 1 for idx in users_mentions_mentioner_user[y]}
             run['u' + str(y)] = {'n' + str(idx): (len(top_recommendation_mentioner_user[y_])-j) for j, idx in enumerate(top_recommendation_mentioner_user[y_])}
 
-        print(f'Calling pytrec_eval for {len(metrics)} metrics ...')
-        df = pd.DataFrame.from_dict(pytrec_eval.RelevanceEvaluator(qrel, {metrics}).evaluate(run)).T
+        cmn.logger.info(f'Calling pytrec_eval for {Params.evl["extrinsicMetrics"]} at different cutoffs ...')
+        df = pd.DataFrame.from_dict(pytrec_eval.RelevanceEvaluator(qrel, metrics).evaluate(run)).T
         df.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.csv', float_format='%.15f')
 
-        print(f'Averaging ...')
+        cmn.logger.info(f'Averaging ...')
         df_mean = df.mean(axis=0).to_frame('mean')
         df_mean.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.csv', index_label="metric", header=["score"])
-        return pytrec_result_total
