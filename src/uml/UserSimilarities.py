@@ -30,7 +30,7 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
                 doc = dp.tagme_annotator(row['Text'])
             else:
                 doc = row['Text']
-            if Params.tml['method'].lower() == 'btm': d2t = tm.doc2topics(lda_model, doc, threshold=threshold, just_one=just_one, binary=binary, dict=dictionary)
+            if Params.tml['method'].lower() == 'btm': d2t = tm.doc2topics(lda_model, [doc], threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'], dic=dictionary)
             else: d2t = tm.doc2topics(lda_model, dictionary.doc2bow(doc.split()), threshold=threshold, just_one=just_one, binary=binary)
             users_topic_interests[row['UserId']] = d2t
 
