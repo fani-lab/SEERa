@@ -102,37 +102,21 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     elif method.lower() == "btm":
         # https://pypi.org/project/bitermplus/
         import bitermplus as btm
-        # Obtaining terms frequency in a sparse matrix and corpus vocabulary
         processed_docs = [' '.join(text) for text in processed_docs]
         doc_word_frequency, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
         pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.pkl')
-
-        # Vectorizing documents
         docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
-
-        # Generating biterms
         biterms = btm.get_biterms(docs_vec)
-
-        # M (int = 20) – Number of top words for coherence calculation
         tm_model = btm.BTM(doc_word_frequency, dictionary, seed=0, T=num_topics, M=10, alpha=5000 / num_topics, beta=7.01)
         tm_model.fit(biterms, iterations=1)
         pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
-        # documents_topics_probability = tm_model.transform(docs_vec)
-
         # METRICS
         c = coherence = tm_model.coherence_
         cv = None
-
-        # total_topics = model.matrix_topics_words_
         tm_model.df_words_topics_.to_csv('wordstopic.csv')  # shouldn't be f"{path_2_save_tml}/{num_topics}Topics.csv like others?
-        # making topic-word csv
         topic_range_idx = list(range(0, num_topics))
         top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
         print(top_words)
-
-        # for word in dictionary:
-        #     print(max(df.loc[[word]].values[0]))
-
         total_topics = [[]]  # what's this??
         pass
     else:
