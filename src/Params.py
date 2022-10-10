@@ -16,12 +16,12 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': '/Users/sharjeelmustafa/Documents/02 Work/01 Research/Y3-2022-F/SEERa/seera/src/tml/Mallet-202108',
+    'malletHome': 'C:\mallet',
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
     'threshold': 0.3,
-    'method': 'lda.gensim' #['lda.gensim', 'lda.mallet', 'gsdmm']
+    'method': 'gsdmm' #['lda.gensim', 'lda.mallet', 'gsdmm']
 }
 uml = {
     'userSimilarityThreshold': 0.8,
@@ -41,9 +41,9 @@ cpl = {
 evl = {
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If Extrinsic evaluation:
-    'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100'},
+    'extrinsicMetrics': {'success', 'ndcg_cut', 'map_cut'},
     # If intrinsic evaluation:
-    'intrinsicEvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
+    'intrinsicMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
     'goldenStandardPath': '/path2GS',
     'threshold': 0,
 
@@ -51,7 +51,8 @@ evl = {
 }
 
 apl = {
+    'communityBased': False,
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 20,
+    'topK': 100,
     'textTitle': 'Text'
 }

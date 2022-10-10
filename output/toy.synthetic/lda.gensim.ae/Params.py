@@ -1,7 +1,7 @@
 
 general = {
     'comment': '',
-    'baseline': '@baseline',
+    'baseline': 'toy.synthetic/lda.gensim.ae',
     'cuda': '-1'
 }
 dal = {
@@ -21,7 +21,7 @@ tml = {
     'justOne': False,
     'binary': False,
     'threshold': 0.3,
-    'method': '@tml_method' #['lda.gensim', 'lda.mallet', 'gsdmm']
+    'method': 'lda.gensim' #['lda.gensim', 'lda.mallet', 'gsdmm']
 }
 uml = {
     'userSimilarityThreshold': 0.8,
@@ -31,7 +31,7 @@ gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
     'embeddingDim': 64,
     'epoch': 10,
-    'method': '@gel_method' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    'method': 'ae' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
     'path2save': f'../output/{general["baseline"]}/cpl',

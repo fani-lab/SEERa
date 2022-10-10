@@ -1,8 +1,6 @@
 import os
-import matplotlib.pyplot as plt
-from time import time
 import numpy as np
-import pickle
+import pandas as pd
 
 from dynamicgem.embedding.dynAERNN import DynAERNN
 from dynamicgem.embedding.ae_static import AE
@@ -13,7 +11,7 @@ from gel import CppWrapper as N2V
 from cmn import Common as cmn
 import Params
 
-def embedding(dim_emb, lookback, method='DynAERNN'):
+def embedding(dim_emb, lookback, method='DynAERNN', n_users=100):
     # methods = ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
     if method.lower() == 'ae':
         embedding_ = AE(d=dim_emb,
@@ -24,7 +22,7 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
                        n_units=[500, 300, ],
                        n_iter=Params.gel['epoch'],
                        xeta=1e-4,
-                       n_batch=100,
+                       n_batch=min(n_users,10),
                        modelfile=[f'{Params.gel["path2save"]}/enc_model_AE.json', f'{Params.gel["path2save"]}/dec_model_AE.json'],
                        weightfile=[f'{Params.gel["path2save"]}/enc_weights_AE.hdf5', f'{Params.gel["path2save"]}/dec_weights_AE.hdf5'])
     elif method.lower() == 'dynae':
@@ -75,37 +73,18 @@ def embedding(dim_emb, lookback, method='DynAERNN'):
         raise ValueError('Incorrect graph embedding method!')
     return embedding_
 def main(graphs, method='DynAERNN'):
-    # parameters for the dynamic embedding
-    # dimension of the embedding
-    dim_emb = Params.gel['embeddingDim']
-    # methods: ['Node2Vec', 'AE', 'DynAE', 'DynRNN', 'DynAERNN'] are available.
+    users = np.load(f"{Params.uml['path2save']}/Users.npy")
     if not os.path.isdir(Params.gel["path2save"]): os.makedirs(Params.gel["path2save"])
-    if method == 'Node2Vec':
-        # if not os.path.isdir(f'{path2_save_uml}/graphs'): os.makedirs(f'{path2_save_uml}/graphs')
+    if method.lower() == 'node2vec':
         N2V.main(Params.uml['path2save']+'/graphs', Params.gel['path2save'], Params.gel['embeddingDim'])
     else:
         lookback = 2
-        embedding_instance = embedding(dim_emb=dim_emb, lookback=lookback, method=method)
-        embs = []
-
-        # Using the last graph for AE and all graphs for other baselines (but just one time) #
-
-        # for temp_var in range(lookback + 1, len(graphs) + 1):
-        #     if method == "AE":
-        #         emb, _ = embedding_instance.learn_embeddings(graphs[temp_var])
-        #     else:
-        #         emb, _ = embedding_instance.learn_embeddings(graphs[:temp_var])
-        #     embs.append(emb)
-        # embs = np.asarray(embs)
-
-        if method == "AE": emb, _ = embedding_instance.learn_embeddings(graphs[-1])
+        embedding_instance = embedding(dim_emb=Params.gel['embeddingDim'], lookback=lookback, method=method, n_users=len(users))
+        if method.lower() == "ae": emb, _ = embedding_instance.learn_embeddings(graphs[-1])
         else: emb, _ = embedding_instance.learn_embeddings(graphs)
-        embs = [emb]
 
-        # plt.figure()
-        # plt.clf()
-        # plot_dynamic_sbm_embedding.plot_dynamic_sbm_embedding_v2(embs[-5:-1], dynamic_sbm_series[-5:])
-        #np.savez_compressed(f'{Params.gel["path2save"]}/embeddings.npz', a=embs)
-        with open(f'{Params.gel["path2save"]}/Embeddings.pkl', 'wb') as f: pickle.dump(embs, f)
-        # plt.show()
-        return np.asarray(embs)
+        embeddings = {}
+        for i, u in enumerate(users):
+            embeddings[u] = emb[i]
+        pd.to_pickle(embeddings, f'{Params.gel["path2save"]}/Embeddings.pkl')
+        return embeddings
