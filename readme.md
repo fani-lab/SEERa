@@ -58,37 +58,119 @@ TopRecommendations.npy          -> TopK recommendations scores of news articles 
 ```
 ### Code Structure
 ```
++---data
+|   +---toy.synthetic
+|   |   +---News.csv
+|   |   +---TweetEntities.csv
+|   |   \---Tweets.csv
+|   |
+|   +---toy
+|   |   +---News.csv
+|   |   +---TweetEntities.csv
+|   |   +---Tweets.csv
+|   |   \---readme.md
+|   |
++---demo
+|   +---SEERa.pptx
+|   +---flow.jpg
+|   +---flow.pdf
+|   +---layers.jpg
+|   \---layers.pdf
+|   |
 +---output
+|   +---toy.synthetic
+|   |   +---lda.gensim.ae
+|   |   |   +---apl/evl
+|   |   |   |   \---Pred.Eval.Mean.csv
+|   |   |   |   
+|   |   |   \---Params.py
+|   |   |
+|   |   +---lda.gensim.dynae
+|   |   |   +---apl/evl
+|   |   |   |   \---Pred.Eval.Mean.csv
+|   |   |   |   
+|   |   |   \---Params.py
+|   |   | 
+|   |   +---lda.gensim.dynaernn
+|   |   |   +---apl/evl
+|   |   |   |   \---Pred.Eval.Mean.csv
+|   |   |   |   
+|   |   |   \---Params.py
+|   |   |
+|   |   +---Log.txt
+|   |   \---Pred.Eval.Mean.Agg.csv
+|   |
+|   +---toy
+|   |   +---LDA.DynAERNN
+|   |   |   +---apl/evl
+|   |   |   |   +---Pred.Eval.Mean.csv
+|   |   |   |   +---Pred.Eval.csv
+|   |   |   |   \---UserMentions.pkl
+|   |   |   |
+|   |   |   +---cpl
+|   |   |   |   \---ClusterTopic.csv
+|   |   |   |   
+|   |   |   +---gel
+|   |   |   |   \---Embeddings.npz
+|   |   |   |   
+|   |   |   +---tml
+|   |   |   |   +---Gensim_30Topics.csv
+|   |   |   |   +---Gensim_30Topics.model
+|   |   |   |   \---Gensim_30Topics_TopicModelingDictionary.mm
+|   |   |   |   
+|   |   |   +---uml
+|   |   |   |   +---graphs
+|   |   |   |   |   \---Graphs.pkl
+|   |   |   |   |   
+|   |   |   |   \---Users.npy
+|   |   |   |
+|   |   \---Pred.Eval.Mean.Agg.csv
+
 +---src
 |   +---cmn (common functions)
-|   |   \---Common.py
+|   |   +---Common.py
+|   |   \---__init__.py
 |   |
 |   +---dal  (data access layer)
 |   |   +---DataPreparation.py
-|   |   \---DataReader.py
+|   |   +---DataReader.py
+|   |   \---__init__.py
 |   |
 |   +---tml  (topic modeling layer)
-|   |   \---TopicModeling.py
+|   |   +---TopicModeling.py
+|   |   \---__init__.py
 |   |
 |   +---uml (user modeling layer)
 |   |   +---UsersGraph.py
-|   |   \---UserSimilarities.py
+|   |   +---UserSimilarities.py
+|   |   \---__init__.py
 |   |
 |   +---gel (graph embedding layer)
+|   |   +---CppWrapper.py
 |   |   +---GraphEmbedding.py
-|   |   \---GraphReconstruction.py
+|   |   \---GraphToText.py
 |   |
 |   +---cpl (community prediction layer)
-|   |   \---GraphClustering.py
+|   |   +---GraphClustering.py
+|   |   \---GraphReconstruction_main.py
 |   |
 |   +---apl (application layer)
 |   |   +---NewsTopicExtraction.py
 |   |   +---NewsRecommendation.py
+|   |   +---News.py
+|   |   +---NewsCrawler.py
 |   |   \---ModelEvaluation.py
 |   |
-|   +---main.py
-|   \---params.py
+|   +---params.py
+|   +---ParamsTemplate.py
+|   \---main.py
+|
++---.gitignore
++---.gitmodules
 +---environment.yml
++---license.txt
++---quickstart.ipynb
++---readme.md
 \---requirements.txt
 ```
 
