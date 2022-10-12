@@ -186,7 +186,7 @@ This framework contains six different layers. Each layer is affected by multiple
 You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
 cd ../src
-python -u main.py -r toy -t lda.mallet gsdmm btm -g AE DynAE DynAERNN
+python -u main.py -r toy -t lda.gensim lda.mallet gsdmm btm -g AE DynAE DynAERNN
 ```
 where the input arguements are:
 
