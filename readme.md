@@ -28,33 +28,53 @@ Each layer process the input data from previous layer and produces new processed
 
 #### [``tml``](./src/tml)
 ```
-gensim[or Mallet]_{#Topics}topics.csv                           -> N topics with their top 10 vocabulary set and probabilities
-gensim[or Mallet]_{#Topics}topics.model                         -> The LDA model
-gensim[or Mallet]_{#Topics}topics_TopicModelingDictionary.mm    -> LDA dictionary
+├── {#Topics}topics.csv                           -> N topics with their top 10 vocabulary set and probabilities
+├── {#Topics}topics.model                         -> The LDA model
+├── {#Topics}TopicsDictionary.mm                  -> LDA dictionary
 ```
 #### [``uml``](./src/uml)
 ```
-Day{K}UserIDs.npy               -> User IDs for K-th day [Size: #Users × 1]
-Day{K}UsersTopicInterests.npy   -> Matrix of users to topics [Size: #Topics × #Users]
-Users.npy                       -> User IDs [Size: #Users × 1]
+├── graphs
+│   ├── Day{K}userSimilarities.npz  ->
+│   ├── graphs.npz[.pkl]            ->
+├── Day{K}UserIDs.pkl               -> User IDs for K-th day [Size: #Users × 1]
+├── Day{K}UsersTopicInterests.pkl   -> Matrix of users to topics [Size: #Topics × #Users]
+├── Users.npy                       -> User IDs [Size: #Users × 1]
 ```
 #### [``gel``](./src/gel)
 ```
-Embeddings.npz -> embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
+├── Embeddings.pkl -> Embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
 ```
 #### [``cpl``](./src/cpl)
 ```
-Graph.net[.pkl] -> Final predicted user graph for the future from last embeddings
-PredUserClusters.npy[.csv] -> Cluster ID for each user [Size: #Users × 1]
+├── cluster2user.csv[.pkl]      -> 
+├── ClusterTopic.csv[.pkl]      -> 
+├── Graph.adjlist               -> Final predicted user graph for the future from last embeddings
+├── Pred_users_similarity.npz   -> 
+├── PredUserClusters.npy[.csv]  -> Cluster ID for each user [Size: #Users × 1]
+├── user2cluster.csv[.pkl]      -> 
 ```
 #### [``apl``](./src/apl)
 ```
-ClusterNumbers.npy              -> Cluster IDs [Size: #Communities]
-NewsIds.npy                     -> News IDs [Size: #News × 1]
-CommunitiesTopicInterests.npy   -> Topic vector for each community [Size: #Communities × #Topics]
-NewsTopics.npy                  -> Topic vector for each news article [Size: #News × #Topics]
-RecommendationTable.npy         -> Recommendations scores of news articles for each community [Size: #Communities × #News]
-TopRecommendations.npy          -> TopK recommendations scores of news articles for each community [Size: #Communities × TopK]
+├── apl                                     ->
+|   ├── evl                                 ->
+|   ├── Pred.Eval.csv                       ->
+|   ├── Pred.Eval.Mean.csv                  ->
+|   ├── UserMentions.pkl                    ->
+├── NewsIds_ExpandedURLs.npy                ->
+├── NewsTopics.pkl                          ->
+├── RecommendationTableUser.pkl             ->
+├── topRecommendationMentionerUser.pkl      ->
+├── TopRecommendationsUser.pkl              ->
+├── users_mentions_mentioned_user.pkl       ->
+
+------------------*Previous*
+├── ClusterNumbers.npy              -> Cluster IDs [Size: #Communities]
+├── NewsIds.npy                     -> News IDs [Size: #News × 1]
+├── CommunitiesTopicInterests.npy   -> Topic vector for each community [Size: #Communities × #Topics]
+├── NewsTopics.npy                  -> Topic vector for each news article [Size: #News × #Topics]
+├── RecommendationTable.npy         -> Recommendations scores of news articles for each community [Size: #Communities × #News]
+├── TopRecommendations.npy          -> TopK recommendations scores of news articles for each community [Size: #Communities × TopK]
 ```
 ### Code Structure
 ```
@@ -78,54 +98,53 @@ TopRecommendations.npy          -> TopK recommendations scores of news articles 
 |   \---layers.pdf
 |   |
 +---output
-|   +---toy.synthetic
-|   |   +---lda.gensim.ae
-|   |   |   +---apl/evl
-|   |   |   |   \---Pred.Eval.Mean.csv
-|   |   |   |   
-|   |   |   \---Params.py
-|   |   |
-|   |   +---lda.gensim.dynae
-|   |   |   +---apl/evl
-|   |   |   |   \---Pred.Eval.Mean.csv
-|   |   |   |   
-|   |   |   \---Params.py
-|   |   | 
-|   |   +---lda.gensim.dynaernn
-|   |   |   +---apl/evl
-|   |   |   |   \---Pred.Eval.Mean.csv
-|   |   |   |   
-|   |   |   \---Params.py
-|   |   |
-|   |   +---Log.txt
-|   |   \---Pred.Eval.Mean.Agg.csv
-|   |
 |   +---toy
-|   |   +---LDA.DynAERNN
-|   |   |   +---apl/evl
-|   |   |   |   +---Pred.Eval.Mean.csv
-|   |   |   |   +---Pred.Eval.csv
-|   |   |   |   \---UserMentions.pkl
+|   |   +---{#NameOfTML}.{#NameOfEmbedding}
+|   |   |   +---apl
+|   |   |   |   +--evl
+|   |   |   |   |   +---Pred.Eval.csv
+|   |   |   |   |   +---Pred.Eval.Mean.csv
+|   |   |   |   |   \---UserMentions.pkl
 |   |   |   |
+|   |   |   +---NewsIds_ExpandedURLs.npy
+|   |   |   +---NewsTopics.pkl
+|   |   |   +---RecommendationTableUser.pkl
+|   |   |   +---topRecommendationMentionerUser.pkl
+|   |   |   +---TopRecommendationsUser.pkl
+|   |   |   \---users_mentions_mentioned_user.pkl
+|   |   |
 |   |   |   +---cpl
-|   |   |   |   \---ClusterTopic.csv
+|   |   |   |   +---cluster2user.csv[.pkl]
+|   |   |   |   +---ClusterTopic.csv[.pkl]
+|   |   |   |   +---Graph.adjlist
+|   |   |   |   +---pred_users_similarity.npz
+|   |   |   |   +---PredUserClusters.npy[.csv]
+|   |   |   |   \---user2cluster.csv[.pkl]
 |   |   |   |   
 |   |   |   +---gel
-|   |   |   |   \---Embeddings.npz
+|   |   |   |   \---Embeddings.pkl
 |   |   |   |   
 |   |   |   +---tml
-|   |   |   |   +---Gensim_30Topics.csv
-|   |   |   |   +---Gensim_30Topics.model
-|   |   |   |   \---Gensim_30Topics_TopicModelingDictionary.mm
+|   |   |   |   +---{#Topics}Topics.csv
+|   |   |   |   +---{#Topics}Topics.model
+|   |   |   |   \---{#Topics}Topics_TopicModelingDictionary.mm
 |   |   |   |   
 |   |   |   +---uml
 |   |   |   |   +---graphs
-|   |   |   |   |   \---Graphs.pkl
-|   |   |   |   |   
+|   |   |   |   |   +---Day{K}userSimilarities.npz
+|   |   |   |   |   \---graphs.pkl[.npz]
+|   |   |   |   |
+|   |   |   |   +---Day{K}UserIDs.pkl
+|   |   |   |   +---Day{K}UsersTopicInterests.pkl
 |   |   |   |   \---Users.npy
 |   |   |   |
+|   |   |   +---Documents.csv
+|   |   |   +---Params.py
+|   |   |   +---Posts.csv
+|   |   |   +---Prosdocs.npz
+|   |   +---Log.txt
 |   |   \---Pred.Eval.Mean.Agg.csv
-
+|   |
 +---src
 |   +---cmn (common functions)
 |   |   +---Common.py
@@ -193,7 +212,7 @@ pip install -r requirements.txt
 
 This command installs compatible versions of the following libraries:
 
->* tml: ``gensim, tagme, nltk, pandas, requests``
+>* tml: ``gensim, tagme, nltk, pandas, requests, bitermplus``
 >* gel: ``networkx``
 >* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``
 
@@ -349,7 +368,7 @@ Soroush Ziaenejad<sup>1,2</sup>, [Hossein Fani](https://hosseinfani.github.io/)<
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ### Acknowledgments
-In this work, we use [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [``mallet``](https://github.com/mimno/Mallet), [``pytrec_eval``](https://github.com/cvangysel/pytrec_eval) and other libraries. We would like to thank the authors of these libraries.
+In this work, we use [``bitermplus``](https://github.com/maximtrp/bitermplus), [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [``mallet``](https://github.com/mimno/Mallet), [``pytrec_eval``](https://github.com/cvangysel/pytrec_eval) and other libraries. We would like to thank the authors of these libraries.
 
 ## 7. Citation
 ```
