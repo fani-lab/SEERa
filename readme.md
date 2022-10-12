@@ -56,11 +56,10 @@ Each layer process the input data from previous layer and produces new processed
 ```
 #### [``apl``](./src/apl)
 ```
-├── apl                                     ->
-|   ├── evl                                 ->
-|   |   ├── Pred.Eval.csv                   ->
-|   |   ├── Pred.Eval.Mean.csv              ->
-|   |   ├── UserMentions.pkl                ->
+├── evl                                     ->
+|   ├── Pred.Eval.csv                       ->
+|   ├── Pred.Eval.Mean.csv                  ->
+|   ├── UserMentions.pkl                    ->
 ├── NewsIds_ExpandedURLs.npy                ->
 ├── NewsTopics.pkl                          ->
 ├── RecommendationTableUser.pkl             ->
