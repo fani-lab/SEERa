@@ -99,7 +99,7 @@ Each layer process the input data from previous layer and produces new processed
 |   |
 +---output
 |   +---toy
-|   |   +---{#NameOfTML}.{#NameOfEmbedding}
+|   |   +---{NameOfTML}.{NameOfEmbedding}
 |   |   |   +---apl
 |   |   |   |   +--evl
 |   |   |   |   |   +---Pred.Eval.csv
