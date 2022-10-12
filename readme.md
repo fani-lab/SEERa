@@ -89,61 +89,6 @@ Each layer process the input data from previous layer and produces new processed
 |   |   +---Tweets.csv
 |   |   \---readme.md
 |   |
-+---demo
-|   +---SEERa.pptx
-|   +---flow.jpg
-|   +---flow.pdf
-|   +---layers.jpg
-|   \---layers.pdf
-|   |
-+---output
-|   +---toy
-|   |   +---{NameOfTML}.{NameOfEmbedding}
-|   |   |   +---apl
-|   |   |   |   +--evl
-|   |   |   |   |   +---Pred.Eval.csv
-|   |   |   |   |   +---Pred.Eval.Mean.csv
-|   |   |   |   |   \---UserMentions.pkl
-|   |   |   |
-|   |   |   +---NewsIds_ExpandedURLs.npy
-|   |   |   +---NewsTopics.pkl
-|   |   |   +---RecommendationTableUser.pkl
-|   |   |   +---topRecommendationMentionerUser.pkl
-|   |   |   +---TopRecommendationsUser.pkl
-|   |   |   \---users_mentions_mentioned_user.pkl
-|   |   |
-|   |   |   +---cpl
-|   |   |   |   +---cluster2user.csv[.pkl]
-|   |   |   |   +---ClusterTopic.csv[.pkl]
-|   |   |   |   +---Graph.adjlist
-|   |   |   |   +---pred_users_similarity.npz
-|   |   |   |   +---PredUserClusters.npy[.csv]
-|   |   |   |   \---user2cluster.csv[.pkl]
-|   |   |   |   
-|   |   |   +---gel
-|   |   |   |   \---Embeddings.pkl
-|   |   |   |   
-|   |   |   +---tml
-|   |   |   |   +---{#Topics}Topics.csv
-|   |   |   |   +---{#Topics}Topics.model
-|   |   |   |   \---{#Topics}Topics_TopicModelingDictionary.mm
-|   |   |   |   
-|   |   |   +---uml
-|   |   |   |   +---graphs
-|   |   |   |   |   +---Day{K}userSimilarities.npz
-|   |   |   |   |   \---graphs.pkl[.npz]
-|   |   |   |   |
-|   |   |   |   +---Day{K}UserIDs.pkl
-|   |   |   |   +---Day{K}UsersTopicInterests.pkl
-|   |   |   |   \---Users.npy
-|   |   |   |
-|   |   |   +---Documents.csv
-|   |   |   +---Params.py
-|   |   |   +---Posts.csv
-|   |   |   +---Prosdocs.npz
-|   |   +---Log.txt
-|   |   \---Pred.Eval.Mean.Agg.csv
-|   |
 +---src
 |   +---cmn (common functions)
 |   |   +---Common.py
@@ -183,12 +128,8 @@ Each layer process the input data from previous layer and produces new processed
 |   +---ParamsTemplate.py
 |   \---main.py
 |
-+---.gitignore
-+---.gitmodules
 +---environment.yml
-+---license.txt
 +---quickstart.ipynb
-+---readme.md
 \---requirements.txt
 ```
 
