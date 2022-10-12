@@ -62,7 +62,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
 
     elif method.lower() == "lda.gensim":
         tracker.start()
-        tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=5)
+        tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=Params.tml['iterations'], iterations=Params.tml['iterations'])
         tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
         gensim_topics = []
         gensim_percentages = []
@@ -91,7 +91,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         tracker.start()
         os.environ['MALLET_HOME'] = Params.tml['malletHome']
         mallet_path = f'{Params.tml["malletHome"]}/bin/mallet.bat'
-        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=8)
+        tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=Params.tml['nCore'], iterations=Params.tml['iterations'])
         tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
         mallet_topics = []
         mallet_percentages = []
@@ -124,8 +124,8 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.pkl')
         docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
         biterms = btm.get_biterms(docs_vec)
-        tm_model = btm.BTM(doc_word_frequency, dictionary, seed=0, T=num_topics, M=10, alpha=5000 / num_topics, beta=7.01)
-        tm_model.fit(biterms, iterations=1)
+        tm_model = btm.BTM(doc_word_frequency, dictionary, seed=0, T=num_topics, M=10, alpha=50/num_topics, beta=0.01) #https://bitermplus.readthedocs.io/en/latest/bitermplus.html#bitermplus.BTM
+        tm_model.fit(biterms, iterations=Params.tml['iterations'])
         pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
         # METRICS
         c = coherence = tm_model.coherence_
@@ -141,8 +141,8 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
 
     if method.lower() in ['lda.gensim', 'lda.mallet']:
         cm = CoherenceModel(model=tm_model, corpus=bow_corpus, topics=total_topics, dictionary=dictionary, coherence='u_mass')
-        c = cm.get_coherence()
-        cv = cm.get_coherence_per_topic()
+        c = cm.get_coherence() 
+        cv = cm.get_coherence_per_topic() 
 
     # try:
     #     print('Visualization:\n')

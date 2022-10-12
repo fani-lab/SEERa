@@ -28,67 +28,108 @@ Each layer process the input data from previous layer and produces new processed
 
 #### [``tml``](./src/tml)
 ```
-gensim[or Mallet]_{#Topics}topics.csv                           -> N topics with their top 10 vocabulary set and probabilities
-gensim[or Mallet]_{#Topics}topics.model                         -> The LDA model
-gensim[or Mallet]_{#Topics}topics_TopicModelingDictionary.mm    -> LDA dictionary
+├── {#Topics}topics.csv                           -> N topics with their top 10 vocabulary set and probabilities
+├── {#Topics}topics.model                         -> The LDA model
+├── {#Topics}TopicsDictionary.mm                  -> LDA dictionary
 ```
 #### [``uml``](./src/uml)
 ```
-Day{K}UserIDs.npy               -> User IDs for K-th day [Size: #Users × 1]
-Day{K}UsersTopicInterests.npy   -> Matrix of users to topics [Size: #Topics × #Users]
-Users.npy                       -> User IDs [Size: #Users × 1]
+├── graphs
+│   ├── Day{K}userSimilarities.npz  ->
+│   ├── graphs.npz[.pkl]            ->
+├── Day{K}UserIDs.pkl               -> User IDs for K-th day [Size: #Users × 1]
+├── Day{K}UsersTopicInterests.pkl   -> Matrix of users to topics [Size: #Topics × #Users]
+├── Users.npy                       -> User IDs [Size: #Users × 1]
 ```
 #### [``gel``](./src/gel)
 ```
-Embeddings.npz -> embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
+├── Embeddings.pkl -> Embedded user graphs [Size: #Days-loockback × #Users × Embedding dim]
 ```
 #### [``cpl``](./src/cpl)
 ```
-Graph.net[.pkl] -> Final predicted user graph for the future from last embeddings
-PredUserClusters.npy[.csv] -> Cluster ID for each user [Size: #Users × 1]
+├── cluster2user.csv[.pkl]      -> 
+├── ClusterTopic.csv[.pkl]      -> 
+├── Graph.adjlist               -> Final predicted user graph for the future from last embeddings
+├── Pred_users_similarity.npz   -> 
+├── PredUserClusters.npy[.csv]  -> Cluster ID for each user [Size: #Users × 1]
+├── user2cluster.csv[.pkl]      -> 
 ```
 #### [``apl``](./src/apl)
 ```
-ClusterNumbers.npy              -> Cluster IDs [Size: #Communities]
-NewsIds.npy                     -> News IDs [Size: #News × 1]
-CommunitiesTopicInterests.npy   -> Topic vector for each community [Size: #Communities × #Topics]
-NewsTopics.npy                  -> Topic vector for each news article [Size: #News × #Topics]
-RecommendationTable.npy         -> Recommendations scores of news articles for each community [Size: #Communities × #News]
-TopRecommendations.npy          -> TopK recommendations scores of news articles for each community [Size: #Communities × TopK]
+├── evl                                     ->
+|   ├── Pred.Eval.csv                       ->
+|   ├── Pred.Eval.Mean.csv                  ->
+|   ├── UserMentions.pkl                    ->
+├── NewsIds_ExpandedURLs.npy                ->
+├── NewsTopics.pkl                          ->
+├── RecommendationTableUser.pkl             ->
+├── topRecommendationMentionerUser.pkl      ->
+├── TopRecommendationsUser.pkl              ->
+├── users_mentions_mentioned_user.pkl       ->
+
+------------------*Previous*
+├── ClusterNumbers.npy              -> Cluster IDs [Size: #Communities]
+├── NewsIds.npy                     -> News IDs [Size: #News × 1]
+├── CommunitiesTopicInterests.npy   -> Topic vector for each community [Size: #Communities × #Topics]
+├── NewsTopics.npy                  -> Topic vector for each news article [Size: #News × #Topics]
+├── RecommendationTable.npy         -> Recommendations scores of news articles for each community [Size: #Communities × #News]
+├── TopRecommendations.npy          -> TopK recommendations scores of news articles for each community [Size: #Communities × TopK]
 ```
 ### Code Structure
 ```
-+---output
++---data
+|   +---toy.synthetic
+|   |   +---News.csv
+|   |   +---TweetEntities.csv
+|   |   \---Tweets.csv
+|   |
+|   +---toy
+|   |   +---News.csv
+|   |   +---TweetEntities.csv
+|   |   +---Tweets.csv
+|   |   \---readme.md
+|   |
 +---src
 |   +---cmn (common functions)
-|   |   \---Common.py
+|   |   +---Common.py
+|   |   \---__init__.py
 |   |
 |   +---dal  (data access layer)
 |   |   +---DataPreparation.py
-|   |   \---DataReader.py
+|   |   +---DataReader.py
+|   |   \---__init__.py
 |   |
 |   +---tml  (topic modeling layer)
-|   |   \---TopicModeling.py
+|   |   +---TopicModeling.py
+|   |   \---__init__.py
 |   |
 |   +---uml (user modeling layer)
 |   |   +---UsersGraph.py
-|   |   \---UserSimilarities.py
+|   |   +---UserSimilarities.py
+|   |   \---__init__.py
 |   |
 |   +---gel (graph embedding layer)
+|   |   +---CppWrapper.py
 |   |   +---GraphEmbedding.py
-|   |   \---GraphReconstruction.py
+|   |   \---GraphToText.py
 |   |
 |   +---cpl (community prediction layer)
-|   |   \---GraphClustering.py
+|   |   +---GraphClustering.py
+|   |   \---GraphReconstruction_main.py
 |   |
 |   +---apl (application layer)
 |   |   +---NewsTopicExtraction.py
 |   |   +---NewsRecommendation.py
+|   |   +---News.py
+|   |   +---NewsCrawler.py
 |   |   \---ModelEvaluation.py
 |   |
-|   +---main.py
-|   \---params.py
+|   +---params.py
+|   +---ParamsTemplate.py
+|   \---main.py
+|
 +---environment.yml
++---quickstart.ipynb
 \---requirements.txt
 ```
 
@@ -111,7 +152,7 @@ pip install -r requirements.txt
 
 This command installs compatible versions of the following libraries:
 
->* tml: ``gensim, tagme, nltk, pandas, requests``
+>* tml: ``gensim, tagme, nltk, pandas, requests, bitermplus``
 >* gel: ``networkx``
 >* others: ``scikit-network, scikit-learn, sklearn, numpy, scipy, matplotlib``
 
@@ -145,7 +186,7 @@ This framework contains six different layers. Each layer is affected by multiple
 You can run the framework via [`./src/main.py`](./src/main.py) with following command:
 ```bash
 cd ../src
-python -u main.py -r toy -t lda.mallet gsdmm btm -g AE DynAE DynAERNN
+python -u main.py -r toy -t lda.gensim lda.mallet gsdmm btm -g AE DynAE DynAERNN
 ```
 where the input arguements are:
 
@@ -267,7 +308,7 @@ Soroush Ziaenejad<sup>1,2</sup>, [Hossein Fani](https://hosseinfani.github.io/)<
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ### Acknowledgments
-In this work, we use [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [``mallet``](https://github.com/mimno/Mallet), [``pytrec_eval``](https://github.com/cvangysel/pytrec_eval) and other libraries. We would like to thank the authors of these libraries.
+In this work, we use [``bitermplus``](https://github.com/maximtrp/bitermplus), [``dynamicgem``](https://github.com/Sujit-O/dynamicgem), [``mallet``](https://github.com/mimno/Mallet), [``pytrec_eval``](https://github.com/cvangysel/pytrec_eval) and other libraries. We would like to thank the authors of these libraries.
 
 ## 7. Citation
 ```

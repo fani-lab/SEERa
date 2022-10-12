@@ -63,9 +63,7 @@ def main(news_table):
     for index, row in processed_docs.iterrows():
 
         if Params.tml['method'].lower() == 'btm':
-            if Params.tml['method'].lower() == 'btm':
-                topics = tm.doc2topics(tm_model, row[t_t], threshold=Params.evl['threshold'],
-                                       just_one=Params.tml['justOne'], binary=Params.tml['binary'], dic=dictionary)
+            topics = tm.doc2topics(tm_model, row[t_t], threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'], dic=dictionary)
         else:
             news_bow_corpus = dictionary.doc2bow(row[t_t])
             topics = tm.doc2topics(tm_model, news_bow_corpus, threshold=Params.evl['threshold'], just_one=Params.tml['justOne'], binary=Params.tml['binary'])

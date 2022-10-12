@@ -1,3 +1,5 @@
+import os
+import multiprocessing
 
 general = {
     'comment': '',
@@ -16,12 +18,14 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': 'C:\mallet',
+    'malletHome': os.environ.get('MALLET_HOME'),
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
     'threshold': 0.3,
-    'method': '@tml_method' #['lda.gensim', 'lda.mallet', 'gsdmm']
+    'method': '@tml_method', #['lda.gensim', 'lda.mallet', 'gsdmm'],
+    'nCore': multiprocessing.cpu_count(),
+    'iterations': 1000
 }
 uml = {
     'userSimilarityThreshold': 0.8,
