@@ -58,9 +58,9 @@ Each layer process the input data from previous layer and produces new processed
 ```
 ├── apl                                     ->
 |   ├── evl                                 ->
-|   ├── Pred.Eval.csv                       ->
-|   ├── Pred.Eval.Mean.csv                  ->
-|   ├── UserMentions.pkl                    ->
+|   |   ├── Pred.Eval.csv                   ->
+|   |   ├── Pred.Eval.Mean.csv              ->
+|   |   ├── UserMentions.pkl                ->
 ├── NewsIds_ExpandedURLs.npy                ->
 ├── NewsTopics.pkl                          ->
 ├── RecommendationTableUser.pkl             ->
