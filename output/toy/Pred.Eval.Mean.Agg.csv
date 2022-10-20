@@ -1,7 +1,0 @@
-,success_1,success_5,success_10,success_100
-lda.mallet.dynaernn,0.05,0.25,0.5,1.0
-lda.mallet.dynae,0.05,0.25,0.5,1.0
-lda.dynaernn,0.05,0.25,0.5,1.0
-lda.dynae,0.05,0.25,0.5,1.0
-gsdmm.dynaernn,0.03333333333333333,0.16666666666666666,0.3333333333333333,0.6666666666666666
-gsdmm.dynae,0.05,0.25,0.5,1.0

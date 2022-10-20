@@ -115,6 +115,8 @@ def main():
         for gp in graphs_path:
             graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
             graphs.append(graph)
+
+
         pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
         np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
         # sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
@@ -122,6 +124,7 @@ def main():
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     # Graph Embedding
+    cmn.logger.info(f'(G): ({graphs})')
     cmn.logger.info(f'\n4. GEL: Temporal Graph Embedding ...')
     cmn.logger.info('#' * 50)
     try:
