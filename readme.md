@@ -29,8 +29,8 @@ Each layer process the input data from previous layer and produces new processed
 #### [``tml``](./src/tml)
 ```
 ├── {#Topics}topics.csv                           -> N topics with their top 10 vocabulary set and probabilities
-├── {#Topics}topics.model                         -> The LDA model
-├── {#Topics}TopicsDictionary.mm                  -> LDA dictionary
+├── {#Topics}topics.model                         -> The topic model (e.g., LDA, GSDMM, BTM, ...)
+├── {#Topics}TopicsDictionary.mm                  -> Dictionary of tokens/words
 ```
 #### [``uml``](./src/uml)
 ```
@@ -91,22 +91,18 @@ Each layer process the input data from previous layer and produces new processed
 |   |
 +---src
 |   +---cmn (common functions)
-|   |   +---Common.py
-|   |   \---__init__.py
+|   |   \---Common.py
 |   |
 |   +---dal  (data access layer)
 |   |   +---DataPreparation.py
-|   |   +---DataReader.py
-|   |   \---__init__.py
+|   |   \---DataReader.py
 |   |
 |   +---tml  (topic modeling layer)
-|   |   +---TopicModeling.py
-|   |   \---__init__.py
+|   |   \---TopicModeling.py
 |   |
 |   +---uml (user modeling layer)
 |   |   +---UsersGraph.py
-|   |   +---UserSimilarities.py
-|   |   \---__init__.py
+|   |   \---UserSimilarities.py
 |   |
 |   +---gel (graph embedding layer)
 |   |   +---CppWrapper.py
@@ -192,13 +188,13 @@ where the input arguements are:
 
 `-r`: A unique description for the run, for example `test1`, required.
 
-`-t`: A list of topic modeling methods among {`lda.gensim`, `lda.mallet`, `gsdmm`, `btm`}, required.
+`-t`: A list of topic modeling methods among {`lda.gensim`, `lda.mallet`, `gsdmm`, `btm`}, required, case-insensitive.
 
-`-g`: A list of graph embedding methods among {`AE`, `DynAE`, `DynRNN`, `DynAERNN`}, required.
+`-g`: A list of graph embedding methods among {`AE`, `DynAE`, `DynRNN`, `DynAERNN`}, required, case-insensitive.
 
 
 
-A run will produce an output folder at `./output/{r}` and subfolders for each topic modeling and graph embedding pair as baselines, e.g., `LDA.AE`, `LDA.DynAE`, and `LDA.DynAERNN`. The final evaluation results are aggregated in `./output/{r}/pred.eval.mean.csv`. See an example run on toy dataset at [`./output/toy`](./output/toy). 
+A run will produce an output folder at `./output/{r}` and subfolders for each topic modeling and graph embedding pair as baselines, e.g., `lda.AE`, `lda.DynAE`, and `lda.DynAERNN`. The final evaluation results are aggregated in `./output/{r}/pred.eval.mean.csv`. See an example run on toy dataset at [`./output/toy`](./output/toy). 
 
 ## 5. Benchmark Result
 <table style="color:#828282;">
