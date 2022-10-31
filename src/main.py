@@ -10,6 +10,7 @@ import networkx as nx
 
 import Params
 from cmn import Common as cmn
+from codecarbon import EmissionsTracker
 
 
 def main():
@@ -163,6 +164,8 @@ def main():
 
 
 def run(tml_baselines, gel_baselines, run_desc):
+    tracker = EmissionsTracker()
+    tracker.start()
     for t in tml_baselines:
         for g in gel_baselines:
             try:
@@ -180,6 +183,8 @@ def run(tml_baselines, gel_baselines, run_desc):
                 cmn.logger.info(traceback.format_exc())
             finally:
                 cmn.logger.info('\n\n\n')
+    emissions: float = tracker.stop()
+    cmn.logger.info(f'Pipeline Emissions: {emissions}')
     # aggregate('../ouptut')
 
 
