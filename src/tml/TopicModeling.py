@@ -178,8 +178,8 @@ def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True, dic=No
     if just_one: doc_topic_vector[d2t_vector[:, 1].argmax()] = 1
     else:
         for idx, t in enumerate(d2t_vector):
-            if Params.tml['method'].lower() in ["gsdmm", "btm"]: topic_id, t_temp = idx, t
-            elif Params.tml['method'][:3].lower() == "lda": topic_id, t_temp = t
+            if Params.tml['method'].lower() == "btm": topic_id, t_temp = idx, t
+            elif Params.tml['method'][:3].lower() == "lda" or Params.tml['method'].lower() == "gsdmm": topic_id, t_temp = t
             else: raise ValueError("Invalid topic modeling!")
             if t_temp >= threshold:
                 if binary: doc_topic_vector[int(topic_id)] = 1
