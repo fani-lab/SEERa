@@ -1,7 +1,9 @@
+import os
+import multiprocessing
 
 general = {
     'comment': '',
-    'baseline': 'toy.synthetic/lda.gensim.dynae',
+    'baseline': 'toy/lda.mallet.dynaernn',
     'cuda': '-1'
 }
 dal = {
@@ -16,12 +18,14 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': 'C:\mallet',
+    'malletHome': '/Users/sharjeelmustafa/Documents/02 Work/01 Research/Y3-2022-F/SEERa/src/tml/Mallet-202108',
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
     'threshold': 0.3,
-    'method': 'lda.gensim' #['lda.gensim', 'lda.mallet', 'gsdmm']
+    'method': 'lda.mallet', #['lda.gensim', 'lda.mallet', 'gsdmm'],
+    'nCore': multiprocessing.cpu_count(),
+    'iterations': 10
 }
 uml = {
     'userSimilarityThreshold': 0.8,
@@ -31,7 +35,7 @@ gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
     'embeddingDim': 64,
     'epoch': 10,
-    'method': 'dynae' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    'method': 'dynaernn' #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
 }
 cpl = {
     'path2save': f'../output/{general["baseline"]}/cpl',

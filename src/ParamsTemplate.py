@@ -18,14 +18,14 @@ dal = {
 tml = {
     'path2save': f'../output/{general["baseline"]}/tml',
     'numTopics': 3,
-    'malletHome': os.environ.get('MALLET_HOME'),
+    'malletHome': '/Users/sharjeelmustafa/Documents/02 Work/01 Research/Y3-2022-F/SEERa/src/tml/Mallet-202108',
     'filterExtremes': True,
     'justOne': False,
     'binary': False,
     'threshold': 0.3,
     'method': '@tml_method', #['lda.gensim', 'lda.mallet', 'gsdmm'],
     'nCore': multiprocessing.cpu_count(),
-    'iterations': 1000
+    'iterations': 10
 }
 uml = {
     'userSimilarityThreshold': 0.8,
