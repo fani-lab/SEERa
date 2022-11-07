@@ -163,8 +163,8 @@ def main():
 def run(tml_baselines, gel_baselines, run_desc):
     for t in tml_baselines:
         for g in gel_baselines:
-            # tracker = EmissionsTracker()  # We want to reset the tracker on each iteration to get the emission of each combination
-            # tracker.start()
+            tracker = EmissionsTracker()  # We want to reset the tracker on each iteration to get the emission of each combination
+            tracker.start()
             try:
                 cmn.logger.info(f'Running pipeline for {t} and {g} ....')
                 baseline = f'{run_desc}/{t}.{g}'
@@ -180,8 +180,8 @@ def run(tml_baselines, gel_baselines, run_desc):
                 cmn.logger.info(traceback.format_exc())
             finally:
                 cmn.logger.info('\n\n\n')
-                # emissions: float = tracker.stop()
-                # cmn.logger.info(f'Pipeline Emissions: {emissions}')
+                emissions: float = tracker.stop()
+                cmn.logger.info(f'Pipeline Emissions: {emissions}')
     # aggregate('../ouptut')
 
 
