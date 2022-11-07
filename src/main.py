@@ -116,8 +116,6 @@ def main():
         for gp in graphs_path:
             graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
             graphs.append(graph)
-
-
         pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
         np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
         # sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
@@ -125,7 +123,6 @@ def main():
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')
 
     # Graph Embedding
-    cmn.logger.info(f'(G): ({graphs})')
     cmn.logger.info(f'\n4. GEL: Temporal Graph Embedding ...')
     cmn.logger.info('#' * 50)
     try:
@@ -164,10 +161,10 @@ def main():
 
 
 def run(tml_baselines, gel_baselines, run_desc):
-    tracker = EmissionsTracker()
-    tracker.start()
     for t in tml_baselines:
         for g in gel_baselines:
+            tracker = EmissionsTracker()  # We want to reset the tracker on each iteration to get the emission of each combination
+            tracker.start()
             try:
                 cmn.logger.info(f'Running pipeline for {t} and {g} ....')
                 baseline = f'{run_desc}/{t}.{g}'
@@ -183,8 +180,8 @@ def run(tml_baselines, gel_baselines, run_desc):
                 cmn.logger.info(traceback.format_exc())
             finally:
                 cmn.logger.info('\n\n\n')
-    emissions: float = tracker.stop()
-    cmn.logger.info(f'Pipeline Emissions: {emissions}')
+                emissions: float = tracker.stop()
+                cmn.logger.info(f'Pipeline Emissions: {emissions}')
     # aggregate('../ouptut')
 
 
