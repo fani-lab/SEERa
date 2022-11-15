@@ -28,7 +28,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=30)
         #output = tm_model.fit(bow_corpus, len(dictionary))
         tm_model.fit(bow_corpus, len(dictionary))
-        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
+        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.model")
         total_topics = tm_model.cluster_word_distribution
         gsdmm_save = []
         gsdmm_topic = []
@@ -43,15 +43,14 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         for i in range(len(gsdmm_topic)):
             gsdmm_save.append(gsdmm_topic[i])
             gsdmm_save.append(gsdmm_percentage[i])
-
+        total_topics = gsdmm_topic
         with open(f"{path_2_save_tml}/{num_topics}Topics.csv", "w+", newline='') as my_csv:
             csvWriter = csv.writer(my_csv, delimiter=',')
             csvWriter.writerows(gsdmm_save)
-        with open(f"{path_2_save_tml}/{tm_model.K}Topics.pkl", 'wb') as g: pickle.dump(tm_model, g)
 
     elif method.lower() == "lda.gensim":
         tm_model = gensim.models.LdaModel(bow_corpus, num_topics=num_topics, id2word=dictionary, passes=Params.tml['iterations'], iterations=Params.tml['iterations'])
-        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
+        pd.to_pickle(tm_model, f'{path_2_save_tml}/{num_topics}Topics.model')
         gensim_topics = []
         gensim_percentages = []
         gensim_topics_percentages = []
@@ -77,7 +76,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         os.environ['MALLET_HOME'] = Params.tml['malletHome']
         mallet_path = f'{Params.tml["malletHome"]}/bin/mallet.bat'
         tm_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=bow_corpus, num_topics=num_topics, id2word=dictionary, workers=Params.tml['nCore'], iterations=Params.tml['iterations'])
-        tm_model.save(f"{path_2_save_tml}/{num_topics}Topics.model")
+        pd.to_pickle(tm_model, f'{path_2_save_tml}/{num_topics}Topics.model')
         mallet_topics = []
         mallet_percentages = []
         mallet_topics_percentages = []
@@ -104,29 +103,27 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         import bitermplus as btm
         processed_docs = [' '.join(text) for text in processed_docs]
         doc_word_frequency, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
-        pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.pkl')
+        pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')
         docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
         biterms = btm.get_biterms(docs_vec)
         tm_model = btm.BTM(doc_word_frequency, dictionary, seed=0, T=num_topics, M=10, alpha=50/num_topics, beta=0.01) #https://bitermplus.readthedocs.io/en/latest/bitermplus.html#bitermplus.BTM
         tm_model.fit(biterms, iterations=Params.tml['iterations'])
-        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.pkl")
-        # METRICS
-        c = coherence = tm_model.coherence_
-        cv = None
-        tm_model.df_words_topics_.to_csv('wordstopic.csv')  # shouldn't be f"{path_2_save_tml}/{num_topics}Topics.csv like others?
+        pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.model")
+        tm_model.df_words_topics_.to_csv(f"{path_2_save_tml}/{num_topics}Topics.csv")
         topic_range_idx = list(range(0, num_topics))
         top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
         print(top_words)
-        total_topics = [[]]  # what's this??
         pass
     else:
         raise ValueError("Invalid topic modeling!")
 
-    if method.lower() in ['lda.gensim', 'lda.mallet']:
+    if method.lower() in ['lda.gensim', 'lda.mallet', 'gsdmm']:
         cm = CoherenceModel(model=tm_model, corpus=bow_corpus, topics=total_topics, dictionary=dictionary, coherence='u_mass')
         c = cm.get_coherence() 
-        cv = cm.get_coherence_per_topic() 
-
+        cv = cm.get_coherence_per_topic()
+    elif method.lower() in ['btm']:
+        cv = tm_model.coherence_
+        c = np.mean(cv)
     # try:
     #     print('Visualization:\n')
     #     visualization(dictionary, bow_corpus, lda_model, num_topics)

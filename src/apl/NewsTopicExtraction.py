@@ -44,21 +44,13 @@ def main(news_table):
         processed_docs['NewsId'] = news_table['NewsId']
         processed_docs[t_t] = np.asarray(processed_docs_)
 
-    if not Params.tml['method'].lower() == 'btm':
-        dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.mm')[0]
-        dictionary = gensim.corpora.Dictionary.load(dict_path)
-    else:
-        dict_path = glob.glob(f'{Params.tml["path2save"]}/*TopicsDictionary.pkl')[0]
-        dictionary = pd.read_pickle(dict_path)
-    # LDA Model Loading
-    if Params.tml['method'].lower() in ['gsdmm', 'btm']:
-        model_name = glob.glob(f'{Params.tml["path2save"]}/*Topics.pkl')[0]
-        tm_model = pd.read_pickle(model_name)
-    else:
-        method = Params.tml["method"].split('.')
-        model_name = glob.glob(f'{Params.tml["path2save"]}/*.model')[0]
-        cmn.logger.info(f'Loading {Params.tml["method"]} model ...')
-        if method[0].lower() == 'lda': tm_model = gensim.models.ldamodel.LdaModel.load(model_name)
+    # Dictionary and Model Loading
+    path_dict = f"{Params.tml['path2save']}/{Params.tml['numTopics']}TopicsDictionary.mm"
+    path_mdl = f"{Params.tml['path2save']}/{Params.tml['numTopics']}Topics.model"
+    tm_model = pd.read_pickle(path_mdl)
+    dictionary = pd.read_pickle(path_dict)
+    cmn.logger.info(f'6.2.1. Loading saved topic model of {Params.tml["method"]} from {path_dict} and {path_mdl} ...')
+
     total_news_topics = {}
     for index, row in processed_docs.iterrows():
 

@@ -5,9 +5,13 @@ import numpy as np
 from scipy.special import softmax
 import pandas as pd
 from collections import Counter
-import sknetwork as skn #cannot be debugged (in debug mode, raise error)
-from sklearn.metrics.pairwise import pairwise_kernels
+# import sknetwork as skn #cannot be debugged (in debug mode, raise error)
+# from sklearn.metrics.pairwise import pairwise_kernels, linear_kernel, cosine_similarity
 from scipy import sparse
+import torch
+import torchmetrics as tm
+from tqdm import tqdm
+import time
 
 import Params
 from cmn import Common as cmn
@@ -43,37 +47,61 @@ def cluster_topic_interest(clusters, user_topic_interests):
 
 
 def main(embeddings, method):
-    try: pred_users_similarity = sparse.load_npz(f'{Params.cpl["path2save"]}/pred_users_similarity.npz')
+    try: pred_users_similarity = pd.load_pickle(f'{Params.cpl["path2save"]}/pred_users_similarity.pkl')
     except:
-        if not os.path.isdir(Params.cpl["path2save"]): os.makedirs(Params.cpl["path2save"])
-        cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
-        user_ids = np.load(f"{Params.uml['path2save']}/Users.npy")
-        embedding_array = []
-        for u in user_ids:
-            embedding_array.append(embeddings[u])
-        pred_users_similarity = pairwise_kernels(embedding_array, metric='cosine', n_jobs=9)
-        pred_users_similarity = pred_users_similarity
-        pred_users_similarity[pred_users_similarity < Params.uml['userSimilarityThreshold']] = 0
-        pred_users_similarity = pd.DataFrame(pred_users_similarity)
-        # pred_users_similarity = np.random.random(pred_users_similarity.shape)
-        # pred_users_similarity[pred_users_similarity < 0.99] = 0
-        pred_users_similarity = sparse.csr_matrix(pred_users_similarity)
-        sparse.save_npz(f'{Params.cpl["path2save"]}/pred_users_similarity.npz', pred_users_similarity)
-    cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
-    try: g = nx.read_adjlist(f'{Params.cpl["path2save"]}/Graph.adjlist')
-    except:
-        g = nx.from_scipy_sparse_matrix(pred_users_similarity)
-        nx.write_adjlist(g, f'{Params.cpl["path2save"]}/Graph.adjlist')
-    cmn.logger.info(f"(#Nodes/Users, #Edges): ({g.number_of_nodes()}, {g.number_of_edges()})")
+        try:
+            embedding_array = pd.read_pickle(f'{Params.cpl["path2save"]}/embedding_array.pkl')
+            print('embedding array loaded.')
+        except:
+            if not os.path.isdir(Params.cpl["path2save"]): os.makedirs(Params.cpl["path2save"])
+            cmn.logger.info(f'5.1. Inter-User Similarity Prediction ...')
+            user_ids = np.load(f"{Params.uml['path2save']}/Users.npy")
+            embedding_array = sparse.csr_matrix(embeddings[user_ids[0]])
+            for u in user_ids[1:]:
+                embedding_array = sparse.vstack((embedding_array, embeddings[u]))
+            pd.to_pickle(embedding_array, f'{Params.cpl["path2save"]}/embedding_array.pkl')
+        try:
+            pred_users_similarity = torch.load(f'{Params.cpl["path2save"]}/pred_users_similarity.pt')
+            cmn.logger.info(f'5.1. pred_users_similarity is loaded ...')
+        except:
+            embedding_array = sparse.coo_matrix(embedding_array)
+            values = embedding_array.data
+            indices = np.vstack((embedding_array.row, embedding_array.col))
+            i = torch.LongTensor(indices)
+            v = torch.FloatTensor(values)
+            embedding_array_torch = torch.sparse.FloatTensor(i, v, torch.Size(embedding_array.shape)).to_dense()
+            pred_users_similarity = tm.functional.pairwise_cosine_similarity(embedding_array_torch)
+            pred_users_similarity[Params.uml['userSimilarityThreshold'] > pred_users_similarity] = 0
+            # pred_users_similarity = pd.DataFrame(pred_users_similarity)
+            # pred_users_similarity = np.random.random(pred_users_similarity.shape)
+            # pred_users_similarity[pred_users_similarity < 0.99] = 0
+
+            # pred_users_similarity = sparse.csr_matrix(pred_users_similarity, dtype=np.float16)
+            torch.save(pred_users_similarity, f'{Params.cpl["path2save"]}/pred_users_similarity.pt')
+            pd.to_pickle(pred_users_similarity, f'{Params.cpl["path2save"]}/pred_users_similarity.pkl')
+    # cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
+    # try: g = nx.read_adjlist(f'{Params.cpl["path2save"]}/Graph.adjlist')
+    # except:
+    #     g = nx.from_scipy_sparse_matrix(pred_users_similarity)
+    #     print(type(pred_users_similarity))
+    #     g = nx.from_pandas_adjacency(pred_users_similarity)
+    #     nx.write_adjlist(g, f'{Params.cpl["path2save"]}/Graph.adjlist')
+    # cmn.logger.info(f"(#Nodes/Users, #Edges): ({g.number_of_nodes()}, {g.number_of_edges()})")
     cmn.logger.info(f'5.3. Future Community Prediction ...')
-    try: louvain = skn.clustering.Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=True)
-    except: louvain = skn.clustering.Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
+    from sknetwork.clustering import Louvain
+    try: louvain = Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=True)
+    except: louvain = Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
     try: lbls_louvain = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
     except:
-        adj = nx.adjacency_matrix(g)
-        lbls_louvain = np.asarray(louvain.fit_transform(adj))
-    np.save(f'{Params.cpl["path2save"]}/PredUserClusters.npy', lbls_louvain)
-    pd.DataFrame(lbls_louvain).to_csv(f'{Params.cpl["path2save"]}/PredUserClusters.csv')
+        adj = pred_users_similarity.detach().numpy()
+        np.save(f'{Params.cpl["path2save"]}/adj.npy', adj)
+        cmn.logger.info(f"(size) : ({adj.size})")
+        cmn.logger.info(f"(#zeros) : ({adj.size - np.count_nonzero(adj)})")
+        adj2 = sparse.csr_matrix(adj)
+        pd.to_pickle(adj2, f'{Params.cpl["path2save"]}/adj_sparse.pkl')
+        lbls_louvain = np.asarray(louvain.fit_transform(adj2))
+        np.save(f'{Params.cpl["path2save"]}/PredUserClusters.npy', lbls_louvain)
+        pd.DataFrame(lbls_louvain).to_csv(f'{Params.cpl["path2save"]}/PredUserClusters.csv')
     try:
         u2c = pd.read_pickle(f'{Params.cpl["path2save"]}/user2cluster.pkl')
         c2u = pd.read_pickle(f'{Params.cpl["path2save"]}/cluster2user.pkl')

@@ -25,7 +25,7 @@ tml = {
     'threshold': 0.3,
     'method': '@tml_method', #['lda.gensim', 'lda.mallet', 'gsdmm'],
     'nCore': multiprocessing.cpu_count(),
-    'iterations': 1000
+    'iterations': 50
 }
 uml = {
     'userSimilarityThreshold': 0.8,
@@ -55,7 +55,7 @@ evl = {
 }
 
 apl = {
-    'communityBased': False,
+    'communityBased': True,
     'path2save': f'../output/{general["baseline"]}/apl',
     'topK': 100,
     'textTitle': 'Text'
