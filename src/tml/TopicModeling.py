@@ -113,6 +113,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         topic_range_idx = list(range(0, num_topics))
         top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
         print(top_words)
+        total_topics = tm_model.matrix_topics_words_
         pass
     else:
         raise ValueError("Invalid topic modeling!")
