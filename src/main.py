@@ -4,9 +4,9 @@ from time import time
 
 import numpy as np
 import pandas as pd
-import gensim
 from scipy import sparse
 import networkx as nx
+from codecarbon import EmissionsTracker
 
 import Params
 from cmn import Common as cmn
