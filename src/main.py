@@ -207,7 +207,8 @@ def tprofile(args):
     from line_profiler import LineProfiler
     profiler = LineProfiler()
     # add functions to profile
-    profiler(main)
+    # profiler(run) # profiles the carbon tracker and logging calls in run()
+    profiler(main)  # profiles the execution of the pipeline
     profiler.enable_by_count()
 
     # runs profiling for each combination since they employ different function calls
