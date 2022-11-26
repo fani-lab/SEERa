@@ -209,11 +209,17 @@ def tprofile(args):
     # add functions to profile
     profiler(main)
     profiler.enable_by_count()
-    run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
-    # convert to text format
-    with open(f'../output/{args.run_desc}/LineProfile.txt', 'w') as f:
-        print(f'Profiling for {args.tml_method_list} and {args.gel_method_list} ....', file=f)
-        profiler.print_stats(stream=f)
+
+    # runs profiling for each combination since they employ different function calls
+    tml_baselines = args.tml_method_list
+    gel_baselines = args.gel_method_list
+    for t in tml_baselines:
+        for g in gel_baselines:
+            run(tml_baselines=[t], gel_baselines=[g], run_desc=args.run_desc)
+            # convert to text format in the respective baseline folders
+            with open(f'../output/{args.run_desc}/{t}.{g}/TimeProfile.txt', 'w') as f:
+                print(f'Profiling for {t} and {g} ....', file=f)
+                profiler.print_stats(stream=f)
 
 # python -u main.py -r toy -t LdA.GeNsim -g Ae DynAe DynaERnN
 if __name__ == '__main__':
