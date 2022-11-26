@@ -192,6 +192,8 @@ where the input arguements are:
 
 `-g`: A list of graph embedding methods among {`AE`, `DynAE`, `DynRNN`, `DynAERNN`}, required, case-insensitive.
 
+`-p`: A flag for the run to be time-profiled, optional.
+
 
 
 A run will produce an output folder at `./output/{r}` and subfolders for each topic modeling and graph embedding pair as baselines, e.g., `lda.AE`, `lda.DynAE`, and `lda.DynAERNN`. The final evaluation results are aggregated in `./output/{r}/pred.eval.mean.csv`. See an example run on toy dataset at [`./output/toy`](./output/toy). 
