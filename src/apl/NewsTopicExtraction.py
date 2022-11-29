@@ -31,6 +31,7 @@ def text2tagme(news_table, threshold=0.05):
 def main(news_table):
     t_t = Params.apl["textTitle"]
     news_table = news_table[news_table[t_t].notna()]
+    if news_table.columns[0] == 'Id': news_table = news_table.rename(columns={'Id': 'NewsId'})
     news_ids = news_table['NewsId']
     np.save(f'{Params.apl["path2save"]}/NewsIds_ExpandedURLs.npy', news_ids)
     if Params.dal['tagMe']:
