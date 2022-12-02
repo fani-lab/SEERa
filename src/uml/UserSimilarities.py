@@ -3,6 +3,8 @@ import numpy as np
 import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import pandas as pd
+from tqdm import tqdm
+from scipy import sparse
 
 import Params
 from cmn import Common as cmn
@@ -23,7 +25,7 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
         users_topic_interests = pd.DataFrame()
         c = documents[(documents['CreationDate'].dt.date == day.date())]
         cmn.logger.info(f'{len(c)} users have twitted in {day.date()}')
-        for index, row in c.iterrows():
+        for index, row in tqdm(c.iterrows(), total=c.shape[0]):
             if Params.dal['tagMe']:
                 import tagme
                 tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
@@ -35,15 +37,18 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
             users_topic_interests[row['UserId']] = d2t
 
         #for those with no document, zero padding
-        for user in unique_users:
-            if user not in users_topic_interests:
-                users_topic_interests[user] = np.zeros(d2t.shape)
+        padded_uti = np.zeros((len(unique_users), d2t.shape[0]))
+        padded_uti = pd.DataFrame(padded_uti, index=unique_users).T
+        for user in tqdm(users_topic_interests):
+            padded_uti[user] = users_topic_interests[user]
+        users_topic_interests = sparse.csr_matrix(padded_uti)
 
         pd.to_pickle(users_topic_interests, f'{path2_save_uml}/Day{day.date()}UsersTopicInterests.pkl')
+        sparse.save_npz(f'{path2_save_uml}/Day{day.date()}UsersTopicInterests.npz', users_topic_interests)
         pd.to_pickle(c['UserId'], f'{path2_save_uml}/Day{day.date()}UserIDs.pkl')
-        cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npy is saved for day:{day.date()} with shape: {users_topic_interests.T.shape}')
+        cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npz is saved for day:{day.date()} with shape: {users_topic_interests.T.shape}')
 
-        cmn.logger.info(f'UserSimilarity: A graph is being created for day: {day.date()} with {len(users_topic_interests.T)} users')
+        cmn.logger.info(f'UserSimilarity: A graph is being created for day: {day.date()} with {users_topic_interests.shape[1]} users')
         cmn.logger.info(f'UserSimilarity: Number of users per day: {len(c)}')
         cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
         UG.create_users_graph(day, users_topic_interests, path2_save_uml)
