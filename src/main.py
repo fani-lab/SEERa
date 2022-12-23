@@ -204,24 +204,34 @@ def addargs(parser):
     baseline.add_argument('-r', '--run-desc', type=str.lower, required=True, help='a unique description for the run (eg. -r toy')
     baseline.add_argument('-p', '--profile-time', action='store_true', required=False, help='an indicator to line profile the program')
 
-def tprofile(args):
+
+def tprofile(args, current_datetime):
     from line_profiler import LineProfiler
-    profiler = LineProfiler()
+    import cProfile
+    import pstats
+
+    l_profiler = LineProfiler()
+    f_profiler = cProfile.Profile()
     # add functions to profile
-    # profiler(run) # profiles the carbon tracker and logging calls in run()
-    profiler(main)  # profiles the execution of the pipeline
-    profiler.enable_by_count()
+    # l_profiler(run) # profiles the carbon tracker and logging calls in run()
+    l_profiler(main)  # profiles the execution of the pipeline
+    l_profiler.enable_by_count()
 
     # runs profiling for each combination since they employ different function calls
     tml_baselines = args.tml_method_list
     gel_baselines = args.gel_method_list
     for t in tml_baselines:
         for g in gel_baselines:
+            f_profiler.enable() # reset function count for function profiler
             run(tml_baselines=[t], gel_baselines=[g], run_desc=args.run_desc)
+            f_profiler.disable()
             # convert to text format in the respective baseline folders
-            with open(f'../output/{args.run_desc}/{t}.{g}/TimeProfile.txt', 'w') as f:
-                print(f'Profiling for {t} and {g} ....', file=f)
-                profiler.print_stats(stream=f)
+            with open(f'../output/{args.run_desc}/{t}.{g}/TimeProfile.{current_datetime}.txt', 'w') as f:
+                print(f'Profiling for {t} and {g} ....\n', file=f)
+                print('The top 10 time-consuming functions:', file=f)
+                pstats.Stats(f_profiler, stream=f).sort_stats("time").print_stats('src', 10) # 'src' keyword keeps only seera functions
+                l_profiler.print_stats(stream=f)
+
 
 # python -u main.py -r toy -t LdA.GeNsim -g Ae DynAe DynaERnN
 if __name__ == '__main__':
@@ -232,7 +242,7 @@ if __name__ == '__main__':
     if not os.path.isdir(f'../output/{args.run_desc}'): os.makedirs(f'../output/{args.run_desc}')
     cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/Log.{current_datetime}.txt')
     if args.profile_time:
-        tprofile(args)
+        tprofile(args, current_datetime)
     else:
         run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     aggregate(f'../output/{args.run_desc}')
