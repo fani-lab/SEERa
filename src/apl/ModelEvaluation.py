@@ -2,32 +2,43 @@ import numpy as np
 import pandas as pd
 import pytrec_eval
 import os
-import datetime
-import pickle
+from datetime import datetime, timedelta
+from tqdm import tqdm
 import sklearn.metrics.cluster as CM
 
 import Params
 from cmn import Common as cmn
 
 def user_mentions():
+    # Load News
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
     news = news[news[Params.apl["textTitle"]].notna()]
-    tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
-    tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
-    tweet_entities_with_tweetid = tweet_entities[tweet_entities['TweetId'].notna()]
-    tweet_entities_with_tweetid_and_url = tweet_entities_with_tweetid[tweet_entities_with_tweetid['ExpandedUrl'].notna()]
-    users_news = {}
-    for index, row in tweet_entities_with_tweetid_and_url.iterrows():
-        row_date = tweets.loc[tweets['Id'] == row['TweetId']]['CreationTimestamp'].values[0].split()[0]
 
-        try: is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,f'%Y-%m-%d')).days < 1  # May need changes for new news dataset
-        except: is_last = (datetime.datetime.strptime(Params.dal['end'], '%Y-%m-%d') - datetime.datetime.strptime(row_date,f'%m/%d/%Y')).days < 1
-        uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
-        if pd.notna(uid) and is_last:
-            try:
-                news_id = news[news['ExpandedUrl'] == row['ExpandedUrl']]['NewsId'].values[0]
-                users_news.setdefault(uid, []).append(news_id)
-            except: pass
+    # Load Tweets
+    tweets = pd.read_csv(f'{Params.dal["path"]}/Tweets.csv')
+
+    ### Run the following section if evaluation should be done on only last time interval news articles ###
+    # eval_start = datetime.strptime(Params.dal['end'], f'%Y-%m-%d') - timedelta(days=Params.dal['timeInterval'] - 1)  # May need changes for new news dataset
+    # eval_start = eval_start.strftime('%Y-%m-%d') + ' 00:00:00'
+    # eval_end = Params.dal['end'] + ' 24:00:00'
+    # tweets = tweets[tweets['CreationTimestamp'] >= eval_start]
+    # tweets = tweets[tweets['CreationTimestamp'] <= eval_end]
+
+    users = np.load(f'{Params.uml["path2save"]}/Users.npy')
+    tweets = tweets[tweets['UserId'].isin(users)]
+
+    # Load Tweet Entities
+    tweet_entities = pd.read_csv(f'{Params.dal["path"]}/TweetEntities.csv')
+    tweet_entities = tweet_entities[tweet_entities['TweetId'].notna()]
+    tweet_entities = tweet_entities[tweet_entities['ExpandedUrl'].notna()]
+    tweet_entities = tweet_entities[tweet_entities['TweetId'].isin(tweets['Id'])]
+
+    users_news = {}
+    for index, row in tqdm(tweet_entities.iterrows(), total=tweet_entities.shape[0]):
+        if row['ExpandedUrl'] in news['Url'].values:
+            uid = tweets.loc[tweets['Id'] == row['TweetId']]['UserId'].values[0]
+            news_id = news[news['Url'] == row['ExpandedUrl']]['Id'].values[0]
+            users_news.setdefault(uid, []).append(news_id)
     return users_news
 
 def intrinsic_evaluation(communities, golden_standard, evaluation_metrics=Params.evl['intrinsicMetrics']):
@@ -84,3 +95,5 @@ def main(top_recommendation_user):
         cmn.logger.info(f'Averaging ...')
         df_mean = df.mean(axis=0).to_frame('mean')
         df_mean.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.csv', index_label="metric", header=["score"])
+        df_std = df.std(axis=0).to_frame('std')
+        df_std.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Std.csv', index_label="metric", header=["score"])

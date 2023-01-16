@@ -25,7 +25,7 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
     c, cv = None, None
     if method.lower() == "gsdmm":
         from gsdmm import MovieGroupProcess
-        tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=30)
+        tm_model = MovieGroupProcess(K=Params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=Params.tml['iterations'])
         #output = tm_model.fit(bow_corpus, len(dictionary))
         tm_model.fit(bow_corpus, len(dictionary))
         pd.to_pickle(tm_model, f"{path_2_save_tml}/{num_topics}Topics.model")
@@ -114,7 +114,6 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
         top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
         print(top_words)
         total_topics = tm_model.matrix_topics_words_
-        pass
     else:
         raise ValueError("Invalid topic modeling!")
 

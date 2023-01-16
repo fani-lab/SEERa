@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import glob
 import pickle
+from tqdm import tqdm
 
 import Params
 from cmn import Common as cmn
@@ -28,7 +29,7 @@ def recommend(topic_interests, news_topics, topK):
     news_topics.reset_index(drop=True, inplace=True)
     recommendation_table = topic_interests.dot(news_topics.T)
     top_recommendations = {}#np.zeros((len(communities_topic_interests), topK))
-    for index, row in recommendation_table.iterrows():
+    for index, row in tqdm(recommendation_table.iterrows(), total=recommendation_table.shape[0]):
         news_scores = row.values
         sorted_index_array = np.argsort(news_scores)
         sorted_array = news_ids[sorted_index_array]
@@ -43,6 +44,7 @@ def user_recommend(pred_user_clusters, top_recommendations):
     users = np.load(f'{Params.uml["path2save"]}/Users.npy')
     user_recommendation = {}
     for u in range(len(users)):
+    for u in tqdm(range(len(users))):
         cluster = pred_user_clusters[u]
         try: user_recommendation[users[u]] = list(top_recommendations[cluster])
         except: continue

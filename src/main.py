@@ -7,6 +7,7 @@ import pandas as pd
 from scipy import sparse
 import networkx as nx
 from codecarbon import EmissionsTracker
+from datetime import datetime
 
 import Params
 from cmn import Common as cmn
@@ -102,7 +103,7 @@ def main():
             graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
             graphs.append(graph)
         pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
-        np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
+        # np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
         # sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
     cmn.logger.info(f'(#Graphs): ({len(graphs)})')
     cmn.logger.info(f'Time Elapsed: {(time() - t_s)}')

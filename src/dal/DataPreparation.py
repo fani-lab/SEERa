@@ -24,8 +24,8 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
         preprocessed_text = preprocess(post.Text, stopwords=True)
         if len(preprocessed_text) > 0: posts_temp.append(post._replace(Text=preprocessed_text))
     posts = pd.DataFrame(posts_temp)
-    n_users = len(posts['UserId'].unique())
-    n_timeintervals = len(posts['CreationDate'].unique())
+    # n_users = len(posts['UserId'].unique())
+    # n_timeintervals = len(posts['CreationDate'].unique())
     posts.to_csv(f"../output/{Params.general['baseline']}/Posts.csv", encoding='utf-8', index=False)
     if userModeling and timeModeling: documents = posts.groupby(['UserId', 'CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
     elif userModeling:
@@ -43,6 +43,9 @@ def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeIn
         tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
         for doc in tqdm(documents.itertuples(), total=documents.shape[0]):
             documents.at[doc.Index, 'Text'] = tagme_annotator(doc.Text)
+    documents = documents.groupby('UserId').filter(lambda x: len(x) > Params.dal['threshold'])
+    n_users = len(documents.groupby('UserId'))
+    n_timeintervals = len(documents.groupby('CreationDate'))
     documents.to_csv(f"../output/{Params.general['baseline']}/Documents.csv", encoding='utf-8', index=False)
     prosdocs = np.asarray(documents['Text'].str.split())
     np.savez_compressed(f"../output/{Params.general['baseline']}/Prosdocs.npz", a=prosdocs)
