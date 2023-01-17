@@ -77,6 +77,7 @@ def main(embeddings, method):
             # pred_users_similarity[pred_users_similarity < 0.99] = 0
 
             # pred_users_similarity = sparse.csr_matrix(pred_users_similarity, dtype=np.float16)
+            cmn.logger.info(f'Memory needed for pred_users_similarity matrix: {pred_users_similarity.nelement() * pred_users_similarity.element_size()} bytes.')
             torch.save(pred_users_similarity, f'{Params.cpl["path2save"]}/pred_users_similarity.pt')
             pd.to_pickle(pred_users_similarity, f'{Params.cpl["path2save"]}/pred_users_similarity.pkl')
     # cmn.logger.info(f'5.2. Future Graph Prediction ...')#potential bottleneck if huge amount of edges! needs large filtering threshold
@@ -88,11 +89,12 @@ def main(embeddings, method):
     #     nx.write_adjlist(g, f'{Params.cpl["path2save"]}/Graph.adjlist')
     # cmn.logger.info(f"(#Nodes/Users, #Edges): ({g.number_of_nodes()}, {g.number_of_edges()})")
     cmn.logger.info(f'5.3. Future Community Prediction ...')
-    from sknetwork.clustering import Louvain
-    try: louvain = Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=True)
-    except: louvain = Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
+
     try: lbls_louvain = np.load(f'{Params.cpl["path2save"]}/PredUserClusters.npy')
     except:
+        from sknetwork.clustering import Louvain
+        try:louvain = Louvain(resolution=1, n_aggregations=200, shuffle_nodes=True, return_membership=True, return_aggregate=True, verbose=True)
+        except:louvain = Louvain(resolution=1, max_agg_iter=200, shuffle_nodes=True, verbose=1)
         adj = pred_users_similarity.detach().numpy()
         np.save(f'{Params.cpl["path2save"]}/adj.npy', adj)
         cmn.logger.info(f"(size) : ({adj.size})")

@@ -41,10 +41,10 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
         padded_uti = pd.DataFrame(padded_uti, index=unique_users).T
         for user in tqdm(users_topic_interests):
             padded_uti[user] = users_topic_interests[user]
-        users_topic_interests = sparse.csr_matrix(padded_uti)
-
+        # users_topic_interests = sparse.csr_matrix(padded_uti)
+        users_topic_interests = padded_uti
         pd.to_pickle(users_topic_interests, f'{path2_save_uml}/Day{day.date()}UsersTopicInterests.pkl')
-        sparse.save_npz(f'{path2_save_uml}/Day{day.date()}UsersTopicInterests.npz', users_topic_interests)
+        # sparse.save_npz(f'{path2_save_uml}/Day{day.date()}UsersTopicInterests.npz', users_topic_interests)
         pd.to_pickle(c['UserId'], f'{path2_save_uml}/Day{day.date()}UserIDs.pkl')
         cmn.logger.info(f'UserSimilarity: UsersTopicInterests.npz is saved for day:{day.date()} with shape: {users_topic_interests.T.shape}')
 

@@ -61,7 +61,7 @@ def embedding(dim_emb, lookback, method='DynAERNN', n_users=100):
                              nu1=1e-6,
                              nu2=1e-6,
                              n_aeunits=[500, 300],
-                             n_lstmunits=[500, dim_emb],
+                             n_lstmunits=[300, dim_emb],
                              rho=0.3,
                              n_iter=Params.gel['epoch'],
                              xeta=1e-3,
