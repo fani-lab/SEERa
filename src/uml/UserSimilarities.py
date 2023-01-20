@@ -5,6 +5,8 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import pandas as pd
 from tqdm import tqdm
 from scipy import sparse
+import tagme
+import bitermplus as btm
 
 import Params
 from cmn import Common as cmn
@@ -25,9 +27,15 @@ def main(documents, dictionary, lda_model, path2_save_uml, just_one, binary, thr
         users_topic_interests = pd.DataFrame()
         c = documents[(documents['CreationDate'].dt.date == day.date())]
         cmn.logger.info(f'{len(c)} users have twitted in {day.date()}')
+        if Params.tml['method'].lower() == 'btm': d2t_vector = lda_model.transform(btm.get_vectorized_docs(c['Text'], dictionary))
+        user_idx = 0
         for index, row in tqdm(c.iterrows(), total=c.shape[0]):
+            if Params.tml['method'].lower() == 'btm':
+                d2t = d2t_vector[user_idx]
+                users_topic_interests[row['UserId']] = d2t
+                user_idx += 1
+                continue
             if Params.dal['tagMe']:
-                import tagme
                 tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
                 doc = dp.tagme_annotator(row['Text'])
             else:
