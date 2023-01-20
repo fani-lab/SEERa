@@ -87,9 +87,14 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         t_s = time()
-        path = f'{Params.uml["path2save"]}/graphs/graphs.pkl'
+        path = f'{Params.uml["path2save"]}/graphs/'
         cmn.logger.info(f"3.1. Loading users' graph stream from {path} ...")
-        graphs = pd.read_pickle(path)
+        graphs = []
+        for gp in glob.glob(path+'.*npz'):
+            # graphs.append(sparse.load_npz(gp))
+            graphs.append(nx.from_scipy_sparse_matrix(sparse.load_npz(gp)))
+        # graphs = np.load(path2)
+        if len(graphs)==0: raise FileNotFoundError('Loading users graph stream failed!')
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"3.1. Loading users' graph stream failed! Generating the graph stream ...")

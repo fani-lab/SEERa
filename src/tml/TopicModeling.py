@@ -101,7 +101,6 @@ def topic_modeling(processed_docs, method, num_topics, filter_extremes, path_2_s
 
     elif method.lower() == "btm":
         # https://pypi.org/project/bitermplus/
-        import bitermplus as btm
         processed_docs = [' '.join(text) for text in processed_docs]
         doc_word_frequency, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
         pd.to_pickle(dictionary, f'{path_2_save_tml}/{num_topics}TopicsDictionary.mm')

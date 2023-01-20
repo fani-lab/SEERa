@@ -5,10 +5,36 @@ import os
 from datetime import datetime, timedelta
 from tqdm import tqdm
 import sklearn.metrics.cluster as CM
+import matplotlib.pyplot as plt
 
 import Params
 from cmn import Common as cmn
 
+
+def plot(df):
+    metrics = list(Params.evl['extrinsicMetrics'])
+    step = int(len(df.score) / len(metrics))
+    values = {}
+    for i in range(len(metrics)):
+        values[metrics[i]] = df.score[i * step:(i + 1) * step]
+    metric_nums = []
+    for i in range(len(metrics)):
+        metric_nums.append([])
+        metric_nums[-1].append(values[metrics[i]].mean())
+        metric_nums[-1].append(values[metrics[i]].std())
+    table = pd.DataFrame(metric_nums, index=metrics, columns=['mean', 'std'])
+    table.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.MeanStd.csv', index_label="metric", header=["score"])
+    plt.figure(figsize=(15, 10))
+    plt.style.use('seaborn')
+    for m in metrics:
+        plt.plot(range(len(values[m].values)), values[m].values, label=m)
+        # v = values[m].values
+        # plt.fill_between(range(len(v)), v - v.std(), v + v.std(), label=m, alpha=0.2)
+    plt.title(Params['general']['baseline'].split('/')[1], fontdict={'fontsize': 32})
+    plt.yticks(fontsize=16)
+    plt.xticks(fontsize=16)
+    plt.legend(loc="upper left", prop={'size': 16})
+    plt.savefig(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.Chart.png')
 def user_mentions():
     # Load News
     news = pd.read_csv(f'{Params.dal["path"]}/News.csv')
@@ -97,3 +123,6 @@ def main(top_recommendation_user):
         df_mean.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Mean.csv', index_label="metric", header=["score"])
         df_std = df.std(axis=0).to_frame('std')
         df_std.to_csv(f'{Params.apl["path2save"]}/evl/Pred.Eval.Std.csv', index_label="metric", header=["score"])
+
+        cmn.logger.info(f'Plotting ...')
+        plot(df_mean)
