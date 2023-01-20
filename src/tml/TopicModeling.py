@@ -7,6 +7,7 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 import gensim
 from gensim.models.coherencemodel import CoherenceModel
 import csv
+import bitermplus as btm
 #import pyLDAvis
 #import pyLDAvis.gensim
 
@@ -150,7 +151,6 @@ def visualization(dictionary, bow_corpus, lda_model, num_topics, path_2_save_tml
 
 def doc2topics(lda_model, doc, threshold=0.2, just_one=True, binary=True, dic=None):
     if Params.tml['method'].lower() == "btm":
-        import bitermplus as btm
         doc = btm.get_vectorized_docs([' '.join(doc)], dic)
         doc_topic_vector = np.zeros((lda_model.topics_num_))
         d2t_vector = lda_model.transform(doc)[0]
