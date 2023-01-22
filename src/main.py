@@ -1,7 +1,6 @@
 from shutil import copyfile
 import os, glob, pickle, argparse, importlib, traceback
 from time import time
-from datetime import datetime
 
 import numpy as np
 import pandas as pd
@@ -90,11 +89,11 @@ def main():
         path = f'{Params.uml["path2save"]}/graphs/'
         cmn.logger.info(f"3.1. Loading users' graph stream from {path} ...")
         graphs = []
-        for gp in glob.glob(path+'.*npz'):
+        for gp in sorted(glob.glob(path+'*.npz')):
             # graphs.append(sparse.load_npz(gp))
             graphs.append(nx.from_scipy_sparse_matrix(sparse.load_npz(gp)))
         # graphs = np.load(path2)
-        if len(graphs)==0: raise FileNotFoundError('Loading users graph stream failed!')
+        if len(graphs) != n_timeintervals: raise FileNotFoundError('Loading users graph stream failed!')
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"3.1. Loading users' graph stream failed! Generating the graph stream ...")
@@ -103,12 +102,11 @@ def main():
                 path2_save_uml=Params.uml['path2save'],
                 just_one=Params.tml['justOne'], binary=Params.tml['binary'], threshold=Params.tml['threshold'])
 
-        graphs_path = sorted(glob.glob(f'{Params.uml["path2save"]}/graphs/*.npz'))
+        path = f'{Params.uml["path2save"]}/graphs/'
+        cmn.logger.info(f"3.1. Loading users' graph stream from {path} ...")
         graphs = []
-        for gp in graphs_path:
-            graph = nx.from_scipy_sparse_matrix(sparse.load_npz(gp))
-            graphs.append(graph)
-        pd.to_pickle(graphs, f'{Params.uml["path2save"]}/graphs/graphs.pkl')
+        for gp in sorted(glob.glob(path + '*.npz')):
+            graphs.append(nx.from_scipy_sparse_matrix(sparse.load_npz(gp)))
         # np.savez(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
         # sparse.save_npz(f'{Params.uml["path2save"]}/graphs/graphs.npz', graphs)
     cmn.logger.info(f'(#Graphs): ({len(graphs)})')
