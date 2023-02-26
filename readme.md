@@ -311,12 +311,16 @@ In this work, we use [``bitermplus``](https://github.com/maximtrp/bitermplus), [
 ## 7. Citation
 ```
 @inproceedings{DBLP:conf/cikm/ZiaeinejadSF22,
-author    = {Soroush Ziaeinejad, Saeed Samet and Hossein Fani},
-title     = {SEERa: A Framework for Community Prediction},
-booktitle = {{CIKM} '22: The 31st {ACM} International Conference on Information and Knowledge Management, Hybrid Conference, Atlanta, Georgia, USA, October 17-21, 2022},
-publisher = {{ACM}},
-year      = {2022},
-bibsource = {dblp computer science bibliography, https://dblp.org}
+  author    = {Soroush Ziaeinejad and Saeed Samet and Hossein Fani},
+  title     = {SEERa: {A} Framework for Community Prediction},
+  booktitle = {Proceedings of the 31st {ACM} International Conference on Information {\&} Knowledge Management, Atlanta, GA, USA, October 17-21, 2022},
+  pages     = {4762--4766},
+  publisher = {{ACM}},
+  year      = {2022},
+  url       = {https://doi.org/10.1145/3511808.3557529},
+  doi       = {10.1145/3511808.3557529},
+  biburl    = {https://dblp.org/rec/conf/cikm/ZiaeinejadSF22.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
 ```
@@ -331,7 +335,6 @@ bibsource = {dblp computer science bibliography, https://dblp.org}
   year      = {2020},
   url       = {https://doi.org/10.1007/978-3-030-45439-5\_49},
   doi       = {10.1007/978-3-030-45439-5\_49},
-  timestamp = {Thu, 14 May 2020 10:17:16 +0200},
   biburl    = {https://dblp.org/rec/conf/ecir/FaniBD20.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
