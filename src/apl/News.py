@@ -1,8 +1,8 @@
 import pandas as pd
 import os.path
-from os.path import exists
+import numpy as np
 
-import Params
+import params
 from cmn import Common as cmn
 from apl import NewsCrawler as NC
 from apl import NewsTopicExtraction as NTE
@@ -11,7 +11,8 @@ from apl import ModelEvaluation as ME
 
 
 def stats(news):
-    file_object = open(f"{Params.apl['path2save']}/NewsStat.txt", 'a')
+    file_object = open(f"{params.apl['path2save']}/NewsStat.txt", 'a')
+    #news = pd.read_csv('News.csv')
     texts = news.Text.dropna()
     titles = news.Title.dropna()
     desc = news.Description.dropna()
@@ -44,32 +45,31 @@ def stats(news):
 
 
 def main():
-    if not os.path.isdir(Params.apl["path2save"]): os.makedirs(Params.apl["path2save"])
+    if not os.path.isdir(params.apl["path2save"]): os.makedirs(params.apl["path2save"])
 
-    news_path = f'{Params.dal["path"]}/News.csv'
-    tweet_entities_path = f'{Params.dal["path"]}/TweetEntities.csv'
+    news_path = f'{params.dal["path"]}/News.csv'
+    tweet_entities_path = f'{params.dal["path"]}/TweetEntities.csv'
     try:
-        cmn.logger.info(f"6.1 Loading news articles ...")
+        cmn.logger.info(f"Loading news articles ...")
         news_table = pd.read_csv(news_path)
     except:
-        cmn.logger.info(f"6.1 News articles do not exist! Crawling news articles ...")
+        cmn.logger.info(f"News articles do not exist! Crawling news articles ...")
         NC.news_crawler(news_path, tweet_entities_path)
-        news_table = pd.read_csv(news_path)
         stats(news_table)
+        news_table = pd.read_csv(news_path)
 
-    cmn.logger.info(f"6.2 Inferring news articles' topics ...")
-    try: news_topics = pd.read_pickle(f'{Params.apl["path2save"]}/NewsTopics.pkl')
-    except (FileNotFoundError, EOFError) as e: news_topics = NTE.main(news_table)
+    cmn.logger.info(f"Inferring news articles' topics ...")
+    try:
+        news_topics = np.load(f'{params.apl["path2save"]}/NewsTopics.npy')
+    except:
+        NTE.main(news_table)
+        news_topics = np.load(f'{params.apl["path2save"]}/NewsTopics.npy')
 
-    cmn.logger.info(f"6.3 Recommending news articles to future communities ...")
-    try: final_recommendation = pd.read_pickle(f'{Params.apl["path2save"]}/TopRecommendationsUser.pkl')
-    except (FileNotFoundError, EOFError) as e: final_recommendation = NR.main(news_topics, Params.apl['topK'])
+    cmn.logger.info(f"Recommending news articles to future communities ...")
+    nrr = NR.main(news_topics, params.apl['topK'])
 
-    end_date = pd.Timestamp(str(Params.dal['end']))
-    day_before = 0
-    day = end_date - pd._libs.tslibs.timestamps.Timedelta(days=day_before)
-    cmn.logger.info(f"6.4 Evaluating recommended news articles on future time interval {str(day.date())}...")
-    me = ME.main(final_recommendation)
+    cmn.logger.info(f"Evaluating recommended news articles ...")
+    me = ME.main()
 
 
 

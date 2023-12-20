@@ -3,7 +3,7 @@ import networkx as nx
 import glob
 import numpy as np
 
-import Params
+import params
 
 def g2t(graph_path, path2_save_gel):
     graphs_path = glob.glob(f'{graph_path}/*.net')
@@ -37,7 +37,7 @@ def t2a(path2read, path2save):
         lines = file1.readlines()
         print(lines[0])
         print(len(lines))
-        array = np.zeros((int(lines[0].split('\n')[0]), Params.gel['embeddingDim']))
+        array = np.zeros((int(lines[0].split('\n')[0]), params.gel['embeddingDim']))
         for i in range(1,len(lines)):
             line = lines[i]
             parts = line.split(':')
@@ -49,4 +49,4 @@ def t2a(path2read, path2save):
     t = []
     for tt in npys:
         t.append(np.load(tt))
-    np.save(f'{path2save}/Embeddeds.npy', np.asarray(t))
+    np.save(f'{path2save}/embeddeds.npy', np.asarray(t))

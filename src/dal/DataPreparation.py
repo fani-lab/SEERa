@@ -1,70 +1,79 @@
-import warnings
-warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
-import pandas as pd
-import gensim
-import numpy as np
-from tqdm import tqdm
-import tagme
-import re
-from gensim.parsing.preprocessing import STOPWORDS
-global TagmeCounter
-global DataLen
 import datetime
 
-import Params
+import pandas as pd
+from cmn import Common as cmn
+import params
+import re
 
-def data_preparation(posts, userModeling, timeModeling, TagME, startDate, timeInterval):
-    date_time_obj = datetime.datetime.strptime(startDate, '%Y-%m-%d').date()
+
+def data_preparation(dataset):
+    # Remove columns we don't need / rows with Nan
+    cols_to_drop = ['ModificationTimestamp']
+    dataset.dropna(inplace=True)
+    dataset.drop(cols_to_drop, axis=1, inplace=True)
+
+    # Reassign the TweetIDs and UserIDs (makes it easier, because here the IDs didn't start at 0)
+    posts = dataset['TweetId'].unique()
+    new_ids = list(range(len(dataset['TweetId'].unique())))
+    mapping = dict(zip(posts, new_ids))
+    dataset['TweetId'] = dataset['TweetId'].map(mapping)
+
+    posts = dataset['UserId'].unique()
+    new_ids = list(range(len(dataset['UserId'].unique())))
+    mapping = dict(zip(posts, new_ids))
+    dataset['UserId'] = dataset['UserId'].map(mapping)
+
+    dataset = dataset.sort_values(by="CreationDate")
+    # Adding TimeStamp to the dataset
+    date_time_obj = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d').date()
     startDateOrdinal = date_time_obj.toordinal()
-    posts_temp = []
-    for post in tqdm(posts.itertuples(), total=posts.shape[0]):
-        date = post.CreationDate.toordinal() - startDateOrdinal
-        exeededdays = date % timeInterval
-        post = post._replace(CreationDate=(post.CreationDate - datetime.timedelta(exeededdays)).date())
-        preprocessed_text = preprocess(post.Text, stopwords=True)
-        if len(preprocessed_text) > 0: posts_temp.append(post._replace(Text=preprocessed_text))
-    posts = pd.DataFrame(posts_temp)
-    # n_users = len(posts['UserId'].unique())
-    # n_timeintervals = len(posts['CreationDate'].unique())
-    posts.to_csv(f"../output/{Params.general['baseline']}/Posts.csv", encoding='utf-8', index=False)
-    if userModeling and timeModeling: documents = posts.groupby(['UserId', 'CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
-    elif userModeling:
-        documents = posts.groupby(['UserId'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
-        dates = posts['CreationDate']
-        dates[dates != Params.dal['end']] = datetime.datetime.strptime(startDate, '%Y-%m-%d')
-        documents.insert(1, 'CreationDate', dates)
-    elif timeModeling:
-        documents = posts.groupby(['CreationDate'])['Text'].apply(lambda x: ' '.join(x)).reset_index()
-        documents.insert(0, 'UserId', np.ones(len(documents)))
-    else: documents = posts[['UserId', 'Text', 'CreationDate']]
+    timeStamps = []
+    for index, row in dataset.iterrows():
+        dayDiff = row['CreationDate'].toordinal() - startDateOrdinal
+        timeStamps.append((dayDiff // params.dal['timeInterval']))
+    dataset['TimeStamp'] = timeStamps
 
-    if TagME: #cannot be sooner because TagMe needs context, the more the better
-        import tagme
-        tagme.GCUBE_TOKEN = "7d516eaf-335b-4676-8878-4624623d67d4-843339462"
-        for doc in tqdm(documents.itertuples(), total=documents.shape[0]):
-            documents.at[doc.Index, 'Text'] = tagme_annotator(doc.Text)
-    documents = documents.groupby('UserId').filter(lambda x: len(x) > Params.dal['threshold'])
-    n_users = len(documents.groupby('UserId'))
-    n_timeintervals = len(documents.groupby('CreationDate'))
-    documents.to_csv(f"../output/{Params.general['baseline']}/Documents.csv", encoding='utf-8', index=False)
-    prosdocs = np.asarray(documents['Text'].str.split())
-    np.savez_compressed(f"../output/{Params.general['baseline']}/Prosdocs.npz", a=prosdocs)
+    cmn.logger.info(f'DataPreperation: userModeling={params.dal["userModeling"]}, timeModeling={params.dal["timeModeling"]}, preProcessing={params.dal["preProcessing"]}, TagME={params.dal["tagMe"]}')
+    if params.dal['userModeling'] and params.dal['timeModeling']:
+        documents = dataset.groupby(['UserId', 'TimeStamp']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+    elif params.dal['userModeling']:
+        documents = dataset.groupby(['UserId']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+    elif params.dal['timeModeling']:
+        documents = dataset.groupby(['TimeStamp']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+    else:
+        documents = dataset
 
-    return prosdocs, documents, n_users, n_timeintervals
+    if params.dal['preProcessing']: documents['Tokens'] = preprocess_tweets(documents['Text'])
+    else: documents['Tokens'] = documents['Text'].str.split()
 
-def preprocess(text, stopwords=True):
-    if stopwords: text = gensim.parsing.preprocessing.remove_stopwords(text)
-    text = re.sub('RT @\w +: ', ' ', text)
-    text = re.sub('(@[A-Za-z0–9]+) | ([0-9A-Za-z \t]) | (\w+:\ / \ / \S+)', ' ', text)
-    text = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ' ', text)
-    text = text.lower()
-    result = [token for token in gensim.utils.simple_preprocess(text) if token not in STOPWORDS and len(token) > 2]
-    return ' '.join(result)
+    documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False, header=True)
+    cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')
+    return documents
 
-def tagme_annotator(text, threshold=0.05):
-    annotations = tagme.annotate(text)
-    result = []
-    if annotations is not None:
-        for keyword in annotations.get_annotations(threshold):
-            result.append(keyword.entity_title)
-    return ' '.join(result)
+def preprocess_tweets(text):
+    import nltk
+    from nltk.tokenize import word_tokenize
+    from nltk.corpus import stopwords
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    preprocessed_text = text.apply(lambda x: x.lower())
+    # Remove mentions (@username)
+    preprocessed_text = preprocessed_text.apply(lambda x: re.sub(r'@\w+', '', x))
+    # Remove special characters and punctuation
+    preprocessed_text = preprocessed_text.apply(lambda x: re.sub(r'[^a-zA-Z\s]', '', x))
+    # Tokenization
+    preprocessed_text = preprocessed_text.apply(word_tokenize)
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    gist_file = open(params.dal['stopwordPath'], "r")
+    try:
+        content = gist_file.read()
+        stopwords2 = content.split(",")
+    finally:
+        gist_file.close()
+    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if token not in stop_words and token not in stopwords2])
+
+    # Remove one-letter and two-letter tokens, and tokens longer than 10 characters
+    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if (len(token) > 2 and len(token) <= 10)])
+
+    return pd.Series(preprocessed_text)

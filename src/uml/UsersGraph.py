@@ -1,18 +1,66 @@
+import networkx as nx
 from scipy import sparse
-from sklearn.metrics.pairwise import pairwise_kernels
-from sklearn.preprocessing import binarize
+#import numpy as np
+#import sys
+import pandas as pd
+import torch
 import numpy as np
+import torch_geometric
+import torch_geometric_temporal
+from torch_geometric_temporal.signal import StaticGraphTemporalSignal as sgts
+from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
 
-import Params
+import params
 from cmn import Common as cmn
 
-def create_users_graph(day, users_topic_interests, path_2_save):
-    num_users = users_topic_interests.shape[1]
-    cmn.logger.info(f'UsersGraph: There are {num_users} users on {day.date()}')
-    if num_users < 1: return -1
-    uti_sparse = sparse.csr_matrix(users_topic_interests)
-    users_similarity = pairwise_kernels(uti_sparse.T, metric='cosine', dense_output=False)
-    # users_similarity = pairwise_kernels(users_topic_interests.astype(np.float16).T, metric='cosine', n_jobs=9)
-    #users_similarity = pairwise_kernels(users_topic_interests.T, metric='cosine', n_jobs=9)
-    binarize(users_similarity, threshold=Params.uml['userSimilarityThreshold'], copy=False)
-    sparse.save_npz(f'{path_2_save}/graphs/Day{day.date()}userSimilarities.npz', users_similarity)
+class MyDataset(torch.utils.data.Dataset):
+    def __init__(self, num_timesteps, features, edge_index):
+        self.num_nodes = features.shape[0]
+        self.num_features = features.shape[1]
+        self.num_timesteps = num_timesteps
+        self.edge_index = edge_index
+
+        edges = edge_index
+        # Remove self-loops and duplicate edges
+        edges = edges[:, edges[0] != edges[1]]
+        edges = torch.unique(edges, dim=1)
+
+        edges_weight = torch.ones(edges.shape[1])
+        x_list, y_list = [], []
+        for t in range(num_timesteps-1):
+
+            x_list.append(features[t])
+            y_list.append(features[t+1])
+        self.data = sgts(np.asarray(edges), np.asarray(edges_weight), x_list, y_list)
+
+    def __len__(self):
+        return self.num_nodes
+
+    def __getitem__(self, idx):
+        return self.data
+
+def graph_generator(documents, connections_path):
+    all_nodes =  documents['UserId'].unique()
+    num_random_edges = 5 * len(all_nodes)
+    edges = torch.randint(0, all_nodes.shape[0], (2, num_random_edges), dtype=torch.long)
+    # Remove self-loops and duplicate edges
+    edges = edges[:, edges[0] != edges[1]]
+    edges = torch.unique(edges, dim=1)
+    edges_weight = torch.ones(edges.shape[1])
+    # generating feature matrix
+    num_timeStamps = documents['TimeStamp'].max() - documents['TimeStamp'].min()
+    num_features = params.tml['numTopics']
+    features = np.zeros((num_timeStamps, all_nodes.shape[0], num_features))
+    for t in range(num_timeStamps):
+        documents_t = documents[documents['TimeStamp'] == t]
+        for user_id in all_nodes:
+            if user_id in documents_t['UserId'].values:
+                features[t][user_id] = np.asarray(eval(documents_t.loc[documents_t['UserId'] == user_id, 'TopicInterests'].iloc[0]))
+
+    print (features.shape)
+    dataset = MyDataset(num_timeStamps, features, edges)
+    import pickle
+    with open(f"{params.uml['path2save']}/graphs/graphs.pkl", 'wb') as f:
+        pickle.dump(dataset.data, f)
+    torch.save(dataset.data, f"{params.uml['path2save']}/graphs/graphs.pt")
+    return dataset.data
