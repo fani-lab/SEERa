@@ -1,3 +1,6 @@
+import pickle, os
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 from torch_geometric_temporal.nn import GCLSTM
@@ -46,9 +49,7 @@ class RecurrentGCN(torch.nn.Module):
         return h
 
 def modelTrain(dataset):
-    print('Asssal')
     model = RecurrentGCN(node_features=params.tml['numTopics'], filters=8)
-
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -75,10 +76,22 @@ def modelTrain(dataset):
     return model
 
 
-def main(dataset):
+def main(documents, dataset):
+    if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
     model = modelTrain(dataset)
     model.eval()
     with torch.no_grad():
         predicted_features = model(dataset[-1].y, dataset[-1].edge_index, dataset[-1].edge_weight)
+    print(predicted_features)
+    with open(f'{params.gel["path2save"]}/embeddings.pkl', 'wb') as f:
+        pickle.dump(predicted_features, f)
+    torch.save(predicted_features, f'{params.gel["path2save"]}/embeddings.pt')
+    unique_users = documents['UserId'].unique()
+    user_features = pd.DataFrame({
+        'UserId': unique_users,
+        'FinalInterests': predicted_features.tolist()
+    })
+    # user_features = pd.DataFrame(predicted_features.numpy(), index=unique_users).T
+    user_features.to_csv(f'{params.gel["path2save"]}/userFeatures.csv')
 
-    return predicted_features
+    return user_features, predicted_features

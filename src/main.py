@@ -81,17 +81,16 @@ def main():
     try:
         cmn.logger.info(f'Loading embeddings ...')
         # embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
-        with open(f'{params.gel["path2save"]}/embeddings.pkl', 'rb') as handle:
+        with open(f'{params.gel["path2save"]}/userFeatures.pkl', 'rb') as handle:
             embeddings = pickle.load(handle)
+        documents = pd.read_csv(f'{params.gel["path2save"]}/documents.csv')
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         # from gel import GraphEmbedding as GE
         from gel import TorchGraphEmbedding as TGE
-        embeddings = TGE.main(graphs)
-        print(embeddings)
-        # embeddings = TGE.main(graphs[:3], graphs[3], method=params.gel['pyg_method'])
-        # embeddings = GE.main(graphs, method=params.gel['method'])
-    # return 0
+        user_features, predicted_features = TGE.main(documents, graphs)
+        print(predicted_features)
+
     # Community Extraction
     cmn.logger.info(f'5. Community Prediction ...')
     cmn.logger.info('#' * 50)
@@ -99,19 +98,19 @@ def main():
     try:
         cmn.logger.info(f'Loading user clusters ...')
         Communities = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy', allow_pickle=True)
+        user_clusters = pd.read_csv(f'{params.cpl["path2save"]}/user_clusters.csv')
     except:
         from cpl import GraphClustering as GC
         cmn.logger.info(f'Loading user clusters failed! Generating user clusters ...')
-        Communities = GC.main2(np.asarray(embeddings))
-
+        user_clusters, Communities = GC.main2(user_features, predicted_features)
     # News Article Recommendation
     cmn.logger.info(f'6. Application: News Recommendation ...')
     cmn.logger.info('#' * 50)
     from apl import News, NewsUsers
     # News Dataset Creation:
-    if params.apl['crawlURLs']:
-        documents, extracted_info = NewsUsers.main(documents)
-    news_output = News.main()
+    # if params.apl['crawlURLs']:
+    #     documents, extracted_info = NewsUsers.main(documents)
+    news_output = News.main(user_features, user_clusters, dictionary, lda_model)
     return news_output
 
 

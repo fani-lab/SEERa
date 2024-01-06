@@ -8,8 +8,7 @@ from apl import NewsCrawler as NC
 from apl import NewsTopicExtraction as NTE
 from apl import NewsRecommendation as NR
 from apl import ModelEvaluation as ME
-
-
+from apl import newEvaluation as NE
 def stats(news):
     file_object = open(f"{params.apl['path2save']}/NewsStat.txt", 'a')
     #news = pd.read_csv('News.csv')
@@ -44,7 +43,7 @@ def stats(news):
     file_object.close()
 
 
-def main():
+def main(user_final_interests, user_clusters, dictionary, lda_model):
     if not os.path.isdir(params.apl["path2save"]): os.makedirs(params.apl["path2save"])
 
     news_path = f'{params.dal["path"]}/News.csv'
@@ -60,17 +59,21 @@ def main():
 
     cmn.logger.info(f"Inferring news articles' topics ...")
     try:
-        news_topics = np.load(f'{params.apl["path2save"]}/NewsTopics.npy')
+        from ast import literal_eval
+        news_table = pd.read_csv(f"../output/{params.apl['path2save']}/documents.csv",
+                    converters={"TopicInterests": literal_eval})
+
+        # news_topics = news_table['TopicInterests']
     except:
-        NTE.main(news_table)
-        news_topics = np.load(f'{params.apl["path2save"]}/NewsTopics.npy')
+        news_table = NTE.main(news_table, dictionary, lda_model)
+        # news_topics = news_table['TopicInterests']
 
     cmn.logger.info(f"Recommending news articles to future communities ...")
-    nrr = NR.main(news_topics, params.apl['topK'])
+    community_recommendation, user_community_recommendation, user_recommendation = NR.main(user_clusters, user_final_interests, news_table)
 
     cmn.logger.info(f"Evaluating recommended news articles ...")
-    me = ME.main()
+    # me = ME.main()
+    n = NE.main()
 
 
-
-    return me
+    return n

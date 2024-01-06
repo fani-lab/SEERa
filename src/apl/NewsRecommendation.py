@@ -3,103 +3,75 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
-
+from sklearn.metrics.pairwise import cosine_similarity
 import params
 from cmn import Common as cmn
 
-def recommendation_table_analyzer(rt, test, savename):
-    if test == 'CRN': pass# 'CRN' = 'community recommendations number'
-    elif test == 'NRN': rt = rt.T# 'news recommendations number'
-    comm_news = []
-    for com in rt: comm_news.append(com.sum())
-    if test == 'NRN': comm_news.sort()
-    plt.plot(range(len(comm_news)), comm_news)
-    plt.savefig(f'{params.apl["path2save"]}/{savename}.png')
-    plt.close()
-    return comm_news
+def main(user_clusters, user_final_interests, news_table):
+    merged_user_df = pd.merge(user_clusters, user_final_interests, on='UserId')
 
+    # Calculate the weighted average of user interests for each community
+    weighted_avg_interests = merged_user_df.groupby('Community')['FinalInterests'].apply(
+        lambda x: np.mean(np.vstack(x), axis=0).tolist()).reset_index()
 
-def communities_topic_interest(user_clusters, news_topics):
-    num_topics = news_topics.shape[1]
-    users_topic_interests_list = sorted(glob.glob(f'{params.uml["path2save"]}/Day*UsersTopicInterests.npy'))
-    last_UTI = np.load(users_topic_interests_list[-1])
-    communities_topic_interests = []
-    cluster_numbers = []
-    for uc in range(user_clusters.min(), user_clusters.max()+1):
-        users_in_cluster = np.where(user_clusters == uc)[0]
-        if len(users_in_cluster) < params.cpl["minSize"]: break
-        topic_interest_sum = np.zeros(num_topics)
-        for user in users_in_cluster: topic_interest_sum += last_UTI[user]
-        communities_topic_interests.append(topic_interest_sum)
-        cluster_numbers.append(uc)
-    communities_topic_interests = np.asarray(communities_topic_interests)
-    np.save(f'{params.apl["path2save"]}/CommunitiesTopicInterests.npy', communities_topic_interests)
-    np.save(f'{params.apl["path2save"]}/ClusterNumbers.npy', cluster_numbers)
-    news = np.zeros((len(news_topics), num_topics))
-    for nt in range(len(news_topics)):
-        news_vector = np.asarray(news_topics[nt])
-        news_vector_temp = np.zeros(num_topics)
-        counter = 0
-        for topic in news_vector:
-            news_vector_temp[counter] = topic
-            counter += 1
-        news[nt] = news_vector_temp
-    return communities_topic_interests
+    # Create a new DataFrame for the weighted average interests
+    columns = [f'Interest_{i + 1}' for i in range(len(weighted_avg_interests['FinalInterests'].iloc[0]))]
+    weighted_avg_interests_df = pd.DataFrame(weighted_avg_interests['FinalInterests'].tolist(), columns=columns)
 
+    # Concatenate 'Community' column with the new DataFrame
+    community_interests_df = pd.concat([weighted_avg_interests['Community'], weighted_avg_interests_df], axis=1)
 
-def recommend(communities_topic_interests, news, news_ids, topK):
-    recommendation_table = np.matmul(communities_topic_interests, news.T)
-    top_recommendations = np.zeros((len(communities_topic_interests), topK))
-    for r in range(len(recommendation_table)):
-        news_scores = recommendation_table[r]
-        sorted_index_array = np.argsort(news_scores)
-        sorted_array = news_ids[sorted_index_array]
-        top_recommendations[r] = np.flip(sorted_array[-topK:])
+    # Calculate cosine similarity between community interests and news topics
+    community_interests_matrix = community_interests_df.iloc[:, 1:].values
+    from ast import literal_eval
+    news_table['TopicInterests'] = news_table['TopicInterests'].apply(literal_eval)
+    news_interests_matrix = news_table['TopicInterests'].tolist()
 
+    similarities = cosine_similarity(community_interests_matrix, news_interests_matrix)
 
-    # recommendation_table_analyzer(recommendation_table, 'NRN', 'CommunityPerNewsNumbers')
-    # recommendation_table_analyzer(recommendation_table, 'CRN', 'NewsPerCommunityNumbers')
-    np.save(f'{params.apl["path2save"]}/TopRecommendationsCluster.npy', top_recommendations)
-    np.save(f'{params.apl["path2save"]}/RecommendationTableCluster.npy', recommendation_table)
-    return top_recommendations
+    # Create a DataFrame with community recommendations
+    community_recommendations = pd.DataFrame(similarities, columns=news_table['NewsId'].tolist()).join(community_interests_df['Community'])
 
-def user_recommend(pred_user_clusters, top_recommendations):
-    users = np.load(f'{params.uml["path2save"]}/users.npy')
-    user_recommendation = {}
-    for u in range(len(users)):
-        cluster = pred_user_clusters[u]
-        try:
-            user_recommendation[users[u]] = list(top_recommendations[cluster])
-        except:
-            continue
-    f = open(f'{params.apl["path2save"]}/TopRecommendationsUser.pkl', "wb")
-    pickle.dump(user_recommendation, f)
-    f.close()
-    return user_recommendation
+    # Identify the most similar news article for each community
+    # community_recommendations_df_main = community_recommendations_df.apply(
+    #     lambda row: row.nlargest(params.apl['topK']).index.tolist(), axis=1).reset_index(drop=True)
+    community_recommendations_main = pd.DataFrame(
+        [community_recommendations.columns[row.argsort()[-params.apl['topK']:][::-1]] for row in similarities],
+        columns=[f'TopNews_{i + 1}' for i in range(params.apl['topK'])]
+    ).join(community_recommendations[['Community']])
 
-def internal_test(top_recommendations):
-    print('Top Recommendation test:')
-    a = top_recommendations.reshape(-1)
-    b = set(a)
-    print(len(a))
-    print(len(b))
-    print(len(a)/len(b))
-    duplicate = False
-    for i in top_recommendations:
-        if len(i) != len(set(i)):
-            duplicate = True
-            print(i)
-    if not duplicate:
-        print('All rows has distinct news Ids.', len(i))
-    print('Top Recommendation shape: ', top_recommendations.shape)
+    # Check if the maximum value of each row in the numpy array is equal to the News1 similarity value
+    assert np.all(np.max(similarities, axis=1) == community_recommendations[
+        community_recommendations_main['TopNews_1']].values.diagonal()), "Assertion failed: Maximum values don't match"
+    community_recommendations_main.to_csv(f"../output/{params.apl['path2save']}/community_recommendations.csv")
+    user_community_recommendations = pd.merge(merged_user_df, community_recommendations_main, on='Community')
+    user_community_recommendations.to_csv(f"../output/{params.apl['path2save']}/user_community_recommendations.csv")
 
+    # Merge with news_table to get details of the top recommended news for each community
+    # final_community_recommendations = pd.merge(community_recommendations_df, news_table, left_on='TopNews_1',
+    #                                            right_on='NewsId', how='left')
 
-def main(news_topics, top_k=10):
-    news = pd.read_csv(f'{params.dal["path"]}/News.csv')
-    news_ids = news["NewsId"]
-    user_clusters = np.load(f'{params.cpl["path2save"]}/PredUserClusters.npy')
-    communities_topic_interests = communities_topic_interest(user_clusters, news_topics)
-    top_recommendations = recommend(communities_topic_interests, news_topics, news_ids, top_k)
-    return user_recommend(user_clusters, top_recommendations)
+    # Calculate cosine similarity between user interests and news topics
+    user_interests_matrix = np.vstack(merged_user_df['FinalInterests'].apply(np.array))
+    # user_interests_matrix = merged_user_df.iloc[:, 3:].values
+    user_news_similarities = cosine_similarity(user_interests_matrix, news_interests_matrix)
+
+    # Create a DataFrame with user recommendations
+    user_recommendations = pd.DataFrame(user_news_similarities, columns=news_table['NewsId'].tolist()).join(merged_user_df['UserId'])
+    # user_recommendations_df.insert(0, 'UserId', merged_user_df['UserId'])
+
+    # Sort the top K recommended news articles for each user by their values
+    user_recommendations_main = pd.DataFrame(
+        [user_recommendations.columns[row.argsort()[-params.apl['topK']:][::-1]] for row in user_news_similarities],
+        columns=[f'TopNews_{i + 1}' for i in range(params.apl['topK'])]
+    ).join(user_recommendations[['UserId']])
+
+    # Merge with news_table to get details of the top recommended news for each user
+    # final_user_recommendations = pd.merge(user_recommendations_df, news_table, left_on='TopNews_1', right_on='NewsId',
+    #                                       how='left')
+    assert np.all(np.max(user_news_similarities, axis=1) == user_recommendations[
+        user_recommendations_main['TopNews_1']].values.diagonal()), "Assertion failed: Maximum values don't match"
+    user_recommendations_main.to_csv(f"../output/{params.apl['path2save']}/user_recommendations.csv")
+    return community_recommendations_main, user_community_recommendations, user_recommendations_main
 
 

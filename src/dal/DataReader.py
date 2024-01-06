@@ -17,8 +17,8 @@ def load_tweets(path):
 
     tweets = pd.read_csv(path, encoding='utf-8', parse_dates=['CreationTimestamp'])
 
-    # picking 10% of the data to make the process faster
-    # tweets = tweets.sample(frac=0.1, random_state=42)
+    # picking 5% of the data to make the process faster
+    tweets = tweets.sample(frac=0.05, random_state=42)
 
 
     tweets.rename(columns={'Id': 'TweetId', 'CreationTimestamp': 'CreationDate', 'Tokens': 'Text'}, inplace=True)

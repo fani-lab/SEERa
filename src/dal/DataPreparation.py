@@ -5,50 +5,22 @@ from cmn import Common as cmn
 import params
 import re
 
-
-def data_preparation(dataset):
-    # Remove columns we don't need / rows with Nan
-    cols_to_drop = ['ModificationTimestamp']
-    dataset.dropna(inplace=True)
-    dataset.drop(cols_to_drop, axis=1, inplace=True)
-
-    # Reassign the TweetIDs and UserIDs (makes it easier, because here the IDs didn't start at 0)
-    posts = dataset['TweetId'].unique()
-    new_ids = list(range(len(dataset['TweetId'].unique())))
+def reassign_id(table, column):
+    posts = table[column].unique()
+    new_ids = list(range(len(table[column].unique())))
     mapping = dict(zip(posts, new_ids))
-    dataset['TweetId'] = dataset['TweetId'].map(mapping)
+    table[column] = table[column].map(mapping)
+    return table
 
-    posts = dataset['UserId'].unique()
-    new_ids = list(range(len(dataset['UserId'].unique())))
-    mapping = dict(zip(posts, new_ids))
-    dataset['UserId'] = dataset['UserId'].map(mapping)
-
-    dataset = dataset.sort_values(by="CreationDate")
-    # Adding TimeStamp to the dataset
+def date2timestamp(table,date_col):
     date_time_obj = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d').date()
     startDateOrdinal = date_time_obj.toordinal()
     timeStamps = []
-    for index, row in dataset.iterrows():
-        dayDiff = row['CreationDate'].toordinal() - startDateOrdinal
+    for index, row in table.iterrows():
+        dayDiff = row[date_col].toordinal() - startDateOrdinal
         timeStamps.append((dayDiff // params.dal['timeInterval']))
-    dataset['TimeStamp'] = timeStamps
-
-    cmn.logger.info(f'DataPreperation: userModeling={params.dal["userModeling"]}, timeModeling={params.dal["timeModeling"]}, preProcessing={params.dal["preProcessing"]}, TagME={params.dal["tagMe"]}')
-    if params.dal['userModeling'] and params.dal['timeModeling']:
-        documents = dataset.groupby(['UserId', 'TimeStamp']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
-    elif params.dal['userModeling']:
-        documents = dataset.groupby(['UserId']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
-    elif params.dal['timeModeling']:
-        documents = dataset.groupby(['TimeStamp']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
-    else:
-        documents = dataset
-
-    if params.dal['preProcessing']: documents['Tokens'] = preprocess_tweets(documents['Text'])
-    else: documents['Tokens'] = documents['Text'].str.split()
-
-    documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False, header=True)
-    cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')
-    return documents
+    table['TimeStamp'] = timeStamps
+    return table
 
 def preprocess_tweets(text):
     import nltk
@@ -71,9 +43,38 @@ def preprocess_tweets(text):
         stopwords2 = content.split(",")
     finally:
         gist_file.close()
-    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if token not in stop_words and token not in stopwords2])
-
-    # Remove one-letter and two-letter tokens, and tokens longer than 10 characters
-    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if (len(token) > 2 and len(token) <= 10)])
-
+    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if token not in stop_words and token not in stopwords2 and 2 < len(token) <= 10])
     return pd.Series(preprocessed_text)
+
+
+def data_preparation(dataset):
+    # Remove columns we don't need / rows with Nan
+    cols_to_drop = ['ModificationTimestamp']
+    dataset.dropna(inplace=True)
+    dataset.drop(cols_to_drop, axis=1, inplace=True)
+    # Reassign the TweetIDs and UserIDs (makes it easier, because here the IDs didn't start at 0)
+    # dataset = reassign_id(dataset, 'TweetId')
+    # dataset = reassign_id(dataset, 'UserId')
+    dataset = dataset.sort_values(by="CreationDate")
+    # Adding TimeStamp to the dataset
+    dataset = date2timestamp(dataset, 'CreationDate')
+    cmn.logger.info(
+        f'DataPreperation: userModeling={params.dal["userModeling"]}, timeModeling={params.dal["timeModeling"]}, preProcessing={params.dal["preProcessing"]}, TagME={params.dal["tagMe"]}')
+    if params.dal['userModeling'] and params.dal['timeModeling']:
+        documents = dataset.groupby(['UserId', 'TimeStamp']).agg(
+            {'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+    elif params.dal['userModeling']:
+        documents = dataset.groupby(['UserId']).agg(
+            {'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+    elif params.dal['timeModeling']:
+        documents = dataset.groupby(['TimeStamp']).agg(
+            {'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+    else:
+        documents = dataset
+    if params.dal['preProcessing']:
+        documents['Tokens'] = preprocess_tweets(documents['Text'])
+    else:
+        documents['Tokens'] = documents['Text'].str.split()
+    documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False,header=True)
+    cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')
+    return documents

@@ -5,13 +5,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import Counter
 import sknetwork as skn
+import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity, pairwise_kernels
 
 import params
 from cmn import Common as cmn
 
 
-def main2(embeddings):
+def main2(user_features, predicted_features):
+
     if not os.path.isdir(params.cpl["path2save"]): os.makedirs(params.cpl["path2save"])
     # nn.CosineSimilarity # Returns cosine similarity between x1 and x2, computed along dim.
     # nn.PairwiseDistance # Computes the pairwise distance between input vectors, or between columns of input matrices.
@@ -19,11 +21,16 @@ def main2(embeddings):
         if params.cpl['method'] == 'DBSCAN':
             from sklearn.cluster import DBSCAN
             dbscan = DBSCAN(eps=0.5, min_samples=5)
-            labels = dbscan.fit_predict(embeddings)
+            labels = dbscan.fit_predict(predicted_features)
+            user_clusters = pd.DataFrame({
+                'UserId': user_features['UserId'],
+                'Community': labels.tolist()
+            })
             print('l',labels)
             with open(f"{params.cpl['path2save']}/PredUserClusters.npy", 'wb') as f:
                 pickle.dump(labels, f)
-            return labels
+            user_clusters.to_csv(f'{params.cpl["path2save"]}/user_clusters.csv')
+            return user_clusters, labels
 
 
 

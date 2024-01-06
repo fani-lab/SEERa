@@ -41,6 +41,7 @@ class MyDataset(torch.utils.data.Dataset):
 
 def graph_generator(documents, connections_path):
     all_nodes =  documents['UserId'].unique()
+
     num_random_edges = 5 * len(all_nodes)
     edges = torch.randint(0, all_nodes.shape[0], (2, num_random_edges), dtype=torch.long)
     # Remove self-loops and duplicate edges
@@ -50,12 +51,13 @@ def graph_generator(documents, connections_path):
     # generating feature matrix
     num_timeStamps = documents['TimeStamp'].max() - documents['TimeStamp'].min()
     num_features = params.tml['numTopics']
+
     features = np.zeros((num_timeStamps, all_nodes.shape[0], num_features))
     for t in range(num_timeStamps):
         documents_t = documents[documents['TimeStamp'] == t]
-        for user_id in all_nodes:
+        for index, user_id in enumerate(all_nodes):
             if user_id in documents_t['UserId'].values:
-                features[t][user_id] = np.asarray(eval(documents_t.loc[documents_t['UserId'] == user_id, 'TopicInterests'].iloc[0]))
+                features[t][index] = np.asarray(eval(documents_t.loc[documents_t['UserId'] == user_id, 'TopicInterests'].iloc[0]))
 
     print (features.shape)
     dataset = MyDataset(num_timeStamps, features, edges)
@@ -63,4 +65,7 @@ def graph_generator(documents, connections_path):
     with open(f"{params.uml['path2save']}/graphs/graphs.pkl", 'wb') as f:
         pickle.dump(dataset.data, f)
     torch.save(dataset.data, f"{params.uml['path2save']}/graphs/graphs.pt")
+    with open(f"{params.uml['path2save']}/user_interests/features.pkl", 'wb') as f:
+        pickle.dump(features, f)
+    np.save(f"{params.uml['path2save']}/user_interests/features.npy",features)
     return dataset.data

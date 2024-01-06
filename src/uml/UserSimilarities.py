@@ -18,8 +18,8 @@ def main(documents, dictionary, lda_model):
     for index, row in documents.iterrows():
         user_bow_corpus = dictionary.doc2bow(row['Tokens'])
         documents.loc[index, 'TopicInterests'] = str(list(tm.doc2topics(lda_model, user_bow_corpus)))
-    documents.to_csv('06.csv')
     if not os.path.isdir(f'{params.uml["path2save"]}/graphs'): os.makedirs(f'{params.uml["path2save"]}/graphs')
+    if not os.path.isdir(f'{params.uml["path2save"]}/user_interests'): os.makedirs(f'{params.uml["path2save"]}/user_interests')
     end_date = datetime.datetime.strptime(params.dal['end'], '%Y-%m-%d')
     day = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
     startTimeStamp = 0
