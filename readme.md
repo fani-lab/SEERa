@@ -292,15 +292,7 @@ A run will produce an output folder at `./output/{r}` and subfolders for each to
 </table>
 
 ## 6. License
-©2021. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.
-
-### Authors
-Soroush Ziaenejad<sup>1,2</sup>, [Hossein Fani](https://hosseinfani.github.io/)<sup>1,3</sup>
-
-<sup><sup>1</sup>School of Computer Science, Faculty of Science, University of Windsor, ON, Canada.</sup>
-
-<sup><sup>2</sup>[ziaeines@uwindsor.ca](mailto:ziaeines@uwindsor.ca), [soroushziaeinejad@gmail.com](mailto:soroushziaeinejad@gmail.com)</sup>
-<sup><sup>3</sup>[hfani@uwindsor.ca](mailto:hfani@uwindsor.ca)</sup>
+©2024. This work is licensed under a [CC BY-NC-SA 4.0](LICENSE.txt) license.
 
 ### Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
