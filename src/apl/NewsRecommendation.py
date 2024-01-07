@@ -23,8 +23,11 @@ def main(user_clusters, user_final_interests, news_table):
 
     # Calculate cosine similarity between community interests and news topics
     community_interests_matrix = community_interests_df.iloc[:, 1:].values
-    from ast import literal_eval
-    news_table['TopicInterests'] = news_table['TopicInterests'].apply(literal_eval)
+    try:
+        from ast import literal_eval
+        news_table['TopicInterests'] = news_table['TopicInterests'].apply(literal_eval)
+    except:
+        news_table['TopicInterests'] = news_table['TopicInterests']
     news_interests_matrix = news_table['TopicInterests'].tolist()
 
     similarities = cosine_similarity(community_interests_matrix, news_interests_matrix)

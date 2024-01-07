@@ -15,7 +15,7 @@ def main(news_table, dictionary, lda_model):
     else:
         news_table['Tokens'] = news_table['textTitle'].str.split()
 
-    cols_to_drop = ['ExpandedUrl', 'ShortUrl','DisplayUrl','SourceUrl','Text','Title','Description']
+    cols_to_drop = ['Text','Title','Description']
     news_table.drop(cols_to_drop, axis=1, inplace=True)
     news_table['TopicInterests'] = pd.Series
     news_table.astype(object)

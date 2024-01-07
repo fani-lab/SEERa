@@ -52,10 +52,10 @@ cpl = {
     'path2save': f'../output/{general["baseline"]}/cpl',
     'type': 'matrix_based', # ['matrix_based', 'graph_based']
     'method': 'DBSCAN', # type=='matrix_based':['DBSCAN'] / type='graph_based':['louvain']
-    'minSize': 10
+    'minSize': 5
 }
 evl = {
-    'topK': 20,
+    'topK': 2000,
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If Extrinsic evaluation:
     'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100'},
@@ -69,7 +69,7 @@ evl = {
 
 apl = {
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 20,
+    'topK': 2000,
     'textTitle': 'Text',
     'crawlURLs': False
 }

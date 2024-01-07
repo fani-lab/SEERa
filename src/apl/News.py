@@ -73,7 +73,7 @@ def main(user_final_interests, user_clusters, dictionary, lda_model):
 
     cmn.logger.info(f"Evaluating recommended news articles ...")
     # me = ME.main()
-    n = NE.main()
+    n = NE.main(news_table, user_community_recommendation, user_recommendation)
 
 
     return n
