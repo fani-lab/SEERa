@@ -43,8 +43,8 @@ uml = {
 gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
     'embeddingDim': 128,
-    'epoch': 10,
-    'method': '@gel_method', #one of ['AE', 'DynAE', 'DynRNN', 'DynAERNN']
+    'epoch': 1000,
+    'method': '@gel_method', #one of ['RecurrentGCN']
     'pyg_method': 'something'
 }
 
@@ -55,7 +55,7 @@ cpl = {
     'minSize': 5
 }
 evl = {
-    'topK': 2000,
+    'topK': 20000,
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If Extrinsic evaluation:
     'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100'},
@@ -69,7 +69,8 @@ evl = {
 
 apl = {
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 2000,
+    'topK': 20000,
     'textTitle': 'Text',
-    'crawlURLs': False
+    'crawlURLs': False,
+    'stat': True
 }
