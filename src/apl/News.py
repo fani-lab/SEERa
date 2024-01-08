@@ -14,28 +14,15 @@ def stats(news):
         texts = news.Text.dropna()
         titles = news.Title.dropna()
         desc = news.Description.dropna()
-
-        cmn.logger.info("Available texts:", len(texts))
         file_object.write(f'Available texts: {len(texts)}\n')
-
-        cmn.logger.info("Available titles:", len(titles))
         file_object.write(f'Available titles: {len(titles)}\n')
-
-        cmn.logger.info("Available descriptions:", len(desc))
         file_object.write(f'Available descriptions: {len(desc)}\n')
-
         avg_word_length = lambda col: sum(len(text.split()) for text in col) // len(col)
-
         text_avg = avg_word_length(texts)
-        cmn.logger.info("Average texts length:", text_avg)
         file_object.write(f'Average texts length: {text_avg} words.\n')
-
         title_avg = avg_word_length(titles)
-        cmn.logger.info("Average titles length:", title_avg)
         file_object.write(f'Average titles length: {title_avg} words.\n')
-
         desc_avg = avg_word_length(desc)
-        cmn.logger.info("Average descriptions length:", desc_avg)
         file_object.write(f'Average descriptions length: {desc_avg} words.\n')
 
 def main(user_final_interests, user_clusters, dictionary, lda_model):
