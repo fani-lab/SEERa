@@ -19,13 +19,13 @@ class RecurrentGCN(torch.nn.Module):
         return h
 
 def modelTrain(dataset):
-    model = RecurrentGCN(node_features=params.tml['numTopics'], filters=8)
+    if params.gel['method']=='RecurrentGCN':
+        model = RecurrentGCN(node_features=params.tml['numTopics'], filters=params.gel['embeddingDim'])
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     # Training loop
-    num_epochs = 5
     model.train()
     from tqdm import tqdm
-    for epoch in tqdm(range(num_epochs)):
+    for epoch in tqdm(range(params.gel['epoch'])):
         for time, snapshot in enumerate(dataset):
             y_hat = model(snapshot.x, snapshot.edge_index, snapshot.edge_attr)
             cost = torch.mean((y_hat-snapshot.y)**2)
