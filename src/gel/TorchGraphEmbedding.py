@@ -1,40 +1,10 @@
 import pickle, os
-import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
-from torch_geometric_temporal.nn import GCLSTM
-from torch_geometric.data import Dataset, Data, DataLoader
 import torch.nn.functional as F
 import torch.optim as optim
 from torch_geometric_temporal.nn.recurrent import GConvGRU
 import params
-class MyTemporalGraphDataset(Dataset):
-    def __init__(self, train_graphs, target_graph):
-        self.train_graphs = train_graphs
-        self.target_graph = target_graph
-
-    def __len__(self):
-        return len(self.train_graphs)
-
-    def __getitem__(self, idx):
-        target_edges = torch.tensor([[0, 1, 2], [1, 2, 0]], dtype=torch.long)
-        data = self.train_graphs[idx]
-        data.edge_attr = torch.zeros(data.edge_index.shape[1], 1)
-        return data, target_edges
-
-class MyTemporalGraphModel(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim):
-        super(MyTemporalGraphModel, self).__init__()
-        self.lstm = GCLSTM(input_dim, hidden_dim, K=1)
-        self.fc = nn.Linear(hidden_dim, output_dim)
-
-    def forward(self, data):
-        x, edge_index, batch = data.x, data.edge_index, data.batch
-        h = self.lstm(x, edge_index)
-        output = self.fc(h)
-        return output
-
 
 class RecurrentGCN(torch.nn.Module):
     def __init__(self, node_features, filters):
@@ -50,9 +20,7 @@ class RecurrentGCN(torch.nn.Module):
 
 def modelTrain(dataset):
     model = RecurrentGCN(node_features=params.tml['numTopics'], filters=8)
-    criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-
     # Training loop
     num_epochs = 5
     model.train()
@@ -75,7 +43,6 @@ def modelTrain(dataset):
     print("MSE: {:.4f}".format(cost))
     return model
 
-
 def main(documents, dataset):
     if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
     model = modelTrain(dataset)
@@ -87,11 +54,6 @@ def main(documents, dataset):
         pickle.dump(predicted_features, f)
     torch.save(predicted_features, f'{params.gel["path2save"]}/embeddings.pt')
     unique_users = documents['UserId'].unique()
-    user_features = pd.DataFrame({
-        'UserId': unique_users,
-        'FinalInterests': predicted_features.tolist()
-    })
-    # user_features = pd.DataFrame(predicted_features.numpy(), index=unique_users).T
+    user_features = pd.DataFrame({'UserId': unique_users, 'FinalInterests': predicted_features.tolist()})
     user_features.to_csv(f'{params.gel["path2save"]}/userFeatures.csv')
-
     return user_features, predicted_features
