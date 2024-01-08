@@ -63,30 +63,14 @@ def main():
         cmn.logger.info(f"Loading users' graph stream failed! Generating the stream ...")
         graphs = US.main(documents, dictionary, lda_model)
 
-        # if params.general['method'] == 'NetworkX':
-        #     graphs_path = glob.glob(f'{params.uml["path2save"]}/graphs/*.net')
-        #     graphs = []
-        #     for gp in graphs_path: graphs.append(nx.read_gpickle(gp))
-        # elif params.general['method'] == 'PyG':
-        #
-        #     graphs_path = glob.glob(f'{params.uml["path2save"]}/graphs/*.pt')
-        #     graphs = []
-        #     for gp in graphs_path: graphs.append(torch.load(gp))
-        # with open(f'{params.uml["path2save"]}/graphs/graphs.pkl', 'wb') as g:
-        #     pickle.dump(graphs, g)
-
     # Graph Embedding
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading embeddings ...')
-        # embeddings = np.load(f"{params.gel['path2save']}/embeddings.npz", allow_pickle=True)['a']
-        with open(f'{params.gel["path2save"]}/userFeatures.pkl', 'rb') as handle:
-            embeddings = pickle.load(handle)
         documents = pd.read_csv(f'{params.gel["path2save"]}/documents.csv')
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
-        # from gel import GraphEmbedding as GE
         from gel import TorchGraphEmbedding as TGE
         user_features, predicted_features = TGE.main(documents, graphs)
         print(predicted_features)
@@ -103,6 +87,7 @@ def main():
         from cpl import GraphClustering as GC
         cmn.logger.info(f'Loading user clusters failed! Generating user clusters ...')
         user_clusters, Communities = GC.main2(user_features, predicted_features)
+
     # News Article Recommendation
     cmn.logger.info(f'6. Application: News Recommendation ...')
     cmn.logger.info('#' * 50)
