@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import gensim
 import torch
+import datetime
 
 import params
 from cmn import Common as cmn
@@ -68,12 +69,13 @@ def main():
     cmn.logger.info('#' * 50)
     try:
         cmn.logger.info(f'Loading embeddings ...')
-        documents = pd.read_csv(f'{params.gel["path2save"]}/documents.csv')
+        from ast import literal_eval
+        user_features = pd.read_csv(f'{params.gel["path2save"]}/userFeatures.csv', converters={"FinalInterests":literal_eval})
+        predicted_features = torch.load(f'{params.gel["path2save"]}/embeddings.pt')
     except (FileNotFoundError, EOFError) as e:
         cmn.logger.info(f'Loading embeddings failed! Training ...')
         from gel import TorchGraphEmbedding as TGE
         user_features, predicted_features = TGE.main(documents, graphs)
-        print(predicted_features)
 
     # Community Extraction
     cmn.logger.info(f'5. Community Prediction ...')
@@ -98,7 +100,6 @@ def main():
     news_output = News.main(user_features, user_clusters, dictionary, lda_model)
     return news_output
 
-
 def run(tml_baselines, gel_baselines, run_desc):
     for t in tml_baselines:
         for g in gel_baselines:
@@ -119,7 +120,6 @@ def run(tml_baselines, gel_baselines, run_desc):
                 cmn.logger.info('\n\n\n')
     # aggregate('../ouptut')
 
-
 def aggregate(output_path):
     pred_eval_mean_path = sorted(glob.glob(f'{output_path}/*/apl/evl/pred.eval.mean.csv'))
     pred_eval_mean_agg = pd.DataFrame()
@@ -132,33 +132,19 @@ def aggregate(output_path):
     pred_eval_mean_agg.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
     return pred_eval_mean_agg
 
-
 def remove_files():
-    try:
-        os.remove('decoder_model_testing.json')  # 3 KB
-    except:
-        pass
-    try:
-        os.remove('decoder_weights_testing.hdf5')  # 39 MB
-    except:
-        pass
-    try:
-        os.remove('encoder_model_testing.json')  # 3 KB
-    except:
-        pass
-    try:
-        os.remove('encoder_weights_testing.hdf5')  # 39 MB
-    except:
-        pass
-    try:
-        os.remove('embedding_testing.txt')  # 14 MB
-    except:
-        pass
-    try:
-        os.remove('next_pred_testing.txt')  # 9 GB
-    except:
-        pass
-
+    try: os.remove('decoder_model_testing.json')  # 3 KB
+    except: pass
+    try: os.remove('decoder_weights_testing.hdf5')  # 39 MB
+    except: pass
+    try: os.remove('encoder_model_testing.json')  # 3 KB
+    except: pass
+    try: os.remove('encoder_weights_testing.hdf5')  # 39 MB
+    except: pass
+    try: os.remove('embedding_testing.txt')  # 14 MB
+    except: pass
+    try: os.remove('next_pred_testing.txt')  # 9 GB
+    except: pass
 
 def addargs(parser):
     baseline = parser.add_argument_group('baseline')
@@ -175,7 +161,8 @@ if __name__ == '__main__':
     addargs(parser)
     args = parser.parse_args()
     if not os.path.isdir(f'../output/{args.run_desc}'): os.makedirs(f'../output/{args.run_desc}')
-    cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/log.txt')
+    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    cmn.logger = cmn.LogFile(f'{params.apl["path2save"]}/log_{current_time}.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     # aggregate(f'../output/{args.run_desc}')
     # remove_files()
