@@ -12,21 +12,16 @@ def load_tweets(path):
     if not os.path.isdir(params.dal['statPath2Save']): os.makedirs(params.dal['statPath2Save'])
     start = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
     end = datetime.datetime.strptime(params.dal['end'], '%Y-%m-%d')
-    # Leaving params.dal['testTimeIntervals'] intervals for testing
     end = end - datetime.timedelta(days=params.dal["testTimeIntervals"]*params.dal["timeInterval"])
-
     tweets = pd.read_csv(path, encoding='utf-8', parse_dates=['CreationTimestamp'])
 
     # picking 5% of the data to make the process faster
     tweets = tweets.sample(frac=0.05, random_state=42)
 
-
     tweets.rename(columns={'Id': 'TweetId', 'CreationTimestamp': 'CreationDate', 'Tokens': 'Text'}, inplace=True)
     tweets = tweets[(tweets.TweetId != -1) & (tweets.UserId != -1)]  # remove rows with tweet ids -1 value or user ids with -1 value
-    # only keep tweets between start date and end date
     tweets = tweets.loc[(tweets['CreationDate'].dt.date >= start.date()) & (tweets['CreationDate'].dt.date <= end.date())]
 
-    # declare that creationdate and modification timestamp are datetime values
     tweets['CreationDate'] = pd.to_datetime(tweets['CreationDate'])
     if params.dal['addLinks']:
         links = tweets['Text'].apply(extract_link)
@@ -43,37 +38,26 @@ def stat(tweets):
     num_tweets = tweets['TweetId'].nunique()
     num_users = tweets['UserId'].nunique()
 
-    # Function to check if a text contains a link
-    def has_link(text):
-        return bool(re.search(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text))
-
-    # Extract links from tweets
     links = tweets['Text'].apply(extract_link)
     tweets['Extracted_Links'] = links
 
-    # Calculate stats related to links
     num_tweets_with_links = tweets['Extracted_Links'].apply(lambda x: len(x) > 0).sum()
     unique_users_with_links = tweets[tweets['Extracted_Links'].apply(len) > 0]['UserId'].nunique()
     unique_users_without_links = num_users - unique_users_with_links
 
-    # Count the number of tweets per user
     tweets_per_user = tweets['UserId'].value_counts()
 
-    # Count the number of users for each count of tweets
     bins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800,
             900, 1000, float('inf')]
     user_counts = pd.cut(tweets_per_user, bins=bins).value_counts().sort_index()
 
-    # Additional statistics related to links
     total_links = tweets['Extracted_Links'].apply(len).sum()
     links_per_user = tweets.groupby('UserId')['Extracted_Links'].apply(lambda x: x.apply(len).sum()).fillna(0)
 
-    # Additional statistics
     avg_tweets_per_user = tweets_per_user.mean()
     max_tweets_by_user = tweets_per_user.max()
     min_tweets_by_user = tweets_per_user.min()
 
-    # Log statistics during runtime
     cmn.logger.info(f'Number of tweets: {num_tweets}')
     cmn.logger.info(f'Number of users: {num_users}')
     cmn.logger.info(f'Number of tweets with links: {num_tweets_with_links}')
@@ -173,10 +157,6 @@ def stat(tweets):
     plt.savefig(f'{params.dal["statPath2Save"]}/proportion_link_counts_per_tweet.png')
     plt.close()
 
-
-
-
-    # Return additional stats if needed
     return {
         'num_tweets': num_tweets,
         'num_users': num_users,

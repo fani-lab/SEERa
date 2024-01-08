@@ -29,13 +29,9 @@ def preprocess_tweets(text):
     nltk.download('punkt')
     nltk.download('stopwords')
     preprocessed_text = text.apply(lambda x: x.lower())
-    # Remove mentions (@username)
     preprocessed_text = preprocessed_text.apply(lambda x: re.sub(r'@\w+', '', x))
-    # Remove special characters and punctuation
     preprocessed_text = preprocessed_text.apply(lambda x: re.sub(r'[^a-zA-Z\s]', '', x))
-    # Tokenization
     preprocessed_text = preprocessed_text.apply(word_tokenize)
-    # Remove stopwords
     stop_words = set(stopwords.words('english'))
     gist_file = open(params.dal['stopwordPath'], "r")
     try:
@@ -48,33 +44,22 @@ def preprocess_tweets(text):
 
 
 def data_preparation(dataset):
-    # Remove columns we don't need / rows with Nan
     cols_to_drop = ['ModificationTimestamp']
     dataset.dropna(inplace=True)
     dataset.drop(cols_to_drop, axis=1, inplace=True)
-    # Reassign the TweetIDs and UserIDs (makes it easier, because here the IDs didn't start at 0)
-    # dataset = reassign_id(dataset, 'TweetId')
-    # dataset = reassign_id(dataset, 'UserId')
     dataset = dataset.sort_values(by="CreationDate")
-    # Adding TimeStamp to the dataset
     dataset = date2timestamp(dataset, 'CreationDate')
-    cmn.logger.info(
-        f'DataPreperation: userModeling={params.dal["userModeling"]}, timeModeling={params.dal["timeModeling"]}, preProcessing={params.dal["preProcessing"]}, TagME={params.dal["tagMe"]}')
+    cmn.logger.info(f'DataPreperation: userModeling={params.dal["userModeling"]}, timeModeling={params.dal["timeModeling"]}, preProcessing={params.dal["preProcessing"]}, TagME={params.dal["tagMe"]}')
     if params.dal['userModeling'] and params.dal['timeModeling']:
-        documents = dataset.groupby(['UserId', 'TimeStamp']).agg(
-            {'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+        documents = dataset.groupby(['UserId', 'TimeStamp']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
     elif params.dal['userModeling']:
-        documents = dataset.groupby(['UserId']).agg(
-            {'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+        documents = dataset.groupby(['UserId']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
     elif params.dal['timeModeling']:
-        documents = dataset.groupby(['TimeStamp']).agg(
-            {'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
+        documents = dataset.groupby(['TimeStamp']).agg({'Text': lambda x: ' '.join(x), 'Extracted_Links': 'sum'}).reset_index()
     else:
         documents = dataset
-    if params.dal['preProcessing']:
-        documents['Tokens'] = preprocess_tweets(documents['Text'])
-    else:
-        documents['Tokens'] = documents['Text'].str.split()
+    if params.dal['preProcessing']: documents['Tokens'] = preprocess_tweets(documents['Text'])
+    else: documents['Tokens'] = documents['Text'].str.split()
     documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False,header=True)
     cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')
     return documents
