@@ -52,7 +52,7 @@ def main(user_final_interests, user_clusters, dictionary, lda_model):
         cmn.logger.info(f"Loading news article recommendations failed! Recommending news articles to future communities ...")
         community_recommendation, user_community_recommendation, user_recommendation = NR.main(user_clusters, user_final_interests, news_table)
     try:
-        evaluation_results =
+        evaluation_results = pd.read_csv(f"../output/{params.apl['path2save']}/evl/pred.eval.csv")
     except:
         cmn.logger.info(f"Evaluating recommended news articles ...")
         evaluation_results = NE.main(news_table, user_community_recommendation, user_recommendation)
