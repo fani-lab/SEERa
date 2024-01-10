@@ -13,10 +13,11 @@ def main(documents, dictionary, lda_model):
     documents['TopicInterests'] = documents['Tokens'].apply(lambda tokens: str(list(tm.doc2topics(lda_model, dictionary.doc2bow(tokens)))))
     if not os.path.isdir(f'{params.uml["path2save"]}/graphs'): os.makedirs(f'{params.uml["path2save"]}/graphs')
     if not os.path.isdir(f'{params.uml["path2save"]}/user_interests'): os.makedirs(f'{params.uml["path2save"]}/user_interests')
+    documents.to_csv(f"../output/{params.uml['path2save']}/documents.csv", encoding='utf-8', index=False, header=True)
+    start_date = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
     end_date = datetime.datetime.strptime(params.dal['end'], '%Y-%m-%d')
-    day = datetime.datetime.strptime(params.dal['start'], '%Y-%m-%d')
-    endTimeStamp = (end_date - day).days // params.dal['timeInterval']
-    len_users = [documents[documents['TimeStamp'] == ts]['UserId'].nunique() for ts in range(0, endTimeStamp + 1)]
+    end_timestamp = (end_date - start_date).days // params.dal['timeInterval']
+    len_users = [documents[documents['TimeStamp'] == ts]['UserId'].nunique() for ts in range(end_timestamp)]
     cmn.logger.info(f'UserSimilarity: Number of users per day: {len_users}')
     graphs = UG.graph_generator(documents)
     cmn.logger.info(f'UserSimilarity: Graphs are written in "graphs" directory')
