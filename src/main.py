@@ -162,7 +162,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if not os.path.isdir(f'../output/{args.run_desc}'): os.makedirs(f'../output/{args.run_desc}')
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    cmn.logger = cmn.LogFile(f'{params.apl["path2save"]}/log_{current_time}.txt')
+    cmn.logger = cmn.LogFile(f'../output/{params.general["baseline"]}/log_{current_time}.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
     # aggregate(f'../output/{args.run_desc}')
     # remove_files()
