@@ -60,6 +60,7 @@ def data_preparation(dataset):
         documents = dataset
     if params.dal['preProcessing']: documents['Tokens'] = preprocess_tweets(documents['Text'])
     else: documents['Tokens'] = documents['Text'].str.split()
+    documents = documents[documents['Tokens'].apply(lambda x: len(x)>0)].reset_index()
     documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False,header=True)
     cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')
     return documents
