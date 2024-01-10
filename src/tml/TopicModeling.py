@@ -36,24 +36,17 @@ def topic_modeling(documents):
         topics[f'Topic_{topic_num}_Words'] = top_words
         topics[f'Topic_{topic_num}_Probabilities'] = top_probabilities
     topics.to_csv(f'{params.tml["path2save"]}/final_topics.csv', index=False)
-    try:
-        cmn.logger.info(f'TopicModeling: Coherences:\n')
-        total_topics = []
-        c, cv = coherence(dictionary, bow_corpus, total_topics, lda_model)
-        cmn.logger.info(f'TopicModeling: Coherence value is: {c}')
-        cmn.logger.info(f'TopicModeling: Topic coherences are: {cv}')
-    except:
-        pass
+    # Model Evaluation
+    if params.tml['eval']:
+        cmn.logger.info(f'TopicModeling: Evaluation:\n')
+        coh, per = evaluate_lda_model(lda_model, bow_corpus, dictionary)
+        cmn.logger.info(f'TopicModeling: model coherence is: {coh}')
+        cmn.logger.info(f'TopicModeling: model perplexity is: {per}')
+    if params.tml['visualization']:
+        cmn.logger.info(f'TopicModeling: Visualization:\n')
+        visualization(lda_model, bow_corpus, dictionary)
     dictionary.save(f'{params.tml["path2save"]}/{params.tml["library"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
     return dictionary, lda_model
-
-def coherence(dictionary, bow_corpus, topics, lda_model):
-    cmn.logger.info(f'TopicModeling: Calculating model coherence:\n')
-    cm = CoherenceModel(model=lda_model, corpus=bow_corpus, coherence='u_mass')
-    coherence_value = cm.get_coherence()
-    cm = CoherenceModel(topics=topics, dictionary=dictionary, corpus=bow_corpus, coherence='u_mass')
-    topic_coherence = cm.get_coherence_per_topic()
-    return coherence_value, topic_coherence
 
 def doc2topics(lda_model, doc):
     if params.tml['library'] == 'gensim': d2t_vector = lda_model.get_document_topics(doc)
@@ -66,3 +59,20 @@ def doc2topics(lda_model, doc):
         for topic, prob in d2t_vector:
             doc_topic_vector[topic] = 1 if (prob >= params.tml['threshold'] and params.tml['binary']) else prob
     return doc_topic_vector
+
+def evaluate_lda_model(lda_model, corpus, dictionary):
+    coherence_model = CoherenceModel(model=lda_model, texts=corpus, dictionary=dictionary, coherence='c_v')
+    coherence_score = coherence_model.get_coherence()
+    perplexity = lda_model.log_perplexity(corpus)
+    return coherence_score, perplexity
+
+def visualization(lda_model, corpus, dictionary):
+    import pyLDAvis.gensim
+    import pyLDAvis
+    import matplotlib.pyplot as plt
+    pyLDAvis.enable_notebook()
+    vis_data = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary)
+    pyLDAvis.save_html(vis_data, f'{params.tml["path2save"]}/topic_modeling_vis.html')
+    plt.figure(figsize=(10, 7))
+    pyLDAvis.display(vis_data)
+    plt.show()

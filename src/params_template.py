@@ -29,6 +29,8 @@ tml = {
     'justOne': False,
     'binary': False,
     'threshold': 0.5,
+    'eval': False,
+    'visualization': False,
     'method': '@tml_method' #[LDA]
 }
 
