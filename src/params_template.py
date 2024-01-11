@@ -15,8 +15,8 @@ dal = {
     'testTimeIntervals': 1, # how many time intervals must be left for prediction
     'preProcessing': True,
     'tagMe': False,
-    'wantStats': True,
     'addLinks': True,
+    'getStat': True,
     'statPath2Save': f'../output/{general["baseline"]}/dal/stat',
 }
 

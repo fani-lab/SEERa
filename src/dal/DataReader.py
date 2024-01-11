@@ -26,7 +26,7 @@ def load_tweets(path):
     if params.dal['addLinks']:
         links = tweets['Text'].apply(extract_link)
         tweets['Extracted_Links'] = links
-    if params.dal['wantStats']:
+    if params.dal['getStat']:
         stats = stat(tweets)
         print(stats)
     return tweets

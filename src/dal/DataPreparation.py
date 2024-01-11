@@ -5,6 +5,57 @@ from cmn import Common as cmn
 import params
 import re
 
+
+def stat(documents):
+    import matplotlib.pyplot as plt
+    from collections import Counter
+    tokens_column = documents['Tokens']
+    # Flatten the list of lists into a single list of tokens
+    all_tokens = [token for tokens_list in tokens_column for token in tokens_list]
+    # Count the occurrences of each word
+    word_counts = Counter(all_tokens)
+    # Find the 50 most frequent words
+    most_common_words = word_counts.most_common(50)
+    # Plot the word distribution
+    words, counts = zip(*most_common_words)
+    plt.bar(words, counts)
+    plt.xlabel('Words')
+    plt.ylabel('Frequency')
+    plt.title('Top 50 Most Frequent Words')
+    plt.xticks(rotation='vertical')
+    plt.savefig(f"{params.dal['statPath2Save']}/TopFrequentWords.png")
+    plt.close()
+    # Save the word distribution to a file
+    with open(f"{params.dal['statPath2Save']}/word_distribution.txt", 'w') as file:
+        for word, count in most_common_words:
+            file.write(f"{word}: {count}\n")
+    # Calculate token frequencies
+    token_frequencies = list(word_counts.values())
+    max_frequency = max(token_frequencies)
+    num_bins = 10
+    bin_size = max_frequency // num_bins
+    # Create bins for the histogram
+    bins = [i * bin_size for i in range(1, num_bins + 1)]
+
+    # Plot the histogram
+    plt.hist(token_frequencies, bins=bins, edgecolor='black')
+    plt.xlabel('Token Frequency')
+    plt.ylabel('Number of Tokens')
+    plt.xticks(rotation='vertical')
+    plt.title('Distribution of Token Frequencies')
+    for bin_start, bin_end in zip(bins[:-1], bins[1:]):
+        count_in_range = len([freq for freq in token_frequencies if bin_start <= freq <= bin_end])
+        plt.text(bin_start + bin_size / 2, count_in_range, str(count_in_range), ha='center', va='bottom')
+
+    # Save the histogram plot
+    plt.savefig(f"{params.dal['statPath2Save']}/token_frequency_distribution.png")
+    plt.close()
+    # Save the result to a text file
+    with open(f"{params.dal['statPath2Save']}/token_frequency_result.txt", 'w') as file:
+        file.write("Token Frequency Distribution:\n")
+        for bin_start, bin_end in zip(bins[:-1], bins[1:]):
+            count_in_range = len([freq for freq in token_frequencies if bin_start <= freq < bin_end])
+            file.write(f"{bin_start}-{bin_end - 1}: {count_in_range} tokens\n")
 def reassign_id(table, column):
     posts = table[column].unique()
     new_ids = list(range(len(table[column].unique())))
@@ -61,6 +112,7 @@ def data_preparation(dataset):
     if params.dal['preProcessing']: documents['Tokens'] = preprocess_tweets(documents['Text'])
     else: documents['Tokens'] = documents['Text'].str.split()
     documents = documents[documents['Tokens'].apply(lambda x: len(x)>0)].reset_index()
+    if params.dal['getStat']: stat(documents)
     documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False,header=True)
     cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')
     return documents
