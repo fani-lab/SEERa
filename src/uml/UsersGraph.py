@@ -23,7 +23,7 @@ def graph_generator(documents):
     edges = torch.randint(0, len(all_nodes), (2, num_random_edges), dtype=torch.long)
     edges = edges[:, edges[0] != edges[1]]
     edges = torch.unique(edges, dim=1)
-    num_timeStamps = documents['TimeStamp'].max() - documents['TimeStamp'].min()
+    num_timeStamps = documents['TimeStamp'].max() - documents['TimeStamp'].min() + 1
     features = np.zeros((num_timeStamps, len(all_nodes), params.tml['numTopics']))
     for t in range(num_timeStamps):
         documents_t = documents[documents['TimeStamp'] == t]
