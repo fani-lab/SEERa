@@ -1,0 +1,12 @@
+Available texts: 26447
+Available titles: 31631
+Available descriptions: 22624
+Average texts length: 401 words.
+Average titles length: 6 words.
+Average descriptions length: 23 words.
+Available texts: 26447
+Available titles: 31631
+Available descriptions: 22624
+Average texts length: 401 words.
+Average titles length: 6 words.
+Average descriptions length: 23 words.
