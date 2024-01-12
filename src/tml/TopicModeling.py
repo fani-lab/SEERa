@@ -14,10 +14,10 @@ def topic_modeling(documents):
     if not os.path.isdir(params.tml['path2save']): os.makedirs(params.tml['path2save'])
     cmn.logger.info(f'TopicModeling: num_topics={params.tml["numTopics"]},  filterExtremes={params.tml["filterExtremes"]}, library={params.tml["library"]}')
     dictionary = gensim.corpora.Dictionary(processed_docs)
-    if params.tml['filterExtremes']: dictionary.filter_extremes(no_below=1, no_above=0.40, keep_n=100000)
+    if params.tml['filterExtremes']: dictionary.filter_extremes(no_below=1, no_above=0.35, keep_n=200000)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
     if params.tml['library'] == 'gensim':
-        lda_model = gensim.models.LdaModel(bow_corpus, num_topics=params.tml['numTopics'], id2word=dictionary, passes=5)
+        lda_model = gensim.models.LdaModel(bow_corpus, num_topics=params.tml['numTopics'], id2word=dictionary, alpha='auto', eval_every=5, passes=100, iterations=50)
         lda_model.save(f'{params.tml["path2save"]}/gensim_{params.tml["numTopics"]}topics.model')
     elif params.tml['library'] == 'mallet':
         os.environ['MALLET_HOME'] = params.tml['malletHome']
