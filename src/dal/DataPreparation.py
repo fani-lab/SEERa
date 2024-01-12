@@ -112,6 +112,28 @@ def data_preparation(dataset):
     if params.dal['preProcessing']: documents['Tokens'] = preprocess_tweets(documents['Text'])
     else: documents['Tokens'] = documents['Text'].str.split()
     documents = documents[documents['Tokens'].apply(lambda x: len(x)>0)].reset_index()
+
+    # Assuming documents is your DataFrame
+    max_timestamp = documents['TimeStamp'].max()
+
+    # Create an empty list to store DataFrames for each user
+    user_dfs = []
+
+    # Iterate over unique UserIds
+    for user_id in documents['UserId'].unique():
+        # Filter rows for the current user
+        user_df = documents[documents['UserId'] == user_id]
+
+        # Check if the user has rows for all timestamps
+        if set(user_df['TimeStamp']) == set(range(max_timestamp + 1)):
+            # Append the DataFrame to the list
+            user_dfs.append(user_df)
+
+    # Concatenate DataFrames for users who have rows for all timestamps
+    documents = pd.concat(user_dfs, ignore_index=True)
+
+
+
     if params.dal['getStat']: stat(documents)
     documents.to_csv(f"../output/{params.general['baseline']}/documents.csv", encoding='utf-8', index=False,header=True)
     cmn.logger.info(f'DataPreparation: Documents shape: {documents.shape}')

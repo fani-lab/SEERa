@@ -15,8 +15,8 @@ def load_tweets(path):
     end = end - datetime.timedelta(days=params.dal["testTimeIntervals"]*params.dal["timeInterval"])
     tweets = pd.read_csv(path, encoding='utf-8', parse_dates=['CreationTimestamp'])
 
-    # picking 5% of the data to make the process faster
-    tweets = tweets.sample(frac=0.05, random_state=42)
+    # # picking 5% of the data to make the process faster
+    # tweets = tweets.sample(frac=0.05, random_state=42)
 
     tweets.rename(columns={'Id': 'TweetId', 'CreationTimestamp': 'CreationDate', 'Tokens': 'Text'}, inplace=True)
     tweets = tweets[(tweets.TweetId != -1) & (tweets.UserId != -1)]  # remove rows with tweet ids -1 value or user ids with -1 value
@@ -27,6 +27,7 @@ def load_tweets(path):
         links = tweets['Text'].apply(extract_link)
         tweets['Extracted_Links'] = links
     if params.dal['getStat']:
+        cmn.logger.info(f'Obtaining stats for the original data ...')
         stats = stat(tweets)
         print(stats)
     return tweets
