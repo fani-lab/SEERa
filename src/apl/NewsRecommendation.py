@@ -7,7 +7,7 @@ from cmn import Common as cmn
 def main(user_clusters, user_final_interests, news_table):
     merged_user_df = pd.merge(user_clusters, user_final_interests, on='UserId')
     weighted_avg_interests = merged_user_df.groupby('Community')['FinalInterests'].apply(lambda x: np.mean(np.vstack(x), axis=0).tolist()).reset_index()
-    columns = [f'Interest_{i + 1}' for i in range(len(weighted_avg_interests['FinalInterests'].iloc[0]))]
+    columns = [f'Topic_{i + 1}' for i in range(len(weighted_avg_interests['FinalInterests'].iloc[0]))]
     weighted_avg_interests_df = pd.DataFrame(weighted_avg_interests['FinalInterests'].tolist(), columns=columns)
     community_interests_df = pd.concat([weighted_avg_interests['Community'], weighted_avg_interests_df], axis=1)
     community_interests_matrix = community_interests_df.iloc[:, 1:].values
