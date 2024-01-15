@@ -164,5 +164,5 @@ if __name__ == '__main__':
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     cmn.logger = cmn.LogFile(f'../output/{args.run_desc}/log_{current_time}.txt')
     run(tml_baselines=args.tml_method_list, gel_baselines=args.gel_method_list, run_desc=args.run_desc)
-    # aggregate(f'../output/{args.run_desc}')
+    aggregate(f'../output/{args.run_desc}')
     # remove_files()
