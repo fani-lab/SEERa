@@ -37,13 +37,17 @@ def main():
     cmn.logger.info(f'2. Topic modeling ...')
     cmn.logger.info('#' * 50)
     try:
-        cmn.logger.info(f'Loading LDA model ...')
-        dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
-        lda_model = gensim.models.LdaModel.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics.model")
+        cmn.logger.info(f'Loading topic modeling model ...')
+        if params.tml['method'].lower() == 'lda':
+            dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
+            tm_model = gensim.models.LdaModel.load(f"{params.tml['path2save']}/{params.tml['library']}_{params.tml['numTopics']}topics.model")
+        elif params.tml['method'].lower() == 'gsdmm':
+            dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
+            tm_model = pd.read_pickle(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics.model")
     except (FileNotFoundError, EOFError) as e:
         from tml import TopicModeling as tm
-        cmn.logger.info(f'Loading LDA model failed! Training LDA model ...')
-        dictionary, lda_model = tm.topic_modeling(documents)
+        cmn.logger.info(f'Loading topic modeling model failed! Training a new model ...')
+        dictionary, tm_model = tm.topic_modeling(documents)
     cmn.logger.info(f'dictionary.shape: {len(dictionary)}')
 
     # User Graphs
@@ -62,7 +66,7 @@ def main():
     except (FileNotFoundError, EOFError) as e:
         from uml import UserSimilarities as US
         cmn.logger.info(f"Loading users' graph stream failed! Generating the stream ...")
-        graphs = US.main(documents, dictionary, lda_model)
+        graphs = US.main(documents, dictionary, tm_model)
 
     # Graph Embedding
     cmn.logger.info(f'4. Temporal Graph Embedding ...')
@@ -97,7 +101,7 @@ def main():
     # News Dataset Creation:
     # if params.apl['crawlURLs']:
     #     documents, extracted_info = NewsUsers.main(documents)
-    news_output = News.main(user_features, user_clusters, dictionary, lda_model)
+    news_output = News.main(user_features, user_clusters, dictionary, tm_model)
     return news_output
 
 def run(tml_baselines, gel_baselines, run_desc):
