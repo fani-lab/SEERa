@@ -30,6 +30,7 @@ def main(user_final_interests, user_clusters, dictionary, lda_model):
     try:
         cmn.logger.info(f"Loading news articles ...")
         news_table = pd.read_csv(news_path)
+        news_table = news_table[news_table['UserId'].isin(user_final_interests['UserId'])]
         if params.apl['stat']: stats(news_table)
     except:
         cmn.logger.info(f"News articles do not exist! Crawling news articles ...")
@@ -45,7 +46,7 @@ def main(user_final_interests, user_clusters, dictionary, lda_model):
         news_table = NTE.main(news_table, dictionary, lda_model)
     try:
         cmn.logger.info(f"Loading news article recommendations ...")
-        community_recommendation = pd.read_csv(f"../output/{params.apl['path2save']}/community_recommendations.csv")
+        # community_recommendation = pd.read_csv(f"../output/{params.apl['path2save']}/community_recommendations.csv")
         user_community_recommendation = pd.read_csv(f"../output/{params.apl['path2save']}/user_community_recommendations.csv")
         user_recommendation = pd.read_csv(f"../output/{params.apl['path2save']}/user_recommendations.csv")
     except:
