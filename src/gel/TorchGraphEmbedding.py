@@ -45,17 +45,22 @@ def modelTrain(dataset):
 
 def main(documents, dataset):
     if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
-    model = modelTrain(dataset)
-    model.eval()
-    with torch.no_grad():
-        predicted_features = model(dataset[-1].y, dataset[-1].edge_index, dataset[-1].edge_weight)
-    print(predicted_features)
-    # Thresholding
-    predicted_features = torch.where(predicted_features < 0.05, torch.tensor(0), predicted_features)
+    if params.gel['method'].lower() == 'random':
+        predicted_features = torch.rand(dataset.features[0].shape)
+    elif params.gel['method'].lower() == 'RecurrentGCN':
+        model = modelTrain(dataset)
+        model.eval()
+        with torch.no_grad():
+            predicted_features = model(dataset[-1].y, dataset[-1].edge_index, dataset[-1].edge_weight)
+        # print(predicted_features)
+        # Thresholding
+        predicted_features = torch.where(predicted_features < 0.05, torch.tensor(0), predicted_features)
+    else:
+        predicted_features = torch.rand(dataset.features[0].shape)
+
     with open(f'{params.gel["path2save"]}/embeddings.pkl', 'wb') as f:
         pickle.dump(predicted_features, f)
     torch.save(predicted_features, f'{params.gel["path2save"]}/embeddings.pt')
-    unique_users = documents['UserId'].unique()
-    user_features = pd.DataFrame({'UserId': unique_users, 'FinalInterests': predicted_features.tolist()})
+    user_features = pd.DataFrame({'UserId': documents['UserId'].unique(), 'FinalInterests': predicted_features.tolist()})
     user_features.to_csv(f'{params.gel["path2save"]}/userFeatures.csv')
     return user_features, predicted_features
