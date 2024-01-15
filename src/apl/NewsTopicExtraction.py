@@ -14,7 +14,6 @@ def main(news_table, dictionary, lda_model):
         news_table['Tokens'] = DP.preprocess_tweets(news_table[params.apl['textTitle']])
     else:
         news_table['Tokens'] = news_table['textTitle'].str.split()
-
     cols_to_drop = ['Text','Title','Description']
     news_table.drop(cols_to_drop, axis=1, inplace=True)
     news_table['TopicInterests'] = pd.Series
