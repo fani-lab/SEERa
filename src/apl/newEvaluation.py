@@ -6,6 +6,7 @@ import os
 import params
 
 def main(news_table, user_community_recommendation, user_recommendation):
+    recommendation = user_community_recommendation
     if not os.path.isdir(f'{params.apl["path2save"]}/evl'): os.makedirs(f'{params.apl["path2save"]}/evl')
     URLs = pd.read_csv(f'{params.dal["path"]}/TweetEntities.csv', encoding='utf-8')
     URLs = URLs[URLs['EntityTypeCode'] == 2].copy()
@@ -15,8 +16,8 @@ def main(news_table, user_community_recommendation, user_recommendation):
     tweets = pd.read_csv(f'{params.dal["path"]}/Tweets.csv', encoding='utf-8')
     URLs = pd.merge(URLs, tweets[['Id', 'UserId']], left_on='TweetId', right_on='Id', how='left')
     URLs.drop(columns=['Id_y', 'UserOrMediaId'], inplace=True)
-    URLs = URLs[URLs['UserId'].isin(user_recommendation['UserId'])]
-    user_recommendation = user_recommendation[user_recommendation['UserId'].isin(URLs['UserId'])]
+    URLs = URLs[URLs['UserId'].isin(recommendation['UserId'])]
+    recommendation = recommendation[recommendation['UserId'].isin(URLs['UserId'])]
     tweet_user_news_table = pd.merge(URLs, news_table[['NewsId', 'ExpandedUrl', 'ShortUrl', 'DisplayUrl', 'SourceUrl']],
                          left_on=['Url', 'ExpandedUrl', 'DisplayUrl'],
                          right_on=['ExpandedUrl', 'ShortUrl', 'DisplayUrl'],
@@ -25,11 +26,12 @@ def main(news_table, user_community_recommendation, user_recommendation):
     tweet_user_news_table['NewsId'] = tweet_user_news_table['NewsId'].astype('Int64')
     tweet_user_news_table.to_csv(f'{params.apl["path2save"]}/tweet_user_news_table.csv', index=False)
     URLs.to_csv(f'{params.dal["path"]}/TweetEntities_clean.csv', index=False)
-    tweet_user_news_table = tweet_user_news_table[tweet_user_news_table['UserId'].isin(user_recommendation['UserId'])]
-    user_recommendation = user_recommendation[user_recommendation['UserId'].isin(tweet_user_news_table['UserId'])]
+    tweet_user_news_table = tweet_user_news_table[tweet_user_news_table['UserId'].isin(recommendation['UserId'])]
+    recommendation = recommendation[recommendation['UserId'].isin(tweet_user_news_table['UserId'])]
     trec_mentions = dataframe_to_trec(tweet_user_news_table)
-    trec_recommendations = dataframe_to_trec_recommendations(user_recommendation)
+    trec_recommendations = dataframe_to_trec_recommendations(recommendation)
     pytrec_result = pytrec_eval_run(trec_mentions, trec_recommendations)
+    # pytrec_result = pytrec_eval_run(trec_recommendations, trec_mentions)
     return pytrec_result
 
 
@@ -39,8 +41,8 @@ def dataframe_to_trec(df, userIdName='UserId', NewsIdName='NewsId'):
         user_id = str(row[userIdName])
         news_id = str(row[NewsIdName])
         relevance = 1
-        if user_id not in trec_data:
-            trec_data[user_id] = {news_id: relevance}
+        if user_id not in trec_data: trec_data[user_id] = {news_id: relevance}
+        else: trec_data[user_id][news_id] = relevance
     return trec_data
 
 def dataframe_to_trec_recommendations(df, userIdName='UserId'):
