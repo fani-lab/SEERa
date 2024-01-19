@@ -29,14 +29,35 @@ def topic_modeling(documents):
             raise ValueError("Wrong library name. select 'gensim' or 'mallet'")
             pass
         to_csv(tm_model)
+        dictionary.save(f'{params.tml["path2save"]}/{params.tml["library"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
     elif params.tml['method'].lower() == "gsdmm":
         from gsdmm import MovieGroupProcess
         tm_model = MovieGroupProcess(K=params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=50)
         tm_model.fit(bow_corpus, len(dictionary))
         pd.to_pickle(tm_model, f'{params.tml["path2save"]}/gsdmm_{params.tml["numTopics"]}topics.model')
         to_csv(tm_model, dictionary)
+        dictionary.save(f'{params.tml["path2save"]}/gsdmm_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
+    elif params.tml['method'].lower() == "btm":
+        # https://pypi.org/project/bitermplus/
+        import bitermplus as btm
+        processed_docs = [' '.join(text) for text in processed_docs]
+        doc_word_frequency, dictionary, vocab_dict = btm.get_words_freqs(processed_docs)
+
+        docs_vec = btm.get_vectorized_docs(processed_docs, dictionary)
+        biterms = btm.get_biterms(docs_vec)
+        tm_model = btm.BTM(doc_word_frequency, dictionary, seed=0, T=params.tml["numTopics"], M=10, alpha=50 / params.tml["numTopics"],beta=0.01)  # https://bitermplus.readthedocs.io/en/latest/bitermplus.html#bitermplus.BTM
+        tm_model.fit(biterms, iterations=50)
+        to_csv(tm_model, dictionary)
+        topic_range_idx = list(range(0, params.tml["numTopics"]))
+        top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
+        print(top_words)
+        # total_topics = tm_model.matrix_topics_words_
+        pd.to_pickle(dictionary, f'{params.tml["path2save"]}/{params.tml["method"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
+        pd.to_pickle(tm_model, f'{params.tml["path2save"]}/btm_{params.tml["numTopics"]}topics.model')
     elif params.tml['method'].lower() == "random":
         tm_model = None
+        dictionary.save(f'{params.tml["path2save"]}/{params.tml["method"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
+
     # Model Evaluation
     if params.tml['eval']:
         cmn.logger.info(f'TopicModeling: Evaluation:\n')
@@ -46,17 +67,15 @@ def topic_modeling(documents):
     if params.tml['visualization']:
         cmn.logger.info(f'TopicModeling: Visualization:\n')
         visualization(tm_model, bow_corpus, dictionary)
-    if params.tml["method"] == 'lda':
-        dictionary.save(f'{params.tml["path2save"]}/{params.tml["library"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
-    else:
-        dictionary.save(f'{params.tml["path2save"]}/{params.tml["method"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
+
     return dictionary, tm_model
 
 def doc2topics(tm_model, doc, dic=None):
     method = params.tml['method'].lower()
     if method == "btm":
+        import bitermplus as btm
         doc = btm.get_vectorized_docs([' '.join(doc)], dic)
-        d2t_vector = tm_model.transform(doc)[0]
+        doc_topic_vector = tm_model.transform(doc)[0]
         # topics_num = tm_model.topics_num_
     elif method == "gsdmm":
         d2t_vector = tm_model.score(doc)
@@ -118,3 +137,5 @@ def to_csv(model, dictionary=None):
         topics = pd.DataFrame.from_dict(top_words_per_topic, orient='columns')
         # Save the DataFrame to CSV
         topics.to_csv(f'{params.tml["path2save"]}/final_topics.csv', index=False)
+    elif params.tml['method'].lower() == 'btm':
+        model.df_words_topics_.to_csv(f'{params.tml["path2save"]}/final_topics.csv', index=False)

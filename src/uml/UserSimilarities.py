@@ -8,9 +8,12 @@ from cmn import Common as cmn
 from tml import TopicModeling as tm
 from uml import UsersGraph as UG
 
-def main(documents, dictionary, lda_model):
+def main(documents, dictionary, tm_model):
     if not os.path.isdir(params.uml['path2save']): os.makedirs(params.uml['path2save'])
-    documents['TopicInterests'] = documents['Tokens'].apply(lambda tokens: str(list(tm.doc2topics(lda_model, dictionary.doc2bow(tokens)))))
+    if params.tml['method'].lower()=='btm':
+        documents['TopicInterests'] = documents['Tokens'].apply(lambda tokens: str(list(tm.doc2topics(tm_model, tokens, dic=dictionary))))
+    else:
+        documents['TopicInterests'] = documents['Tokens'].apply(lambda tokens: str(list(tm.doc2topics(tm_model, dictionary.doc2bow(tokens)))))
     if not os.path.isdir(f'{params.uml["path2save"]}/graphs'): os.makedirs(f'{params.uml["path2save"]}/graphs')
     if not os.path.isdir(f'{params.uml["path2save"]}/user_interests'): os.makedirs(f'{params.uml["path2save"]}/user_interests')
     documents.to_csv(f"../output/{params.uml['path2save']}/documents.csv", encoding='utf-8', index=False, header=True)

@@ -44,6 +44,9 @@ def main():
         elif params.tml['method'].lower() == 'gsdmm':
             dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
             tm_model = pd.read_pickle(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics.model")
+        elif params.tml['method'].lower() == 'btm':
+            dictionary = pd.read_pickle(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
+            tm_model = pd.read_pickle(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics.model")
         elif params.tml['method'].lower() == 'random':
             dictionary = gensim.corpora.Dictionary.load(f"{params.tml['path2save']}/{params.tml['method']}_{params.tml['numTopics']}topics_TopicModelingDictionary.mm")
             tm_model = None
