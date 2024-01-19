@@ -136,7 +136,7 @@ def aggregate(output_path):
         df = pd.DataFrame(pred_eval_mean.score.values.reshape(1, pred_eval_mean.count()['metric']), index=[tml_gel],
                           columns=pred_eval_mean.metric.values)
         pred_eval_mean_agg = pd.concat((df, pred_eval_mean_agg))
-    pred_eval_mean_agg.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
+    pred_eval_mean_agg.T.to_csv(f'{output_path}/pred.eval.mean.agg.csv')
     return pred_eval_mean_agg
 
 def remove_files():
