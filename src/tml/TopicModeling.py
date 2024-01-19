@@ -35,6 +35,8 @@ def topic_modeling(documents):
         tm_model.fit(bow_corpus, len(dictionary))
         pd.to_pickle(tm_model, f'{params.tml["path2save"]}/gsdmm_{params.tml["numTopics"]}topics.model')
         to_csv(tm_model, dictionary)
+    elif params.tml['method'].lower() == "random":
+        tm_model = None
     # Model Evaluation
     if params.tml['eval']:
         cmn.logger.info(f'TopicModeling: Evaluation:\n')
@@ -52,20 +54,22 @@ def topic_modeling(documents):
 
 def doc2topics(tm_model, doc, dic=None):
     method = params.tml['method'].lower()
-    if method.lower() == "btm":
+    if method == "btm":
         doc = btm.get_vectorized_docs([' '.join(doc)], dic)
         d2t_vector = tm_model.transform(doc)[0]
         # topics_num = tm_model.topics_num_
-    elif method.lower() == "gsdmm":
+    elif method == "gsdmm":
         d2t_vector = tm_model.score(doc)
         doc_topic_vector = np.round(np.asarray(d2t_vector), decimals=3)
-    elif method.lower() == 'lda':
+    elif method == 'lda':
         d2t_vector = tm_model.get_document_topics(doc) if params.tml['library'] == 'gensim' else gensim.models.wrappers.ldamallet.malletmodel2ldamodel(tm_model).get_document_topics(doc)
         topics_num = tm_model.num_topics
         doc_topic_vector = np.zeros((topics_num))
         for index, value in d2t_vector:
             doc_topic_vector[index] = value
         doc_topic_vector = np.round(doc_topic_vector, decimals=3)
+    elif method == 'random':
+        doc_topic_vector = np.round(np.random.random((params.tml['numTopics'])), decimals=3)
     else:
         raise ValueError("Invalid topic modeling!")
     if params.tml['justOne']: doc_topic_vector[d2t_vector[:, 1].argmax()] = 1
