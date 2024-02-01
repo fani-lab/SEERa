@@ -46,7 +46,7 @@ gel = {
     'path2save': f'../output/{general["baseline"]}/gel',
     'embeddingDim': 128,
     'epoch': 1000,
-    'method': '@gel_method', #one of ['RecurrentGCN']
+    'method': '@gel_method', #one of ['GConvGRU', 'A3TGCN']
     'pyg_method': 'something'
 }
 
