@@ -22,15 +22,18 @@ def stats(news):
         file_object.write(f'Average titles length: {avg_word_length(titles)} words.\n')
         file_object.write(f'Average descriptions length: {avg_word_length(desc)} words.\n')
 
-def main(user_final_interests, user_clusters, dictionary, lda_model):
+def main(user_final_interests, user_clusters, dictionary, tm_model):
     if not os.path.isdir(params.apl["path2save"]): os.makedirs(params.apl["path2save"])
 
     news_path = f'{params.dal["path"]}/News.csv'
     tweet_entities_path = f'{params.dal["path"]}/TweetEntities.csv'
     try:
         cmn.logger.info(f"Loading news articles ...")
-        news_table = pd.read_csv(news_path)
-        news_table = news_table[news_table['UserId'].isin(user_final_interests['UserId'])]
+        try:
+            news_table = pd.read_csv(news_path, encoding='utf-8', parse_dates=['PublicationTime'])
+            news_table = news_table[news_table['UserId'].isin(user_final_interests['UserId'])]
+        except:
+            news_table = pd.read_csv(news_path, encoding='utf-8', usecols=['NewsId', 'Text', 'Title', 'Description', 'CategoryId', 'PublishTimestamp', 'Url', 'Source'], parse_dates=['PublishTimestamp'])
         if params.apl['stat']: stats(news_table)
     except:
         cmn.logger.info(f"News articles do not exist! Crawling news articles ...")
@@ -43,7 +46,7 @@ def main(user_final_interests, user_clusters, dictionary, lda_model):
         news_table = pd.read_csv(f"../output/{params.apl['path2save']}/documents.csv", converters={"TopicInterests": literal_eval})
     except:
         cmn.logger.info(f"Loading news articles' topics failed! Inferring news articles' topics ...")
-        news_table = NTE.main(news_table, dictionary, lda_model)
+        news_table = NTE.main(news_table, dictionary, tm_model)
     try:
         cmn.logger.info(f"Loading news article recommendations ...")
         # community_recommendation = pd.read_csv(f"../output/{params.apl['path2save']}/community_recommendations.csv")

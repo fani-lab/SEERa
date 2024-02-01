@@ -1,4 +1,4 @@
-import numpy as np
+from tqdm import tqdm
 import pandas as pd
 
 
@@ -18,7 +18,7 @@ def main(news_table, dictionary, lda_model):
     news_table.drop(cols_to_drop, axis=1, inplace=True)
     news_table['TopicInterests'] = pd.Series
     news_table.astype(object)
-    for index, row in news_table.iterrows():
+    for index, row in tqdm(news_table.iterrows()):
         if params.tml['method'] == 'btm': news_table.loc[index, 'TopicInterests'] = str(list(tm.doc2topics(lda_model, row['Tokens'], dic=dictionary)))
         else: news_table.loc[index, 'TopicInterests'] = str(list(tm.doc2topics(lda_model, dictionary.doc2bow(row['Tokens']))))
     cols_to_drop = ['Tokens']
