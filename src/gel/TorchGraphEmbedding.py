@@ -1,43 +1,45 @@
 import pickle, os
 import pandas as pd
 import torch
-import torch.nn.functional as F
 import torch.optim as optim
-from torch_geometric_temporal.nn.recurrent import GConvGRU
+
 import params
 
-class RecurrentGCN(torch.nn.Module):
-    def __init__(self, node_features, filters):
-        super(RecurrentGCN, self).__init__()
-        self.recurrent = GConvGRU(node_features, filters, 2)
-        self.linear = torch.nn.Linear(filters, node_features)
-
-    def forward(self, x, edge_index, edge_weight):
-        h = self.recurrent(x, edge_index, edge_weight)
-        h = F.relu(h)
-        h = self.linear(h)
-        return h
 
 def modelTrain(dataset):
-    if params.gel['method']=='RecurrentGCN':
-        model = RecurrentGCN(node_features=params.tml['numTopics'], filters=params.gel['embeddingDim'])
+    if params.gel['method']=='GConvGRU':
+        import GConvGRU
+        model = GConvGRU.model(node_features=params.tml['numTopics'], filters=params.gel['embeddingDim'])
+    elif params.gel['method']=='A3TGCN':
+        import A3TGCN
+        model = A3TGCN.model(node_features=params.tml['numTopics'], periods=12)#filters=params.gel['embeddingDim'])
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     # Training loop
     model.train()
     from tqdm import tqdm
     for epoch in tqdm(range(params.gel['epoch'])):
+        loss = 0
+        step = 0
         for time, snapshot in enumerate(dataset):
             y_hat = model(snapshot.x, snapshot.edge_index, snapshot.edge_attr)
-            cost = torch.mean((y_hat-snapshot.y)**2)
-            cost.backward()
-            optimizer.step()
-            optimizer.zero_grad()
+            # cost = torch.mean((y_hat-snapshot.y)**2)
+            loss = loss + torch.mean((y_hat - snapshot.y) ** 2)
+            step += 1
+        loss = loss / (step + 1)
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+        print("Epoch {} train MSE: {:.4f}".format(epoch, loss.item()))
     model.eval()
+    predictions = []
+    labels = []
     cost = 0
     for time, snapshot in enumerate(dataset):
         y_hat = model(snapshot.x, snapshot.edge_index, snapshot.edge_attr)
         cost = cost + torch.mean((y_hat-snapshot.y)**2)
         print(cost)
+        labels.append(snapshot.y)
+        predictions.append(y_hat)
     cost = cost / (time+1)
     cost = cost.item()
     print("MSE: {:.4f}".format(cost))
@@ -47,7 +49,7 @@ def main(documents, dataset):
     if not os.path.isdir(params.gel["path2save"]): os.makedirs(params.gel["path2save"])
     if params.gel['method'].lower() == 'random':
         predicted_features = torch.rand(dataset.features[0].shape)
-    elif params.gel['method'].lower() == 'RecurrentGCN':
+    elif params.gel['method'].lower() in ['GConvGRU', 'A3TGCN']:
         model = modelTrain(dataset)
         model.eval()
         with torch.no_grad():
@@ -55,6 +57,7 @@ def main(documents, dataset):
         # print(predicted_features)
         # Thresholding
         predicted_features = torch.where(predicted_features < 0.05, torch.tensor(0), predicted_features)
+
     else:
         predicted_features = torch.rand(dataset.features[0].shape)
 
