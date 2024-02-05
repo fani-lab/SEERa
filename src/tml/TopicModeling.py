@@ -18,7 +18,7 @@ def topic_modeling(documents):
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
     if params.tml['method'].lower() == "lda":
         if params.tml['library'].lower() == 'gensim':
-            tm_model = gensim.models.LdaModel(bow_corpus, num_topics=params.tml['numTopics'], id2word=dictionary, alpha='auto', eval_every=5, passes=100, iterations=50)
+            tm_model = gensim.models.LdaModel(bow_corpus, num_topics=params.tml['numTopics'], id2word=dictionary, alpha='auto', eval_every=5, passes=30, iterations=50)
             tm_model.save(f'{params.tml["path2save"]}/gensim_{params.tml["numTopics"]}topics.model')
         elif params.tml['library'] == 'mallet':
             os.environ['MALLET_HOME'] = params.tml['malletHome']
@@ -32,7 +32,7 @@ def topic_modeling(documents):
         dictionary.save(f'{params.tml["path2save"]}/{params.tml["library"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
     elif params.tml['method'].lower() == "gsdmm":
         from gsdmm import MovieGroupProcess
-        tm_model = MovieGroupProcess(K=params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=50)
+        tm_model = MovieGroupProcess(K=params.tml['numTopics'], alpha=0.1, beta=0.1, n_iters=5)
         tm_model.fit(bow_corpus, len(dictionary))
         pd.to_pickle(tm_model, f'{params.tml["path2save"]}/gsdmm_{params.tml["numTopics"]}topics.model')
         to_csv(tm_model, dictionary)
@@ -134,7 +134,7 @@ def to_csv(model, dictionary=None):
         top_words_per_topic = {f'Topic_{topic + 1}': [dictionary[word_id[0]] for word_id, _ in freq.most_common(50)]
                                for topic, freq in topic_word_frequencies.items()}
         # Create a DataFrame to store the results
-        topics = pd.DataFrame.from_dict(top_words_per_topic, orient='columns')
+        topics = pd.DataFrame.from_dict(top_words_per_topic, orient='index')
         # Save the DataFrame to CSV
         topics.to_csv(f'{params.tml["path2save"]}/final_topics.csv', index=False)
     elif params.tml['method'].lower() == 'btm':
