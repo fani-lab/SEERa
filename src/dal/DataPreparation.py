@@ -123,11 +123,11 @@ def data_preparation(dataset):
     for user_id in documents['UserId'].unique():
         # Filter rows for the current user
         user_df = documents[documents['UserId'] == user_id]
-
+        user_dfs.append(user_df)
         # Check if the user has rows for all timestamps
-        if set(user_df['TimeStamp']) == set(range(max_timestamp + 1)):
-            # Append the DataFrame to the list
-            user_dfs.append(user_df)
+        # if set(user_df['TimeStamp']) == set(range(max_timestamp + 1)):
+        #     # Append the DataFrame to the list
+        #     user_dfs.append(user_df)
 
     # Concatenate DataFrames for users who have rows for all timestamps
     documents = pd.concat(user_dfs, ignore_index=True)

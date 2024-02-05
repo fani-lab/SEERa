@@ -6,7 +6,9 @@ import params
 
 
 def extract_link(text):
-    matches = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+    try:
+        matches = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+    except: matches = []
     return matches if matches else []
 def load_tweets(path):
     if not os.path.isdir(params.dal['statPath2Save']): os.makedirs(params.dal['statPath2Save'])
