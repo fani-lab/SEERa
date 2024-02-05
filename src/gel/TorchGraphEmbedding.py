@@ -7,10 +7,10 @@ import params
 
 
 def modelTrain(dataset):
-    if params.gel['method']=='GConvGRU':
+    if params.gel['method'].lower()=='gconvgru':
         import GConvGRU
         model = GConvGRU.model(node_features=params.tml['numTopics'], filters=params.gel['embeddingDim'])
-    elif params.gel['method']=='A3TGCN':
+    elif params.gel['method'].lower()=='a3tgcn':
         import A3TGCN
         model = A3TGCN.model(node_features=params.tml['numTopics'], periods=12)#filters=params.gel['embeddingDim'])
     optimizer = optim.Adam(model.parameters(), lr=0.001)
