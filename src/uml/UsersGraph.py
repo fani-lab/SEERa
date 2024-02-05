@@ -11,7 +11,8 @@ class MyDataset(torch.utils.data.Dataset):
         self.edge_index = torch.unique(edge_index[:, edge_index[0] != edge_index[1]], dim=1)
         self.edges_weight = torch.ones(self.edge_index.shape[1])
         x_list = [features[t] for t in range(num_timesteps - 1)]
-        y_list = [features[t + 1] for t in range(num_timesteps - 1)]
+        # y_list = [features[t + 1] for t in range(num_timesteps - 1)]
+        y_list = [features[-1] for t in range(num_timesteps - 1)]
         self.data = sgts(np.asarray(self.edge_index), np.asarray(self.edges_weight), x_list, y_list)
     def __len__(self):
         return self.num_nodes
