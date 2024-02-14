@@ -54,28 +54,27 @@ cpl = {
     'path2save': f'../output/{general["baseline"]}/cpl',
     'type': 'graph_based', # ['matrix_based', 'graph_based']
     'method': 'louvain', # type=='matrix_based':['DBSCAN', 'AgglomerativeClustering'] / type='graph_based':['louvain']
-    'minSize': 5
+    'minSize': 1
 }
 evl = {
-    'topK': 26447,
+    'topK': 10000,
     'evaluationType': 'Extrinsic',  # ['Intrinsic', 'Extrinsic']
     # If Extrinsic evaluation:
     'extrinsicEvaluationMetrics': {'success_1', 'success_5', 'success_10', 'success_100', 'success_500', 'success_500',
                                    'success_1000', 'success_2000', 'success_5000',
-                                   'success_10000', 'success_15000', 'success_20000',
-                                   'success_26447'},
+                                   'success_10000'},
     # If intrinsic evaluation:
     'intrinsicEvaluationMetrics': ['adjusted_rand', 'completeness', 'homogeneity', 'rand', 'v_measure', 'normalized_mutual_info', 'adjusted_mutual_info', 'mutual_info', 'fowlkes_mallows'],
     'goldenStandardPath': '/path2GS',
     'threshold': 0,
-
+    'recommendationType': 'community_recommendation' # ['community_recommendation' or 'user_recommendation']
 
 }
 
 apl = {
     'path2save': f'../output/{general["baseline"]}/apl',
-    'topK': 26447,
+    'topK': 10000,
     'textTitle': 'Text',
     'crawlURLs': False,
-    'stat': True
+    'stat': False
 }
