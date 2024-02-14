@@ -31,7 +31,8 @@ def main(user_final_interests, user_clusters, dictionary, tm_model):
         cmn.logger.info(f"Loading news articles ...")
         try:
             news_table = pd.read_csv(news_path, encoding='utf-8', parse_dates=['PublicationTime'])
-            news_table = news_table[news_table['UserId'].isin(user_final_interests['UserId'])]
+            try: news_table = news_table[news_table['UserId'].isin(user_final_interests['UserId'])]
+            except: pass
         except:
             news_table = pd.read_csv(news_path, encoding='utf-8', usecols=['NewsId', 'Text', 'Title', 'Description', 'CategoryId', 'PublishTimestamp', 'Url', 'Source'], parse_dates=['PublishTimestamp'])
         if params.apl['stat']: stats(news_table)
