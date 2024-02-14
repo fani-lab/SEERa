@@ -1,3 +1,4 @@
+import pandas as pd
 import torch
 import numpy as np
 from torch_geometric_temporal.signal import StaticGraphTemporalSignal as sgts
@@ -20,10 +21,16 @@ class MyDataset(torch.utils.data.Dataset):
         return self.data
 def graph_generator(documents):
     all_nodes =  documents['UserId'].unique()
-    num_random_edges = 5 * len(all_nodes)
-    edges = torch.randint(0, len(all_nodes), (2, num_random_edges), dtype=torch.long)
-    edges = edges[:, edges[0] != edges[1]]
-    edges = torch.unique(edges, dim=1)
+    # num_random_edges = 5 * len(all_nodes)
+    edges_df = pd.read_csv(f'{params.dal["path"]}/UsersFollowships.csv')
+    edges_df = edges_df[edges_df['from'].isin(all_nodes) & edges_df['to'].isin(all_nodes)]
+    edges_df = edges_df[['from', 'to']]
+    edges_df.reset_index(drop=True, inplace=True)
+    edges = torch.tensor([edges_df['to'].values, edges_df['from'].values])
+    print(f'There are {edges_df["to"].shape[0]} edges from {edges_df["from"].unique().shape[0]} to {edges_df["to"].unique().shape[0]} nodes out of total {all_nodes.shape[0]} noeds.')
+    # edges = torch.randint(0, len(all_nodes), (2, num_random_edges), dtype=torch.long)
+    # edges = edges[:, edges[0] != edges[1]]
+    # edges = torch.unique(edges, dim=1)
     num_timeStamps = documents['TimeStamp'].max() - documents['TimeStamp'].min() + 1
     features = np.zeros((num_timeStamps, len(all_nodes), params.tml['numTopics']))
     for t in range(num_timeStamps):
