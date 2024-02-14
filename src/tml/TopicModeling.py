@@ -50,7 +50,7 @@ def topic_modeling(documents):
         to_csv(tm_model, dictionary)
         topic_range_idx = list(range(0, params.tml["numTopics"]))
         top_words = btm.get_top_topic_words(tm_model, words_num=10, topics_idx=topic_range_idx)
-        print(top_words)
+        # print(top_words)
         # total_topics = tm_model.matrix_topics_words_
         pd.to_pickle(dictionary, f'{params.tml["path2save"]}/{params.tml["method"]}_{params.tml["numTopics"]}topics_TopicModelingDictionary.mm')
         pd.to_pickle(tm_model, f'{params.tml["path2save"]}/btm_{params.tml["numTopics"]}topics.model')
@@ -75,7 +75,7 @@ def doc2topics(tm_model, doc, dic=None):
     if method == "btm":
         import bitermplus as btm
         doc = btm.get_vectorized_docs([' '.join(doc)], dic)
-        doc_topic_vector = tm_model.transform(doc)[0]
+        doc_topic_vector = tm_model.transform(doc, verbose=False)[0]
         # topics_num = tm_model.topics_num_
     elif method == "gsdmm":
         d2t_vector = tm_model.score(doc)

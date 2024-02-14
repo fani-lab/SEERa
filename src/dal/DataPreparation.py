@@ -90,7 +90,7 @@ def preprocess_tweets(text):
         stopwords2 = content.split(",")
     finally:
         gist_file.close()
-    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if token not in stop_words and token not in stopwords2 and 2 < len(token) <= 10])
+    preprocessed_text = preprocessed_text.apply(lambda tokens: [token for token in tokens if token not in stop_words and token not in stopwords2 and 2 < len(token) <= 15])
     return pd.Series(preprocessed_text)
 
 
