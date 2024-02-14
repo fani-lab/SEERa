@@ -2,11 +2,14 @@ import pandas as pd
 import pytrec_eval
 import json
 import os
+from tqdm import tqdm
 
 import params
 
 def main(news_table, user_community_recommendation, user_recommendation):
-    recommendation = user_community_recommendation
+    if params.evl["recommendationType"] == 'community_recommendation': recommendation = user_community_recommendation
+    elif params.evl["recommendationType"] == 'user_recommendation': recommendation = user_recommendation
+    else: print('bad recommendation type')
     if not os.path.isdir(f'{params.apl["path2save"]}/evl'): os.makedirs(f'{params.apl["path2save"]}/evl')
     URLs = pd.read_csv(f'{params.dal["path"]}/TweetEntities.csv', encoding='utf-8')
     URLs = URLs[URLs['EntityTypeCode'] == 2].copy()
@@ -37,7 +40,7 @@ def main(news_table, user_community_recommendation, user_recommendation):
 
 def dataframe_to_trec(df, userIdName='UserId', NewsIdName='NewsId'):
     trec_data = {}
-    for index, row in df.iterrows():
+    for index, row in tqdm(df.iterrows()):
         user_id = str(row[userIdName])
         news_id = str(row[NewsIdName])
         relevance = 1
@@ -47,7 +50,7 @@ def dataframe_to_trec(df, userIdName='UserId', NewsIdName='NewsId'):
 
 def dataframe_to_trec_recommendations(df, userIdName='UserId'):
     trec_data = {}
-    for index, row in df.iterrows():
+    for index, row in tqdm(df.iterrows()):
         user_id = str(row[userIdName])
         top_news_columns = [f'TopNews_{i}' for i in range(1, params.evl['topK']+1)]
         recommendations = [str(row[col]) for col in top_news_columns if pd.notna(row[col])]
